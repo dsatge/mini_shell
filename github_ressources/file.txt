@@ -1,1 +1,3 @@
 RESSOURCES:
+git training: 
+https://learngitbranching.js.org/
