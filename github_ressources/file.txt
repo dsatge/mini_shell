@@ -1,3 +1,23 @@
 RESSOURCES:
 git training: 
 https://learngitbranching.js.org/
+Minishell tutoriel good to remember everything not to forget:
+https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218
+
+"Les règles sont simple :
+
+    Si on croise une redirection (<, >, << ou >>) alors le token sera soit INPUT (1), soit TRUNC (3), soit HEREDOC (2) ou soit APPEND (4) respectivement.
+    Le premier token sera CMD (6) si pas de redirection.
+    Les tokens après un CMD ou une redirection seront ARG (7).
+    Si "|" est la str avec il aura le type PIPE (5).
+    Après un pipe le prochain token sera soit une redirection soit CMD.
+
+Les tokens ne sont pas la première étape du parsing mais ils sont la clé d'un minishell simple à faire.[...]
+Le dérouler est simple :
+
+    check des quotes histoire de ne pas avoir de problème par la suite, message d'erreur si quote ouverte.
+    remplacement des variables d'environments s'il y en a.
+    création des tokens, check du dernier token, si c'est un pipe message d'erreur
+    création des différentes commandes (t_cmd).
+" extrait de: https://github.com/Hqndler/42-minishell
+
