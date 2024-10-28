@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 RESSOURCES:
 git training: 
 https://learngitbranching.js.org/
@@ -21,3 +22,5 @@ Le dérouler est simple :
     création des différentes commandes (t_cmd).
 " extrait de: https://github.com/Hqndler/42-minishell
 
+=======
+>>>>>>> 04bb5fd (ressources github)
