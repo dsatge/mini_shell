@@ -5,9 +5,9 @@
 # include "../lib/printf/ft_printf.h"
 typedef enum s_type
 {
-    pip = 0,
-    redir = 0,
-    word = 0,
+    pip,
+    redir,
+    word,
 }   t_type;
 
 typedef struct s_token
@@ -15,6 +15,6 @@ typedef struct s_token
     char *str;
     t_type type;
     struct s_token *next;
-}   s_token;
+}   t_token;
 
 #endif
