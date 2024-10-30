@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/10/30 20:31:40 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/10/30 20:41:26 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ void	ft_token_type(char *node_content, t_token *element)
 	int i;
 
 	i = 0;
-	if (node_content[0] == 'o')
+	if (ft_ispipe == 0)
 		element->type = pip;
+	else if (ft_isredir == 0)
+		element->type = redir;
 	else
 		element->type = word;
 }
