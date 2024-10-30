@@ -6,8 +6,8 @@
 typedef enum s_type
 {
     pip = 0,
-    redir = 1,
-    word = 2,
+    redir = 0,
+    word = 0,
 }   t_type;
 
 typedef struct s_token

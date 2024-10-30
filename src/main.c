@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/10/29 19:54:45 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/10/30 14:17:53 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,27 @@ void	ft_print_list(s_token *list)
 
 
 
-t_type	ft_token_type(char *node_content)
+void	ft_token_type(char *node_content, s_token token)
 {
 	int i;
 
 	i = 0;
 	if (node_content[0] == '|')
-		return (pip);
+	{
+		token.type.pip = 1;
+		return (pip = 1);
+	}
 	else
 		return (word);
 }
 
-void add_node(s_token *element, char *node_content)
+void add_node(s_token *element, char *node_content, s_token token)
 {
 	element->next = malloc(sizeof(s_token));
 	if (element->next == NULL)
 		return (ft_putstr_fd("Error malloc add_node", 2));
 	element->next->str = ft_strdup(node_content);
-	element->type = ft_token_type(node_content);
+	element->type = ft_token_type(node_content, token);
 	element->next->next = NULL;
 	return ;
 }
@@ -72,7 +75,7 @@ void	ft_tokenise(int argc, char **argv)
 	element = malloc(sizeof(s_token));
 	if (element == NULL)
 		return(ft_putstr_fd("Error malloc ft_tokenise", 2));
-	element->type = ft_token_type(argv[i]);
+	element->type = ft_token_type(argv[i], &token);
 	element->str = ft_strdup(argv[i]);
 	element->next = NULL;
 	i++;
