@@ -6,7 +6,7 @@
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/10/30 20:52:33 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/10/30 20:57:22 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_print_list(struct s_token *list)
 
 
 
-void	ft_token_type(char *node_content, t_token *element)
+void	ft_token_type(t_token *element)
 {
 	int i;
 

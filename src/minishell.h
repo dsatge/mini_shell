@@ -17,4 +17,13 @@ typedef struct s_token
     struct s_token *next;
 }   t_token;
 
+
+
+
+
+void	add_node(t_token *element, char *node_content);
+void	ft_tokenise(int argc, char **argv);
+
+
+
 #endif
