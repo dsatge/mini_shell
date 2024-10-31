@@ -23,6 +23,24 @@ void	ft_token_type(t_token *element)
 		element->type = word;
 }
 
+int	ft_checktype_order(t_token *element)
+{
+	element = element->next;
+	if (element->type == pip)
+		return (ft_putstr_fd("Error: 1st is pipe\n", 2), 1);
+	while (element->next != NULL)
+	{
+		if (element->type == redir && element->next->type != word)
+			return (ft_putstr_fd("Error: redir not followed by word\n", 2),1);
+		if (element->type == pip && element->next->type == pip)
+			return (ft_putstr_fd("Error: 2 pipes\n", 2),1);
+		element = element->next;
+	}
+	if (element->type == pip || element->type == redir)
+		return (ft_putstr_fd("Error: not ending by word\n", 2),1);
+	return (0);
+}
+
 void	ft_tokenise(int argc, char **argv)
 {
 	t_token *element;
@@ -45,5 +63,7 @@ void	ft_tokenise(int argc, char **argv)
 		add_node(element, argv[i]);
 		i++;
 	}
+	if (ft_checktype_order(head) == 1)
+		return(ft_putstr_fd("Error argument order in ft_tokenise", 2));
 	ft_print_list(head);
 }
