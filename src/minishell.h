@@ -22,6 +22,7 @@ void	ft_print_list(struct s_token *list);
 //TOKENISE
 void	add_node(t_token *element, char *node_content);
 void	ft_token_type(t_token *element);
+int 	ft_checktype_order(t_token *element);
 void	ft_tokenise(int argc, char **argv);
 //TOKENISE_UTILS
 int	    ft_ispipe(t_token element);
