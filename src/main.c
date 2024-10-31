@@ -6,12 +6,11 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/10/30 21:40:01 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/10/31 17:13:31 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	ft_print_tab(char **tab)
 {
@@ -24,6 +23,7 @@ void	ft_print_tab(char **tab)
 		i++;
 	}
 }
+
 void	ft_print_list(struct s_token *list)
 {
 	int i;
@@ -36,47 +36,6 @@ void	ft_print_list(struct s_token *list)
 		list = list->next;
 	}
 	return ;
-}
-
-int	ft_ispipe(t_token element)
-{
-	if(element.str[0] == '|' && element.str[1] == '\0')
-		return (0);
-	else
-		return (1);
-}
-
-int	ft_isredir(t_token element)
-{
-	if(element.str[0] == '>' && element.str[1] == '>') 
-	{
-		if (element.str[2] == '\0')
-			return (0);
-	}
-	else if(element.str[0] == '<' && element.str[1] == '<') 
-	{
-		if (element.str[2] == '\0')
-			return (0);
-	}
-	else if(element.str[0] == '<' || element.str[0] == '>')
-	{
-		if (element.str[1] == '\0')
-			return (0);
-	}
-	return (1);
-}
-
-void	ft_token_type(t_token *element)
-{
-	int i;
-
-	i = 0;
-	if (ft_ispipe(*element) == 0)
-		element->type = pip;
-	else if (ft_isredir(*element) == 0)
-		element->type = redir;
-	else
-		element->type = word;
 }
 
 int	main(int argc, char **argv)

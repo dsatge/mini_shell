@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+         #
+#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2024/10/30 20:52:59 by baiannon         ###   ########.fr        #
+#    Updated: 2024/10/31 17:11:41 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = minishell
 
 SRC_FILES = main.c\
 			tokenise.c\
+			tokenise_utils.c\
 
 FLAGS = -Wall -Wextra -Werror -I includes/ -g
 

@@ -10,6 +10,18 @@ void add_node(t_token *element, char *node_content)
 	element->next->next = NULL;
 	return ;
 }
+void	ft_token_type(t_token *element)
+{
+	int i;
+
+	i = 0;
+	if (ft_ispipe(*element) == 0)
+		element->type = pip;
+	else if (ft_isredir(*element) == 0)
+		element->type = redir;
+	else
+		element->type = word;
+}
 
 void	ft_tokenise(int argc, char **argv)
 {

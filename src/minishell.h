@@ -17,21 +17,14 @@ typedef struct s_token
     struct s_token *next;
 }   t_token;
 
-
-
-
-
-void	add_node(t_token *element, char *node_content);
-void	ft_tokenise(int argc, char **argv);
-void	ft_token_type(t_token *element);
+//MAIN
 void	ft_print_list(struct s_token *list);
-
-
-
+//TOKENISE
+void	add_node(t_token *element, char *node_content);
+void	ft_token_type(t_token *element);
+void	ft_tokenise(int argc, char **argv);
+//TOKENISE_UTILS
 int	    ft_ispipe(t_token element);
 int     ft_isredir(t_token element);
-
-
-
 
 #endif
