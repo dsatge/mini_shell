@@ -3,7 +3,7 @@
 void add_node(t_token *element, char *node_content)
 {
 	element->next = malloc(sizeof(t_token));
-	if (element->next == NULL)
+	if (element->next == NULL) // || element->next->str == NULL)
 		return (ft_putstr_fd("Error malloc add_node", 2));
 	element->next->str = ft_strdup(node_content);
 	ft_token_type(element->next);
@@ -25,6 +25,8 @@ void	ft_token_type(t_token *element)
 
 int	ft_checktype_order(t_token *element)
 {
+	if(element->next == NULL || element == NULL)
+		return(ft_putstr_fd("Error: A REVOIR\n", 2), 1); // segfautl si aucune commande apres ./minishell
 	element = element->next;
 	if (element->type == pip)
 		return (ft_putstr_fd("Error: 1st is pipe\n", 2), 1);
