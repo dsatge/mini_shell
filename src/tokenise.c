@@ -12,9 +12,9 @@ void add_node(t_token *element, char *node_content)
 }
 void	ft_token_type(t_token *element)
 {
-	int i;
+	// int i;
 
-	i = 0;
+	// i = 0;
 	if (ft_ispipe(*element) == 0)
 		element->type = pip;
 	else if (ft_isredir(*element) == 0)
