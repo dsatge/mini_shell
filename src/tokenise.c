@@ -111,6 +111,9 @@ void	ft_command_list(t_token *element)
 		while (element->type != pip && element->next != NULL)
 		{
 			tmp = cmd_content;
+			cmd_content = ft_strjoin(cmd_content, " ");
+			free(tmp);
+			tmp = cmd_content;
 			cmd_content = ft_strjoin(cmd_content, element->str);
 			free(tmp);
 			element = element->next;
