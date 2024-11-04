@@ -66,29 +66,58 @@ void	ft_tokenise(int argc, char **argv)
 	if (ft_checktype_order(head) == 1)
 		return(ft_putstr_fd("Error argument order in ft_tokenise", 2));
 	ft_print_list(head);
+	ft_command_list(head);
+}
+void add_cmd_node(t_command_list *element, char *node_content)
+{
+	element->next = malloc(sizeof(t_command_list));
+	if (element->next == NULL)
+		return (ft_putstr_fd("Error malloc add_cmd_node", 2));
+	element->next->str = ft_strdup(node_content);
+	element->next->next = NULL;
+	return ;
+}
+void	ft_print_cmdlist(struct s_command_list *cmd_list)
+{
+	int i;
+	
+	i = 0;
+	ft_printf("command list:\n");
+	while (cmd_list != NULL)
+	{
+		ft_printf("list[%i] = %s\n", i, cmd_list->str);
+		i++;
+		cmd_list = cmd_list->next;
+	}
+	return ;
 }
 
 void	ft_command_list(t_token *element)
 {
 	t_command_list	*cmd;
-	t_
+	t_command_list	*head;
 	char			*cmd_content;
 	char			*tmp;
 
-	cmd_content = NULL;
-	cmd_content = ft_strdup("");
+	element = element->next;
+	cmd = malloc(sizeof(t_command_list));
+	if (!cmd)
+		return (ft_putstr_fd("Error malloc ft_command_list", 2));
 	cmd->next = NULL;
-	while (element->next != NULL)
+	head = cmd;
+	while (element != NULL)
 	{
-		while (element->type != pip || element->next != NULL)
+		cmd_content = ft_strdup("");
+		while (element->type != pip && element->next != NULL)
 		{
 			tmp = cmd_content;
 			cmd_content = ft_strjoin(cmd_content, element->str);
 			free(tmp);
 			element = element->next;
 		}
-		add_node(cmd, cmd_content);
+		add_cmd_node(cmd, cmd_content);
+		cmd = cmd->next;
 		element = element->next;
 	}
-	ft_print_list();
+	ft_print_cmdlist(head->next);
 }
