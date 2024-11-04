@@ -17,6 +17,13 @@ typedef struct s_token
     struct s_token *next;
 }   t_token;
 
+typedef struct s_command_list
+{
+    char    *str;
+    struct s_command_list *next;    
+}   t_command_list;
+
+
 //MAIN
 void	ft_print_list(struct s_token *list);
 //TOKENISE

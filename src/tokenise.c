@@ -67,3 +67,28 @@ void	ft_tokenise(int argc, char **argv)
 		return(ft_putstr_fd("Error argument order in ft_tokenise", 2));
 	ft_print_list(head);
 }
+
+void	ft_command_list(t_token *element)
+{
+	t_command_list	*cmd;
+	t_
+	char			*cmd_content;
+	char			*tmp;
+
+	cmd_content = NULL;
+	cmd_content = ft_strdup("");
+	cmd->next = NULL;
+	while (element->next != NULL)
+	{
+		while (element->type != pip || element->next != NULL)
+		{
+			tmp = cmd_content;
+			cmd_content = ft_strjoin(cmd_content, element->str);
+			free(tmp);
+			element = element->next;
+		}
+		add_node(cmd, cmd_content);
+		element = element->next;
+	}
+	ft_print_list();
+}
