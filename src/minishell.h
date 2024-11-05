@@ -1,8 +1,15 @@
 #ifndef MINISHELL_H
     #define MINISHELL_H
+#ifndef BUFFER_SIZE
+    #define BUFFER_SIZE 10000
+#endif
 
 # include "../lib/libft/libft.h"
 # include "../lib/printf/ft_printf.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 typedef enum s_type
 {
     pip,

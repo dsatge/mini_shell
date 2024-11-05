@@ -6,7 +6,7 @@
 #    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2024/10/31 17:11:41 by dsatge           ###   ########.fr        #
+#    Updated: 2024/11/05 17:52:00 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ all: ${NAME}
 ${NAME} : ${SRC}
 	make -C lib/libft
 	make -C lib/printf
-	cc ${FLAGS} ${SRC} -o ${NAME} ${DEPS}
+	cc ${FLAGS} ${SRC} -o ${NAME} ${DEPS} -lreadline
 
 clean:
 	make -C lib/libft clean
