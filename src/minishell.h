@@ -33,6 +33,9 @@ typedef struct s_command_list
 
 //MAIN
 void	ft_print_list(struct s_token *list);
+//LINE_TO_WORDS
+int     ft_count_word(char *buffer);
+char    **ft_split_word(char *buffer);
 //TOKENISE
 void	add_node(t_token *element, char *node_content);
 void	ft_token_type(t_token *element);

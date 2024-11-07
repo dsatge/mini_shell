@@ -110,7 +110,7 @@ void	ft_command_list(t_token *element)
 		{
 			tmp = cmd_content;
 			cmd_content = ft_strjoin(cmd_content, " ");
-			free(tmp);
+			// free(tmp);
 			tmp = cmd_content;
 			cmd_content = ft_strjoin(cmd_content, element->str);
 			free(tmp);
@@ -120,7 +120,7 @@ void	ft_command_list(t_token *element)
 		{
 			tmp = cmd_content;
 			cmd_content = ft_strjoin(cmd_content, " ");
-			free(tmp);
+			// free(tmp);
 			tmp = cmd_content;
 			cmd_content = ft_strjoin(cmd_content, element->str);
 			free(tmp);
