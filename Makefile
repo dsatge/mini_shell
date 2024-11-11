@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
+#    By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2024/11/07 18:30:19 by dsatge           ###   ########.fr        #
+#    Updated: 2024/11/11 04:13:05 by baiannon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRC_FILES = main.c\
 			line_to_words.c\
 			tokenise.c\
 			tokenise_utils.c\
+			free.c\
 
 FLAGS = -Wall -Wextra -Werror -I includes/ -g
 

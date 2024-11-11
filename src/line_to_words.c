@@ -6,7 +6,7 @@
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/11 03:31:24 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/11/11 04:25:09 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	ft_count_word(char *buffer)
 			i++;
 		word++;
 	}
-    printf("HEY %d\n", word);
 	return (word);
 }
 

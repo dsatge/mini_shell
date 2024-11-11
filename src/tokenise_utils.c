@@ -6,7 +6,7 @@
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:10:34 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/11 03:28:54 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/11/11 03:37:55 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_ispipe(t_token element)
 {
 	if (element.str == NULL)
-		exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE); 
 	if(element.str[0] == '|' && element.str[1] == '\0')
 		return (0);
 	else

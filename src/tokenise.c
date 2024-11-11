@@ -130,4 +130,5 @@ void	ft_command_list(t_token *element)
 		element = element->next;
 	}
 	ft_print_cmdlist(head->next);
+	free_all(element, NULL); // temporaire A ENLEVER PLUS TARD
 }

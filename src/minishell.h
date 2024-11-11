@@ -10,6 +10,14 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+enum e_quote_status
+{
+    DEFAULT,
+    SINGLE_QUOTE,
+    DOUBLE_QUOTE
+};
+
 typedef enum s_type
 {
     pip,
@@ -45,5 +53,7 @@ void	ft_command_list(t_token *element);
 //TOKENISE_UTILS
 int	    ft_ispipe(t_token element);
 int     ft_isredir(t_token element);
+
+void    free_all(t_token *list, char **tab);
 
 #endif
