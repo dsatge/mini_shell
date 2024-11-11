@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/07 19:48:15 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/11 02:59:29 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	ft_count_word(char *buffer)
 			i++;
 		word++;
 	}
+    printf("HEY %d\n", word);
 	return (word);
 }
 
@@ -114,7 +115,7 @@ char **ft_split_word(char *buffer)
     int j;
     int line;
 
-    tab = malloc(sizeof(char) * (ft_count_word(buffer) + 1));
+    tab = malloc(sizeof(char *) * (ft_count_word(buffer) + 1)); // leaks from here !!!!
     if (!tab)
         return (ft_putstr_fd("Error: malloc failur ft_split_word", 2), NULL);
     i = 0;
