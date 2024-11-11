@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/04 17:54:08 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/11 02:45:52 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_print_tab(char **tab)
 	i = 0;
 	while (tab[i])
 	{
-		ft_printf("tab[%i] = %s\n", i, tab[i]);
+		printf("tab[%i] = %s\n", i, tab[i]);
 		i++;
 	}
 }
@@ -31,7 +31,7 @@ void	ft_print_list(struct s_token *list)
 	i = 0;
 	while (list != NULL)
 	{
-		ft_printf("list[%i] = %s         type = %d\n", i, list->str, list->type);
+		printf("list[%i] = %s         type = %d\n", i, list->str, list->type);
 		i++;
 		list = list->next;
 	}
@@ -40,5 +40,23 @@ void	ft_print_list(struct s_token *list)
 
 int	main(int argc, char **argv)
 {
-	ft_tokenise(argc, argv);
+	char	*buffer;
+	char	**arguments;
+	
+	(void)argc;
+	(void)argv;
+	buffer = ft_calloc(sizeof(char), BUFFER_SIZE);
+	if (!buffer)
+		return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
+	while (1)
+	{
+		buffer = readline(">");
+		if (!buffer)
+			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
+		add_history(buffer);
+		printf("word = %i\n", ft_count_word(buffer));
+		arguments = ft_split_word(buffer);
+		// ft_print_tab(arguments);
+		ft_tokenise(ft_count_line_split(arguments), arguments);
+	}
 }

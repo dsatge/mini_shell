@@ -1,8 +1,15 @@
 #ifndef MINISHELL_H
     #define MINISHELL_H
+#ifndef BUFFER_SIZE
+    #define BUFFER_SIZE 10000
+#endif
 
 # include "../lib/libft/libft.h"
 # include "../lib/printf/ft_printf.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 typedef enum s_type
 {
     pip,
@@ -26,6 +33,9 @@ typedef struct s_command_list
 
 //MAIN
 void	ft_print_list(struct s_token *list);
+//LINE_TO_WORDS
+int     ft_count_word(char *buffer);
+char    **ft_split_word(char *buffer);
 //TOKENISE
 void	add_node(t_token *element, char *node_content);
 void	ft_token_type(t_token *element);

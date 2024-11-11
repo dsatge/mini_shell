@@ -12,9 +12,6 @@ void add_node(t_token *element, char *node_content)
 }
 void	ft_token_type(t_token *element)
 {
-	// int i;
-
-	// i = 0;
 	if (ft_ispipe(*element) == 0)
 		element->type = pip;
 	else if (ft_isredir(*element) == 0)
@@ -26,7 +23,7 @@ void	ft_token_type(t_token *element)
 int	ft_checktype_order(t_token *element)
 {
 	if(element->next == NULL || element == NULL)
-		return(ft_putstr_fd("Error: A REVOIR\n", 2), 1); // segfautl si aucune commande apres ./minishell
+		return(ft_putstr_fd("Error: A REVOIR\n", 2), 1);
 	element = element->next;
 	if (element->type == pip)
 		return (ft_putstr_fd("Error: 1st is pipe\n", 2), 1);
@@ -101,7 +98,6 @@ void	ft_command_list(t_token *element)
 	char			*cmd_content;
 	char			*tmp;
 
-	element = element->next;
 	cmd = malloc(sizeof(t_command_list));
 	if (!cmd)
 		return (ft_putstr_fd("Error malloc ft_command_list", 2));
@@ -114,11 +110,20 @@ void	ft_command_list(t_token *element)
 		{
 			tmp = cmd_content;
 			cmd_content = ft_strjoin(cmd_content, " ");
-			free(tmp);
+			// free(tmp);
 			tmp = cmd_content;
 			cmd_content = ft_strjoin(cmd_content, element->str);
 			free(tmp);
 			element = element->next;
+		}
+		if (element->next == NULL)
+		{
+			tmp = cmd_content;
+			cmd_content = ft_strjoin(cmd_content, " ");
+			// free(tmp);
+			tmp = cmd_content;
+			cmd_content = ft_strjoin(cmd_content, element->str);
+			free(tmp);
 		}
 		add_cmd_node(cmd, cmd_content);
 		cmd = cmd->next;
