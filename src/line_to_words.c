@@ -6,7 +6,7 @@
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/11 02:59:29 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/11/11 03:31:24 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char *ft_isword(char *buffer, int start, int end)
     }
     word = malloc(sizeof(char) * (end - start + 1));
     if (!word)
-        return (ft_putstr_fd("Error: malloc failur ft_isword", 2), NULL);
+        return (ft_putstr_fd("Error: malloc failure ft_isword\n", 2), NULL);
     while (start < end)
     {
         word[i] = buffer[start];
@@ -117,7 +117,7 @@ char **ft_split_word(char *buffer)
 
     tab = malloc(sizeof(char *) * (ft_count_word(buffer) + 1)); // leaks from here !!!!
     if (!tab)
-        return (ft_putstr_fd("Error: malloc failur ft_split_word", 2), NULL);
+        return (ft_putstr_fd("Error: malloc failur ft_split_word\n", 2), NULL);
     i = 0;
     j = 0;
     line = 0;

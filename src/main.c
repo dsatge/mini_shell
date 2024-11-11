@@ -6,7 +6,7 @@
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/11 02:45:52 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/11/11 03:28:05 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ int	main(int argc, char **argv)
 	while (1)
 	{
 		buffer = readline(">");
+		if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
+			continue;
+		printf("BUFFER = %s\n", buffer);
 		if (!buffer)
 			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
 		add_history(buffer);
