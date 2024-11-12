@@ -22,9 +22,8 @@ void	ft_token_type(t_token *element)
 
 int	ft_checktype_order(t_token *element)
 {
-	if(element->next == NULL || element == NULL)
-		return(ft_putstr_fd("Error: A REVOIR\n", 2), 1);
-	element = element->next;
+	// if(element->next == NULL || element == NULL)
+	// 	return(ft_putstr_fd("Error: A REVOIR\n", 2), 1);
 	if (element->type == pip)
 		return (ft_putstr_fd("Error: 1st is pipe\n", 2), 1);
 	while (element->next != NULL)
