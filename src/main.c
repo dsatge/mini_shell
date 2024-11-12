@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/11 04:25:40 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/11/12 16:04:40 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int argc, char **argv)
 		buffer = readline(">");
 		if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
 		{
-			free(buffer); 
+			free(buffer);
 			continue;
 		}
 		if (!buffer)
