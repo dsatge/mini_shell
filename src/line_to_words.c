@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/12 20:32:49 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/13 21:21:49 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,28 @@ int	ft_quotes(char *buffer, int i, enum e_quote_status quote)
 	int len;
 
 	len = 0;
-	i++;
     if (buffer[i] == '"')
         quote = DOUBLE_QUOTE;
     if (buffer[i] == '\'')
         quote = SINGLE_QUOTE;
-    i++;
+    // printf("quote in ft = %d", quote);
+	i++;
 	while (buffer[i])
 	{
 		if (buffer[i] == '"' && quote == DOUBLE_QUOTE)
-			return(quote = DEFAULT, len);
+			return(printf("good\n"), len);
 		if (buffer[i] == '\'' && quote == SINGLE_QUOTE)
-			return(quote = DEFAULT, len);		
+			return(len);		
         i++;
 		len++;
 	}
-	return (0);
+	return (ft_putstr_fd("Error: unclosed quote\n", 2), EXIT_FAILURE);
 }
 
 int	ft_count_word(char *buffer)
 {
 	int i;
-	int len = 0;
+	// int len = 0;
 	int word;
     enum e_quote_status  quote;
 
@@ -62,7 +62,7 @@ int	ft_count_word(char *buffer)
 		{
 			if (quote == DEFAULT && (buffer[i] == '"' || buffer[i] == 39))
 			{
-				quote = ft_quotes(buffer[i], quote);
+				quote = ft_quotes(buffer, i, quote);
 			}
 			i++;
 		}
@@ -109,14 +109,12 @@ int is_word(char *buffer, int i)
 
     len = 0;
     quote = DEFAULT;
-    while ((is_White_Space(buffer[i]) == false) && buffer[i] != '\0')
+    while ((is_White_Space(buffer[i]) == false) && buffer[i])
     {
-        if ((buffer[i] == '"' || buffer[i] == '\'') && quote ==  DEFAULT)
+        if (buffer[i] == '"' || buffer[i] == '\'')
         {
             len = ft_quotes(buffer, i, quote);
-            if (quote != DEFAULT)
-                return (ft_putstr_fd("Error: unclosed quote\n", 2), -1);
-            i = i + len;
+			return (len + 1);
         }
         else
             len++;
@@ -132,13 +130,14 @@ void ft_split_word(char *buffer)
     i = 0;
 	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 		i++;
-	while (buffer[i] != '\0')
+	while (buffer[i])
 	{
 		// j = i;
         // i = word_len(buffer, i);
         // tab[line] = ft_isword(buffer, j, i);
-        i = is_word(buffer, i);
+        i += is_word(buffer, i);
         // printf("tab[%i] = %s\n", line, tab[line]);
+		printf("end of word = %i last char = %c\n", i, buffer[i]);
         while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 			i++;
     }

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/12 16:04:40 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/13 21:03:46 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_print_list(struct s_token *list)
 int	main(int argc, char **argv)
 {
 	char	*buffer;
-	char	**arguments;
+	// char	**arguments;
 	
 	(void)argc;
 	(void)argv;
@@ -59,11 +59,11 @@ int	main(int argc, char **argv)
 		if (!buffer)
 			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
 		add_history(buffer);
-		printf("word = %i\n", ft_count_word(buffer));
-		arguments = ft_split_word(buffer);
+		// printf("word = %i\n", ft_count_word(buffer));
+		ft_split_word(buffer);
 		// ft_print_tab(arguments);
-		ft_tokenise(ft_count_line_split(arguments), arguments);
-		free_all(NULL, arguments); // structure a envoyer
+		// ft_tokenise(ft_count_line_split(arguments), arguments);
+		// free_all(NULL, arguments); // structure a envoyer
 		free(buffer);
 	}
 }
