@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/13 21:03:46 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/14 17:46:31 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	ft_print_list(struct s_token *list)
 int	main(int argc, char **argv)
 {
 	char	*buffer;
-	// char	**arguments;
 	
 	(void)argc;
 	(void)argv;

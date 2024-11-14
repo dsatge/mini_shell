@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/13 21:21:49 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/14 17:46:09 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,13 @@ int	ft_quotes(char *buffer, int i, enum e_quote_status quote)
         quote = DOUBLE_QUOTE;
     if (buffer[i] == '\'')
         quote = SINGLE_QUOTE;
-    // printf("quote in ft = %d", quote);
 	i++;
 	while (buffer[i])
 	{
 		if (buffer[i] == '"' && quote == DOUBLE_QUOTE)
-			return(printf("good\n"), len);
+			return(len + 1);
 		if (buffer[i] == '\'' && quote == SINGLE_QUOTE)
-			return(len);		
+			return(len + 1);		
         i++;
 		len++;
 	}
@@ -132,11 +131,7 @@ void ft_split_word(char *buffer)
 		i++;
 	while (buffer[i])
 	{
-		// j = i;
-        // i = word_len(buffer, i);
-        // tab[line] = ft_isword(buffer, j, i);
         i += is_word(buffer, i);
-        // printf("tab[%i] = %s\n", line, tab[line]);
 		printf("end of word = %i last char = %c\n", i, buffer[i]);
         while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 			i++;
