@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/14 17:46:09 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/15 16:47:00 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	ft_quotes(char *buffer, int i, enum e_quote_status quote)
     if (buffer[i] == '"')
         quote = DOUBLE_QUOTE;
     if (buffer[i] == '\'')
-        quote = SINGLE_QUOTE;
+    	{quote = SINGLE_QUOTE;}
+	
 	i++;
 	while (buffer[i])
 	{

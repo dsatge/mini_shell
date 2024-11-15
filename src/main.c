@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/14 17:46:31 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/15 18:26:37 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int g_error_code = 0;
 
 void	ft_print_tab(char **tab)
 {
@@ -46,17 +48,22 @@ int	main(int argc, char **argv)
 	(void)argv;
 	while (1)
 	{
+		signal_handle();
 		buffer = ft_calloc(sizeof(char), BUFFER_SIZE);
 		if (!buffer)
 			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
-		buffer = readline(">");
+		buffer = readline(PROMPT);
+		if (!buffer)
+		{
+			// free_all(); //POUR PLUS TARD
+			return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
+		}
 		if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
 		{
 			free(buffer);
 			continue;
 		}
-		if (!buffer)
-			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
+		
 		add_history(buffer);
 		// printf("word = %i\n", ft_count_word(buffer));
 		ft_split_word(buffer);
