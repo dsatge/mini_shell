@@ -1,15 +1,15 @@
 #include "minishell.h"
 
-void add_node(t_token *element, char *node_content)
-{
-	element->next = malloc(sizeof(t_token));
-	if (element->next == NULL) // || element->next->str == NULL)
-		return (ft_putstr_fd("Error malloc add_node\n", 2));
-	element->next->str = ft_strdup(node_content);
-	ft_token_type(element->next);
-	element->next->next = NULL;
-	return ;
-}
+// void add_node(t_token *element, char *node_content)
+// {
+// 	element->next = malloc(sizeof(t_token));
+// 	if (element->next == NULL) // || element->next->str == NULL)
+// 		return (ft_putstr_fd("Error malloc add_node\n", 2));
+// 	element->next->str = ft_strdup(node_content);
+// 	ft_token_type(element->next);
+// 	element->next->next = NULL;
+// 	return ;
+// }
 void	ft_token_type(t_token *element)
 {
 	if (ft_ispipe(*element) == 0)
@@ -39,33 +39,19 @@ int	ft_checktype_order(t_token *element)
 	return (0);
 }
 
-void	ft_tokenise(int argc, char **argv)
+void	ft_tokenise(char *buffer, int i, int len, t_token *element)
 {
-	t_token *element;
-	t_token *head;
-	int	i;
-
-	i = 0;
-	element = malloc(sizeof(t_token));
-	if (element == NULL)
-		return(ft_putstr_fd("Error malloc ft_tokenise\n", 2));
-	element->str = ft_strdup(argv[i]);
-	ft_token_type(element);
-	element->next = NULL;
-	i++;
-	head = element;
-	while (i < argc)
-	{
-		if(element->next != NULL)
-			element = element->next;
-		add_node(element, argv[i]);
-		i++;
-	}
-	if (ft_checktype_order(head) == 1)
-		return(ft_putstr_fd("Error argument order in ft_tokenise\n", 2));
-	ft_print_list(head);
-	ft_command_list(head);
+	element->next = malloc(sizeof(t_token));
+	if (element->next == NULL) // || element->next->str == NULL)
+		return (ft_putstr_fd("Error malloc add_node\n", 2));
+	printf("in tokenise 1 letter = %i, last = %i, 1 = %c, last = %c", i, len, buffer[i], buffer[len]);
+	// element->next->str = word_from_str(buffer, i, len);
+	// printf("word = %s\n", word_from_str(buffer, i, len));
+	ft_token_type(element->next);
+	element->next->next = NULL;
+	/////FAIRE STRDUP MAIS DE LA TAILLE DU MOT
 }
+
 void add_cmd_node(t_command_list *element, char *node_content)
 {
 	element->next = malloc(sizeof(t_command_list));
