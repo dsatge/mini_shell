@@ -49,7 +49,7 @@ void    ft_split_word(char *buffer, t_token *element);
 void	add_node(t_token *element, char *node_content);
 void	ft_token_type(t_token *element);
 int		ft_checktype_order(t_token *element);
-void	ft_tokenise(char *buffer, int i, int len, t_token *element);
+t_token	*ft_tokenise(char *buffer, int i, int len, t_token *element, int first_word);
 void	ft_command_list(t_token *element);
 //TOKENISE_UTILS
 int		ft_ispipe(t_token element);

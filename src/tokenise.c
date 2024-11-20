@@ -39,17 +39,31 @@ int	ft_checktype_order(t_token *element)
 	return (0);
 }
 
-void	ft_tokenise(char *buffer, int i, int len, t_token *element)
+t_token	*ft_tokenise(char *buffer, int i, int len, t_token *element, int first_word)
 {
-	element->next = malloc(sizeof(t_token));
-	if (element->next == NULL) // || element->next->str == NULL)
-		return (ft_putstr_fd("Error malloc add_node\n", 2));
-	printf("in tokenise 1 letter = %i, last = %i, 1 = %c, last = %c", i, len, buffer[i], buffer[len]);
-	// element->next->str = word_from_str(buffer, i, len);
-	// printf("word = %s\n", word_from_str(buffer, i, len));
-	ft_token_type(element->next);
-	element->next->next = NULL;
-	/////FAIRE STRDUP MAIS DE LA TAILLE DU MOT
+	t_token	*new_node;
+
+	if (first_word == 0)
+	{
+		element->str = word_from_str(buffer, i, len);
+		ft_token_type(element);
+		element->next = NULL;
+	}
+	else
+	{
+		printf("following word:\n");
+		new_node = malloc(sizeof(t_token));
+		if (!new_node)
+			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
+		new_node->next = NULL;
+		new_node->str = word_from_str(buffer, i, len);
+		ft_token_type(new_node);
+		// if (element->next == NULL) // || element->next->str == NULL)
+		element->next = new_node;
+		element = new_node;
+	}
+	printf("in tokenise : word = %s\n", element->str);
+	return (element);
 }
 
 void add_cmd_node(t_command_list *element, char *node_content)

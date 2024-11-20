@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/18 19:11:01 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/20 20:07:19 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_quotes(char *buffer, int i, enum e_quote_status quote)
 	return (ft_putstr_fd("Error: unclosed quote\n", 2), EXIT_FAILURE);
 }
 
-int is_word(char *buffer, int i, t_token *element)
+int is_word(char *buffer, int i, t_token *element, int first_word)
 {
     int len;
 	int	start;
@@ -57,34 +57,35 @@ int is_word(char *buffer, int i, t_token *element)
         if (buffer[i] == '"' || buffer[i] == '\'')
         {
             len = ft_quotes(buffer, i, quote);
-			ft_tokenise(buffer, i, len, element);
+			ft_tokenise(buffer, i, len, element, first_word);
 			return (len + 1);
         }
         else
-        {
 		    len++;
-		}
 		i++;
     }
-	// if (buffer[i] != '\0')
-	// 	len--;
-	ft_tokenise(buffer, start, len, element);
+	ft_tokenise(buffer, start, len, element, first_word);
     return (len);
 }
 
-void ft_split_word(char *buffer, t_token *element)
+void	ft_split_word(char *buffer, t_token *element)
 {
 	int i;
+	int	first_word;
+	t_token	*head;
 
     i = 0;
+	first_word = 0;
+	head = element;
 	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 		i++;
 	while (buffer[i])
 	{
-        i += is_word(buffer, i, element);
-		printf("end of word = %i last char = %c\n", i, buffer[i]);
+        i += is_word(buffer, i, element, first_word);
+		first_word++;
         while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 			i++;
     }
+	ft_print_list(head);
     return ;
 }

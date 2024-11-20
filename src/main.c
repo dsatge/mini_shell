@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/18 18:40:54 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/20 20:13:17 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	ft_print_list(struct s_token *list)
 	int i;
 	
 	i = 0;
-	while (list != NULL)
+	while (list)
 	{
-		printf("list[%i] = %s         type = %d\n", i, list->str, list->type);
+		printf("list[%i] = %s  type = %d\n", i, list->str, list->type);
 		i++;
 		list = list->next;
 	}
@@ -50,8 +50,6 @@ int	main(int argc, char **argv)
 	element = malloc(sizeof(t_token));
 	if (!element)
 		return (ft_putstr_fd("Error malloc ft_tokenise\n", 2), -1);
-	// element->str = NULL;
-	// element->next = NULL;
 	head = element;
 	while (1)
 	{
@@ -68,8 +66,7 @@ int	main(int argc, char **argv)
 			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
 		add_history(buffer);
 		ft_split_word(buffer, element);
-		ft_print_list(head);
-		// ft_print_tab(arguments);
+		// ft_print_list(head);
 		// ft_tokenise(ft_count_line_split(arguments), arguments);
 		// free_all(NULL, arguments); // structure a envoyer
 		free(buffer);
