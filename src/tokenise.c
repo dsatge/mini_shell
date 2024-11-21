@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-// void add_node(t_token *element, char *node_content)
-// {
-// 	element->next = malloc(sizeof(t_token));
-// 	if (element->next == NULL) // || element->next->str == NULL)
-// 		return (ft_putstr_fd("Error malloc add_node\n", 2));
-// 	element->next->str = ft_strdup(node_content);
-// 	ft_token_type(element->next);
-// 	element->next->next = NULL;
-// 	return ;
-// }
 void	ft_token_type(t_token *element)
 {
 	if (ft_ispipe(*element) == 0)
@@ -57,7 +47,6 @@ t_token	*ft_tokenise(char *buffer, int i, int len, t_token *element, int first_w
 	{
 		while (element->next)
 			element = element->next;
-		printf("first word%d\n",first_word);
 		new_node = malloc(sizeof(t_token));
 		if (!new_node)
 			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
@@ -67,9 +56,7 @@ t_token	*ft_tokenise(char *buffer, int i, int len, t_token *element, int first_w
 		// if (element->next == NULL) // || element->next->str == NULL)
 		element->next = new_node;
 		element= element->next;
-		// element = new_node;
 	}
-	printf("in tokenise : word = %s\n", element->str);
 	return (element);
 }
 
@@ -97,44 +84,44 @@ void	ft_print_cmdlist(struct s_command_list *cmd_list)
 	return ;
 }
 
-void	ft_command_list(t_token *element)
-{
-	t_command_list	*cmd;
-	t_command_list	*head;
-	char			*cmd_content;
-	char			*tmp;
+// void	ft_command_list(t_token *element)
+// {
+// 	t_command_list	*cmd;
+// 	t_command_list	*head;
+// 	char			*cmd_content;
+// 	char			*tmp;
 
-	cmd = malloc(sizeof(t_command_list));
-	if (!cmd)
-		return (ft_putstr_fd("Error malloc ft_command_list\n", 2));
-	cmd->next = NULL;
-	head = cmd;
-	while (element != NULL)
-	{
-		cmd_content = ft_strdup("");
-		while (element->type != pip && element->next != NULL)
-		{
-			tmp = cmd_content;
-			cmd_content = ft_strjoin(cmd_content, " ");
-			// free(tmp);
-			tmp = cmd_content;
-			cmd_content = ft_strjoin(cmd_content, element->str);
-			free(tmp);
-			element = element->next;
-		}
-		if (element->next == NULL)
-		{
-			tmp = cmd_content;
-			cmd_content = ft_strjoin(cmd_content, " ");
-			// free(tmp);
-			tmp = cmd_content;
-			cmd_content = ft_strjoin(cmd_content, element->str);
-			free(tmp);
-		}
-		add_cmd_node(cmd, cmd_content);
-		cmd = cmd->next;
-		element = element->next;
-	}
-	ft_print_cmdlist(head->next);
-	free_all(element, NULL); // temporaire A ENLEVER PLUS TARD
-}
+// 	cmd = malloc(sizeof(t_command_list));
+// 	if (!cmd)
+// 		return (ft_putstr_fd("Error malloc ft_command_list\n", 2));
+// 	cmd->next = NULL;
+// 	head = cmd;
+// 	while (element != NULL)
+// 	{
+// 		cmd_content = ft_strdup("");
+// 		while (element->type != pip && element->next != NULL)
+// 		{
+// 			tmp = cmd_content;
+// 			cmd_content = ft_strjoin(cmd_content, " ");
+// 			// free(tmp);
+// 			tmp = cmd_content;
+// 			cmd_content = ft_strjoin(cmd_content, element->str);
+// 			free(tmp);
+// 			element = element->next;
+// 		}
+// 		if (element->next == NULL)
+// 		{
+// 			tmp = cmd_content;
+// 			cmd_content = ft_strjoin(cmd_content, " ");
+// 			// free(tmp);
+// 			tmp = cmd_content;
+// 			cmd_content = ft_strjoin(cmd_content, element->str);
+// 			free(tmp);
+// 		}
+// 		add_cmd_node(cmd, cmd_content);
+// 		cmd = cmd->next;
+// 		element = element->next;
+// 	}
+// 	ft_print_cmdlist(head->next);
+// 	free_all(element, NULL); // temporaire A ENLEVER PLUS TARD
+// }

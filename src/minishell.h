@@ -49,10 +49,11 @@ typedef struct s_minish
 //MAIN
 void	ft_print_list(struct s_token *list);
 //LINE_TO_WORDS
-int		ft_count_word(char *buffer);
-void    ft_split_word(char *buffer, t_token **element);
+bool	is_White_Space(char c);
+int     ft_quotes(char *buffer, int i, enum e_quote_status quote);
+int     is_word(char *buffer, int i, t_token *element, int first_word);
+void	ft_split_word(char *buffer, t_token **element);
 //TOKENISE
-void	add_node(t_token *element, char *node_content);
 void	ft_token_type(t_token *element);
 int		ft_checktype_order(t_token *element);
 t_token	*ft_tokenise(char *buffer, int i, int len, t_token *element, int first_word);
