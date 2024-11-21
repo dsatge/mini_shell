@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/20 20:07:19 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/21 17:35:19 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int is_word(char *buffer, int i, t_token *element, int first_word)
     return (len);
 }
 
-void	ft_split_word(char *buffer, t_token *element)
+void	ft_split_word(char *buffer, t_token **element)
 {
 	int i;
 	int	first_word;
@@ -76,12 +76,12 @@ void	ft_split_word(char *buffer, t_token *element)
 
     i = 0;
 	first_word = 0;
-	head = element;
+	head = *element;
 	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 		i++;
 	while (buffer[i])
 	{
-        i += is_word(buffer, i, element, first_word);
+        i += is_word(buffer, i, *element, first_word);
 		first_word++;
         while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 			i++;

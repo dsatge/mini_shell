@@ -38,6 +38,10 @@ int	ft_checktype_order(t_token *element)
 		return (ft_putstr_fd("Error: not ending by word\n", 2),1);
 	return (0);
 }
+// free_token(t_token *lst)
+// {
+
+// }
 
 t_token	*ft_tokenise(char *buffer, int i, int len, t_token *element, int first_word)
 {
@@ -51,7 +55,9 @@ t_token	*ft_tokenise(char *buffer, int i, int len, t_token *element, int first_w
 	}
 	else
 	{
-		printf("following word:\n");
+		while (element->next)
+			element = element->next;
+		printf("first word%d\n",first_word);
 		new_node = malloc(sizeof(t_token));
 		if (!new_node)
 			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
@@ -60,7 +66,8 @@ t_token	*ft_tokenise(char *buffer, int i, int len, t_token *element, int first_w
 		ft_token_type(new_node);
 		// if (element->next == NULL) // || element->next->str == NULL)
 		element->next = new_node;
-		element = new_node;
+		element= element->next;
+		// element = new_node;
 	}
 	printf("in tokenise : word = %s\n", element->str);
 	return (element);

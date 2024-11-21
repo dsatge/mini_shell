@@ -40,11 +40,17 @@ typedef struct s_command_list
 }   t_command_list;
 
 
+typedef struct s_minish
+{
+    t_command_list *element;
+} t_minish;
+
+
 //MAIN
 void	ft_print_list(struct s_token *list);
 //LINE_TO_WORDS
 int		ft_count_word(char *buffer);
-void    ft_split_word(char *buffer, t_token *element);
+void    ft_split_word(char *buffer, t_token **element);
 //TOKENISE
 void	add_node(t_token *element, char *node_content);
 void	ft_token_type(t_token *element);

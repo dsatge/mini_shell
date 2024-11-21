@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/20 20:13:17 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/21 17:48:01 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,16 @@ int	main(int argc, char **argv)
 		if (!buffer)
 			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
 		buffer = readline(">");
-		if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
+		if (buffer == NULL) // Segfault si on retourne a la ligne sur un prompt vide fixed
 		{
 			free(buffer);
-			continue;
+			break;
 		}
 		if (!buffer)
 			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
 		add_history(buffer);
-		ft_split_word(buffer, element);
+		ft_split_word(buffer, &element);
+		// free(element);
 		// ft_print_list(head);
 		// ft_tokenise(ft_count_line_split(arguments), arguments);
 		// free_all(NULL, arguments); // structure a envoyer
