@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/21 18:43:29 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/21 18:46:32 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,11 @@ int is_word(char *buffer, int i, t_token *element, int first_word)
 	start = i;
     while ((is_White_Space(buffer[i]) == false) && buffer[i])
     {
-		if ((buffer[i] == '"' || buffer[i] == '\'') && (len != 0))
-		{
+		if ((buffer[i] == '"' || buffer[i] == '\'') && (len != 0)){
 			i--;
 			break;
 		}
-		if (buffer[i] == '"' || buffer[i] == '\'')
-        {
+		if (buffer[i] == '"' || buffer[i] == '\''){
 			len = ft_quotes(buffer, i, quote);
 			ft_tokenise(buffer, i + 1, len - 1, element, first_word);
 			return (len + 1);

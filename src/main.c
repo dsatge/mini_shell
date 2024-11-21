@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/21 18:41:31 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/21 18:51:28 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	main(int argc, char **argv)
 	char	*buffer;
 	t_token	*element;
 	t_token	*head;
+	t_command_list	*cmd_head;
+	t_command_list	*cmd;
 	
 	
 	(void)argc;
@@ -63,6 +65,10 @@ int	main(int argc, char **argv)
 			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
 		add_history(buffer);
 		ft_split_word(buffer, &element);
+		cmd = malloc(sizeof(t_command_list));
+		if (!cmd)
+			return (ft_putstr_fd("Error malloc cmd in main", 2), -1);
+		cmd_head = cmd;
 		// free(element);
 		// ft_print_list(head);
 		// free_all(NULL, arguments); // structure a envoyer

@@ -12,12 +12,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-enum e_quote_status
+typedef enum e_quote_status
 {
     DEFAULT,
     SINGLE_QUOTE,
     DOUBLE_QUOTE
-};
+}	t_quote;
 
 typedef enum s_type
 {
@@ -42,7 +42,10 @@ typedef struct s_command_list
 
 typedef struct s_minish
 {
-    t_command_list *element;
+    t_command_list	*cmd;
+    t_token			*element;
+	t_type			*type;
+	t_quote			*quote;
 } t_minish;
 
 

@@ -83,6 +83,11 @@ void	ft_print_cmdlist(struct s_command_list *cmd_list)
 	}
 	return ;
 }
+t_command_list	ft_cmd_list(struct s_command_list *cmd_list, s_token *element)
+{
+	
+}
+)
 
 // void	ft_command_list(t_token *element)
 // {
