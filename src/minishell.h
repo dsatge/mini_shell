@@ -4,7 +4,7 @@
     #define BUFFER_SIZE 10000
 #endif
 
-# define PROMPT "\001\e[45m\002=>\001\e[0m\e[1;96m Mini-merde>$ \001\e[0m\002"
+# define PROMPT "\e[0;95mMini-merde>$ \e[0m"
 
 # include "../lib/libft/libft.h"
 # include "../lib/printf/ft_printf.h"

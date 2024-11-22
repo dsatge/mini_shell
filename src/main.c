@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/22 16:38:02 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/22 17:02:59 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	main(int argc, char **argv)
 	while (1)
 	{
 		signal_handle();
-		if (!buffer)
-			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
 		buffer = readline(PROMPT);
+		// if (!buffer)
+		// 	return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
 		if (!buffer)
 		{
 			// free_all(); //POUR PLUS TARD
@@ -66,7 +66,7 @@ int	main(int argc, char **argv)
 		if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
 		{
 			free(buffer);
-			break;
+			continue;
 		}
 		
 		add_history(buffer);
