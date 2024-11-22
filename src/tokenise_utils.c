@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:10:34 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/12 16:07:07 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/20 20:03:19 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,22 @@ int	ft_isredir(t_token element)
 			return (0);
 	}
 	return (1);
+}
+
+char	*word_from_str(char *buffer, int start, int len)
+{
+	char	*word;
+	int		i;
+	
+	i = 0;
+	word = malloc(sizeof(char) * (len) + 1);
+	if (!word)
+		return (ft_putstr_fd("Error malloc: word_from_str\n", 2), NULL);
+	while (i < len)
+	{
+		word[i] = buffer[start + i];
+		i++;
+	}
+	word[i] = '\0';
+	return (word);
 }

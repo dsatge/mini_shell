@@ -6,7 +6,7 @@
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/15 18:26:37 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:38:02 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,35 @@ void	ft_print_tab(char **tab)
 	}
 }
 
-void	ft_print_list(struct s_token *list)
+int	ft_print_list(struct s_token *list)
 {
 	int i;
-	
+
 	i = 0;
-	while (list != NULL)
+	if (!list->str)
+		return (-1);
+	while (list)
 	{
-		printf("list[%i] = %s         type = %d\n", i, list->str, list->type);
+		printf("list[%i] = %s  type = %d\n", i, list->str, list->type);
 		i++;
 		list = list->next;
 	}
-	return ;
+	return (0);
 }
 
 int	main(int argc, char **argv)
 {
 	char	*buffer;
+	t_minish	*mini_struct;
 	
 	(void)argc;
 	(void)argv;
+	mini_struct = malloc(sizeof(t_minish));
+	if (!mini_struct)
+		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
 	while (1)
 	{
 		signal_handle();
-		buffer = ft_calloc(sizeof(char), BUFFER_SIZE);
 		if (!buffer)
 			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
 		buffer = readline(PROMPT);
@@ -61,14 +66,14 @@ int	main(int argc, char **argv)
 		if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
 		{
 			free(buffer);
-			continue;
+			break;
 		}
 		
 		add_history(buffer);
-		// printf("word = %i\n", ft_count_word(buffer));
-		ft_split_word(buffer);
-		// ft_print_tab(arguments);
-		// ft_tokenise(ft_count_line_split(arguments), arguments);
+		if (ft_split_word(buffer, mini_struct) == 0)
+			printf("");
+		// free(element);
+		// ft_print_list(head);
 		// free_all(NULL, arguments); // structure a envoyer
 		free(buffer);
 	}
