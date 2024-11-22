@@ -33,20 +33,20 @@ int	ft_checktype_order(t_token *element)
 
 // }
 
-t_token	*ft_tokenise(char *buffer, int i, int len, t_token *element, int first_word)
+t_token	*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int first_word)
 {
 	t_token	*new_node;
 
 	if (first_word == 0)
 	{
-		element->str = word_from_str(buffer, i, len);
-		ft_token_type(element);
-		element->next = NULL;
+		mini_struct->element->str = word_from_str(buffer, i, len);
+		ft_token_type(mini_struct->element);
+		mini_struct->element->next = NULL;
 	}
 	else
 	{
-		while (element->next)
-			element = element->next;
+		while (mini_struct->element->next)
+			mini_struct->element = mini_struct->element->next;
 		new_node = malloc(sizeof(t_token));
 		if (!new_node)
 			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
@@ -54,10 +54,10 @@ t_token	*ft_tokenise(char *buffer, int i, int len, t_token *element, int first_w
 		new_node->str = word_from_str(buffer, i, len);
 		ft_token_type(new_node);
 		// if (element->next == NULL) // || element->next->str == NULL)
-		element->next = new_node;
-		element= element->next;
+		mini_struct->element->next = new_node;
+		mini_struct->element= mini_struct->element->next;
 	}
-	return (element);
+	return (mini_struct->element);
 }
 
 void add_cmd_node(t_command_list *element, char *node_content)
@@ -83,11 +83,10 @@ void	ft_print_cmdlist(struct s_command_list *cmd_list)
 	}
 	return ;
 }
-t_command_list	ft_cmd_list(struct s_command_list *cmd_list, s_token *element)
-{
+// t_command_list	ft_cmd_list(struct s_command_list *cmd_list, t_token *element)
+// {
 	
-}
-)
+// }
 
 // void	ft_command_list(t_token *element)
 // {

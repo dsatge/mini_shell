@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/21 18:51:28 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/22 15:24:29 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,13 @@ void	ft_print_list(struct s_token *list)
 int	main(int argc, char **argv)
 {
 	char	*buffer;
-	t_token	*element;
-	t_token	*head;
-	t_command_list	*cmd_head;
-	t_command_list	*cmd;
-	
+	t_minish	*mini_struct;
 	
 	(void)argc;
 	(void)argv;
-	element = malloc(sizeof(t_token));
-	if (!element)
-		return (ft_putstr_fd("Error malloc ft_tokenise\n", 2), -1);
-	head = element;
+	mini_struct = malloc(sizeof(t_minish));
+	if (!mini_struct)
+		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
 	while (1)
 	{
 		buffer = readline(">");
@@ -64,11 +59,8 @@ int	main(int argc, char **argv)
 		if (!buffer)
 			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
 		add_history(buffer);
-		ft_split_word(buffer, &element);
-		cmd = malloc(sizeof(t_command_list));
-		if (!cmd)
-			return (ft_putstr_fd("Error malloc cmd in main", 2), -1);
-		cmd_head = cmd;
+		if (ft_split_word(buffer, mini_struct) == -1)
+			return (-1);
 		// free(element);
 		// ft_print_list(head);
 		// free_all(NULL, arguments); // structure a envoyer

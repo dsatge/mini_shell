@@ -53,13 +53,13 @@ typedef struct s_minish
 void	ft_print_list(struct s_token *list);
 //LINE_TO_WORDS
 bool	is_White_Space(char c);
-int     ft_quotes(char *buffer, int i, enum e_quote_status quote);
-int     is_word(char *buffer, int i, t_token *element, int first_word);
-void	ft_split_word(char *buffer, t_token **element);
+int     ft_quotes(char *buffer, int i, t_quote quote);
+int		is_word(char *buffer, int i, t_minish **mini_struct, int first_word);
+int		ft_split_word(char *buffer, t_minish *mini_struct);
 //TOKENISE
 void	ft_token_type(t_token *element);
 int		ft_checktype_order(t_token *element);
-t_token	*ft_tokenise(char *buffer, int i, int len, t_token *element, int first_word);
+t_token	*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int first_word);
 void	ft_command_list(t_token *element);
 //TOKENISE_UTILS
 int		ft_ispipe(t_token element);
