@@ -15,17 +15,17 @@ int	ft_checktype_order(t_token *element)
 	// if(element->next == NULL || element == NULL)
 	// 	return(ft_putstr_fd("Error: A REVOIR\n", 2), 1);
 	if (element->type == pip)
-		return (ft_putstr_fd("Error: 1st is pipe\n", 2), 1);
+		return (ft_putstr_fd("Error: 1st is pipe\n", 2), -1);
 	while (element->next != NULL)
 	{
 		if (element->type == redir && element->next->type != word)
-			return (ft_putstr_fd("Error: redir not followed by word\n", 2),1);
+			return (ft_putstr_fd("Error: redir not followed by word\n", 2), -1);
 		if (element->type == pip && element->next->type == pip)
 			return (ft_putstr_fd("Error: 2 pipes\n", 2),1);
 		element = element->next;
 	}
 	if (element->type == pip || element->type == redir)
-		return (ft_putstr_fd("Error: not ending by word\n", 2),1);
+		return (ft_putstr_fd("Error: not ending by word\n", 2), -1);
 	return (0);
 }
 // free_token(t_token *lst)
@@ -52,6 +52,8 @@ t_token	*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int fi
 			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
 		new_node->next = NULL;
 		new_node->str = word_from_str(buffer, i, len);
+		if (!new_node->str)
+			return (NULL);
 		ft_token_type(new_node);
 		// if (element->next == NULL) // || element->next->str == NULL)
 		mini_struct->element->next = new_node;

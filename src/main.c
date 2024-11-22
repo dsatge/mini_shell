@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/22 15:24:29 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/22 16:38:02 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,20 @@ void	ft_print_tab(char **tab)
 	}
 }
 
-void	ft_print_list(struct s_token *list)
+int	ft_print_list(struct s_token *list)
 {
 	int i;
-	
+
 	i = 0;
+	if (!list->str)
+		return (-1);
 	while (list)
 	{
 		printf("list[%i] = %s  type = %d\n", i, list->str, list->type);
 		i++;
 		list = list->next;
 	}
-	return ;
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -51,7 +53,7 @@ int	main(int argc, char **argv)
 	while (1)
 	{
 		buffer = readline(">");
-		if (buffer == NULL) // Segfault si on retourne a la ligne sur un prompt vide fixed
+		if (!buffer) // Segfault si on retourne a la ligne sur un prompt vide fixed
 		{
 			free(buffer);
 			break;
@@ -59,8 +61,8 @@ int	main(int argc, char **argv)
 		if (!buffer)
 			return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
 		add_history(buffer);
-		if (ft_split_word(buffer, mini_struct) == -1)
-			return (-1);
+		if (ft_split_word(buffer, mini_struct) == 0)
+			printf("");
 		// free(element);
 		// ft_print_list(head);
 		// free_all(NULL, arguments); // structure a envoyer

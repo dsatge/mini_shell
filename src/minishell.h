@@ -50,7 +50,7 @@ typedef struct s_minish
 
 
 //MAIN
-void	ft_print_list(struct s_token *list);
+int	ft_print_list(struct s_token *list);
 //LINE_TO_WORDS
 bool	is_White_Space(char c);
 int     ft_quotes(char *buffer, int i, t_quote quote);

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/22 15:23:39 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/22 16:11:29 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,18 @@ int	ft_quotes(char *buffer, int i, t_quote quote)
         i++;
 		len++;
 	}
-	return (ft_putstr_fd("Error: unclosed quote\n", 2), EXIT_FAILURE);
+	return (ft_putstr_fd("Error: unclosed quote\n", 2), -1);
 }
 
 int	is_word(char *buffer, int i, t_minish **mini_struct, int first_word)
 {
     int len;
 	int	start;
-    enum e_quote_status quote;
+    t_quote quote;
     
     len = 0;
-    quote = DEFAULT;
 	start = i;
+    quote = DEFAULT;
     while ((is_White_Space(buffer[i]) == false) && buffer[i])
     {
 		if ((buffer[i] == '"' || buffer[i] == '\'') && (len != 0)){
@@ -60,6 +60,8 @@ int	is_word(char *buffer, int i, t_minish **mini_struct, int first_word)
 		}
 		if (buffer[i] == '"' || buffer[i] == '\''){
 			len = ft_quotes(buffer, i, quote);
+			if (len == -1)
+				return (-1);
 			ft_tokenise(buffer, i + 1, len - 1, *mini_struct, first_word);
 			return (len + 1);
         }
@@ -74,10 +76,12 @@ int	is_word(char *buffer, int i, t_minish **mini_struct, int first_word)
 int	ft_split_word(char *buffer, t_minish *mini_struct)
 {
 	int i;
+	int	word;
 	int	first_word;
 	t_token	*head;
 
     i = 0;
+	word = 0;
 	first_word = 0;
 	mini_struct->element = malloc(sizeof(t_token));
 	if (!mini_struct)
@@ -87,11 +91,15 @@ int	ft_split_word(char *buffer, t_minish *mini_struct)
 		i++;
 	while (buffer[i])
 	{
-        i += is_word(buffer, i, &mini_struct, first_word);
+		word = is_word(buffer, i, &mini_struct, first_word);
+		if (word == -1)
+			return (-1);
+		i += word;
 		first_word++;
         while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 			i++;
     }
-	ft_print_list(head);
+	if (mini_struct->element != NULL)
+		ft_print_list(head);
     return (0);
 }
