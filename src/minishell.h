@@ -4,13 +4,18 @@
     #define BUFFER_SIZE 10000
 #endif
 
+# define PROMPT "\001\e[45m\002=>\001\e[0m\e[1;96m Mini-merde>$ \001\e[0m\002"
+
 # include "../lib/libft/libft.h"
 # include "../lib/printf/ft_printf.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+extern int g_error_code;
 
 typedef enum e_quote_status
 {
@@ -65,6 +70,11 @@ void	ft_command_list(t_token *element);
 int		ft_ispipe(t_token element);
 int		ft_isredir(t_token element);
 char	*word_from_str(char *buffer, int start, int end);
+
+//SIGNAUX
+void	signal_handle(void);
+void	sigint_handle(int signal);
+
 void	free_all(t_token *list, char **tab);
 
 #endif
