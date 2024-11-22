@@ -6,13 +6,13 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 16:24:04 by dsatge            #+#    #+#             */
-/*   Updated: 2024/09/27 19:24:07 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/13 19:00:20 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# include <bsd/string.h>
+# include <string.h>
 # include <ctype.h>
 # include <stdio.h>
 # include <stdlib.h>

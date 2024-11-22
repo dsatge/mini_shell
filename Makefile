@@ -3,18 +3,21 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
+#    By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2024/10/31 17:11:41 by dsatge           ###   ########.fr        #
+#    Updated: 2024/11/15 17:36:28 by baiannon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRC_FILES = main.c\
+			line_to_words.c\
 			tokenise.c\
 			tokenise_utils.c\
+			free.c\
+			signal_handling.c\
 
 FLAGS = -Wall -Wextra -Werror -I includes/ -g
 
@@ -29,7 +32,7 @@ all: ${NAME}
 ${NAME} : ${SRC}
 	make -C lib/libft
 	make -C lib/printf
-	cc ${FLAGS} ${SRC} -o ${NAME} ${DEPS}
+	cc ${FLAGS} ${SRC} -o ${NAME} ${DEPS} -lreadline
 
 clean:
 	make -C lib/libft clean

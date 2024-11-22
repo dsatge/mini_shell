@@ -6,13 +6,13 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 16:24:04 by dsatge            #+#    #+#             */
-/*   Updated: 2024/09/12 15:05:24 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/13 19:01:03 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-# include <bsd/string.h>
+# include <string.h>
 # include <ctype.h>
 # include <stdio.h>
 # include <stdlib.h>
