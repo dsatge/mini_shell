@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/22 17:02:59 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/25 18:01:13 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ int	main(int argc, char **argv)
 {
 	char	*buffer;
 	t_minish	*mini_struct;
+	t_token		*head;
 	
 	(void)argc;
 	(void)argv;
+	head = NULL;
 	mini_struct = malloc(sizeof(t_minish));
 	if (!mini_struct)
 		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
@@ -56,11 +58,9 @@ int	main(int argc, char **argv)
 	{
 		signal_handle();
 		buffer = readline(PROMPT);
-		// if (!buffer)
-		// 	return (ft_putstr_fd("Error: malloc fail prompt creation", 2), -1);
 		if (!buffer)
 		{
-			// free_all(); //POUR PLUS TARD
+			free_all(head, mini_struct);
 			return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
 		}
 		if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
@@ -68,13 +68,10 @@ int	main(int argc, char **argv)
 			free(buffer);
 			continue;
 		}
-		
 		add_history(buffer);
-		if (ft_split_word(buffer, mini_struct) == 0)
-			printf("");
-		// free(element);
-		// ft_print_list(head);
-		// free_all(NULL, arguments); // structure a envoyer
+		head = ft_split_word(buffer, mini_struct);
+		free_list(head);
 		free(buffer);
 	}
+	free(mini_struct);		
 }
