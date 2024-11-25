@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 03:40:34 by baiannon          #+#    #+#             */
-/*   Updated: 2024/11/22 16:32:43 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/25 18:55:53 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,28 @@
 //     }
 // }
 
-// void    free_all(t_token *list)
-// {
-//     free_tokenList(list);
-// }
+void	free_list(t_token *list)
+{
+	t_token *tmp;
+
+	tmp = NULL;
+	if (!list)
+		return ;
+	while (list)
+	{
+		tmp = list;
+		list = list->next;
+		if (tmp->str)
+		{
+			printf("free of '%s'\n", tmp->str);
+			free(tmp->str);
+		}
+		free(tmp);
+	}
+}
+
+void	free_all(t_token *list, t_minish *mini_struct)
+{
+    free_list(list);
+	free(mini_struct);
+}

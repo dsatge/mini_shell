@@ -61,7 +61,7 @@ int	ft_print_list(struct s_token *list);
 bool	is_White_Space(char c);
 int     ft_quotes(char *buffer, int i, t_quote quote);
 int		is_word(char *buffer, int i, t_minish **mini_struct, int first_word);
-int		ft_split_word(char *buffer, t_minish *mini_struct);
+t_token	*ft_split_word(char *buffer, t_minish *mini_struct);
 //TOKENISE
 void	ft_token_type(t_token *element);
 int		ft_checktype_order(t_token *element);
@@ -76,6 +76,9 @@ char	*word_from_str(char *buffer, int start, int end);
 void	signal_handle(void);
 void	sigint_handle(int signal);
 
-void	free_all(t_token *list, char **tab);
+//FREE
+void	free_list(t_token *list);
+void	free_all(t_token *list, t_minish *mini_struct);
+// void	free_all(t_token *list, char **tab);
 
 #endif

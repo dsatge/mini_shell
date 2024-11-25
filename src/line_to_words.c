@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/22 16:11:29 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/25 17:17:53 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	is_word(char *buffer, int i, t_minish **mini_struct, int first_word)
     return (len);
 }
 
-int	ft_split_word(char *buffer, t_minish *mini_struct)
+t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
 {
 	int i;
 	int	word;
@@ -85,7 +85,8 @@ int	ft_split_word(char *buffer, t_minish *mini_struct)
 	first_word = 0;
 	mini_struct->element = malloc(sizeof(t_token));
 	if (!mini_struct)
-		return (-1);
+		return (NULL);
+	mini_struct->element->str = NULL;
 	head = mini_struct->element;
 	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 		i++;
@@ -93,13 +94,13 @@ int	ft_split_word(char *buffer, t_minish *mini_struct)
 	{
 		word = is_word(buffer, i, &mini_struct, first_word);
 		if (word == -1)
-			return (-1);
+			return (NULL);
 		i += word;
 		first_word++;
         while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 			i++;
     }
-	if (mini_struct->element != NULL)
-		ft_print_list(head);
-    return (0);
+	// if (mini_struct->element != NULL)
+	// 	ft_print_list(head);
+    return (head);
 }
