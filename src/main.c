@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/25 18:01:13 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/26 14:53:15 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	main(int argc, char **argv)
 		add_history(buffer);
 		head = ft_split_word(buffer, mini_struct);
 		free_list(head);
+		head = NULL;
 		free(buffer);
 	}
 	free(mini_struct);		

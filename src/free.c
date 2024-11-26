@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 03:40:34 by baiannon          #+#    #+#             */
-/*   Updated: 2024/11/25 18:55:53 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/26 14:55:23 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,8 @@ void	free_list(t_token *list)
 	{
 		tmp = list;
 		list = list->next;
-		if (tmp->str)
-		{
-			printf("free of '%s'\n", tmp->str);
-			free(tmp->str);
-		}
+		printf("free '%s'\n", tmp->str);
+		free(tmp->str);
 		free(tmp);
 	}
 }
