@@ -28,10 +28,6 @@ int	ft_checktype_order(t_token *element)
 		return (ft_putstr_fd("Error: not ending by word\n", 2), -1);
 	return (0);
 }
-// free_token(t_token *lst)
-// {
-
-// }
 
 t_token	*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int first_word)
 {
@@ -62,29 +58,52 @@ t_token	*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int fi
 	return (mini_struct->element);
 }
 
-void add_cmd_node(t_command_list *element, char *node_content)
+t_command_list	*ft_cmd_list(t_minish *mini_struct, t_token *element)
 {
-	element->next = malloc(sizeof(t_command_list));
-	if (element->next == NULL)
-		return (ft_putstr_fd("Error malloc add_cmd_node\n", 2));
-	element->next->str = ft_strdup(node_content);
-	element->next->next = NULL;
-	return ;
-}
-void	ft_print_cmdlist(struct s_command_list *cmd_list)
-{
-	int i;
-	
-	i = 0;
-	ft_printf("command list:\n");
-	while (cmd_list != NULL)
+	t_command_list	*cmd_list;
+	t_command_list	*head;
+
+	(void)mini_struct;
+	cmd_list = malloc(sizeof(t_command_list));
+	if (!cmd_list)
+		return (NULL);
+	head = cmd_list;
+	cmd_list->next_cmd = NULL;
+	if (!element)
+		return (ft_putstr_fd("Error no element in ft_cmd_list\n", 2), NULL);
+	while (element)
 	{
-		ft_printf("list[%i] = %s\n", i, cmd_list->str);
-		i++;
-		cmd_list = cmd_list->next;
+		add_cmd_node(cmd_list, element);
+		while (element->next && element->type != pip)
+		{
+			element = element->next;
+		}
+		if (!element->next)
+			break;	
+		element = element->next;
 	}
-	return ;
+	return (head);
 }
+
+t_command_list	*add_cmd_node(t_command_list *element, t_token *list_node)
+{
+	t_command_list	*new_node;
+
+	if (!element)
+		return (NULL);
+	while (element->next_cmd)
+		element = element->next_cmd;
+	new_node = malloc(sizeof(t_command_list));
+	if (!new_node)
+		return (ft_putstr_fd("Error malloc add_cmd_node\n", 2), NULL);
+	// element->next->str = ft_strdup(node_content);
+	new_node->element = list_node;
+	printf("check = %s ", new_node->element->str);
+	new_node->next_cmd = NULL;
+	element->next_cmd = new_node;
+	return (element);
+}
+
 // t_command_list	ft_cmd_list(struct s_command_list *cmd_list, t_token *element)
 // {
 	
