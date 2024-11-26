@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/26 14:53:15 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/26 19:07:43 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,24 @@
 
 int g_error_code = 0;
 
-void	ft_print_tab(char **tab)
+t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list)
 {
-	int	i;
-
+	t_command_list	*head;
+	int i;
+	
 	i = 0;
-	while (tab[i])
+	head = cmd_list;
+	if (!cmd_list)
+		return(ft_putstr_fd("Error malloc add_node\n", 2), NULL);
+	ft_printf("command list:\n");
+	while (cmd_list->next_cmd != NULL)
 	{
-		printf("tab[%i] = %s\n", i, tab[i]);
+		// ft_printf("list[%i] = %s\n", i, cmd_list->element->str);
 		i++;
+		cmd_list = cmd_list->next_cmd;
 	}
+	ft_printf("list[%i] = %s\n", i, cmd_list->element->str);
+	return (head);
 }
 
 int	ft_print_list(struct s_token *list)
@@ -46,6 +54,7 @@ int	main(int argc, char **argv)
 {
 	char	*buffer;
 	t_minish	*mini_struct;
+	t_command_list	*cmd_head;
 	t_token		*head;
 	
 	(void)argc;
@@ -70,6 +79,9 @@ int	main(int argc, char **argv)
 		}
 		add_history(buffer);
 		head = ft_split_word(buffer, mini_struct);
+		cmd_head = ft_cmd_list(mini_struct, head);
+		// ft_print_cmdlist(ft_cmd_list(mini_struct, head));
+		ft_print_cmdlist(cmd_head);
 		free_list(head);
 		head = NULL;
 		free(buffer);

@@ -41,8 +41,8 @@ typedef struct s_token
 
 typedef struct s_command_list
 {
-    char    *str;
-    struct s_command_list *next;    
+    struct s_token	*element;
+    struct s_command_list *next_cmd;    
 }   t_command_list;
 
 
@@ -57,6 +57,7 @@ typedef struct s_minish
 
 //MAIN
 int	ft_print_list(struct s_token *list);
+t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list);
 //LINE_TO_WORDS
 bool	is_White_Space(char c);
 int     ft_quotes(char *buffer, int i, t_quote quote);
@@ -66,6 +67,8 @@ t_token	*ft_split_word(char *buffer, t_minish *mini_struct);
 void	ft_token_type(t_token *element);
 int		ft_checktype_order(t_token *element);
 t_token	*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int first_word);
+t_command_list	*ft_cmd_list(t_minish *mini_struct, t_token *element);
+t_command_list	*add_cmd_node(t_command_list *element, t_token *list_node);
 void	ft_command_list(t_token *element);
 //TOKENISE_UTILS
 int		ft_ispipe(t_token element);
