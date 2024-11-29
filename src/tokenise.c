@@ -58,59 +58,55 @@ t_token	*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int fi
 	return (mini_struct->element);
 }
 
-t_command_list	*ft_cmd_list(t_minish *mini_struct, t_token *element)
+t_command_list	*ft_cmd_list(t_minish *mini_struct, t_token *token_list)
 {
 	t_command_list	*cmd_list;
 	t_command_list	*head;
 
 	(void)mini_struct;
-	cmd_list = ft_calloc(sizeof(t_command_list), 1);
+	cmd_list = NULL;
 	head = NULL;
-	if (!cmd_list)
-		return (NULL);
-	// head = cmd_list;
-	cmd_list->next_cmd = NULL;
-	if (!element)
+	if (!token_list)
 		return (ft_putstr_fd("Error no element in ft_cmd_list\n", 2), NULL);
-	while (element)
+	while (token_list)
 	{
-		cmd_list = add_cmd_node(cmd_list, element);
+		cmd_list = add_cmd_node(cmd_list, token_list);
 		if (head == NULL)
 		{
 			head = cmd_list;
 			// printf("head = %p cmd_list = %p element = %s\n", head, cmd_list, element->str);
 			// printf("CHECK : %s\n", cmd_list->element->str);
 		}
-		while (element->next && element->type != pip)
+		while (token_list->next && token_list->type != pip)
 		{
-			element = element->next;
+			token_list = token_list->next;
 		}
-		if (!element->next)
+		if (!token_list->next)
 			break;	
-		element = element->next;
+		token_list = token_list->next;
 	}
 	// printf("head = %p cmd_list = %p head 1st = %s\n", head, cmd_list, head->element->str);
 	// printf("test = %s\n", element->str);
 	return (head);
 }
 
-t_command_list	*add_cmd_node(t_command_list *element, t_token *list_node)
+t_command_list	*add_cmd_node(t_command_list *cmd_list, t_token *token_list)
 {
 	t_command_list	*new_node;
 
 	// printf("element = %s\n", list_node->str);
-	if (!element)
+	if (!token_list)
 		return (NULL);
-	while (element->next_cmd)
-		element = element->next_cmd;
-	printf("check = %p\n", element->element);
+	while (cmd_list && cmd_list->next_cmd)
+		cmd_list = cmd_list->next_cmd;
 	new_node = malloc(sizeof(t_command_list));
 	if (!new_node)
 		return (ft_putstr_fd("Error malloc add_cmd_node\n", 2), NULL);
 	// element->next->str = ft_strdup(node_content);
-	new_node->element = list_node;
+	new_node->element = token_list;
 	new_node->next_cmd = NULL;
-	element->next_cmd = new_node;
+	if (cmd_list)
+		cmd_list->next_cmd = new_node;
 	return (new_node);
 }
 

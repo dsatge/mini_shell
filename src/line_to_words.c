@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/26 15:02:41 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/29 16:50:40 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,12 @@ int	is_word(char *buffer, int i, t_minish **mini_struct, int first_word)
     quote = DEFAULT;
     while ((is_White_Space(buffer[i]) == false) && buffer[i])
     {
-		if ((buffer[i] == '"' || buffer[i] == '\'') && (len != 0)){
-			i--;
+		if ((buffer[i] == '"' || buffer[i] == '\'' || buffer[i] == '|') && (len != 0))
 			break;
-		}
+		if ((buffer[i] == '|') && (len != 0))
+			return (ft_tokenise(buffer, start, len, *mini_struct, first_word), len--);
+		if (buffer[i] == '|' && len == 0)
+			return (ft_tokenise(buffer, i, 1, *mini_struct, first_word), 1);
 		if (buffer[i] == '"' || buffer[i] == '\''){
 			len = ft_quotes(buffer, i, quote);
 			if (len == -1)
@@ -90,8 +92,7 @@ t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
 	head = mini_struct->element;
 	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 		i++;
-	while (buffer[i])
-	{
+	while (buffer[i]){
 		word = is_word(buffer, i, &mini_struct, first_word);
 		if (word == -1)
 			return (head);
@@ -100,7 +101,5 @@ t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
         while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 			i++;
     }
-	// if (mini_struct->element != NULL)
-	// 	ft_print_list(head);
     return (head);
 }
