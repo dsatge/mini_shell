@@ -6,11 +6,21 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:10:34 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/20 20:03:19 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/29 17:57:54 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_token_type(t_token *element)
+{
+	if (ft_ispipe(*element) == 0)
+		element->type = pip;
+	else if (ft_isredir(*element) == 0)
+		element->type = redir;
+	else
+		element->type = word;
+}
 
 int	ft_ispipe(t_token element)
 {

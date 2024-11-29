@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/29 17:15:27 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/29 19:28:48 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,13 @@ t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list)
 }
 
 
-int	main(int argc, char **argv)
+int	main(void)
 {
 	char	*buffer;
 	t_minish	*mini_struct;
 	t_command_list	*cmd_head;
 	t_token		*head;
 	
-	(void)argc;
-	(void)argv;
 	head = NULL;
 	cmd_head = NULL;
 	mini_struct = malloc(sizeof(t_minish));
@@ -52,17 +50,8 @@ int	main(int argc, char **argv)
 	{
 		signal_handle();
 		buffer = readline(PROMPT);
-		if (!buffer)
-		{
-			free_all(head, mini_struct);
-			return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
-		}
-		if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
-		{
-			free(buffer);
-			continue;
-		}
-		add_history(buffer);
+		if (ft_buffer(buffer, head, mini_struct) == -1)
+			return (-1);
 		head = ft_split_word(buffer, mini_struct);
 		if (ft_checktype_order(head) == 0)
 		{
@@ -77,4 +66,20 @@ int	main(int argc, char **argv)
 		free(buffer);
 	}
 	free(mini_struct);		
+}
+
+int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
+{
+	if (!buffer)
+	{
+		free_all(token_list, mini_struct);
+		return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
+	}
+	if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
+	{
+		free(buffer);
+		return (0);
+	}
+	add_history(buffer);
+	return (0);
 }

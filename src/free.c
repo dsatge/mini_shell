@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 03:40:34 by baiannon          #+#    #+#             */
-/*   Updated: 2024/11/29 16:58:30 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/29 19:25:54 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,15 @@ void	free_all(t_token *list, t_minish *mini_struct)
 {
     free_list(list);
 	free(mini_struct);
+}
+
+void	free_uplevel(int level, t_minish *minish, t_token *toklist, t_command_list *cmdlist, char *buff)
+{
+	(void)minish;
+	if (level <= 2)
+		free(buff);
+	if (level <= 5)
+		free_list(toklist);
+	if (level <= 10)
+		free_cmd(cmdlist);
 }
