@@ -85,4 +85,9 @@ void			free_all(t_token *list, t_minish *mini_struct);
 void			free_cmd(struct s_command_list *cmd_list);
 // void	free_all(t_token *list, char **tab);
 
+int ft_echo(t_token *cmd);
+int	cmd_check(t_command_list *element);
+
+// CAMMANDS
+
 #endif
