@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/29 13:56:41 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/29 14:34:08 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	head = NULL;
+	cmd_head = NULL;
 	mini_struct = malloc(sizeof(t_minish));
 	if (!mini_struct)
 		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
@@ -63,10 +64,15 @@ int	main(int argc, char **argv)
 		}
 		add_history(buffer);
 		head = ft_split_word(buffer, mini_struct);
-		cmd_head = ft_cmd_list(mini_struct, head);
-		ft_print_cmdlist(cmd_head);
-		free_list(head);
-		free_cmd(cmd_head);
+		if (ft_checktype_order(head) == 0)
+		{
+			cmd_head = ft_cmd_list(mini_struct, head);
+			ft_print_cmdlist(cmd_head);
+			free_list(head);
+			free_cmd(cmd_head);
+		}
+		else
+			free_list(head);
 		head = NULL;
 		free(buffer);
 	}

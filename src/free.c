@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 03:40:34 by baiannon          #+#    #+#             */
-/*   Updated: 2024/11/29 13:59:28 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/29 14:26:14 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	free_cmd(struct s_command_list *cmd_list)
 {
 	t_command_list *tmp;
 	
+	if (!cmd_list)
+		return ;
 	while (cmd_list->next_cmd != NULL)
 	{
 		tmp = cmd_list;

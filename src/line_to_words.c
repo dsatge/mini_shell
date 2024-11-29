@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/26 15:02:41 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/29 14:18:39 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
 	head = mini_struct->element;
 	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 		i++;
-	while (buffer[i])
-	{
+	while (buffer[i]){
 		word = is_word(buffer, i, &mini_struct, first_word);
 		if (word == -1)
 			return (head);
@@ -100,7 +99,5 @@ t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
         while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 			i++;
     }
-	// if (mini_struct->element != NULL)
-	// 	ft_print_list(head);
     return (head);
 }
