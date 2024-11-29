@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/29 14:34:08 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/29 17:15:27 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list)
 	i = 0;
 	head = cmd_list;
 	if (!cmd_list)
-		return(ft_putstr_fd("Error malloc add_node\n", 2), NULL);
+		return(ft_putstr_fd("Error no list in ft_print_cmdlist\n", 2), NULL);
 	ft_printf("command list:\n");
 	while (head != NULL)
 	{

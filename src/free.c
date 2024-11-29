@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 03:40:34 by baiannon          #+#    #+#             */
-/*   Updated: 2024/11/29 14:26:14 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/11/29 16:58:30 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,12 @@ void	free_cmd(struct s_command_list *cmd_list)
 	
 	if (!cmd_list)
 		return ;
-	while (cmd_list->next_cmd != NULL)
+	while (cmd_list != NULL)
 	{
 		tmp = cmd_list;
 		printf("free cmd: %p\n", cmd_list->element);
 		cmd_list = cmd_list->next_cmd;
 		free(tmp);
-	}
-	if (cmd_list)
-	{
-		printf("free cmd: %p\n", cmd_list->element);
-		free(cmd_list);
 	}
 	// ft_printf("list[%i] = %s\n", i, head->element->str);
 }
