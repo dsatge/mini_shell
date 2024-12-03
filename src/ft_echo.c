@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:36:45 by baiannon          #+#    #+#             */
-/*   Updated: 2024/11/29 18:06:23 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:24:53 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int check_flagN(char *str)
+static int check_flagN(char *s)
 {  
 	int	i;
 
 	i = 0;
-	if (!str[i])
+	if (!s[i])
 		return (EXIT_FAILURE);
-	while (str[i])
+	while (s[i])
 	{
-		if (str[i] != 'n')
+		if (s[i] != 'n')
 			return (EXIT_FAILURE);
         i++;
 	}
