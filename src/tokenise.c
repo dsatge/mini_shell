@@ -17,6 +17,58 @@ int	ft_checktype_order(t_token *element)
 	return (0);
 }
 
+char	*word_and_quote(char *buffer, int start, int len)
+{
+	char	*word;
+	char	*tmp;
+	char	*tmp_quote;
+	int		len_quote;
+
+	tmp = word_from_str(buffer, start, len);
+	if (!tmp)
+		return (NULL);
+	printf("char = \" : '%c'?\n", buffer[start + len]);
+	len_quote = ft_quotes(buffer, start + len);
+	if (len_quote == -1)
+		return (free(tmp), NULL);
+	tmp_quote = word_from_str(buffer, start + len + 1, len_quote - 1);
+	if (!tmp_quote)
+		return (free(tmp), NULL);
+	word = ft_strjoin(tmp, tmp_quote);
+	printf("word = %s\n", word);
+	if (!word)
+		return (free(tmp), free(tmp_quote), NULL);
+	return(free(tmp), free(tmp_quote), word);
+}
+
+t_token	*tokenise_quote(char *buffer, int start, int len, t_minish *mini_struct, int first_word)
+{
+	t_token	*new_node;
+
+	if (first_word == 0)
+	{
+		mini_struct->element->str = word_and_quote(buffer, start, len);
+		ft_token_type(mini_struct->element);
+		mini_struct->element->next = NULL;
+	}
+	else
+	{
+		while (mini_struct->element->next)
+			mini_struct->element = mini_struct->element->next;
+		new_node = malloc(sizeof(t_token));
+		if (!new_node)
+			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
+		new_node->next = NULL;
+		new_node->str = word_and_quote(buffer, start, len);
+		if (!new_node->str)
+			return (NULL);
+		ft_token_type(new_node);
+		mini_struct->element->next = new_node;
+		mini_struct->element= mini_struct->element->next;
+	}
+	return (mini_struct->element);
+}
+
 t_token	*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int first_word)
 {
 	t_token	*new_node;
@@ -36,6 +88,34 @@ t_token	*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int fi
 			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
 		new_node->next = NULL;
 		new_node->str = word_from_str(buffer, i, len);
+		if (!new_node->str)
+			return (NULL);
+		ft_token_type(new_node);
+		mini_struct->element->next = new_node;
+		mini_struct->element= mini_struct->element->next;
+	}
+	return (mini_struct->element);
+}
+
+t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word)
+{
+	t_token	*new_node;
+
+	if (first_word == 0)
+	{
+		mini_struct->element->str = word;
+		ft_token_type(mini_struct->element);
+		mini_struct->element->next = NULL;
+	}
+	else
+	{
+		while (mini_struct->element->next)
+			mini_struct->element = mini_struct->element->next;
+		new_node = malloc(sizeof(t_token));
+		if (!new_node)
+			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
+		new_node->next = NULL;
+		new_node->str = word;
 		if (!new_node->str)
 			return (NULL);
 		ft_token_type(new_node);

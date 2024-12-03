@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/29 16:50:40 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/03 18:36:15 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ bool	is_White_Space(char c)
 	return (false);
 }
 
-int	ft_quotes(char *buffer, int i, t_quote quote)
+int	ft_quotes(char *buffer, int i)
 {
 	int len;
+	t_quote	quote;
 
 	len = 0;
 	if (buffer[i] == '"')
@@ -45,34 +46,64 @@ int	ft_quotes(char *buffer, int i, t_quote quote)
 
 int	is_word(char *buffer, int i, t_minish **mini_struct, int first_word)
 {
-    int len;
-	int	start;
-    t_quote quote;
+    int 	len;
+	int		start;
+	char	*tmp;
+	char	*tmp_quote;
+	char	*word;
     
     len = 0;
+	word = NULL;
 	start = i;
-    quote = DEFAULT;
-    while ((is_White_Space(buffer[i]) == false) && buffer[i])
+    while ((is_White_Space(buffer[i]) == false) && buffer[i] != '|' && buffer[i])
     {
-		if ((buffer[i] == '"' || buffer[i] == '\'' || buffer[i] == '|') && (len != 0))
-			break;
-		if ((buffer[i] == '|') && (len != 0))
-			return (ft_tokenise(buffer, start, len, *mini_struct, first_word), len--);
-		if (buffer[i] == '|' && len == 0)
-			return (ft_tokenise(buffer, i, 1, *mini_struct, first_word), 1);
-		if (buffer[i] == '"' || buffer[i] == '\''){
-			len = ft_quotes(buffer, i, quote);
-			if (len == -1)
-				return (-1);
-			ft_tokenise(buffer, i + 1, len - 1, *mini_struct, first_word);
-			return (len + 1);
+		if ((buffer[i] == '"' || buffer[i] == '\'')){
+			printf("pos of i = %i\n", i);
+			if (word)
+				tmp = word;
+			else
+			{
+				tmp = word_from_str(buffer, start, len);
+				len += ft_quotes(buffer, start + len);
+				if (len == -1)
+					return (free(tmp), -1);
+			}
+			tmp_quote = word_from_str(buffer, i + 1, len);
+			word = ft_strjoin(tmp, tmp_quote);
+			free(tmp);
+			free(tmp_quote);
+			if (buffer[i + len + 1] || is_White_Space(buffer[i + 1]) == false || buffer[i + 1] != '|')
+				start = i + len + 1;
+			else
+				start = -1;
+			printf("start = %i len = %i\n", start, len);
         }
         else
 		    len++;
 		i++;
     }
-	ft_tokenise(buffer, start, len, *mini_struct, first_word);
-    return (len);
+	if (start != -1 && buffer[i] != '|')
+	{
+		if (word)
+		{
+			tmp = word;
+			tmp_quote = word_from_str(buffer, start, len);
+			len += ft_strlen(tmp_quote);
+			word = ft_strjoin(tmp, tmp_quote);
+			free(tmp);
+			free(tmp_quote);
+		}
+		else
+		{
+			word = word_from_str(buffer, start, len);
+			len += ft_strlen(word);
+		}
+	}
+	if (buffer[i] == '|' && len != 0)
+			return (ft_tokenise_word(word, *mini_struct, first_word), len--);
+	if (buffer[i] == '|' && len == 0)
+			return (ft_tokenise_word(ft_strdup("|"), *mini_struct, first_word), 1);
+    return (ft_tokenise_word(word, *mini_struct, first_word), len);
 }
 
 t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
