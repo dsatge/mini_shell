@@ -6,7 +6,7 @@
 #    By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2024/12/03 18:25:06 by baiannon         ###   ########.fr        #
+#    Updated: 2024/12/04 17:38:10 by baiannon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,9 @@ SRC_FILES = main.c\
 			tokenise_utils.c\
 			free.c\
 			signal_handling.c\
-			cmds_handling.c\
+			builtins_handling.c\
 			ft_echo.c\
-			ft_cd.c\
+			ft_pwd.c\
 
 FLAGS = -Wall -Wextra -Werror -I includes/ -g
 

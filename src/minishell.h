@@ -88,7 +88,8 @@ void			free_cmd(struct s_command_list *cmd_list);
 // CAMMANDS
 
 int ft_echo(t_token *cmd);
-int	cmd_check(t_token *cmd);
+int	ft_builtin(t_token *cmd);
 int	ft_cd(t_token *cmd);
+int ft_pwd(t_token *cmd);
 
 #endif
