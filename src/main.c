@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/29 19:28:48 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/06 15:08:27 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list)
 	ft_printf("command list:\n");
 	while (head != NULL)
 	{
-		printf("adress : %p list[%i] = %s  type = %d\n", head->element, i, head->element->str, head->element->type);
+		printf("list[%i] = %s  type = %d\n", i, head->element->str, head->element->type);
 		i++;
 		head = head->next_cmd;
 	}

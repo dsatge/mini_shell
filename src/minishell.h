@@ -60,13 +60,16 @@ t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list);
 int				ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct);
 //LINE_TO_WORDS
 bool			is_White_Space(char c);
-int				ft_quotes(char *buffer, int i);
-int				is_word(char *buffer, int i, t_minish **mini_struct, int first_word);
+char			*ft_quotes(char *buffer, int *i);
+int				is_word(char *buffer, int *i, t_minish **mini_struct, int first_word);
+char			*letters_to_word(char *word, char *buffer, int start, int i);
+char			*ft_join_quotes(char *buffer, int *i, char *tmp);
 t_token			*ft_split_word(char *buffer, t_minish *mini_struct);
 //TOKENISE
 int				ft_checktype_order(t_token *element);
 t_token			*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int first_word);
 t_token			*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word);
+t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_word);
 t_token			*tokenise_quote(char *buffer, int start, int len, t_minish *mini_struct, int first_word);
 t_command_list	*ft_cmd_list(t_minish *mini_struct, t_token *element);
 t_command_list	*add_cmd_node(t_command_list *element, t_token *list_node);

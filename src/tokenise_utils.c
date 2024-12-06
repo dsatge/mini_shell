@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:10:34 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/03 18:36:45 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/06 17:30:23 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*word_from_str(char *buffer, int start, int len)
 	word = malloc(sizeof(char) * (len) + 1);
 	if (!word)
 		return (ft_putstr_fd("Error malloc: word_from_str\n", 2), NULL);
-	while (i < (len - start))
+	while ((i + start) < len)
 	{
 		word[i] = buffer[start + i];
 		i++;

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/03 18:36:15 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/06 18:45:53 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,89 +21,153 @@ bool	is_White_Space(char c)
 	return (false);
 }
 
-int	ft_quotes(char *buffer, int i)
+bool	is_redir_pipe(char c)
+{
+	if (c == '|')
+		return (true);
+	if (c == '<')
+		return (true);
+	if (c == '>')
+		return (true);
+	return (false);
+}
+
+char	*redir_pipe_to_word(char *buffer, int *i)
+{
+	char	*word;
+	
+	word = NULL;
+	if (buffer[*i] == '|')
+		word = ft_strdup("|");
+	else if (buffer[*i] == '<')
+	{
+		if (buffer[*i] == '<' && buffer[*i + 1] == '<')
+		{
+			*i = *i + 1;
+			word = ft_strdup("<<");
+		}
+		else
+			word = ft_strdup("<");
+	}
+	else if (buffer[*i] == '>')
+	{
+		if (buffer[*i] == '>' && buffer[*i + 1] == '>')
+		{
+			*i = *i + 1;
+			word = ft_strdup(">>");
+		}
+		else
+			word = ft_strdup(">");
+	}
+	*i = *i + 1;
+	return (word);
+}
+
+char	*ft_quotes(char *buffer, int *i)
 {
 	int len;
+	int	start;
+	char	*word;
 	t_quote	quote;
 
 	len = 0;
-	if (buffer[i] == '"')
+	start = *i;
+	if (buffer[*i] == '"')
 		quote = DOUBLE_QUOTE;
-	if (buffer[i] == '\'')
+	if (buffer[*i] == '\'')
 		quote = SINGLE_QUOTE;
-	i++;
-	while (buffer[i])
+	*i = *i + 1;
+	while (buffer[*i])
 	{
-		if (buffer[i] == '"' && quote == DOUBLE_QUOTE)
-			return(len + 1);
-		if (buffer[i] == '\'' && quote == SINGLE_QUOTE)
-			return(len + 1);		
-        i++;
+		if (buffer[*i] == '"' && quote == DOUBLE_QUOTE)
+		{
+			word = word_from_str(buffer, start + 1, start + len + 1);
+			return (word);
+		}
+		if (buffer[*i] == '\'' && quote == SINGLE_QUOTE)
+		{
+			word = word_from_str(buffer, start + 1, start + len + 1);	
+			return (word);
+		}
+        *i = *i + 1;
 		len++;
 	}
-	return (ft_putstr_fd("Error: unclosed quote\n", 2), -1);
+	return (ft_putstr_fd("Error: unclosed quote\n", 2), NULL);
 }
 
-int	is_word(char *buffer, int i, t_minish **mini_struct, int first_word)
+
+int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
 {
-    int 	len;
-	int		start;
-	char	*tmp;
-	char	*tmp_quote;
 	char	*word;
-    
-    len = 0;
+	char	*tmp;
+	int		start;
+
 	word = NULL;
-	start = i;
-    while ((is_White_Space(buffer[i]) == false) && buffer[i] != '|' && buffer[i])
-    {
-		if ((buffer[i] == '"' || buffer[i] == '\'')){
-			printf("pos of i = %i\n", i);
-			if (word)
-				tmp = word;
-			else
+	start = *i;
+	printf("|||||||||||| i = %i = %c", *i, buffer[*i]);
+	if (is_redir_pipe(buffer[*i]) == true)
+	{
+		word = redir_pipe_to_word(buffer, i);
+		return (ft_tokenise_pipe_redir(word, *mini_struct, first_word), 0);
+	}
+	while (buffer[*i] && is_redir_pipe(buffer[*i]) == false && is_White_Space(buffer[*i]) == false)
+	{
+		if (buffer[*i] == '\'' || buffer[*i] == '"')
+		{
+			if (start != *i)
 			{
-				tmp = word_from_str(buffer, start, len);
-				len += ft_quotes(buffer, start + len);
-				if (len == -1)
-					return (free(tmp), -1);
+				tmp = letters_to_word(word, buffer, start, *i);
+				if (!tmp)
+					return (-1);
 			}
-			tmp_quote = word_from_str(buffer, i + 1, len);
-			word = ft_strjoin(tmp, tmp_quote);
-			free(tmp);
-			free(tmp_quote);
-			if (buffer[i + len + 1] || is_White_Space(buffer[i + 1]) == false || buffer[i + 1] != '|')
-				start = i + len + 1;
+			else if (word && start == *i)
+				tmp = word;
+			word = ft_join_quotes(buffer, i, tmp);
+			if (!word)
+				return (-1);
+			if (buffer[*i + 1] && is_redir_pipe(buffer[*i + 1]) == false)
+				start = *i + 1;
 			else
 				start = -1;
-			printf("start = %i len = %i\n", start, len);
-        }
-        else
-		    len++;
-		i++;
-    }
-	if (start != -1 && buffer[i] != '|')
-	{
-		if (word)
-		{
-			tmp = word;
-			tmp_quote = word_from_str(buffer, start, len);
-			len += ft_strlen(tmp_quote);
-			word = ft_strjoin(tmp, tmp_quote);
-			free(tmp);
-			free(tmp_quote);
 		}
-		else
-		{
-			word = word_from_str(buffer, start, len);
-			len += ft_strlen(word);
-		}
+		*i = *i + 1;
 	}
-	if (buffer[i] == '|' && len != 0)
-			return (ft_tokenise_word(word, *mini_struct, first_word), len--);
-	if (buffer[i] == '|' && len == 0)
-			return (ft_tokenise_word(ft_strdup("|"), *mini_struct, first_word), 1);
-    return (ft_tokenise_word(word, *mini_struct, first_word), len);
+	if (start != *i && start != -1)
+		word = letters_to_word(word, buffer, start, *i);
+	return (ft_tokenise_word(word, *mini_struct, first_word), 0);
+}
+
+char	*letters_to_word(char *word, char *buffer, int start, int i)
+{
+	char *joined_letters;
+	char	*joined_word;
+	
+	joined_letters = word_from_str(buffer, start, i);
+	if (!joined_letters)
+		return (ft_putstr_fd("Error malloc: letters_to_word\n", 2), NULL);
+	if (word)
+	{
+		joined_word = ft_strjoin(word, joined_letters);
+		return (free(word), free(joined_letters), joined_word);
+	}
+	return (joined_letters);
+}
+
+char	*ft_join_quotes(char *buffer, int *i, char *tmp)
+{
+	char	*quote_word;
+	char	*joined_words;
+
+	joined_words = NULL;
+	quote_word = ft_quotes(buffer, i);
+	if (!quote_word)
+		return (ft_putstr_fd("Error malloc: ft_join_quotes", 2), NULL);
+	if (tmp)
+	{
+		joined_words = ft_strjoin(tmp, quote_word);
+		return (free(quote_word), free(tmp), joined_words);
+	}
+	return (quote_word);
 }
 
 t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
@@ -124,10 +188,8 @@ t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
 	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 		i++;
 	while (buffer[i]){
-		word = is_word(buffer, i, &mini_struct, first_word);
-		if (word == -1)
+		if (is_word(buffer, &i, &mini_struct, first_word) == -1)
 			return (head);
-		i += word;
 		first_word++;
         while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 			i++;
