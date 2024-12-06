@@ -6,7 +6,7 @@
 #    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2024/12/05 16:35:33 by dsatge           ###   ########.fr        #
+#    Updated: 2024/12/06 19:04:14 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = minishell
 
 SRC_FILES = main.c\
 			line_to_words.c\
+			line_to_words_utils.c\
 			tokenise.c\
 			tokenise_utils.c\
 			free.c\

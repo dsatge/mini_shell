@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/06 15:08:27 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/06 18:54:07 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,22 @@ t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list)
 	return (cmd_list);
 }
 
+
+int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
+{
+	if (!buffer)
+	{
+		free_all(token_list, mini_struct);
+		return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
+	}
+	if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
+	{
+		free(buffer);
+		return (0);
+	}
+	add_history(buffer);
+	return (0);
+}
 
 int	main(void)
 {
@@ -66,20 +82,4 @@ int	main(void)
 		free(buffer);
 	}
 	free(mini_struct);		
-}
-
-int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
-{
-	if (!buffer)
-	{
-		free_all(token_list, mini_struct);
-		return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
-	}
-	if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
-	{
-		free(buffer);
-		return (0);
-	}
-	add_history(buffer);
-	return (0);
 }
