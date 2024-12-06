@@ -58,22 +58,28 @@ typedef struct s_minish
 //MAIN
 t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list);
 int				ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct);
-//LINE_TO_WORDS
+//LINE_TO_WORDS_UTILS
 bool			is_White_Space(char c);
-int				ft_quotes(char *buffer, int i, t_quote quote);
-int				is_word(char *buffer, int i, t_minish **mini_struct, int first_word);
+bool			is_redir_pipe(char c);
+char			*redir_pipe_to_word(char *buffer, int *i);
+//LINE_TO_WORDS
+char			*ft_quotes(char *buffer, int *i);
+int				is_word(char *buffer, int *i, t_minish **mini_struct, int first_word);
+char			*letters_to_word(char *word, char *buffer, int start, int i);
+char			*ft_join_quotes(char *buffer, int *i, char *tmp);
 t_token			*ft_split_word(char *buffer, t_minish *mini_struct);
 //TOKENISE
 int				ft_checktype_order(t_token *element);
-t_token			*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int first_word);
+t_token			*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_word);
+t_token			*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word);
 t_command_list	*ft_cmd_list(t_minish *mini_struct, t_token *element);
 t_command_list	*add_cmd_node(t_command_list *element, t_token *list_node);
-t_command_list	*init_list(char *buffer, t_minish *minish, t_command_list *cmd_list, t_token *tok_list);
 //TOKENISE_UTILS
 void			ft_token_type(t_token *element);
 int				ft_ispipe(t_token element);
 int				ft_isredir(t_token element);
 char			*word_from_str(char *buffer, int start, int end);
+t_command_list	*init_list(char *buffer, t_minish *minish, t_command_list *cmd_list, t_token *tok_list);
 //SIGNAUX
 void			signal_handle(void);
 void			sigint_handle(int signal);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenise.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
+/*   Updated: 2024/12/06 19:11:26 by dsatge           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_checktype_order(t_token *element)
@@ -17,13 +29,14 @@ int	ft_checktype_order(t_token *element)
 	return (0);
 }
 
-t_token	*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int first_word)
+t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_word)
 {
 	t_token	*new_node;
 
+	printf(" received = %s\n", word);
 	if (first_word == 0)
 	{
-		mini_struct->element->str = word_from_str(buffer, i, len);
+		mini_struct->element->str = word;
 		ft_token_type(mini_struct->element);
 		mini_struct->element->next = NULL;
 	}
@@ -35,10 +48,40 @@ t_token	*ft_tokenise(char *buffer, int i, int len, t_minish *mini_struct, int fi
 		if (!new_node)
 			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
 		new_node->next = NULL;
-		new_node->str = word_from_str(buffer, i, len);
+		new_node->str = word;
 		if (!new_node->str)
 			return (NULL);
 		ft_token_type(new_node);
+		mini_struct->element->next = new_node;
+		mini_struct->element= mini_struct->element->next;
+	}
+	return (mini_struct->element);
+}
+
+
+t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word)
+{
+	t_token	*new_node;
+
+	printf("received = %s\n", word);
+	if (first_word == 0)
+	{
+		mini_struct->element->str = word;
+		ft_token_type(mini_struct->element);
+		mini_struct->element->next = NULL;
+	}
+	else
+	{
+		while (mini_struct->element->next)
+			mini_struct->element = mini_struct->element->next;
+		new_node = malloc(sizeof(t_token));
+		if (!new_node)
+			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
+		new_node->next = NULL;
+		new_node->str = word;
+		if (!new_node->str)
+			return (NULL);
+		new_node->type = 2;
 		mini_struct->element->next = new_node;
 		mini_struct->element= mini_struct->element->next;
 	}
@@ -85,21 +128,4 @@ t_command_list	*add_cmd_node(t_command_list *cmd_list, t_token *token_list)
 	if (cmd_list)
 		cmd_list->next_cmd = new_node;
 	return (new_node);
-}
-
-t_command_list	*init_list(char *buffer, t_minish *minish, t_command_list *cmd_list, t_token *tok_list)
-{
-
-	if (ft_checktype_order(tok_list) == 0)
-	{
-		cmd_list = ft_cmd_list(minish, tok_list);
-		ft_print_cmdlist(cmd_list);
-	}
-	else
-	{
-		free_list(tok_list);
-		free(buffer);
-		return (NULL);
-	}
-	return (cmd_list);
 }

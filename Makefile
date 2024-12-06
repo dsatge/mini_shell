@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+         #
+#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2024/11/15 17:36:28 by baiannon         ###   ########.fr        #
+#    Updated: 2024/12/06 19:04:14 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = minishell
 
 SRC_FILES = main.c\
 			line_to_words.c\
+			line_to_words_utils.c\
 			tokenise.c\
 			tokenise_utils.c\
 			free.c\
