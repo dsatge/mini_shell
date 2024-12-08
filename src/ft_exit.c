@@ -6,13 +6,13 @@
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:18:32 by baiannon          #+#    #+#             */
-/*   Updated: 2024/12/04 17:32:38 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/12/08 15:25:06 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+// #include "minishell.h"
 
-int ft_exit(t_token *cmd)
-{
+// int ft_exit(t_token *cmd)
+// {
 	
-}
+// }

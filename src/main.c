@@ -6,7 +6,7 @@
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/03 17:37:19 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/12/08 15:27:51 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	main(int argc, char **argv)
 		add_history(buffer);
 		head = ft_split_word(buffer, mini_struct);
 		// ft_echo(head); // A RETIRER
-		cmd_check(head);
+		ft_builtin(head);
 		if (ft_checktype_order(head) == 0)
 		{
 			cmd_head = ft_cmd_list(mini_struct, head);
