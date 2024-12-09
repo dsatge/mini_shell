@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/06 18:54:07 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/09 15:12:10 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
 	{
 		free(buffer);
-		return (0);
+		return (1);
 	}
 	add_history(buffer);
 	return (0);
@@ -52,10 +52,11 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 
 int	main(void)
 {
-	char	*buffer;
-	t_minish	*mini_struct;
+	char			*buffer;
+	int				buf_value;
+	t_minish		*mini_struct;
 	t_command_list	*cmd_head;
-	t_token		*head;
+	t_token			*head;
 	
 	head = NULL;
 	cmd_head = NULL;
@@ -66,20 +67,24 @@ int	main(void)
 	{
 		signal_handle();
 		buffer = readline(PROMPT);
-		if (ft_buffer(buffer, head, mini_struct) == -1)
+		buf_value = ft_buffer(buffer, head, mini_struct);
+		if ( buf_value == -1)
 			return (-1);
-		head = ft_split_word(buffer, mini_struct);
-		if (ft_checktype_order(head) == 0)
+		if (buf_value == 0)
 		{
-			cmd_head = ft_cmd_list(mini_struct, head);
-			ft_print_cmdlist(cmd_head);
-			free_list(head);
-			free_cmd(cmd_head);
+			head = ft_split_word(buffer, mini_struct);
+			if (ft_checktype_order(head) == 0)
+			{
+				cmd_head = ft_cmd_list(mini_struct, head);
+				ft_print_cmdlist(cmd_head);
+				free_list(head);
+				free_cmd(cmd_head);
+			}
+			else
+				free_list(head);
+			head = NULL;
+			free(buffer);
 		}
-		else
-			free_list(head);
-		head = NULL;
-		free(buffer);
 	}
 	free(mini_struct);		
 }
