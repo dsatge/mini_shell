@@ -45,6 +45,11 @@ typedef struct s_command_list
 	struct s_command_list *next_cmd;    
 }	t_command_list;
 
+typedef struct s_dir_list
+{
+	struct s_token	*element;
+	struct s_dir_list *next_dir;
+}	t_dir_list;
 
 typedef struct s_minish
 {
@@ -73,7 +78,7 @@ int				ft_checktype_order(t_token *element);
 t_token			*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_word);
 t_token			*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word);
 t_command_list	*ft_cmd_list(t_minish *mini_struct, t_token *element);
-t_command_list	*add_cmd_node(t_command_list *element, t_token *list_node);
+// t_command_list	*add_cmd_node(t_command_list *element, t_token *list_node);
 //TOKENISE_UTILS
 void			ft_token_type(t_token *element);
 int				ft_ispipe(t_token element);
@@ -85,9 +90,15 @@ void			signal_handle(void);
 void			sigint_handle(int signal);
 //FREE
 void			free_list(t_token *list);
+void			free_dir(struct s_dir_list *dir_list);
 void			free_all(t_token *list, t_minish *mini_struct);
 void			free_cmd(struct s_command_list *cmd_list);
 void			free_uplevel(int level, t_minish *minish, t_token *toklist, t_command_list *cmdlist, char *buff);
 // void	free_all(t_token *list, char **tab);
+//DIR_LIST
+t_dir_list		*ft_dir_list(t_minish *mini_struct, t_token *token_list);
+//PRINT_TEST_LIST
+t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list);
+t_dir_list	*ft_print_dirlist(struct s_dir_list *dir_list);
 
 #endif
