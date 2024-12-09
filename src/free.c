@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 03:40:34 by baiannon          #+#    #+#             */
-/*   Updated: 2024/11/29 19:25:54 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/09 16:09:08 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,21 @@ void	free_cmd(struct s_command_list *cmd_list)
 		free(tmp);
 	}
 	// ft_printf("list[%i] = %s\n", i, head->element->str);
+}
+
+void	free_dir(struct s_dir_list *dir_list)
+{
+	t_dir_list *tmp;
+	
+	if (!dir_list)
+		return ;
+	while (dir_list != NULL)
+	{
+		tmp = dir_list;
+		printf("free cmd: %p\n", dir_list->element);
+		dir_list = dir_list->next_dir;
+		free(tmp);
+	}
 }
 
 
