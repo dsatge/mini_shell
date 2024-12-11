@@ -3,12 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
+#    By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2024/12/09 15:38:46 by dsatge           ###   ########.fr        #
+#    Updated: 2024/12/11 15:28:34 by baiannon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME = minishell
 
@@ -19,6 +20,10 @@ SRC_FILES = main.c\
 			tokenise_utils.c\
 			free.c\
 			signal_handling.c\
+			builtins_handling.c\
+			ft_echo.c\
+			ft_pwd.c\
+			ft_cd.c
 			dir_list.c\
 			print_test_list.c\
 

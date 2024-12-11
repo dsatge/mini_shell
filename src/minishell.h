@@ -101,4 +101,11 @@ t_dir_list		*ft_dir_list(t_minish *mini_struct, t_token *token_list);
 t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list);
 t_dir_list	*ft_print_dirlist(struct s_dir_list *dir_list);
 
+// CAMMANDS
+
+int ft_echo(t_token *cmd);
+int	ft_builtin(t_token *cmd);
+int	ft_cd(t_token *cmd);
+int ft_pwd(t_token *cmd);
+
 #endif
