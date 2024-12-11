@@ -6,7 +6,7 @@
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/11 15:29:09 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:56:07 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	return (0);
 }
 
-int	main(void)
+int	main(int ac, char **av) // , char **env
 {
+	(void)ac;
+	(void)av;
 	char			*buffer;
 	int				buf_value;
 	t_minish		*mini_struct;
@@ -54,6 +56,7 @@ int	main(void)
 		if (buf_value == 0)
 		{
 			head = ft_split_word(buffer, mini_struct);
+			ft_builtin(head);
 			if (ft_checktype_order(head) == 0)
 			{
 				cmd_head = ft_cmd_list(mini_struct, head);

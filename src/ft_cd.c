@@ -6,23 +6,28 @@
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:25:14 by baiannon          #+#    #+#             */
-/*   Updated: 2024/12/08 16:39:45 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:43:00 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <errno.h>
 
 int	ft_cd(t_token *cmd)
 {
     char *path;
     char *home;
-
+	unsigned char exit_code;
+	
+	if (cmd->next != NULL && cmd->next->next != NULL && cmd->next->next->type == word)
+	{
+		ft_printf("cd: too many arguments\n");
+		return (1);
+	}
     if (!cmd->next || !cmd->next->str)
     {
         home = getenv("HOME");
         if (!home)
-            return(ft_printf("cd: HOME undefined\n"), 1);
+            return(ft_putstr_fd("cd: HOME undefined\n", 2), 1);
         path = home;
     }
     else
@@ -31,11 +36,14 @@ int	ft_cd(t_token *cmd)
         if (path[0] == '~') {
             home = getenv("HOME");
             if (!home)
-                return(ft_printf("cd: HOME undefined\n"), 1);
+                return(ft_putstr_fd("cd: HOME undefined\n", 2), 1);
             path = ft_strjoin(home, path + 1);
         }
     }
     if (chdir(path) == -1)
-        ft_printf("cd: %s: %s\n", path, strerror(errno));
+    {
+		ft_printf("cd: %s: %s\n", path, strerror(errno));
+		exit_code = 1;
+	}
     return (0);
 }

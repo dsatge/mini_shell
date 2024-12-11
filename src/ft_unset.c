@@ -1,28 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handling.c                                  :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 16:33:47 by baiannon          #+#    #+#             */
-/*   Updated: 2024/12/11 17:41:41 by baiannon         ###   ########.fr       */
+/*   Created: 2024/12/11 18:49:54 by baiannon          #+#    #+#             */
+/*   Updated: 2024/12/11 19:28:19 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	signal_handle(void)
+static int unset_env(char *ev)
 {
-	signal(SIGINT, sigint_handle);
-	signal(SIGQUIT, SIG_IGN);
+	t_token *cmd;
+	size_t len = ft_strlen(ev);
+	int i = 0;
+	int j;
+	
+	while(ev[i])
+	{	
+		if (ft_strcmp(ev, len) == 0 && ev[len] == '=')
+		{
+			free(ev);
+			j = i;
+			while(ev[j])
+			{
+				ev[j] = ev[j + 1];
+				j++;
+			}
+		break;
+		}
+		i++;
+	}
+	return (0);
 }
 
-void	sigint_handle(int signal)
+int ft_unset(t_token *cmd)
 {
-	g_error_code = signal + 128;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	cmd = cmd->next;
+    while (cmd)
+	{
+        unset_env(cmd->str);
+        cmd = cmd->next;
+    }
+	return (0);
 }

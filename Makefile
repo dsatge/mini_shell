@@ -6,7 +6,7 @@
 #    By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2024/12/11 15:28:34 by baiannon         ###   ########.fr        #
+#    Updated: 2024/12/11 19:26:22 by baiannon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRC_FILES = main.c\
 			builtins_handling.c\
 			ft_echo.c\
 			ft_pwd.c\
-			ft_cd.c
+			ft_cd.c\
+			ft_unset.c\
 			dir_list.c\
 			print_test_list.c\
 
