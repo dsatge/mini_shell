@@ -6,7 +6,7 @@
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/08 15:27:51 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:29:09 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,31 @@
 
 int g_error_code = 0;
 
-t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list)
+int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 {
-	t_command_list	*head;
-	int i;
-	
-	i = 0;
-	head = cmd_list;
-	if (!cmd_list)
-		return(ft_putstr_fd("Error no list in ft_print_cmdlist\n", 2), NULL);
-	ft_printf("command list:\n");
-	while (head != NULL)
+	if (!buffer)
 	{
-		printf("adress : %p list[%i] = %s  type = %d\n", head->element, i, head->element->str, head->element->type);
-		i++;
-		head = head->next_cmd;
+		free_all(token_list, mini_struct);
+		return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
 	}
-	return (cmd_list);
+	if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
+	{
+		free(buffer);
+		return (1);
+	}
+	add_history(buffer);
+	return (0);
 }
 
-
-int	main(int argc, char **argv)
+int	main(void)
 {
-	char	*buffer;
-	t_minish	*mini_struct;
+	char			*buffer;
+	int				buf_value;
+	t_minish		*mini_struct;
 	t_command_list	*cmd_head;
-	t_token		*head;
+	t_dir_list		*dir_list;
+	t_token			*head;
 	
-	(void)argc;
-	(void)argv;
 	head = NULL;
 	cmd_head = NULL;
 	mini_struct = malloc(sizeof(t_minish));
@@ -52,31 +48,27 @@ int	main(int argc, char **argv)
 	{
 		signal_handle();
 		buffer = readline(PROMPT);
-		if (!buffer)
+		buf_value = ft_buffer(buffer, head, mini_struct);
+		if ( buf_value == -1)
+			return (-1);
+		if (buf_value == 0)
 		{
-			free_all(head, mini_struct);
-			return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
-		}
-		if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
-		{
+			head = ft_split_word(buffer, mini_struct);
+			if (ft_checktype_order(head) == 0)
+			{
+				cmd_head = ft_cmd_list(mini_struct, head);
+				dir_list = ft_dir_list(mini_struct, head);
+				ft_print_cmdlist(cmd_head);
+				ft_print_dirlist(dir_list);
+				free_list(head);
+				free_cmd(cmd_head);
+				free_dir(dir_list);
+			}
+			else
+				free_list(head);
+			head = NULL;
 			free(buffer);
-			continue;
 		}
-		add_history(buffer);
-		head = ft_split_word(buffer, mini_struct);
-		// ft_echo(head); // A RETIRER
-		ft_builtin(head);
-		if (ft_checktype_order(head) == 0)
-		{
-			cmd_head = ft_cmd_list(mini_struct, head);
-			ft_print_cmdlist(cmd_head);
-			free_list(head);
-			free_cmd(cmd_head);
-		}
-		else
-			free_list(head);
-		head = NULL;
-		free(buffer);
 	}
 	free(mini_struct);		
 }

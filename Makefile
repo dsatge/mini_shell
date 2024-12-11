@@ -6,14 +6,16 @@
 #    By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2024/12/08 15:39:08 by baiannon         ###   ########.fr        #
+#    Updated: 2024/12/11 15:28:34 by baiannon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME = minishell
 
 SRC_FILES = main.c\
 			line_to_words.c\
+			line_to_words_utils.c\
 			tokenise.c\
 			tokenise_utils.c\
 			free.c\
@@ -22,6 +24,8 @@ SRC_FILES = main.c\
 			ft_echo.c\
 			ft_pwd.c\
 			ft_cd.c
+			dir_list.c\
+			print_test_list.c\
 
 FLAGS = -Wall -Wextra -Werror -I includes/ -g
 
