@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/06 19:10:42 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/18 08:52:03 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,10 @@ char	*ft_join_quotes(char *buffer, int *i, char *tmp)
 t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
 {
 	int i;
-	int	word;
 	int	first_word;
 	t_token	*head;
 
 	i = 0;
-	word = 0;
 	first_word = 0;
 	mini_struct->element = malloc(sizeof(t_token));
 	if (!mini_struct)

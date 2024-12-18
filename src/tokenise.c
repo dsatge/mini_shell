@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/09 15:22:52 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/18 08:50:16 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,44 +89,44 @@ t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word)
 }
 
 
-static t_command_list	*add_cmd_node(t_command_list *cmd_list, t_token *token_list)
-{
-	t_command_list	*new_node;
+// static t_command_list	*add_cmd_node(t_command_list *cmd_list, t_token *token_list)
+// {
+// 	t_command_list	*new_node;
 
-	if (!token_list)
-		return (NULL);
-	while (cmd_list && cmd_list->next_cmd)
-		cmd_list = cmd_list->next_cmd;
-	new_node = malloc(sizeof(t_command_list));
-	if (!new_node)
-		return (ft_putstr_fd("Error malloc add_cmd_node\n", 2), NULL);
-	new_node->element = token_list;
-	new_node->next_cmd = NULL;
-	if (cmd_list)
-		cmd_list->next_cmd = new_node;
-	return (new_node);
-}
+// 	if (!token_list)
+// 		return (NULL);
+// 	while (cmd_list && cmd_list->next_cmd)
+// 		cmd_list = cmd_list->next_cmd;
+// 	new_node = malloc(sizeof(t_command_list));
+// 	if (!new_node)
+// 		return (ft_putstr_fd("Error malloc add_cmd_node\n", 2), NULL);
+// 	new_node->element = token_list;
+// 	new_node->next_cmd = NULL;
+// 	if (cmd_list)
+// 		cmd_list->next_cmd = new_node;
+// 	return (new_node);
+// }
 
-t_command_list	*ft_cmd_list(t_minish *mini_struct, t_token *token_list)
-{
-	t_command_list	*cmd_list;
-	t_command_list	*head;
+// t_command_list	*ft_cmd_list(t_minish *mini_struct, t_token *token_list)
+// {
+// 	t_command_list	*cmd_list;
+// 	t_command_list	*head;
 
-	(void)mini_struct;
-	cmd_list = NULL;
-	head = NULL;
-	if (!token_list)
-		return (ft_putstr_fd("Error no element in ft_cmd_list\n", 2), NULL);
-	while (token_list)
-	{
-		cmd_list = add_cmd_node(cmd_list, token_list);
-		if (head == NULL)
-			head = cmd_list;
-		while (token_list->next && token_list->type != pip)
-			token_list = token_list->next;
-		if (!token_list->next)
-			break;	
-		token_list = token_list->next;
-	}
-	return (head);
-}
+// 	(void)mini_struct;
+// 	cmd_list = NULL;
+// 	head = NULL;
+// 	if (!token_list)
+// 		return (ft_putstr_fd("Error no element in ft_cmd_list\n", 2), NULL);
+// 	while (token_list)
+// 	{
+// 		cmd_list = add_cmd_node(cmd_list, token_list);
+// 		if (head == NULL)
+// 			head = cmd_list;
+// 		while (token_list->next && token_list->type != pip)
+// 			token_list = token_list->next;
+// 		if (!token_list->next)
+// 			break;	
+// 		token_list = token_list->next;
+// 	}
+// 	return (head);
+// }
