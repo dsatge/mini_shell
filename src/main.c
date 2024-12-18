@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/18 09:01:50 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/18 09:22:52 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	if (!buffer)
 	{
 		free_list(token_list);
+		free(mini_struct);
 		return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
 	}
 	if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed

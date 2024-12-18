@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/18 09:06:05 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/18 09:15:22 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	free_list(t_token *list)
 {
 	t_token *tmp;
     
+	tmp = NULL;
 	if (!list)
 		return ;
 	while (list)
