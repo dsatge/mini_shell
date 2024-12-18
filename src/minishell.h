@@ -39,6 +39,26 @@ typedef struct s_token
 	struct s_token *next;
 }	t_token;
 
+typedef struct s_cmd
+{
+	char	**tab;
+}	t_cmd;
+
+typedef struct	s_structlist
+{
+	t_list	*head;
+	t_list	*tail;
+	int		list_len;
+}	t_structlist;
+
+typedef struct s_list
+{
+	t_list	*next;
+	t_list	*prev;
+	t_cmd	*cmd;
+	t_structlist	*key_p;
+}	t_list;
+
 typedef struct s_minish
 {
 	t_token			*element;

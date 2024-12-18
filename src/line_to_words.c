@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/18 08:52:03 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/18 09:27:04 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
 
 	word = NULL;
 	start = *i;
-	printf("|||||||||||| i = %i = %c", *i, buffer[*i]);
 	if (is_redir_pipe(buffer[*i]) == true){
 		word = redir_pipe_to_word(buffer, i);
 		return (ft_tokenise_pipe_redir(word, *mini_struct, first_word), 0);

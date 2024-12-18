@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/18 08:50:16 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/18 09:28:51 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_wor
 {
 	t_token	*new_node;
 
-	printf(" received = %s\n", word);
 	if (first_word == 0)
 	{
 		mini_struct->element->str = word;
@@ -63,7 +62,6 @@ t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word)
 {
 	t_token	*new_node;
 
-	printf("received = %s\n", word);
 	if (first_word == 0)
 	{
 		mini_struct->element->str = word;
