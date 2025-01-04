@@ -6,7 +6,7 @@
 #    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2024/12/18 08:54:44 by dsatge           ###   ########.fr        #
+#    Updated: 2024/12/19 12:36:51 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC_FILES = main.c\
 			signal_handling.c\
 			print_test_list.c\
 			free.c\
+			list.c\
 
 FLAGS = -Wall -Wextra -Werror -I includes/ -g
 

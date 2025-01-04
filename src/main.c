@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/18 09:22:52 by dsatge           ###   ########.fr       */
+/*   Updated: 2024/12/19 13:44:44 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ int	main(void)
 	int				buf_value;
 	t_minish		*mini_struct;
 	t_token			*head;
+	t_list			*cmds;
 	
 	head = NULL;
+	cmds = NULL;
 	mini_struct = malloc(sizeof(t_minish));
 	if (!mini_struct)
 		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
@@ -56,6 +58,7 @@ int	main(void)
 			head = ft_split_word(buffer, mini_struct);
 			if (ft_checktype_order(head) == 0)
 			{
+				cmds = cmds_list(head);
 				free_list(head);
 			}
 			else
