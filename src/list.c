@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/19 13:46:21 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/08 17:58:14 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ t_list	*cmds_list(t_token *list)
 		return (NULL);
 	while (list)
 	{
-		cmds->cmd = ft_cmd(list);//ft t_cmd add tab
-		if (!cmds->key_p.)
-			cmds->key_p->head = cmds;
+		ft_cmd(list, cmds->cmd);//ft t_cmd add tab
+		if (!cmds->key_p->head)
+			cmds->key_p->head = &cmds->cmd;
 		cmds->key_p->list_len++;
 		cmds->prev = cmds;
-		cmds = cmds->next;
-		cmds->key_p->tail = cmds;
+		cmds->key_p->tail = &cmds->cmd;
 		cmds->next = NULL;
-		while (list || list->type != pip)
+		cmds = cmds->next;
+		while (list && list->type != pip)
 			list = list->next;
 	}
 	return (cmds);
@@ -51,41 +51,40 @@ int	init_cmds_list(t_list *cmds)
 	return (0);
 }
 
-t_cmd	*ft_cmd(t_token *list)
+int	ft_cmd(t_token *list, t_cmd *cmd)
 {
-	t_cmd	*cmd;
-
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
-		return (NULL);
-	cmd->tab = tab_cmds(list); //ajouter fonction tableau cmds
-	return (cmd);
+		return (-1);
+	if (tab_cmds(list, cmd->tab) == -1)
+		return (-1); //ajouter fonction tableau cmds
+	return (0);
 }
 
-char **tab_cmds(t_token *list)
+int	tab_cmds(t_token *list, char **tab)
 {
 	int		tab_len;
 	int		i;
 	t_token	*current;
-	char	**tab;
 
 	tab_len = 0;
 	i = 0;
 	current = list;
-	while (current || current->type != pip)
+	while (current && current->type != pip)
 	{
 		tab_len++;
 		current = current->next;
 	}
 	current = list;
-	tab = malloc(sizeof(char *) * (tab_len + 1));
+	tab = calloc(sizeof(char *), (tab_len + 1));
 	if (!tab)
-		return (NULL);
-	while (current || current->type != pip)
+		return (-1);
+	while (current && current->type != pip)
 	{
 		tab[i] = ft_strdup(current->str);
 		i++;
+		current = current->next;
 	}
 	tab[i] = 0;
-	return (tab);
+	return (0);
 }
