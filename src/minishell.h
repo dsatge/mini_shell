@@ -46,21 +46,30 @@ typedef struct s_token
 	struct s_token *next;
 }	t_token;
 
-typedef struct s_command_list
+typedef struct s_cmd
 {
-	struct s_token	*element;
-	struct s_command_list *next_cmd;    
-}	t_command_list;
+	char	**tab;
+}	t_cmd;
 
-typedef struct s_dir_list
+typedef struct	s_structlist
 {
-	struct s_token	*element;
-	struct s_dir_list *next_dir;
-}	t_dir_list;
+	t_cmd	**head;
+	t_cmd	**tail;
+	int		list_len;
+}	t_structlist;
+
+typedef struct s_list
+{
+	struct s_list	*next;
+	struct s_list	*prev;
+	t_cmd	*cmd;
+	t_structlist	*key_p;
+}	t_list;
+
+
 
 typedef struct s_minish
 {
-	t_command_list	*cmd;
 	t_token			*element;
 	t_type			*type;
 	t_quote			*quote;
@@ -68,7 +77,6 @@ typedef struct s_minish
 
 
 //MAIN
-t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list);
 int				ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct);
 //LINE_TO_WORDS_UTILS
 bool			is_White_Space(char c);
@@ -84,29 +92,22 @@ t_token			*ft_split_word(char *buffer, t_minish *mini_struct);
 int				ft_checktype_order(t_token *element);
 t_token			*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_word);
 t_token			*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word);
-t_command_list	*ft_cmd_list(t_minish *mini_struct, t_token *element);
-// t_command_list	*add_cmd_node(t_command_list *element, t_token *list_node);
 //TOKENISE_UTILS
 void			ft_token_type(t_token *element);
 int				ft_ispipe(t_token element);
 int				ft_isredir(t_token element);
 char			*word_from_str(char *buffer, int start, int end);
-t_command_list	*init_list(char *buffer, t_minish *minish, t_command_list *cmd_list, t_token *tok_list);
 //SIGNAUX
 void			signal_handle(void);
 void			sigint_handle(int signal);
 //FREE
 void			free_list(t_token *list);
-void			free_dir(struct s_dir_list *dir_list);
-void			free_all(t_token *list, t_minish *mini_struct);
-void			free_cmd(struct s_command_list *cmd_list);
-void			free_uplevel(int level, t_minish *minish, t_token *toklist, t_command_list *cmdlist, char *buff);
-// void	free_all(t_token *list, char **tab);
-//DIR_LIST
-t_dir_list		*ft_dir_list(t_minish *mini_struct, t_token *token_list);
+//LIST
+t_list			*cmds_list(t_token *list);
+int				init_cmds_list(t_list *cmds);
+int				ft_cmd(t_token *list, t_cmd *cmd);
+int				tab_cmds(t_token *list, char **tab);
 //PRINT_TEST_LIST
-t_command_list	*ft_print_cmdlist(struct s_command_list *cmd_list);
-t_dir_list	*ft_print_dirlist(struct s_dir_list *dir_list);
 
 // CAMMANDS
 

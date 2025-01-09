@@ -6,7 +6,7 @@
 #    By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2024/12/11 19:26:22 by baiannon         ###   ########.fr        #
+#    Updated: 2024/12/19 12:36:51 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,6 @@ SRC_FILES = main.c\
 			line_to_words_utils.c\
 			tokenise.c\
 			tokenise_utils.c\
-			free.c\
 			signal_handling.c\
 			builtins_handling.c\
 			ft_echo.c\
@@ -26,6 +25,8 @@ SRC_FILES = main.c\
 			ft_cd.c\
 			dir_list.c\
 			print_test_list.c\
+			free.c\
+			list.c\
 
 FLAGS = -Wall -Wextra -Werror -I includes/ -g
 

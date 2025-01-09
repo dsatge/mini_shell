@@ -6,7 +6,7 @@
 /*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/11 15:56:07 by baiannon         ###   ########.fr       */
+/*   Updated: 2024/12/19 13:44:44 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@ int g_error_code = 0;
 
 int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 {
+	(void)token_list;
+	(void)mini_struct;
 	if (!buffer)
 	{
-		free_all(token_list, mini_struct);
+		free_list(token_list);
+		free(mini_struct);
 		return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
 	}
 	if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
@@ -37,12 +40,11 @@ int	main(int ac, char **av) // , char **env
 	char			*buffer;
 	int				buf_value;
 	t_minish		*mini_struct;
-	t_command_list	*cmd_head;
-	t_dir_list		*dir_list;
 	t_token			*head;
+	t_list			*cmds;
 	
 	head = NULL;
-	cmd_head = NULL;
+	cmds = NULL;
 	mini_struct = malloc(sizeof(t_minish));
 	if (!mini_struct)
 		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
@@ -59,13 +61,8 @@ int	main(int ac, char **av) // , char **env
 			ft_builtin(head);
 			if (ft_checktype_order(head) == 0)
 			{
-				cmd_head = ft_cmd_list(mini_struct, head);
-				dir_list = ft_dir_list(mini_struct, head);
-				ft_print_cmdlist(cmd_head);
-				ft_print_dirlist(dir_list);
+				cmds = cmds_list(head);
 				free_list(head);
-				free_cmd(cmd_head);
-				free_dir(dir_list);
 			}
 			else
 				free_list(head);
