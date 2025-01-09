@@ -18,8 +18,8 @@ int	ft_builtin(t_token *cmd)
 		return(ft_echo(cmd), 0);
 	else if (ft_strcmp(cmd->str, "cd") == 0)
 		return(ft_cd(cmd), 0);
-	else if (ft_strcmp(cmd->str, "unset") == 0)
-		return(ft_unset(cmd), 0);
+	// else if (ft_strcmp(cmd->str, "unset") == 0)
+	// 	return(ft_unset(cmd), 0);
 	// else if (ft_strcmp(cmd->str, "exit") == 0)
 	// 	return(ft_exit(cmd), 0);
 	// else if (ft_strcmp(cmd->str, "env") == 0)

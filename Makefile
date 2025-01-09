@@ -24,7 +24,6 @@ SRC_FILES = main.c\
 			ft_echo.c\
 			ft_pwd.c\
 			ft_cd.c\
-			ft_unset.c\
 			dir_list.c\
 			print_test_list.c\
 

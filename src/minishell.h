@@ -111,7 +111,6 @@ t_dir_list	*ft_print_dirlist(struct s_dir_list *dir_list);
 // CAMMANDS
 
 int	ft_builtin(t_token *cmd);
-int ft_unset(t_token *cmd);
 int ft_echo(t_token *cmd);
 int ft_pwd(t_token *cmd);
 int	ft_cd(t_token *cmd);
