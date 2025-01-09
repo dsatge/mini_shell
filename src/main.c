@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
 /*   Updated: 2024/12/19 13:44:44 by dsatge           ###   ########.fr       */
@@ -33,8 +33,10 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	return (0);
 }
 
-int	main(void)
+int	main(int ac, char **av) // , char **env
 {
+	(void)ac;
+	(void)av;
 	char			*buffer;
 	int				buf_value;
 	t_minish		*mini_struct;
@@ -56,6 +58,7 @@ int	main(void)
 		if (buf_value == 0)
 		{
 			head = ft_split_word(buffer, mini_struct);
+			ft_builtin(head);
 			if (ft_checktype_order(head) == 0)
 			{
 				cmds = cmds_list(head);
