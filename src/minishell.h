@@ -13,6 +13,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <signal.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -31,6 +32,12 @@ typedef enum s_type
 	redir,
 	word,
 }	t_type;
+
+typedef struct s_env
+{
+	char				*name;
+	struct s_env		*next;
+}						t_env;
 
 typedef struct s_token
 {
@@ -101,5 +108,12 @@ int				init_cmds_list(t_list *cmds);
 int				ft_cmd(t_token *list, t_cmd *cmd);
 int				tab_cmds(t_token *list, char **tab);
 //PRINT_TEST_LIST
+
+// CAMMANDS
+
+int	ft_builtin(t_token *cmd);
+int ft_echo(t_token *cmd);
+int ft_pwd(t_token *cmd);
+int	ft_cd(t_token *cmd);
 
 #endif
