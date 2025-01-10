@@ -51,22 +51,20 @@ typedef struct s_cmd
 	char	**tab;
 }	t_cmd;
 
-typedef struct	s_structlist
-{
-	t_cmd	**head;
-	t_cmd	**tail;
-	int		list_len;
-}	t_structlist;
+// typedef struct	s_structlist
+// {
+// 	t_cmd	**head;
+// 	t_cmd	**tail;
+// 	int		list_len;
+// }	t_structlist;
 
 typedef struct s_list
 {
 	struct s_list	*next;
 	struct s_list	*prev;
 	t_cmd	*cmd;
-	t_structlist	*key_p;
+	// t_structlist	*key_p;
 }	t_list;
-
-
 
 typedef struct s_minish
 {
@@ -103,17 +101,17 @@ void			sigint_handle(int signal);
 //FREE
 void			free_list(t_token *list);
 //LIST
-t_list			*cmds_list(t_token *list);
+int				cmds_list(t_token *list, t_list *cmds);
 int				init_cmds_list(t_list *cmds);
-int				ft_cmd(t_token *list, t_cmd *cmd);
-int				tab_cmds(t_token *list, char **tab);
+int				ft_cmd(t_token *list, t_list *cmds);
+int				tab_cmds(t_token *list, t_list *cmds);
 //PRINT_TEST_LIST
 
 // CAMMANDS
 
-int	ft_builtin(t_token *cmd);
-int ft_echo(t_token *cmd);
-int ft_pwd(t_token *cmd);
-int	ft_cd(t_token *cmd);
+int				ft_builtin(t_list *cmds);
+int				ft_echo(char **cmd);
+// int				ft_pwd(t_token *cmd);
+// int				ft_cd(t_token *cmd);
 
 #endif

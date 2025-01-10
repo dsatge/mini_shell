@@ -6,35 +6,37 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/09 16:45:53 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/10 19:56:12 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-t_list	*cmds_list(t_token *list)
+int	cmds_list(t_token *list, t_list *cmds)
 {
-	t_list  *cmds;
-
-	cmds = malloc(sizeof(t_list));
-	if (!cmds)
-		return (NULL);
+	t_list *node;
+	
 	if (init_cmds_list(cmds) == -1)
-		return (NULL);
+		return (-1);
 	while (list)
 	{
-		ft_cmd(list, cmds->cmd);//ft t_cmd add tab
-		if (!cmds->key_p->head)
-			cmds->key_p->head = &cmds->cmd;
-		cmds->key_p->list_len++;
-		cmds->prev = cmds;
-		cmds->key_p->tail = &cmds->cmd;
-		cmds->next = NULL;
-		cmds = cmds->next;
+		node = malloc(sizeof(t_list));
+			if (!node)
+				return (-1);
+		ft_cmd(list, node);//ft t_cmd add tab
+		node->prev = cmds;
+		node->next = NULL;
 		while (list && list->type != pip)
 			list = list->next;
+		if (list && list->type == pip)
+			list = list->next;
+		cmds->next = node;
+		cmds = cmds->next;
 	}
-	return (cmds);
+	printf("CMMMDSSS = %s\n", cmds->cmd->tab[0]);
+	printf("CMDS PREV = %s\n", cmds->prev->cmd->tab[0]);
+	// printf("CMMMMDS 2 = %s\n", cmds->next->cmd->tab[0]);
+	return (0);
 }
 
 int	init_cmds_list(t_list *cmds)
@@ -42,26 +44,20 @@ int	init_cmds_list(t_list *cmds)
 	cmds->prev = NULL;
 	cmds->next = NULL;
 	cmds->cmd = NULL;
-	cmds->key_p = malloc(sizeof(t_structlist));
-	if (!cmds->key_p)
-		return (-1);
-	cmds->key_p->head = NULL;
-	cmds->key_p->tail = NULL;
-	cmds->key_p->list_len = 0;
 	return (0);
 }
 
-int	ft_cmd(t_token *list, t_cmd *cmd)
+int	ft_cmd(t_token *list, t_list *cmds)
 {
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
+	cmds->cmd = malloc(sizeof(t_cmd));
+	if (!cmds->cmd)
 		return (-1);
-	if (tab_cmds(list, cmd->tab) == -1)
+	if (tab_cmds(list, cmds) == -1)
 		return (-1); //ajouter fonction tableau cmds
 	return (0);
 }
 
-int	tab_cmds(t_token *list, char **tab)
+int	tab_cmds(t_token *list, t_list *cmds)
 {
 	int		tab_len;
 	int		i;
@@ -76,15 +72,16 @@ int	tab_cmds(t_token *list, char **tab)
 		current = current->next;
 	}
 	current = list;
-	tab = calloc(sizeof(char *), (tab_len + 1));
-	if (!tab)
+	cmds->cmd->tab = ft_calloc(sizeof(char*), (tab_len + 1));
+	if (!cmds->cmd->tab)
 		return (-1);
 	while (current && current->type != pip)
 	{
-		tab[i] = ft_strdup(current->str);
+		cmds->cmd->tab[i] = ft_strdup(current->str);
+		printf("tab = %s\n", cmds->cmd->tab[i]);
 		i++;
 		current = current->next;
 	}
-	tab[i] = 0;
+	cmds->cmd->tab[i] = 0;
 	return (0);
 }

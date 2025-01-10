@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_handling.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2024/12/11 19:04:38 by baiannon         ###   ########.fr       */
+/*   Updated: 2025/01/10 19:20:17 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_builtin(t_token *cmd)
+int	ft_builtin(t_list *cmds)
 {
-	if (ft_strcmp(cmd->str, "echo") == 0)
-		return(ft_echo(cmd), 0);
-	else if (ft_strcmp(cmd->str, "cd") == 0)
-		return(ft_cd(cmd), 0);
+	if (!cmds)
+		return (1);
+	if (ft_strcmp(cmds->cmd->tab[0], "echo") == 0)
+		return(ft_echo(cmds->cmd->tab), 0);
+	// else if (ft_strcmp(cmds->cmd->tab[0], "cd") == 0)
+	// 	return(ft_cd(cmds->cmd->tab), 0);
 	// else if (ft_strcmp(cmd->str, "unset") == 0)
 	// 	return(ft_unset(cmd), 0);
 	// else if (ft_strcmp(cmd->str, "exit") == 0)
@@ -26,7 +28,7 @@ int	ft_builtin(t_token *cmd)
 	// 	return(ft_env(cmd->str), 0);
 	// else if (ft_strcmp(cmd->str, "export") == 0)
 	// 	return(ft_export(cmd->str), 0);
-	else if (ft_strcmp(cmd->str, "pwd") == 0)
-		return(ft_pwd(cmd), 0);
+	// else if (ft_strcmp(cmds->cmd->tab[0], "pwd") == 0)
+	// 	return(ft_pwd(cmds->cmd->tab), 0);
 	return (1);
 }
