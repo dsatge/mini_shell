@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/01/10 19:20:17 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/13 13:15:45 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_builtin(t_list *cmds)
 {
 	if (!cmds)
 		return (1);
+	printf("test %s\n", cmds->cmd->tab[0]);
 	if (ft_strcmp(cmds->cmd->tab[0], "echo") == 0)
 		return(ft_echo(cmds->cmd->tab), 0);
 	// else if (ft_strcmp(cmds->cmd->tab[0], "cd") == 0)

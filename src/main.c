@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/10 19:45:36 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/13 13:18:17 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ int	main(int ac, char **av) // , char **env
 				if (!cmds)
 					return (1);
 				cmds_list(head, cmds);
+				printf("cmds ICI = %s\n", cmds->cmd->tab[0]);
 				while (cmds)
 				{
-					printf("cmds = %s\n", cmds->cmd->tab[0]);
 					// printf("cmds 2eme = %s\n", cmds->next->cmd->tab[0]);
 					ft_builtin(cmds);
 					cmds = cmds->next;

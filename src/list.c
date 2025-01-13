@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/10 19:56:12 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/13 13:54:04 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,23 @@ int	cmds_list(t_token *list, t_list *cmds)
 			if (!node)
 				return (-1);
 		ft_cmd(list, node);//ft t_cmd add tab
-		node->prev = cmds;
+		// node->prev = cmds;
 		node->next = NULL;
 		while (list && list->type != pip)
 			list = list->next;
 		if (list && list->type == pip)
 			list = list->next;
 		cmds->next = node;
+		node->prev = cmds;
 		cmds = cmds->next;
 	}
-	printf("CMMMDSSS = %s\n", cmds->cmd->tab[0]);
-	printf("CMDS PREV = %s\n", cmds->prev->cmd->tab[0]);
+	while (cmds && cmds->prev)
+	{
+		printf("CMMMDSSS = %s\n", cmds->cmd->tab[0]);
+		cmds = cmds->prev;
+	}
+	// cmds = cmds->prev;
+	// printf("CMDS PREV = %s\n", cmds->prev->cmd->tab[0]);
 	// printf("CMMMMDS 2 = %s\n", cmds->next->cmd->tab[0]);
 	return (0);
 }
