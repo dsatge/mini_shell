@@ -102,7 +102,7 @@ void			sigint_handle(int signal);
 void			free_list(t_token *list);
 //LIST
 int				cmds_list(t_token *list, t_list *cmds);
-int				init_cmds_list(t_list *cmds);
+int				init_cmds_list(t_list *cmds, t_token *list);
 int				ft_cmd(t_token *list, t_list *cmds);
 int				tab_cmds(t_token *list, t_list *cmds);
 //PRINT_TEST_LIST

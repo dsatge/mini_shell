@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/13 13:54:04 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/13 17:31:47 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@ int	cmds_list(t_token *list, t_list *cmds)
 {
 	t_list *node;
 	
-	if (init_cmds_list(cmds) == -1)
+	if (init_cmds_list(cmds, list) == -1)
 		return (-1);
 	while (list)
 	{
 		node = malloc(sizeof(t_list));
-			if (!node)
-				return (-1);
+		if (!node)
+			return (-1);
 		ft_cmd(list, node);//ft t_cmd add tab
-		// node->prev = cmds;
 		node->next = NULL;
 		while (list && list->type != pip)
 			list = list->next;
@@ -35,21 +34,22 @@ int	cmds_list(t_token *list, t_list *cmds)
 		cmds = cmds->next;
 	}
 	while (cmds && cmds->prev)
-	{
-		printf("CMMMDSSS = %s\n", cmds->cmd->tab[0]);
 		cmds = cmds->prev;
-	}
-	// cmds = cmds->prev;
-	// printf("CMDS PREV = %s\n", cmds->prev->cmd->tab[0]);
-	// printf("CMMMMDS 2 = %s\n", cmds->next->cmd->tab[0]);
 	return (0);
 }
 
-int	init_cmds_list(t_list *cmds)
+int	init_cmds_list(t_list *cmds, t_token *list)
 {
 	cmds->prev = NULL;
 	cmds->next = NULL;
-	cmds->cmd = NULL;
+	if (!list)
+		cmds->cmd = NULL;
+	else
+	{
+		ft_cmd(list, cmds);
+		while (list && list->type != pip)
+			list = list->next;
+	}
 	return (0);
 }
 
@@ -84,7 +84,6 @@ int	tab_cmds(t_token *list, t_list *cmds)
 	while (current && current->type != pip)
 	{
 		cmds->cmd->tab[i] = ft_strdup(current->str);
-		printf("tab = %s\n", cmds->cmd->tab[i]);
 		i++;
 		current = current->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/18 09:15:22 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/13 17:45:32 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,23 @@ void	free_list(t_token *list)
 		}
 		free(tmp);
 	}
+}
+
+void	free_cmds(t_list *cmds)
+{
+	t_list	*tmp;
+	
+	while (cmds)
+	{
+		free_tab(cmds->cmd);
+		tmp = cmds;
+		cmds = cmds->next;
+		cmds->prev = NULL;
+		free(tmp);
+	}
+}
+
+void	free_tab(char **tab)
+{
+	while (tab)
 }
