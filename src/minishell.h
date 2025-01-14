@@ -100,6 +100,8 @@ void			signal_handle(void);
 void			sigint_handle(int signal);
 //FREE
 void			free_list(t_token *list);
+void			free_cmds(t_list *cmds);
+void			free_tab(char **tab);
 //LIST
 int				cmds_list(t_token *list, t_list *cmds);
 int				init_cmds_list(t_list *cmds, t_token *list);
