@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/13 17:31:47 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/15 16:20:57 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,31 @@
 int	cmds_list(t_token *list, t_list *cmds)
 {
 	t_list *node;
+	int	i;
 	
+	i = 0;
 	if (init_cmds_list(cmds, list) == -1)
 		return (-1);
 	while (list)
 	{
-		node = malloc(sizeof(t_list));
-		if (!node)
-			return (-1);
-		ft_cmd(list, node);//ft t_cmd add tab
-		node->next = NULL;
+		if (i > 0)
+		{
+			node = malloc(sizeof(t_list));
+			if (!node)
+				return (-1);
+			ft_cmd(list, node);//ft t_cmd add tab
+			node->next = NULL;
+			node->head = cmds->head;
+			cmds->next = node;
+			node->prev = cmds;
+		}
 		while (list && list->type != pip)
 			list = list->next;
 		if (list && list->type == pip)
 			list = list->next;
-		cmds->next = node;
-		node->prev = cmds;
 		cmds = cmds->next;
+		i++;
 	}
-	while (cmds && cmds->prev)
-		cmds = cmds->prev;
 	return (0);
 }
 
@@ -42,11 +47,13 @@ int	init_cmds_list(t_list *cmds, t_token *list)
 {
 	cmds->prev = NULL;
 	cmds->next = NULL;
+	cmds->head = NULL;
 	if (!list)
 		cmds->cmd = NULL;
 	else
 	{
 		ft_cmd(list, cmds);
+		cmds->head = cmds;
 		while (list && list->type != pip)
 			list = list->next;
 	}

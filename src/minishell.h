@@ -62,6 +62,7 @@ typedef struct s_list
 {
 	struct s_list	*next;
 	struct s_list	*prev;
+	struct s_list	*head;
 	t_cmd	*cmd;
 	// t_structlist	*key_p;
 }	t_list;
