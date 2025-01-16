@@ -13,6 +13,8 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <signal.h>
+# include <unistd.h>
+# include <sys/types.h>
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -49,7 +51,15 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	char	**tab;
+	t_type type;
 }	t_cmd;
+
+typedef struct s_pipe
+{
+	int		pipe_fd[2];
+	char	*file;
+	char	**env;
+}	t_pipe;
 
 // typedef struct	s_structlist
 // {
@@ -111,10 +121,13 @@ int				tab_cmds(t_token *list, t_list *cmds);
 //PRINT_TEST_LIST
 
 // CAMMANDS
-
 int				ft_builtin(t_list *cmds);
 int				ft_echo(char **cmd);
 // int				ft_pwd(t_token *cmd);
 // int				ft_cd(t_token *cmd);
 
+//EXEC
+void			exe_cmd(t_list *cmds, t_pipe pipex);
+void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
+int				ft_exec(t_list *cmds, char **env);
 #endif
