@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/19 13:44:44 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/16 12:55:17 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,21 @@ int	main(int ac, char **av) // , char **env
 		if (buf_value == 0)
 		{
 			head = ft_split_word(buffer, mini_struct);
-			ft_builtin(head);
 			if (ft_checktype_order(head) == 0)
 			{
-				cmds = cmds_list(head);
+				cmds = malloc(sizeof(t_list));
+				if (!cmds)
+					return (1);
+				cmds_list(head, cmds);
+				while (cmds && cmds->next)
+				{
+					ft_builtin(cmds);
+					cmds = cmds->next;
+					if (!cmds->next)
+						ft_builtin(cmds);
+				}
 				free_list(head);
+				free_cmds(cmds);
 			}
 			else
 				free_list(head);

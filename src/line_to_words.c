@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/18 09:27:04 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/10 18:26:19 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,24 @@ int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
 
 	word = NULL;
 	start = *i;
+	tmp = NULL;
 	if (is_redir_pipe(buffer[*i]) == true){
 		word = redir_pipe_to_word(buffer, i);
 		return (ft_tokenise_pipe_redir(word, *mini_struct, first_word), 0);
 	}
 	while (buffer[*i] && is_redir_pipe(buffer[*i]) == false && is_White_Space(buffer[*i]) == false)
 	{
-		if (buffer[*i] == '\'' || buffer[*i] == '"'){
+		if (buffer[*i] == '\'' || buffer[*i] == '"')
+		{
 			if (start != *i){
 				tmp = letters_to_word(word, buffer, start, *i);
 				if (!tmp)
 					return (-1);
 			}
 			else if (word && start == *i)
+			{
 				tmp = word;
+			}
 			word = ft_join_quotes(buffer, i, tmp);
 			if (!word)
 				return (-1);
@@ -89,6 +93,8 @@ char	*letters_to_word(char *word, char *buffer, int start, int i)
 	if (word)
 	{
 		joined_word = ft_strjoin(word, joined_letters);
+		if (!joined_word)
+			return (ft_putstr_fd("Error ft_strjoin: letters_to_word", 2), NULL);
 		return (free(word), free(joined_letters), joined_word);
 	}
 	return (joined_letters);
@@ -106,6 +112,8 @@ char	*ft_join_quotes(char *buffer, int *i, char *tmp)
 	if (tmp)
 	{
 		joined_words = ft_strjoin(tmp, quote_word);
+		if (!joined_words)
+			return (ft_putstr_fd("Error ft_strjoin: ft_join_quotes", 2), NULL);
 		return (free(quote_word), free(tmp), joined_words);
 	}
 	return (quote_word);
@@ -120,7 +128,7 @@ t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
 	i = 0;
 	first_word = 0;
 	mini_struct->element = malloc(sizeof(t_token));
-	if (!mini_struct)
+	if (!mini_struct->element)
 		return (NULL);
 	mini_struct->element->str = NULL;
 	head = mini_struct->element;

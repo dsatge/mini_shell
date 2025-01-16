@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:36:45 by baiannon          #+#    #+#             */
-/*   Updated: 2024/12/04 17:17:03 by baiannon         ###   ########.fr       */
+/*   Updated: 2025/01/10 19:26:10 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,29 @@ static int check_flagN(char *s)
 	return (EXIT_SUCCESS);
 }
 
-int ft_echo(t_token *cmd)
+int ft_echo(char **cmd)
 {
-	int flag = 0;
-	cmd = cmd->next;
-	if (!cmd)
+	int flag;
+	int	i;
+
+	flag = 0;
+	i = 1;
+	if (!cmd[i])
 	{
 		ft_printf("\n");
 		return(0);
 	}
-	while (cmd->str && cmd->str[0] == '-' && check_flagN(cmd->str + 1))
+	while (cmd[i] && cmd[i][0] == '-' && check_flagN(cmd[i]))
 	{
 		flag = 1;
-		cmd = cmd->next;
+		i++;
 	}
-	while (cmd)
+	while (cmd[i])
 	{
-		ft_printf("%s", cmd->str);
-		if (cmd->str)
+		ft_printf("%s", cmd[i]);
+		if (cmd[i + 1] != 0)
 			ft_printf(" ");
-		cmd = cmd->next;
+		i++;
 	}
 	if (!flag)
 		ft_printf("\n");
