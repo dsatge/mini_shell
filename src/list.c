@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/15 16:20:57 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/16 12:47:38 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ int	cmds_list(t_token *list, t_list *cmds)
 				return (-1);
 			ft_cmd(list, node);//ft t_cmd add tab
 			node->next = NULL;
-			node->head = cmds->head;
 			cmds->next = node;
 			node->prev = cmds;
+			node->head = node->prev->head;
+			cmds = cmds->next;
 		}
 		while (list && list->type != pip)
 			list = list->next;
 		if (list && list->type == pip)
 			list = list->next;
-		cmds = cmds->next;
 		i++;
 	}
 	return (0);
@@ -49,7 +49,7 @@ int	init_cmds_list(t_list *cmds, t_token *list)
 	cmds->next = NULL;
 	cmds->head = NULL;
 	if (!list)
-		cmds->cmd = NULL;
+		return (-1);
 	else
 	{
 		ft_cmd(list, cmds);

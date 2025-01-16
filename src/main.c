@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/15 16:03:22 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/16 12:55:17 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ int	main(int ac, char **av) // , char **env
 				{
 					ft_builtin(cmds);
 					cmds = cmds->next;
+					if (!cmds->next)
+						ft_builtin(cmds);
 				}
-				ft_builtin(cmds->next);
 				free_list(head);
 				free_cmds(cmds);
-				// cmds = NULL;
 			}
 			else
 				free_list(head);

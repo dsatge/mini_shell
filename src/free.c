@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/15 12:57:26 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/16 13:04:16 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	free_cmds(t_list *cmds)
 		{
 			printf("cmds\n");
 			free_tab(cmds->cmd->tab);
+			free(cmds->cmd->tab);
 			free(cmds->cmd);
 		}
 		tmp = cmds;
