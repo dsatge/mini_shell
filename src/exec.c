@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/16 17:12:01 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/17 21:22:48 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	exe_cmd(t_list *cmds, t_pipe pipex)
 {
-	int i;
+	// int i;
 	int fd;	
-	i = -1;
+	// i = -1;
 	pipex.file = NULL;
 	// fd = open()
 	(void)fd;
@@ -28,7 +28,6 @@ void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 {
 	(void)cmds;
 	if (cmds->cmd)
-	pipex->file = 
 	pipex->env = env;
 }
 
