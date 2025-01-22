@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/21 15:06:40 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/22 17:48:00 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,56 +14,53 @@
 
 int	cmds_list(t_token *list, t_list *cmds)
 {
-	t_list *node;
-	int	next;
+	t_list *tmp;
+	int	skip;
 	int	i;
 	
 	i = 0;
-	next = 0;
-	if (init_cmds_list(cmds, list, next) == -1)
+	skip = 0;
+	skip = init_cmds_list(cmds, list, skip);
+	if (skip == -1)
 		return (-1);
 	while (list)
 	{
 		if (i > 0)
 		{
-			node = malloc(sizeof(t_list));
-			if (!node)
-				return (-1);
-			next = ft_cmd(list, node);//ft t_cmd add tab
-			node->next = NULL;
-			cmds->next = node;
-			node->prev = cmds;
-			node->head = node->prev->head;
+			tmp = cmds;
+			cmds->next = malloc(sizeof(t_list));
+			if (!cmds->next)
+				return (ft_putstr_fd("ERROR : malloc fail", 2), -1);
 			cmds = cmds->next;
+			skip = ft_cmd(list, cmds);//ft t_cmd add tab
+			cmds->next = NULL;
+			cmds->prev = tmp;
+			cmds->head = tmp->head;
 		}
-		while (next > 0)
+		while (skip > 0)
 		{
 			list = list->next;
-			next--;
+			skip--;
 		}
 		i++;
 	}
 	return (0);
 }
 
-int	init_cmds_list(t_list *cmds, t_token *list, int next)
+int	init_cmds_list(t_list *cmds, t_token *list, int skip)
 {
 	cmds->prev = NULL;
 	cmds->next = NULL;
 	cmds->head = NULL;
+	cmds->cmd = NULL;
 	if (!list)
 		return (-1);
 	else
 	{
-		next += ft_cmd(list, cmds);
+		skip += ft_cmd(list, cmds);
 		cmds->head = cmds;
-		while (next > 0)
-		{
-			list = list->next;
-			next--;
-		}
 	}
-	return (0);
+	return (skip);
 }
 
 int	ft_cmd(t_token *list, t_list *cmds)
@@ -91,18 +88,21 @@ int	tab_cmds(t_token *list, t_list *cmds)
 	current = list;
 	curr_cmds = cmds;
 	run_loop = 0;
+	if (current->type == pip)
+	{
+		list_element++;
+		current = current->next;
+	}
 	if (current->type == redir)
 	{
 		run_loop = 1;
-		list_element = redir_cmds(current, curr_cmds);
+		list_element += redir_cmds(current, curr_cmds);
 	}
 	if (run_loop == 0 && current->type == word)
 	{
-		list_element = word_cmds(current, curr_cmds);
+		list_element += word_cmds(current, curr_cmds);
 		run_loop = 1;
 	}
-	if (current->type == pip)
-		list_element = 1;
 	return (list_element);
 }
 

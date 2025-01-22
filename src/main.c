@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/16 15:59:24 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/22 17:50:49 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int ac, char **av, char **env) // , char **env
 	t_minish		*mini_struct;
 	t_token			*head;
 	t_list			*cmds;
+	t_list			*curr_cmd;
 	
 	head = NULL;
 	cmds = NULL;
@@ -64,20 +65,14 @@ int	main(int ac, char **av, char **env) // , char **env
 				if (!cmds)
 					return (1);
 				cmds_list(head, cmds);
-				if (cmds && !cmds->next)
+				curr_cmd = cmds;
+				while (curr_cmd)
 				{
-					if (ft_builtin(cmds) == 1)
-						ft_exec(cmds, env);
-				}
-/*				while (cmds && cmds->next)
-				{
-					ft_builtin(cmds);
+					if (ft_builtin(curr_cmd) == 1)
+						ft_exec(curr_cmd, env);
 					(void)env;
-					// ft_exec(cmds, env);
-					cmds = cmds->next;
-					if (!cmds->next)
-						ft_builtin(cmds);
-				}*/
+					curr_cmd = curr_cmd->next;
+				}
 				free_list(head);
 				free_cmds(cmds);
 			}
