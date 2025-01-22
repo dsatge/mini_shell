@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/18 01:12:04 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/21 15:06:40 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	cmds_list(t_token *list, t_list *cmds)
 {
 	t_list *node;
-	int	*next;
+	int	next;
 	int	i;
 	
 	i = 0;
@@ -29,21 +29,24 @@ int	cmds_list(t_token *list, t_list *cmds)
 			node = malloc(sizeof(t_list));
 			if (!node)
 				return (-1);
-			*next = ft_cmd(list, node);//ft t_cmd add tab
+			next = ft_cmd(list, node);//ft t_cmd add tab
 			node->next = NULL;
 			cmds->next = node;
 			node->prev = cmds;
 			node->head = node->prev->head;
 			cmds = cmds->next;
 		}
-		while (*next > 0)
+		while (next > 0)
+		{
 			list = list->next;
+			next--;
+		}
 		i++;
 	}
 	return (0);
 }
 
-int	init_cmds_list(t_list *cmds, t_token *list, int *next)
+int	init_cmds_list(t_list *cmds, t_token *list, int next)
 {
 	cmds->prev = NULL;
 	cmds->next = NULL;
@@ -52,10 +55,13 @@ int	init_cmds_list(t_list *cmds, t_token *list, int *next)
 		return (-1);
 	else
 	{
-		*next = *next + ft_cmd(list, cmds);
+		next += ft_cmd(list, cmds);
 		cmds->head = cmds;
-		while (*next > 0)
+		while (next > 0)
+		{
 			list = list->next;
+			next--;
+		}
 	}
 	return (0);
 }
@@ -79,18 +85,20 @@ int	tab_cmds(t_token *list, t_list *cmds)
 	int		list_element;
 	int		run_loop;
 	t_token	*current;
+	t_list	*curr_cmds;
 
 	list_element = 0;
 	current = list;
+	curr_cmds = cmds;
 	run_loop = 0;
 	if (current->type == redir)
 	{
 		run_loop = 1;
-		list_element = redir_cmds(current, cmds);
+		list_element = redir_cmds(current, curr_cmds);
 	}
 	if (run_loop == 0 && current->type == word)
 	{
-		list_element = word_cmds(current, cmds);
+		list_element = word_cmds(current, curr_cmds);
 		run_loop = 1;
 	}
 	if (current->type == pip)

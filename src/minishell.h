@@ -115,7 +115,7 @@ void			free_cmds(t_list *cmds);
 void			free_tab(char **tab);
 //LIST
 int				cmds_list(t_token *list, t_list *cmds);
-int				init_cmds_list(t_list *cmds, t_token *list, int *next);
+int				init_cmds_list(t_list *cmds, t_token *list, int next);
 int				ft_cmd(t_token *list, t_list *cmds);
 int				tab_cmds(t_token *list, t_list *cmds);
 int	redir_cmds(t_token *list, t_list *cmds);
