@@ -6,7 +6,7 @@
 #    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/01/09 17:08:22 by dsatge           ###   ########.fr        #
+#    Updated: 2025/01/16 13:16:21 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC_FILES = main.c\
 			print_test_list.c\
 			free.c\
 			list.c\
+			exec.c\
 
 FLAGS = -Wall -Wextra -Werror -I includes/ -g
 
