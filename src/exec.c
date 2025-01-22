@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/17 21:22:48 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/22 19:33:17 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,30 @@ void	exe_cmd(t_list *cmds, t_pipe pipex)
 
 void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 {
+	pipex->abs_path = 0;
 	(void)cmds;
-	if (cmds->cmd)
-	pipex->env = env;
+	// if (cmds->cmd)
+	if (env[0] == NULL)
+		pipex->abs_path = -1;
+	else
+		pipex->env = env;
+		
+}
+//check env with ACCESS
+int	init_path(char **env)
+{
+	char	*path;
+	int		i;
+
+	path = NULL;
+	i = 0;
+	if (!env)
+		return (-1);
+	while (env[i] && ft_strncmp(env[i], "PATH=", 5) != 0)
+		i++;
+	path = ft_strtrim(env[i], "PATH=");
+	printf("path = %s\n", path);
+	return (0);
 }
 
 int	ft_exec(t_list *cmds, char **env)
@@ -37,6 +58,8 @@ int	ft_exec(t_list *cmds, char **env)
 	t_pipe	pipex;
 	
 	init_pipex(cmds, &pipex, env);
+	init_path(env);
+	//GET PATH / ABSOLUT PATH
 	pid = fork();
 	if (pid == -1)
 		return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT

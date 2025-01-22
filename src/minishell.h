@@ -57,8 +57,10 @@ typedef struct s_cmd
 typedef struct s_pipe
 {
 	int		pipe_fd[2];
+	int		abs_path;
 	char	*file;
 	char	**env;
+	char	**path;
 }	t_pipe;
 
 // typedef struct	s_structlist
