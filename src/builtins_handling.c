@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/01/22 17:50:10 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/22 18:22:39 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	ft_builtin(t_list *cmds)
 {
-	// printf("tab = %s\n", cmds->cmd->tab[1]);
 	if (!cmds && !cmds->cmd && !cmds->cmd->tab)
 		return (1);
 	if (ft_strcmp(cmds->cmd->tab[0], "echo") == 0)

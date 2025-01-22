@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/22 17:48:00 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/22 18:21:44 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	redir_cmds(t_token *list, t_list *cmds)
 	int i;
 
 	i = 0;
-	if (!cmds->next)
+	if (!cmds)
 		return (-1);
 	cmds->cmd->type = redir;
 	cmds->cmd->tab = ft_calloc(sizeof(char *), (3));
@@ -123,8 +123,8 @@ int	redir_cmds(t_token *list, t_list *cmds)
 		i++;
 		list = list->next;
 	}
-	cmds->cmd->tab = 0;
-	return (3);
+	cmds->cmd->tab[i] = 0;
+	return (2);
 }
 
 int	word_cmds(t_token *list, t_list *cmds)
