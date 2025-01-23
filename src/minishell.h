@@ -132,7 +132,7 @@ int				ft_echo(char **cmd);
 // int				ft_cd(t_token *cmd);
 
 //EXEC
-void			exe_cmd(t_list *cmds, t_pipe pipex);
+void			exe_cmd(t_list *cmds, t_pipe *pipex);
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
 int				ft_exec(t_list *cmds, char **env);
 #endif
