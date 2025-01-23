@@ -51,7 +51,8 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	char	**tab;
-	t_type type;
+	t_type	type;
+	bool	pipe_end;
 }	t_cmd;
 
 typedef struct s_pipe
@@ -125,7 +126,7 @@ int	word_cmds(t_token *list, t_list *cmds);
 //PRINT_TEST_LIST
 
 // CAMMANDS
-int				ft_builtin(t_list *cmds);
+int				ft_builtin(t_list *cmds, t_pipe *pipex);
 int				ft_echo(char **cmd);
 // int				ft_pwd(t_token *cmd);
 // int				ft_cd(t_token *cmd);

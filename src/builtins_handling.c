@@ -6,14 +6,15 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/01/22 18:22:39 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/23 15:14:21 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_builtin(t_list *cmds)
+int	ft_builtin(t_list *cmds, t_pipe *pipex)
 {
+	(void)pipex;
 	if (!cmds && !cmds->cmd && !cmds->cmd->tab)
 		return (1);
 	if (ft_strcmp(cmds->cmd->tab[0], "echo") == 0)

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/22 17:50:49 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/23 15:09:04 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ int	main(int ac, char **av, char **env) // , char **env
 				curr_cmd = cmds;
 				while (curr_cmd)
 				{
-					if (ft_builtin(curr_cmd) == 1)
-						ft_exec(curr_cmd, env);
-					(void)env;
+					ft_exec(curr_cmd, env);
+					if (curr_cmd->cmd->type == redir)
+						curr_cmd = curr_cmd->next;
 					curr_cmd = curr_cmd->next;
 				}
 				free_list(head);
