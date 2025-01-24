@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/22 17:51:48 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/24 15:59:00 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ void	free_cmds(t_list *cmds)
 		if (cmds)
 		{
 			printf("cmds\n");
-			if (cmds->cmd->tab)
+			if (cmds->cmd && cmds->cmd->tab)
 				free_tab(cmds->cmd->tab);
-			free(cmds->cmd->tab);
-			free(cmds->cmd);
+			if (cmds->cmd && cmds->cmd->tab)
+				free(cmds->cmd->tab);
+			if (cmds->cmd)
+				free(cmds->cmd);
 		}
 		tmp = cmds;
 		cmds = cmds->next;

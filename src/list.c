@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/23 14:45:40 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/24 17:28:45 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ int	cmds_list(t_token *list, t_list *cmds)
 	
 	i = 0;
 	skip = 0;
+	cmds->cmd_nbr = 0;
 	skip = init_cmds_list(cmds, list, skip);
 	if (skip == -1)
 		return (-1);
+	cmds->cmd_nbr += 1;
 	while (list)
 	{
 		if (i > 0)
@@ -31,10 +33,12 @@ int	cmds_list(t_token *list, t_list *cmds)
 			cmds->next = malloc(sizeof(t_list));
 			if (!cmds->next)
 				return (ft_putstr_fd("ERROR : malloc fail", 2), -1);
-			cmds = cmds->next;
+		printf("CHECK avant |||||||||||||| ===== %i\n", cmds->cmd_nbr);
+			cmds = cmds->next; // remet cmd_nbr a 0
 			skip = ft_cmd(list, cmds);//ft t_cmd add tab
 			cmds->next = NULL;
 			cmds->prev = tmp;
+			cmds->cmd_nbr = tmp->cmd_nbr;
 			cmds->head = tmp->head;
 		}
 		while (skip > 0)
@@ -43,6 +47,8 @@ int	cmds_list(t_token *list, t_list *cmds)
 			skip--;
 		}
 		i++;
+		cmds->cmd_nbr += 1;
+		printf("CHECK apres |||||||||||||| ===== %i\n", cmds->cmd_nbr);
 	}
 	return (0);
 }

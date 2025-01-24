@@ -6,7 +6,7 @@
 #    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/01/16 13:16:21 by dsatge           ###   ########.fr        #
+#    Updated: 2025/01/24 16:39:08 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC_FILES = main.c\
 			free.c\
 			list.c\
 			exec.c\
+			exec_utils.c\
 
 FLAGS = -Wall -Wextra -Werror -I includes/ -g
 
