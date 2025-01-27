@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/24 17:15:31 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/27 18:05:02 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	ft_exec(t_list *cmds, char **env)
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
 	//GET PATH / ABSOLUT PATH
+	printf("cmds = %i\n", cmds->cmd_nbr);
 	if (ft_builtin(cmds, &pipex) == 0)
 		return (0);
 	if (pipe(pipex.pipe_fd) == -1)
@@ -94,14 +95,13 @@ int	ft_exec(t_list *cmds, char **env)
 		return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
 	if (pid == 0)
 	{
-		printf("cmds = %i\n", cmds->cmd_nbr);
-		if (cmds->cmd_nbr == 1)
+		if (cmds->head->cmd_nbr == 1)
 			one_exe(cmds, &pipex);
 		else
 			first_exe(cmds, &pipex);//CREATE FT
 	}
-	cmds->cmd--;
-	while (cmds->cmd_nbr > 0 && cmds && cmds->next)
+	cmds->head->cmd_nbr--;
+	while (cmds->head->cmd_nbr > 1 && cmds && cmds->next)
 	{
 		cmds = cmds->next;
 		pid = fork();
@@ -111,9 +111,9 @@ int	ft_exec(t_list *cmds, char **env)
 		{
 			next_exe(cmds, &pipex);//CREATE FT
 		}
-		cmds->cmd--;
+	cmds->head->cmd_nbr--;
 	}
-	if (cmds->cmd_nbr == 0 && cmds && cmds->next)
+	if (cmds->head->cmd_nbr == 1 && cmds && cmds->next)
 	{
 		cmds = cmds->next;
 		pid = fork();
@@ -123,7 +123,7 @@ int	ft_exec(t_list *cmds, char **env)
 		{
 			last_exe(cmds, &pipex);//CREATE FT
 		}
-		cmds->cmd--;
+		cmds->head->cmd_nbr--;
 	}
 	wait(&pid);
 	// waitpid(&pid); TRANSFORMER, MIEUX

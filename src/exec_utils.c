@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/24 16:47:11 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/27 18:03:25 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 	// if (invert_inout(&pipex, 0, fd) == -1)
 	// 	return ;
 	// (void)fd;
-	printf("FOLLOWERS....\n");
+	printf("LAST....\n");
 	while (pipex->path[i])
 	{
 		free(path_cmd);
