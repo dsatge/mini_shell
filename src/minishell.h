@@ -77,7 +77,8 @@ typedef struct s_list
 	struct s_list	*next;
 	struct s_list	*prev;
 	struct s_list	*head;
-	t_cmd	*cmd;
+	int				cmd_nbr;
+	t_cmd			*cmd;
 	// t_structlist	*key_p;
 }	t_list;
 
@@ -133,7 +134,13 @@ int				ft_echo(char **cmd);
 // int				ft_cd(t_token *cmd);
 
 //EXEC
-void			exe_cmd(t_list *cmds, t_pipe *pipex);
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
+char			**add_path(char *add, int len, char **path_split);
+int				init_path(char **env, t_pipe *pipex);
 int				ft_exec(t_list *cmds, char **env);
+//EXEC_UTILS
+void			one_exe(t_list *cmds, t_pipe *pipex);
+void			first_exe(t_list *cmds, t_pipe *pipex);
+void			next_exe(t_list *cmds, t_pipe *pipex);
+void			last_exe(t_list *cmds, t_pipe *pipex);
 #endif

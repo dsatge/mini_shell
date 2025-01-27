@@ -6,37 +6,11 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/24 14:18:23 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/27 18:05:02 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	exe_cmd(t_list *cmds, t_pipe *pipex)
-{
-	int i;
-	char	*path_cmd;
-	// int fd;	
-
-	i = 0;
-	path_cmd = NULL;
-	pipex->file = NULL;
-	// dup2(pipex->pipe_fd[1], STDIN_FILENO);
-	// dup2(pipex->pipe_fd[0], STDOUT_FILENO);
-	// fd = open()
-	// if (invert_inout(&pipex, 0, fd) == -1)
-	// 	return ;
-	// (void)fd;
-	while (pipex->path[i])
-	{
-		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->cmd->tab[0]);
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
-			return (exit(127), perror("exe_cmd:"));
-		i++;
-	}
-	return (perror("NOPE"));
-}
 
 void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 {
@@ -107,6 +81,7 @@ int	ft_exec(t_list *cmds, char **env)
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
 	//GET PATH / ABSOLUT PATH
+	printf("cmds = %i\n", cmds->cmd_nbr);
 	if (ft_builtin(cmds, &pipex) == 0)
 		return (0);
 	if (pipe(pipex.pipe_fd) == -1)
@@ -120,10 +95,38 @@ int	ft_exec(t_list *cmds, char **env)
 		return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
 	if (pid == 0)
 	{
-		printf("YO YO\n");
-		exe_cmd(cmds, &pipex);//CREATE FT
+		if (cmds->head->cmd_nbr == 1)
+			one_exe(cmds, &pipex);
+		else
+			first_exe(cmds, &pipex);//CREATE FT
+	}
+	cmds->head->cmd_nbr--;
+	while (cmds->head->cmd_nbr > 1 && cmds && cmds->next)
+	{
+		cmds = cmds->next;
+		pid = fork();
+		if (pid == -1)
+			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
+		if (pid == 0)
+		{
+			next_exe(cmds, &pipex);//CREATE FT
+		}
+	cmds->head->cmd_nbr--;
+	}
+	if (cmds->head->cmd_nbr == 1 && cmds && cmds->next)
+	{
+		cmds = cmds->next;
+		pid = fork();
+		if (pid == -1)
+			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
+		if (pid == 0)
+		{
+			last_exe(cmds, &pipex);//CREATE FT
+		}
+		cmds->head->cmd_nbr--;
 	}
 	wait(&pid);
+	// waitpid(&pid); TRANSFORMER, MIEUX
 	printf("pid = %d\n", pid);
 	close(pipex.pipe_fd[0]);
 	close(pipex.pipe_fd[1]);
