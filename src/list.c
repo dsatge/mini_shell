@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/27 17:57:56 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/27 20:48:10 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	cmds_list(t_token *list, t_list *cmds)
 	skip = init_cmds_list(cmds, list, skip);
 	if (skip == -1)
 		return (-1);
-	// cmds->cmd_nbr += 1;
 	while (list)
 	{
 		if (i > 0)
@@ -46,8 +45,9 @@ int	cmds_list(t_token *list, t_list *cmds)
 			skip--;
 		}
 		i++;
-		cmds->head->cmd_nbr += 1;
+		// cmds->head->cmd_nbr += 1;
 	}
+	printf("WTF %i\n", cmds->head->cmd_nbr);
 	return (0);
 }
 
@@ -96,6 +96,12 @@ int	tab_cmds(t_token *list, t_list *cmds)
 	{
 		list_element++;
 		current = current->next;
+		printf ("ALIVE\n");
+		if (!cmds->head)
+			cmds->cmd_nbr += 1;
+		else
+			cmds->head->cmd_nbr += 1;
+		printf("DEAD?\n");
 	}
 	if (current->type == redir)
 	{
