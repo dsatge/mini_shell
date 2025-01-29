@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/27 18:05:02 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/29 16:36:15 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_exec(t_list *cmds, char **env)
 	if (pid == 0)
 	{
 		if (cmds->head->cmd_nbr == 1)
-			one_exe(cmds, &pipex);
+			one_exe(cmds->head, &pipex);
 		else
 			first_exe(cmds, &pipex);//CREATE FT
 	}

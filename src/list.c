@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/27 20:48:10 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/29 19:09:19 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	cmds_list(t_token *list, t_list *cmds)
 	
 	i = 0;
 	skip = 0;
-	cmds->cmd_nbr = 0;
 	skip = init_cmds_list(cmds, list, skip);
 	if (skip == -1)
 		return (-1);
@@ -33,11 +32,9 @@ int	cmds_list(t_token *list, t_list *cmds)
 			if (!cmds->next)
 				return (ft_putstr_fd("ERROR : malloc fail", 2), -1);
 			cmds = cmds->next; // remet cmd_nbr a 0
-			skip = ft_cmd(list, cmds);//ft t_cmd add tab
+			skip = ft_cmd(list, cmds, tmp->head->cmd_nbr);//ft t_cmd add tab
 			cmds->next = NULL;
 			cmds->prev = tmp;
-			cmds->cmd_nbr = tmp->cmd_nbr;
-			cmds->head = tmp->head;
 		}
 		while (skip > 0)
 		{
@@ -45,29 +42,30 @@ int	cmds_list(t_token *list, t_list *cmds)
 			skip--;
 		}
 		i++;
-		// cmds->head->cmd_nbr += 1;
 	}
-	printf("WTF %i\n", cmds->head->cmd_nbr);
 	return (0);
 }
 
 int	init_cmds_list(t_list *cmds, t_token *list, int skip)
 {
-	cmds->prev = NULL;
 	cmds->next = NULL;
+	cmds->prev = NULL;
 	cmds->head = NULL;
+	cmds->cmd_nbr = 1;
 	cmds->cmd = NULL;
 	if (!list)
 		return (-1);
 	else
 	{
-		skip += ft_cmd(list, cmds);
+		skip += ft_cmd(list, cmds, 1);
 		cmds->head = cmds;
+		if (cmds->head->cmd_nbr != 1)
+			printf("OUUUUPSSSIIIIII\n");
 	}
 	return (skip);
 }
 
-int	ft_cmd(t_token *list, t_list *cmds)
+int	ft_cmd(t_token *list, t_list *cmds, int	nbr_cmd)
 {
 	int	element;
 	
@@ -75,6 +73,11 @@ int	ft_cmd(t_token *list, t_list *cmds)
 	cmds->cmd = malloc(sizeof(t_cmd));
 	if (!cmds->cmd)
 		return (-1);
+	if (cmds && cmds->head == NULL)
+	{
+		cmds->head = cmds;
+		cmds->head->cmd_nbr = nbr_cmd;
+	}
 	element = tab_cmds(list, cmds);
 	if (element == -1)
 		return (-1); //ajouter fonction tableau cmds
@@ -96,12 +99,10 @@ int	tab_cmds(t_token *list, t_list *cmds)
 	{
 		list_element++;
 		current = current->next;
-		printf ("ALIVE\n");
-		if (!cmds->head)
-			cmds->cmd_nbr += 1;
-		else
+		if (cmds->head)
+		{
 			cmds->head->cmd_nbr += 1;
-		printf("DEAD?\n");
+		}
 	}
 	if (current->type == redir)
 	{
