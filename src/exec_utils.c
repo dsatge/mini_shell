@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/27 18:03:25 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/29 16:46:18 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,30 @@ void	one_exe(t_list *cmds, t_pipe *pipex)
 {
 	int i;
 	char	*path_cmd;
-	// int fd;	
+	int fd;	
 
 	i = 0;
 	path_cmd = NULL;
 	pipex->file = NULL;
-	// dup2(pipex->pipe_fd[1], STDIN_FILENO);
-	// dup2(pipex->pipe_fd[0], STDOUT_FILENO);
-	// fd = open()
-	// if (invert_inout(&pipex, 0, fd) == -1)
-	// 	return ;
-	// (void)fd;
+	fd = 0;
+	printf("CHECK : %s, type = %i\n", cmds->cmd->tab[1], cmds->cmd->type);
+	if (cmds->cmd->type == redir)
+	{
+		while (cmds && cmds->cmd->type == redir && cmds->cmd->type != pip)
+		{
+			/////// CHECCK ACCESS
+			printf("HONEY I M IN\n");
+			fd = open(cmds->cmd->tab[1], O_RDONLY);
+			if (fd == -1)
+				return (perror("open failed\n"));
+			if (dup2(fd, STDIN_FILENO) == -1)
+				return ;
+			if (dup2(fd, STDOUT_FILENO) == -1)
+				return ;
+			close(fd);
+			cmds = cmds->next;
+		}
+	}
 	printf("ONE\n");
 	while (pipex->path[i])
 	{
@@ -44,12 +57,15 @@ void	first_exe(t_list *cmds, t_pipe *pipex)
 	int i;
 	char	*path_cmd;
 	// int fd;	
-
+	
 	i = 0;
 	path_cmd = NULL;
 	pipex->file = NULL;
-	// dup2(pipex->pipe_fd[1], STDIN_FILENO);
-	// dup2(pipex->pipe_fd[0], STDOUT_FILENO);
+	// dup2(fd, STDIN_FILENO);
+	if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
+		return ;
+	close(pipex->pipe_fd[1]);
+	close(pipex->pipe_fd[0]);
 	// fd = open()
 	// if (invert_inout(&pipex, 0, fd) == -1)
 	// 	return ;
@@ -75,8 +91,12 @@ void	next_exe(t_list *cmds, t_pipe *pipex)
 	i = 0;
 	path_cmd = NULL;
 	pipex->file = NULL;
-	// dup2(pipex->pipe_fd[1], STDIN_FILENO);
-	// dup2(pipex->pipe_fd[0], STDOUT_FILENO);
+	if (dup2(pipex->pipe_fd[0], STDIN_FILENO) == -1)
+		return ;
+	if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
+		return ;
+	close(pipex->pipe_fd[1]);
+	close(pipex->pipe_fd[0]);
 	// fd = open()
 	// if (invert_inout(&pipex, 0, fd) == -1)
 	// 	return ;
@@ -102,8 +122,10 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 	i = 0;
 	path_cmd = NULL;
 	pipex->file = NULL;
-	// dup2(pipex->pipe_fd[1], STDIN_FILENO);
-	// dup2(pipex->pipe_fd[0], STDOUT_FILENO);
+	if (dup2(pipex->pipe_fd[0], STDIN_FILENO) == -1)
+		return ;
+	close(pipex->pipe_fd[1]);
+	close(pipex->pipe_fd[0]);
 	// fd = open()
 	// if (invert_inout(&pipex, 0, fd) == -1)
 	// 	return ;
