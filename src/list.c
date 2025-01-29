@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/29 19:09:19 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/29 19:12:05 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	cmds_list(t_token *list, t_list *cmds)
 		}
 		i++;
 	}
+	printf("CMDS = %i\n", cmds->head->cmd_nbr);
 	return (0);
 }
 

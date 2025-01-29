@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/29 16:36:15 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/29 19:12:41 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_exec(t_list *cmds, char **env)
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
 	//GET PATH / ABSOLUT PATH
-	printf("cmds = %i\n", cmds->cmd_nbr);
+	printf("cmds = %i\n", cmds->head->cmd_nbr);
 	if (ft_builtin(cmds, &pipex) == 0)
 		return (0);
 	if (pipe(pipex.pipe_fd) == -1)
