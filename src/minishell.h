@@ -132,7 +132,7 @@ int	word_cmds(t_token *list, t_list *cmds);
 int				ft_builtin(t_list *cmds, t_pipe *pipex);
 int				ft_echo(char **cmd);
 int				ft_cd(char **cmd);
-// int				ft_pwd(t_token *cmd);
+int				ft_pwd(char **cmd);
 
 //EXEC
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
