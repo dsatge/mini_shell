@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/29 19:12:05 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/30 16:29:59 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	cmds_list(t_token *list, t_list *cmds)
 			if (!cmds->next)
 				return (ft_putstr_fd("ERROR : malloc fail", 2), -1);
 			cmds = cmds->next; // remet cmd_nbr a 0
+			cmds->head = tmp->head;
 			skip = ft_cmd(list, cmds, tmp->head->cmd_nbr);//ft t_cmd add tab
 			cmds->next = NULL;
 			cmds->prev = tmp;
@@ -43,7 +44,6 @@ int	cmds_list(t_token *list, t_list *cmds)
 		}
 		i++;
 	}
-	printf("CMDS = %i\n", cmds->head->cmd_nbr);
 	return (0);
 }
 

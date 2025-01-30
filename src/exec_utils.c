@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/29 16:46:18 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/30 16:42:07 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	one_exe(t_list *cmds, t_pipe *pipex)
 {
+	/*MISSING:
+	-securities
+	-access for files
+	-redirection when redir after cmd*/
 	int i;
 	char	*path_cmd;
 	int fd;	
@@ -22,25 +26,22 @@ void	one_exe(t_list *cmds, t_pipe *pipex)
 	path_cmd = NULL;
 	pipex->file = NULL;
 	fd = 0;
-	printf("CHECK : %s, type = %i\n", cmds->cmd->tab[1], cmds->cmd->type);
 	if (cmds->cmd->type == redir)
 	{
+		printf("HONEY I M IN\n");
 		while (cmds && cmds->cmd->type == redir && cmds->cmd->type != pip)
 		{
-			/////// CHECCK ACCESS
-			printf("HONEY I M IN\n");
+			printf("CHECK : %s, type = %i\n", cmds->cmd->tab[1], cmds->cmd->type);
 			fd = open(cmds->cmd->tab[1], O_RDONLY);
 			if (fd == -1)
 				return (perror("open failed\n"));
 			if (dup2(fd, STDIN_FILENO) == -1)
 				return ;
-			if (dup2(fd, STDOUT_FILENO) == -1)
-				return ;
 			close(fd);
 			cmds = cmds->next;
 		}
 	}
-	printf("ONE\n");
+	printf("ONE CMD\n");
 	while (pipex->path[i])
 	{
 		free(path_cmd);
