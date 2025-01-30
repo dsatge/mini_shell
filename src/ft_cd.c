@@ -12,38 +12,39 @@
 
 #include "minishell.h"
 
-// int	ft_cd(t_token *cmd)
-// {
-//     char *path;
-//     char *home;
-// 	unsigned char exit_code;
-	
-// 	if (cmd->next != NULL && cmd->next->next != NULL && cmd->next->next->type == word)
-// 	{
-// 		ft_printf("cd: too many arguments\n");
-// 		return (1);
-// 	}
-//     if (!cmd->next || !cmd->next->str)
-//     {
-//         home = getenv("HOME");
-//         if (!home)
-//             return(ft_putstr_fd("cd: HOME undefined\n", 2), 1);
-//         path = home;
-//     }
-//     else
-//     {
-//         path = cmd->next->str;
-//         if (path[0] == '~') {
-//             home = getenv("HOME");
-//             if (!home)
-//                 return(ft_putstr_fd("cd: HOME undefined\n", 2), 1);
-//             path = ft_strjoin(home, path + 1);
-//         }
-//     }
-//     if (chdir(path) == -1)
-//     {
-// 		ft_printf("cd: %s: %s\n", path, strerror(errno));
-// 		exit_code = 1;
-// 	}
-//     return (0);
-// }
+int ft_cd(char **cmd)
+{
+    char *path;
+    char *home;
+    unsigned char exit_code;
+
+    if (cmd[1] && cmd[2])
+        return(ft_printf("cd: too many arguments\n"), 1);
+    if (!cmd[1])
+    {
+        home = getenv("HOME");
+        if (!home)
+            return(ft_putstr_fd("cd: HOME undefined\n", 2), 1);
+        path = home;
+    }
+    else
+    {
+        path = cmd[1];
+        if (path[0] == '~')
+        {
+            home = getenv("HOME");
+            if (!home)
+                return(ft_putstr_fd("cd: HOME undefined\n", 2), 1);
+            path = ft_strjoin(home, path + 1);
+        }
+    }
+    if (chdir(path) == -1)
+    {
+        ft_printf("cd: %s: %s\n", path, strerror(errno));
+        exit_code = 1;
+    }
+    else
+        exit_code = 0;
+
+    return (exit_code);
+}

@@ -125,6 +125,9 @@ int	ft_exec(t_list *cmds, char **env)
 		}
 		cmds->head->cmd_nbr--;
 	}
+	printf("test %d\n", pid);
+	if (pid == 0)
+		exit(1);
 	wait(&pid);
 	// waitpid(&pid); TRANSFORMER, MIEUX
 	printf("pid = %d\n", pid);
