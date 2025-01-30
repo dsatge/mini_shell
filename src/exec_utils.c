@@ -6,11 +6,23 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/30 16:42:07 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/30 18:40:42 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+int	invert_stdin(t_list *cmds, int fd)
+{
+	printf("CHECK : %s, type = %i\n", cmds->cmd->tab[1], cmds->cmd->type);
+	fd = open(cmds->cmd->tab[1], O_RDONLY);
+	if (fd == -1)
+		return (perror("open failed\n"), -1);
+	if (dup2(fd, STDIN_FILENO) == -1)
+		return (-1);
+	close(fd);
+	return (0);
+}
 
 void	one_exe(t_list *cmds, t_pipe *pipex)
 {
@@ -31,13 +43,8 @@ void	one_exe(t_list *cmds, t_pipe *pipex)
 		printf("HONEY I M IN\n");
 		while (cmds && cmds->cmd->type == redir && cmds->cmd->type != pip)
 		{
-			printf("CHECK : %s, type = %i\n", cmds->cmd->tab[1], cmds->cmd->type);
-			fd = open(cmds->cmd->tab[1], O_RDONLY);
-			if (fd == -1)
-				return (perror("open failed\n"));
-			if (dup2(fd, STDIN_FILENO) == -1)
-				return ;
-			close(fd);
+			if (invert_stdin(cmds, fd) == -1)
+				return (perror("invert_stdin failed\n"));
 			cmds = cmds->next;
 		}
 	}
