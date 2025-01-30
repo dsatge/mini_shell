@@ -144,4 +144,5 @@ void			one_exe(t_list *cmds, t_pipe *pipex);
 void			first_exe(t_list *cmds, t_pipe *pipex);
 void			next_exe(t_list *cmds, t_pipe *pipex);
 void			last_exe(t_list *cmds, t_pipe *pipex);
+int	invert_stdin(t_list *cmds, int fd);
 #endif
