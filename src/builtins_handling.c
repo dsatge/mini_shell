@@ -19,8 +19,8 @@ int	ft_builtin(t_list *cmds, t_pipe *pipex)
 		return (1);
 	if (ft_strcmp(cmds->cmd->tab[0], "echo") == 0)
 		return(ft_echo(cmds->cmd->tab), 0);
-	// else if (ft_strcmp(cmds->cmd->tab[0], "cd") == 0)
-	// 	return(ft_cd(cmds->cmd->tab), 0);
+	else if (ft_strcmp(cmds->cmd->tab[0], "cd") == 0)
+		return(ft_cd(cmds->cmd->tab), 0);
 	// else if (ft_strcmp(cmd->str, "unset") == 0)
 	// 	return(ft_unset(cmd), 0);
 	// else if (ft_strcmp(cmd->str, "exit") == 0)
