@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/29 19:12:41 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/31 16:10:22 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	ft_exec(t_list *cmds, char **env)
 {
 	pid_t	pid;
 	t_pipe	pipex;
+	int		status;
 	
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
@@ -105,6 +106,7 @@ int	ft_exec(t_list *cmds, char **env)
 	{
 		cmds = cmds->next;
 		pid = fork();
+		waitpid(pid, &status, WEXITSTATUS(status));
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)

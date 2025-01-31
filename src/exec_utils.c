@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/30 18:40:42 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/31 16:12:26 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@ int	invert_stdin(t_list *cmds, int fd)
 	if (dup2(fd, STDIN_FILENO) == -1)
 		return (-1);
 	close(fd);
+	return (0);
+}
+
+int	invert_stdout(t_list *cmds, t_pipe *pipex)
+{
+	(void)cmds;
+	printf("Before invert fd\n");
+	if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
+		return (-1);
+	printf("fd sent to pipe\n");
+	close(pipex->pipe_fd[0]);
+	close(pipex->pipe_fd[1]);
 	return (0);
 }
 
@@ -62,23 +74,36 @@ void	one_exe(t_list *cmds, t_pipe *pipex)
 
 void	first_exe(t_list *cmds, t_pipe *pipex)
 {
+	/*MISSING:
+	-securities
+	-access for files
+	_redir when redir after cmd*/
 	int i;
 	char	*path_cmd;
+	int		fd;
 	// int fd;	
 	
 	i = 0;
 	path_cmd = NULL;
 	pipex->file = NULL;
-	// dup2(fd, STDIN_FILENO);
-	if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
-		return ;
-	close(pipex->pipe_fd[1]);
-	close(pipex->pipe_fd[0]);
+	fd = 0;
+	if (cmds->cmd->type == redir)
+	{
+		printf("HONEY I M IN\n");
+		while (cmds && cmds->cmd->type == redir && cmds->cmd->type != pip)
+		{
+			if (invert_stdin(cmds, fd) == -1)
+				return (perror("invert_stdin failed\n"));
+			cmds = cmds->next;
+		}
+	}
+	if (invert_stdout(cmds, pipex))
+		return (perror("Error invert_stdout\n"));
+	printf("FIRST\n");
 	// fd = open()
 	// if (invert_inout(&pipex, 0, fd) == -1)
 	// 	return ;
 	// (void)fd;
-	printf("FIRST\n");
 	while (pipex->path[i])
 	{
 		free(path_cmd);
@@ -131,6 +156,8 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 	path_cmd = NULL;
 	pipex->file = NULL;
 	if (dup2(pipex->pipe_fd[0], STDIN_FILENO) == -1)
+		return ;
+	if (dup2(STDOUT_FILENO, pipex->pipe_fd[1]) == -1)
 		return ;
 	close(pipex->pipe_fd[1]);
 	close(pipex->pipe_fd[0]);
