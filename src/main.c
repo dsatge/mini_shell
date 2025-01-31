@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/30 16:30:07 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/31 19:19:29 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	return (0);
 }
 
-int	main(int ac, char **av, char **env) // , char **env
+int	main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
@@ -43,18 +43,21 @@ int	main(int ac, char **av, char **env) // , char **env
 	t_token			*head;
 	t_list			*cmds;
 	t_list			*curr_cmd;
+	t_env			*ev;
 	
 	head = NULL;
 	cmds = NULL;
 	mini_struct = malloc(sizeof(t_minish));
 	if (!mini_struct)
 		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
+	ev = malloc(sizeof(t_env));
+	ft_init_env(env, ev);
 	while (1)
 	{
 		signal_handle();
 		buffer = readline(PROMPT);
 		buf_value = ft_buffer(buffer, head, mini_struct);
-		if ( buf_value == -1)
+		if (buf_value == -1)
 			return (-1);
 		if (buf_value == 0)
 		{
@@ -66,7 +69,7 @@ int	main(int ac, char **av, char **env) // , char **env
 					return (1);
 				cmds_list(head, cmds);
 				curr_cmd = cmds;
-				ft_exec(curr_cmd, env);
+				ft_exec(curr_cmd, env, ev);
 				free_list(head);
 				free_cmds(cmds);
 			}

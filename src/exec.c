@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/29 19:12:41 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/01/31 18:13:44 by baiannon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	init_path(char **env, t_pipe *pipex)
 	return (0);
 }
 
-int	ft_exec(t_list *cmds, char **env)
+int	ft_exec(t_list *cmds, char **env, t_env *ev)
 {
 	pid_t	pid;
 	t_pipe	pipex;
@@ -82,7 +82,7 @@ int	ft_exec(t_list *cmds, char **env)
 	init_path(env, &pipex);
 	//GET PATH / ABSOLUT PATH
 	printf("cmds = %i\n", cmds->head->cmd_nbr);
-	if (ft_builtin(cmds, &pipex) == 0)
+	if (ft_builtin(cmds, &pipex, ev) == 0)
 		return (0);
 	if (pipe(pipex.pipe_fd) == -1)
 	{
