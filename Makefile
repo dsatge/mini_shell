@@ -30,6 +30,7 @@ SRC_FILES = main.c\
 			exec_utils.c\
 			ft_env.c\
 			ft_unset.c\
+			ft_export.c\
 
 FLAGS = -Wall -Wextra -Werror -I includes/ -g
 

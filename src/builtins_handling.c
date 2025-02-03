@@ -27,9 +27,9 @@ int	ft_builtin(t_list *cmds, t_pipe *pipex, t_env **ev)
 		return(ft_env(ev), 0);
 	else if (ft_strcmp(cmds->cmd->tab[0], "unset") == 0)
 		return(ft_unset(cmds->cmd->tab, ev), 0);
-	// else if (ft_strcmp(cmd->str, "export") == 0)
-	// 	return(ft_export(cmd->str), 0);
-	// else if (ft_strcmp(cmd->str, "exit") == 0)
+	else if (ft_strcmp(cmds->cmd->tab[0], "export") == 0)
+		return(ft_export(cmds->cmd->tab, ev), 0);
+	// else if (ft_strcmp(cmds->cmd->tab[0], "exit") == 0)
 	// 	return(ft_exit(cmd), 0);
 	return (1);
 }

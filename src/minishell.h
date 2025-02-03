@@ -136,6 +136,7 @@ int				ft_cd(char **cmd);
 int				ft_pwd(char **cmd);
 void			ft_env(t_env **ev);
 void			ft_unset(char **cmd, t_env **ev);
+void			ft_export(char **cmd, t_env **ev);
 
 //EXEC
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
