@@ -12,37 +12,37 @@
 
 #include "minishell.h"
 
-void ft_init_env(char **cmd, t_env *ev)
+void ft_init_env(char **cmd, t_env **ev)
 {
     int i;
     t_env *tmp;
     
     i = 0;
-    tmp = ev;
+    tmp = (*ev);
     while (cmd[i])
     {
-        ev->value = ft_strdup(cmd[i]);
+        (*ev)->value = ft_strdup(cmd[i]);
         if (!cmd[i + 1])
         {
-            ev->next = NULL;
+            (*ev)->next = NULL;
             break;
         }
-        ev->next = malloc(sizeof(t_env));
-        ev = ev->next;
+        (*ev)->next = malloc(sizeof(t_env));
+        *ev = (*ev)->next;
         i++;
     }
-    ev = tmp;
+    *ev = tmp;
 }
 
-void ft_env(t_env *ev)
+void ft_env(t_env **ev)
 {
     t_env *tmp;
 
-    tmp = ev;
-    while(ev->next)
+    tmp = *ev;
+    while((*ev)->next)
     {
-        ft_printf("%s\n", ev->value);
-        ev = ev->next;
+        ft_printf("%s\n", (*ev)->value);
+        *ev = (*ev)->next;
     }
-    ev = tmp;
+    *ev = tmp;
 }

@@ -12,62 +12,48 @@
 
 #include "minishell.h"
 
-static void free_node(t_env *ev, t_env *prev)
+static void free_node(t_env **ev, t_env *to_remove)
 {
-    t_env *target;
+    t_env   *tmp;
 
-    target = ev;
-    if (ev == prev)
+    tmp = *ev;
+    while (tmp)
     {
-        ev = ev->next;
-        prev = prev->next;
-        free(target->value);
-        free(target);
+        if (tmp->next == to_remove)
+        {
+            tmp->next = to_remove->next;
+            break;
+        }
+        tmp = tmp->next;
     }
-    else if (ev->next->value)
-    {
-        ev = ev->next;
-        free(target->value);
-        free(target);
-        prev->next = ev;
-    }
-    else
-    {
-        ev = prev;
-        free(target->value);
-        free(target);
-    }
+    if (*ev == to_remove)
+        *ev = (*ev)->next;
+    free(to_remove->value);
+    free(to_remove);
 }
 
-void ft_unset(char **cmd, t_env *ev)
+void ft_unset(char **cmd, t_env **ev)
 {
     size_t i;
-    size_t y;
     t_env *tmp;
-    t_env *tmp_prev;
     
     i = 1;
+
     while (cmd[i])
     {
-        tmp = ev;
-        tmp_prev = ev;
-        while (ev->next->value)
+        tmp = *ev;
+        while (tmp)
         {
-            y = 0;
-            while (ev->value[y] == cmd[i][y])
-                y++;
-            if (y == ft_strlen(cmd[i]))
+            if (ft_strncmp(tmp->value, cmd[i], (ft_strchr(tmp->value, '=') - tmp->value)) == 0)
             {
-                free_node(ev, tmp_prev);
+                free_node(ev, tmp);
                 break;
             }
-            tmp_prev = ev;
-            ev = ev->next;
+            tmp = tmp->next;
         }
         i++;
         // printf("VAUTERC==%s\n", ev->head->value);
         // ev = ev->head;
-        ev = tmp;
-        printf("CACCACACACA %s\n", tmp->value);
+        // GJS_DEBUG_TOPICS
     }
 }

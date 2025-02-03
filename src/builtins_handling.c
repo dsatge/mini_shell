@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ft_builtin(t_list *cmds, t_pipe *pipex, t_env *ev)
+int	ft_builtin(t_list *cmds, t_pipe *pipex, t_env **ev)
 {
 	(void)pipex;
 	if (!cmds && !cmds->cmd && !cmds->cmd->tab)

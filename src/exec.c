@@ -73,7 +73,7 @@ int	init_path(char **env, t_pipe *pipex)
 	return (0);
 }
 
-int	ft_exec(t_list *cmds, char **env, t_env *ev)
+int	ft_exec(t_list *cmds, char **env, t_env **ev)
 {
 	pid_t	pid;
 	t_pipe	pipex;

@@ -51,7 +51,7 @@ int	main(int ac, char **av, char **env)
 	if (!mini_struct)
 		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
 	ev = malloc(sizeof(t_env));
-	ft_init_env(env, ev);
+	ft_init_env(env, &ev);
 	while (1)
 	{
 		signal_handle();
@@ -69,7 +69,7 @@ int	main(int ac, char **av, char **env)
 					return (1);
 				cmds_list(head, cmds);
 				curr_cmd = cmds;
-				ft_exec(curr_cmd, env, ev);
+				ft_exec(curr_cmd, env, &ev);
 				free_list(head);
 				free_cmds(cmds);
 			}
