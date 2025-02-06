@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/31 16:12:26 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/02/06 17:24:44 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int	invert_stdout(t_list *cmds, t_pipe *pipex)
 	(void)cmds;
 	printf("Before invert fd\n");
 	if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
+	{
 		return (-1);
-	printf("fd sent to pipe\n");
+	}
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
 	return (0);
@@ -96,11 +97,10 @@ void	first_exe(t_list *cmds, t_pipe *pipex)
 				return (perror("invert_stdin failed\n"));
 			cmds = cmds->next;
 		}
-	}
+	}																			
 	if (invert_stdout(cmds, pipex))
 		return (perror("Error invert_stdout\n"));
-	printf("FIRST\n");
-	// fd = open()
+	ft_putstr_fd("FIRST\n", 2);	// fd = open()
 	// if (invert_inout(&pipex, 0, fd) == -1)
 	// 	return ;
 	// (void)fd;
@@ -108,8 +108,12 @@ void	first_exe(t_list *cmds, t_pipe *pipex)
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(pipex->path[i], cmds->cmd->tab[0]);
+		if (!path_cmd)
+			return (perror("error join\n"));
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
+		{
 			return (exit(127), perror("exe_cmd:"));
+		}
 		i++;
 	}
 	return (perror("NOPE"));
@@ -161,18 +165,28 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 		return ;
 	close(pipex->pipe_fd[1]);
 	close(pipex->pipe_fd[0]);
-	// fd = open()
-	// if (invert_inout(&pipex, 0, fd) == -1)
-	// 	return ;
-	// (void)fd;
 	printf("LAST....\n");
 	while (pipex->path[i])
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(pipex->path[i], cmds->cmd->tab[0]);
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
-			return (exit(127), perror("exe_cmd:"));
+		if (!path_cmd)
+			return (perror("strjoin fail\n"));
+		// if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
+		// 	return (exit(127), perror("exe_cmd:"));
+		// if (access(path_cmd, F_OK | X_OK) == -1)
+		// 	return (perror("ACCESS PROBLEME "));
+		if (access(path_cmd, F_OK) == 0 && access(path_cmd, X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
+		{
+			return (perror("EXECVE ERROR\n"));
+			// exit (1);
+		}
 		i++;
+	}
+	if (access(path_cmd, F_OK) == -1 && access(path_cmd, X_OK) == -1)
+	{
+	    perror("File exist");
+	    perror("File is executable");
 	}
 	return (perror("NOPE"));
 }

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/31 16:10:22 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/02/06 16:23:20 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	ft_exec(t_list *cmds, char **env)
 	{
 		cmds = cmds->next;
 		pid = fork();
-		waitpid(pid, &status, WEXITSTATUS(status));
+		waitpid(pid, &status, WNOHANG);
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
@@ -119,6 +119,7 @@ int	ft_exec(t_list *cmds, char **env)
 	{
 		cmds = cmds->next;
 		pid = fork();
+		waitpid(pid, &status, WNOHANG);
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
@@ -127,7 +128,7 @@ int	ft_exec(t_list *cmds, char **env)
 		}
 		cmds->head->cmd_nbr--;
 	}
-	wait(&pid);
+	waitpid(pid, &status, 0);
 	// waitpid(&pid); TRANSFORMER, MIEUX
 	printf("pid = %d\n", pid);
 	close(pipex.pipe_fd[0]);
