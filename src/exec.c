@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/02/07 15:29:26 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/02/07 17:21:56 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,14 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 		else
 			first_exe(cmds, &pipex);//CREATE FT
 	}
-	close(pipex.pipe_fd[0]);
-	close(pipex.pipe_fd[1]);
+	// close(pipex.pipe_fd[0]);
+	// close(pipex.pipe_fd[1]);
 	cmds->head->cmd_nbr--;
 	while (cmds->head->cmd_nbr > 1 && cmds && cmds->next)
 	{
 		cmds = cmds->next;
-		pid = fork();
 		waitpid(pid, &status, WNOHANG);
+		pid = fork();
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
@@ -120,8 +120,8 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 	if (cmds->head->cmd_nbr == 1 && cmds && cmds->next)
 	{
 		cmds = cmds->next;
-		pid = fork();
 		waitpid(pid, &status, WNOHANG);
+		pid = fork();
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
@@ -131,11 +131,9 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 		cmds->head->cmd_nbr--;
 	}
 	printf("test %d\n", pid);
-	if (pid == 0)
-		exit(1);
-	wait(&pid);
+	// if (pid == 0)
+	// 	exit(1);
 	waitpid(pid, &status, WNOHANG);
-	// waitpid(&pid); TRANSFORMER, MIEUX
 	printf("pid = %d\n", pid);
 	close(pipex.pipe_fd[0]);
 	close(pipex.pipe_fd[1]);
