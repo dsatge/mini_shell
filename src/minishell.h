@@ -39,7 +39,7 @@ typedef enum s_type
 
 typedef struct s_env
 {
-	char				*name;
+	char				*value;
 	struct s_env		*next;
 }						t_env;
 
@@ -129,16 +129,19 @@ int	word_cmds(t_token *list, t_list *cmds);
 //PRINT_TEST_LIST
 
 // CAMMANDS
-int				ft_builtin(t_list *cmds, t_pipe *pipex);
+int				ft_builtin(t_list *cmds, t_pipe *pipex, t_env *ev);
+void			ft_init_env(char **cmd, t_env *ev);
 int				ft_echo(char **cmd);
-// int				ft_pwd(t_token *cmd);
-// int				ft_cd(t_token *cmd);
+int				ft_cd(char **cmd);
+int				ft_pwd(char **cmd);
+void			ft_env(t_env *ev);
+void			ft_unset(char **cmd, t_env *ev);
 
 //EXEC
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
 char			**add_path(char *add, int len, char **path_split);
 int				init_path(char **env, t_pipe *pipex);
-int				ft_exec(t_list *cmds, char **env);
+int				ft_exec(t_list *cmds, char **env, t_env *ev);
 //EXEC_UTILS
 void			one_exe(t_list *cmds, t_pipe *pipex);
 void			first_exe(t_list *cmds, t_pipe *pipex);

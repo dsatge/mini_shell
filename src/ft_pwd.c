@@ -12,14 +12,18 @@
 
 #include "minishell.h"
 
-int ft_pwd(t_token *cmd)
+int ft_pwd(char **cmd)
 {
-    cmd->str = getcwd(NULL, 0);
-    if (!cmd->str) 
+    (void)cmd;
+    char *cwd;
+
+    cwd = getcwd(NULL, 0);
+    if (!cwd)
     {
         perror("PWD Error");
         return (1);
     }
-    ft_printf("%s\n", cmd->str);
+    ft_printf("%s\n", cwd);
+    free(cwd);
     return (0);
 }

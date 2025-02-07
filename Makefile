@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
+#    By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/01/24 16:39:08 by dsatge           ###   ########.fr        #
+#    Updated: 2025/01/31 18:29:49 by baiannon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,8 @@ SRC_FILES = main.c\
 			list.c\
 			exec.c\
 			exec_utils.c\
+			ft_env.c\
+			ft_unset.c\
 
 FLAGS = -Wall -Wextra -Werror -I includes/ -g
 
