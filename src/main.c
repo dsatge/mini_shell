@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/02/06 14:39:45 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/02/07 14:56:26 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	main(int ac, char **av, char **env) // , char **env
 					return (1);
 				cmds_list(head, cmds);
 				curr_cmd = cmds;
+				printf("Launch of exec\n");
 				ft_exec(curr_cmd, env);
 				free_list(head);
 				free_cmds(cmds);

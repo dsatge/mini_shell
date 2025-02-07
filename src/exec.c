@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/02/06 16:23:20 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/02/07 14:37:04 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int	ft_exec(t_list *cmds, char **env)
 		else
 			first_exe(cmds, &pipex);//CREATE FT
 	}
+	close(pipex.pipe_fd[0]);
+	close(pipex.pipe_fd[1]);
 	cmds->head->cmd_nbr--;
 	while (cmds->head->cmd_nbr > 1 && cmds && cmds->next)
 	{
@@ -128,7 +130,7 @@ int	ft_exec(t_list *cmds, char **env)
 		}
 		cmds->head->cmd_nbr--;
 	}
-	waitpid(pid, &status, 0);
+	waitpid(pid, &status, WNOHANG);
 	// waitpid(&pid); TRANSFORMER, MIEUX
 	printf("pid = %d\n", pid);
 	close(pipex.pipe_fd[0]);
