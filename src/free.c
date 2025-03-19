@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/24 15:59:00 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/19 18:24:04 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	free_list(t_token *list)
 		list = list->next;
 		if (tmp)
 		{
-			printf("freed list: %s\n", tmp->str);
 			free(tmp->str);
 		}
 		free(tmp);
@@ -40,7 +39,6 @@ void	free_cmds(t_list *cmds)
 	{
 		if (cmds)
 		{
-			printf("cmds\n");
 			if (cmds->cmd && cmds->cmd->tab)
 				free_tab(cmds->cmd->tab);
 			if (cmds->cmd && cmds->cmd->tab)
@@ -64,7 +62,6 @@ void	free_tab(char **tab)
 		return ;
 	while (tab[i])
 	{
-		printf("freed from tab in cmd : %s\n", tab[i]);
 		free(tab[i]);
 		i++;
 	}

@@ -60,8 +60,9 @@ typedef struct s_cmd
 typedef struct s_pipe
 {
 	int		pipe_fd[2];
+	int		infile_fd;
+	int		outfile_fd;
 	int		abs_path;
-	char	*file;
 	char	**env;
 	char	**path;
 }	t_pipe;
@@ -148,5 +149,6 @@ void			first_exe(t_list *cmds, t_pipe *pipex);
 void			next_exe(t_list *cmds, t_pipe *pipex);
 void			last_exe(t_list *cmds, t_pipe *pipex);
 int				invert_stdin(t_list *cmds, int fd);
+int				ft_redir(t_list *cmds, t_pipe *pipex);
 
 #endif

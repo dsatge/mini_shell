@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/30 18:40:42 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/19 18:51:43 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,28 +36,36 @@ void	one_exe(t_list *cmds, t_pipe *pipex)
 
 	i = 0;
 	path_cmd = NULL;
-	pipex->file = NULL;
 	fd = 0;
-	if (cmds->cmd->type == redir)
+////////////New redirections try
+	ft_redir(cmds, pipex);
+	if (pipex->infile_fd != -1)
 	{
-		printf("HONEY I M IN\n");
-		while (cmds && cmds->cmd->type == redir && cmds->cmd->type != pip)
-		{
-			if (invert_stdin(cmds, fd) == -1)
-				return (perror("invert_stdin failed\n"));
-			cmds = cmds->next;
-		}
+		printf("THERE IS A INFILE\n");
+		dup2(pipex->infile_fd, STDIN_FILENO);
+		close(pipex->infile_fd);
+		// close(pipex->infile_fd[1]);
 	}
+	if (pipex->outfile_fd != -1)
+	{
+		printf("THERE IS A OUTFILE\n");
+		dup2(pipex->outfile_fd, STDOUT_FILENO);
+		close(pipex->outfile_fd);
+		// close(pipex->outfile_fd[1]);
+	}
+	while (cmds && cmds->cmd->type != word)
+		cmds = cmds->next;
 	printf("ONE CMD\n");
 	while (pipex->path[i])
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(pipex->path[i], cmds->cmd->tab[0]);
+		printf("path cmd = %s\n", path_cmd);
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
-	return (perror("NOPE"));
+	return (perror("127"));
 }
 
 void	first_exe(t_list *cmds, t_pipe *pipex)
@@ -68,12 +76,18 @@ void	first_exe(t_list *cmds, t_pipe *pipex)
 	
 	i = 0;
 	path_cmd = NULL;
-	pipex->file = NULL;
 	// dup2(fd, STDIN_FILENO);
-	if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
-		return ;
-	close(pipex->pipe_fd[1]);
-	close(pipex->pipe_fd[0]);
+	ft_redir(cmds, pipex);
+	if (pipex->outfile_fd == -1)
+	{
+		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
+		close(pipex->pipe_fd[1]);
+		close(pipex->pipe_fd[0]);
+	}
+	/// if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
+	/// 	return ;
+	/// close(pipex->pipe_fd[1]);
+	/// close(pipex->pipe_fd[0]);
 	// fd = open()
 	// if (invert_inout(&pipex, 0, fd) == -1)
 	// 	return ;
@@ -98,13 +112,27 @@ void	next_exe(t_list *cmds, t_pipe *pipex)
 
 	i = 0;
 	path_cmd = NULL;
-	pipex->file = NULL;
 	if (dup2(pipex->pipe_fd[0], STDIN_FILENO) == -1)
 		return ;
 	if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
 		return ;
 	close(pipex->pipe_fd[1]);
 	close(pipex->pipe_fd[0]);
+	ft_redir(cmds, pipex);
+	if (pipex->infile_fd != -1)
+	{
+		printf("THERE IS A INFILE\n");
+		dup2(pipex->infile_fd, STDIN_FILENO);
+		close(pipex->infile_fd);
+		close(pipex->infile_fd);
+	}
+	if (pipex->outfile_fd != -1)
+	{
+		printf("THERE IS A OUTFILE\n");
+		dup2(pipex->outfile_fd, STDOUT_FILENO);
+		close(pipex->outfile_fd);
+		close(pipex->outfile_fd);
+	}
 	// fd = open()
 	// if (invert_inout(&pipex, 0, fd) == -1)
 	// 	return ;
@@ -129,11 +157,25 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 
 	i = 0;
 	path_cmd = NULL;
-	pipex->file = NULL;
 	if (dup2(pipex->pipe_fd[0], STDIN_FILENO) == -1)
 		return ;
 	close(pipex->pipe_fd[1]);
 	close(pipex->pipe_fd[0]);
+	ft_redir(cmds, pipex);
+	if (pipex->infile_fd != -1)
+	{
+		printf("THERE IS A INFILE\n");
+		dup2(pipex->infile_fd, STDIN_FILENO);
+		close(pipex->infile_fd);
+		close(pipex->infile_fd);
+	}
+	if (pipex->outfile_fd != -1)
+	{
+		printf("THERE IS A OUTFILE\n");
+		dup2(pipex->outfile_fd, STDOUT_FILENO);
+		close(pipex->outfile_fd);
+		close(pipex->outfile_fd);
+	}
 	// fd = open()
 	// if (invert_inout(&pipex, 0, fd) == -1)
 	// 	return ;
@@ -148,4 +190,39 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 		i++;
 	}
 	return (perror("NOPE"));
+}
+
+int	ft_redir(t_list *cmds, t_pipe *pipex)
+{
+	t_list	*list;
+	int		fd;
+
+	list = cmds;
+	pipex->infile_fd = -1;
+	pipex->outfile_fd = -1;
+	if (!list)
+		return (-1);
+///////PBLM need to add default settings -> when there is no redirection, comes from the pipe
+////// add settings for start (stdin), middle (stdout_fileno & stdin), end ;	
+	while (list && list->cmd->type != pip)
+	{
+		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
+		{
+			fd = open(list->cmd->tab[1], O_RDONLY);
+			if (fd == -1)
+				return (-1);
+			pipex->infile_fd = fd;
+			close(fd);
+		}
+		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">") == 0)
+		{
+			fd = open(list->cmd->tab[1], O_WRONLY | O_APPEND);
+			if (fd == -1)
+				return (-1);
+			pipex->outfile_fd = fd;
+			close(fd);
+		}
+		list = list->next;
+	}
+	return (0);
 }
