@@ -54,7 +54,6 @@ typedef struct s_cmd
 {
 	char	**tab;
 	t_type	type;
-	bool	pipe_end;
 }	t_cmd;
 
 typedef struct s_pipe

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/31 18:13:44 by baiannon         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:26:11 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 {
 	pid_t	pid;
 	t_pipe	pipex;
+	int		status;
 	
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
@@ -125,12 +126,10 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 		}
 		cmds->head->cmd_nbr--;
 	}
-	printf("test %d\n", pid);
 	if (pid == 0)
 		exit(1);
-	wait(&pid);
-	// waitpid(&pid); TRANSFORMER, MIEUX
-	printf("pid = %d\n", pid);
+	// wait(&pid);
+	waitpid(pid, &status, 0);
 	close(pipex.pipe_fd[0]);
 	close(pipex.pipe_fd[1]);
 	//FREE pipex.path

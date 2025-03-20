@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/30 16:29:59 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/20 14:26:40 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,6 @@ int	redir_cmds(t_token *list, t_list *cmds)
 		list = list->next;
 	}
 	cmds->cmd->tab[i] = 0;
-	if ((list->next && list->next->type == pip) || !list->next)
-		cmds->cmd->pipe_end = true;
-	else
-		cmds->cmd->pipe_end = false;
 	return (2);
 }
 
@@ -169,9 +165,5 @@ int	word_cmds(t_token *list, t_list *cmds)
 		current = current->next;
 	}
 	cmds->cmd->tab[i] = 0;
-	if ((list->next && list->next->type == pip) || !list->next)
-		cmds->cmd->pipe_end = true;
-	else
-		cmds->cmd->pipe_end = false;
 	return (tab_len);
 }

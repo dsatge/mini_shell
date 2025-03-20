@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/19 18:51:43 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/20 14:24:15 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,16 @@ void	one_exe(t_list *cmds, t_pipe *pipex)
 	i = 0;
 	path_cmd = NULL;
 	fd = 0;
-////////////New redirections try
 	ft_redir(cmds, pipex);
 	if (pipex->infile_fd != -1)
 	{
-		printf("THERE IS A INFILE\n");
 		dup2(pipex->infile_fd, STDIN_FILENO);
 		close(pipex->infile_fd);
-		// close(pipex->infile_fd[1]);
 	}
 	if (pipex->outfile_fd != -1)
 	{
-		printf("THERE IS A OUTFILE\n");
 		dup2(pipex->outfile_fd, STDOUT_FILENO);
 		close(pipex->outfile_fd);
-		// close(pipex->outfile_fd[1]);
 	}
 	while (cmds && cmds->cmd->type != word)
 		cmds = cmds->next;
@@ -60,9 +55,11 @@ void	one_exe(t_list *cmds, t_pipe *pipex)
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(pipex->path[i], cmds->cmd->tab[0]);
-		printf("path cmd = %s\n", path_cmd);
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
-			return (exit(127), perror("exe_cmd:"));
+		if (access(path_cmd, F_OK | X_OK) == 0)
+		{
+			if (execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
+				return (exit(127), perror("exe_cmd:"));
+		}
 		i++;
 	}
 	return (perror("127"));
@@ -212,15 +209,13 @@ int	ft_redir(t_list *cmds, t_pipe *pipex)
 			if (fd == -1)
 				return (-1);
 			pipex->infile_fd = fd;
-			close(fd);
 		}
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">") == 0)
 		{
-			fd = open(list->cmd->tab[1], O_WRONLY | O_APPEND);
+			fd = open(list->cmd->tab[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd == -1)
 				return (-1);
 			pipex->outfile_fd = fd;
-			close(fd);
 		}
 		list = list->next;
 	}
