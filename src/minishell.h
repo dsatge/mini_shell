@@ -56,6 +56,12 @@ typedef struct s_cmd
 	t_type	type;
 }	t_cmd;
 
+typedef struct s_o_cmd
+{
+	char	**tab;
+	struct s_o_cmd	*next;
+}	t_o_cmd;
+
 typedef struct s_pipe
 {
 	int		pipe_fd[2];
@@ -66,21 +72,15 @@ typedef struct s_pipe
 	char	**path;
 }	t_pipe;
 
-// typedef struct	s_structlist
-// {
-// 	t_cmd	**head;
-// 	t_cmd	**tail;
-// 	int		list_len;
-// }	t_structlist;
-
 typedef struct s_list
 {
 	struct s_list	*next;
 	struct s_list	*prev;
 	struct s_list	*head;
 	int				cmd_nbr;
+	int				mem_cmd_nbr;
 	t_cmd			*cmd;
-	// t_structlist	*key_p;
+	t_o_cmd			*o_cmd;
 }	t_list;
 
 typedef struct s_minish
@@ -142,10 +142,12 @@ void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
 char			**add_path(char *add, int len, char **path_split);
 int				init_path(char **env, t_pipe *pipex);
 int				ft_exec(t_list *cmds, char **env, t_env *ev);
+int				ft_only_cmd(t_list *cmds);
+int				cp_cmdtab(t_list *cmds, t_list *list);
 //EXEC_UTILS
 void			one_exe(t_list *cmds, t_pipe *pipex);
 void			first_exe(t_list *cmds, t_pipe *pipex);
-void			next_exe(t_list *cmds, t_pipe *pipex);
+// void			next_exe(t_list *cmds, t_pipe *pipex);
 void			last_exe(t_list *cmds, t_pipe *pipex);
 int				invert_stdin(t_list *cmds, int fd);
 int				ft_redir(t_list *cmds, t_pipe *pipex);

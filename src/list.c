@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/20 14:26:40 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/21 13:51:05 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	init_cmds_list(t_list *cmds, t_token *list, int skip)
 	return (skip);
 }
 
-int	ft_cmd(t_token *list, t_list *cmds, int	nbr_cmd)
+int	  ft_cmd(t_token *list, t_list *cmds, int	nbr_cmd)
 {
 	int	element;
 	

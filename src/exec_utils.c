@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/20 14:24:15 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/21 17:38:24 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ int	invert_stdin(t_list *cmds, int fd)
 void	one_exe(t_list *cmds, t_pipe *pipex)
 {
 	/*MISSING:
-	-securities
-	-access for files
-	-redirection when redir after cmd*/
+	-securities*/
 	int i;
 	char	*path_cmd;
 	int fd;	
@@ -69,72 +67,30 @@ void	first_exe(t_list *cmds, t_pipe *pipex)
 {
 	int i;
 	char	*path_cmd;
-	// int fd;	
 	
 	i = 0;
 	path_cmd = NULL;
-	// dup2(fd, STDIN_FILENO);
-	ft_redir(cmds, pipex);
-	if (pipex->outfile_fd == -1)
-	{
-		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
-		close(pipex->pipe_fd[1]);
-		close(pipex->pipe_fd[0]);
-	}
-	/// if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
-	/// 	return ;
-	/// close(pipex->pipe_fd[1]);
-	/// close(pipex->pipe_fd[0]);
-	// fd = open()
-	// if (invert_inout(&pipex, 0, fd) == -1)
-	// 	return ;
-	// (void)fd;
-	printf("FIRST\n");
-	while (pipex->path[i])
-	{
-		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->cmd->tab[0]);
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
-			return (exit(127), perror("exe_cmd:"));
-		i++;
-	}
-	return (perror("NOPE"));
-}
-
-void	next_exe(t_list *cmds, t_pipe *pipex)
-{
-	int i;
-	char	*path_cmd;
-	// int fd;	
-
-	i = 0;
-	path_cmd = NULL;
-	if (dup2(pipex->pipe_fd[0], STDIN_FILENO) == -1)
-		return ;
-	if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
-		return ;
-	close(pipex->pipe_fd[1]);
-	close(pipex->pipe_fd[0]);
+	//close pipe_fd?
 	ft_redir(cmds, pipex);
 	if (pipex->infile_fd != -1)
 	{
-		printf("THERE IS A INFILE\n");
 		dup2(pipex->infile_fd, STDIN_FILENO);
 		close(pipex->infile_fd);
-		close(pipex->infile_fd);
 	}
+	else
+		dup2(pipex->pipe_fd[0], STDIN_FILENO);//GET bACK CONTENT FROM PIPE
 	if (pipex->outfile_fd != -1)
 	{
-		printf("THERE IS A OUTFILE\n");
 		dup2(pipex->outfile_fd, STDOUT_FILENO);
 		close(pipex->outfile_fd);
-		close(pipex->outfile_fd);
 	}
-	// fd = open()
-	// if (invert_inout(&pipex, 0, fd) == -1)
-	// 	return ;
-	// (void)fd;
-	printf("FOLLOWERS....\n");
+	else
+		{
+			dup2(pipex->pipe_fd[1], STDOUT_FILENO);
+			close(pipex->pipe_fd[1]);
+			close(pipex->pipe_fd[0]);
+		}
+	printf("FIRST\n");
 	while (pipex->path[i])
 	{
 		free(path_cmd);
@@ -154,41 +110,46 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 
 	i = 0;
 	path_cmd = NULL;
-	if (dup2(pipex->pipe_fd[0], STDIN_FILENO) == -1)
-		return ;
-	close(pipex->pipe_fd[1]);
-	close(pipex->pipe_fd[0]);
 	ft_redir(cmds, pipex);
 	if (pipex->infile_fd != -1)
 	{
-		printf("THERE IS A INFILE\n");
-		dup2(pipex->infile_fd, STDIN_FILENO);
-		close(pipex->infile_fd);
-		close(pipex->infile_fd);
+		printf("Redirection de file vers STDIN, fd = %d (fichier: %s)\n", 
+			pipex->infile_fd, cmds->cmd->tab[1]);  // Vérifie bien le fichier ici
+		if (fcntl(pipex->infile_fd, F_GETFD) == -1)
+			printf("🚨 ERREUR: infile_fd est déjà fermé !\n");
+		else
+	 	{
+			dup2(pipex->infile_fd, STDIN_FILENO);
+			printf("✅ infile_fd est bien ouvert, on l'assigne !\n");
+			close(pipex->infile_fd);
+		}
+	}
+	else if(cmds->mem_cmd_nbr == 0)
+	{
+		dup2(pipex->pipe_fd[0], STDIN_FILENO);//GET bACK CONTENT FROM PIPE
+		close(pipex->pipe_fd[1]);
+		close(pipex->pipe_fd[0]);
 	}
 	if (pipex->outfile_fd != -1)
 	{
-		printf("THERE IS A OUTFILE\n");
+		printf("Redirection de file vers STDOUT, fd = %d\n", pipex->outfile_fd);
 		dup2(pipex->outfile_fd, STDOUT_FILENO);
 		close(pipex->outfile_fd);
-		close(pipex->outfile_fd);
 	}
-	// fd = open()
-	// if (invert_inout(&pipex, 0, fd) == -1)
-	// 	return ;
-	// (void)fd;
 	printf("LAST....\n");
 	while (pipex->path[i])
 	{
 		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->cmd->tab[0]);
+		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
+		if (cmds->o_cmd->next != NULL)
+			cmds->o_cmd = cmds->o_cmd->next;
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
 	return (perror("NOPE"));
 }
-
+///HERE : issue with redir, alway takes the first redir instead of the last one. 
 int	ft_redir(t_list *cmds, t_pipe *pipex)
 {
 	t_list	*list;
@@ -199,23 +160,34 @@ int	ft_redir(t_list *cmds, t_pipe *pipex)
 	pipex->outfile_fd = -1;
 	if (!list)
 		return (-1);
-///////PBLM need to add default settings -> when there is no redirection, comes from the pipe
-////// add settings for start (stdin), middle (stdout_fileno & stdin), end ;	
 	while (list && list->cmd->type != pip)
 	{
+		printf("list = %s\n", list->cmd->tab[1]);
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
 		{
+			if (pipex->infile_fd != -1)
+			{
+				close(pipex->infile_fd);
+				pipex->infile_fd = -1;
+			}
 			fd = open(list->cmd->tab[1], O_RDONLY);
 			if (fd == -1)
-				return (-1);
+			return (-1);
 			pipex->infile_fd = fd;
+			cmds = cmds->next;
 		}
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">") == 0)
 		{
+			if (pipex->outfile_fd != 1)
+			{
+				close(pipex->outfile_fd);
+				pipex->outfile_fd = 0;
+			}
 			fd = open(list->cmd->tab[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd == -1)
 				return (-1);
 			pipex->outfile_fd = fd;
+			cmds = cmds->next;
 		}
 		list = list->next;
 	}
