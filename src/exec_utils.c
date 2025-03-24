@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/21 17:38:24 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/24 14:54:51 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	one_exe(t_list *cmds, t_pipe *pipex)
 	i = 0;
 	path_cmd = NULL;
 	fd = 0;
-	ft_redir(cmds, pipex);
+	ft_redir(&cmds, &pipex);
 	if (pipex->infile_fd != -1)
 	{
 		dup2(pipex->infile_fd, STDIN_FILENO);
@@ -71,7 +71,7 @@ void	first_exe(t_list *cmds, t_pipe *pipex)
 	i = 0;
 	path_cmd = NULL;
 	//close pipe_fd?
-	ft_redir(cmds, pipex);
+	ft_redir(&cmds, &pipex);
 	if (pipex->infile_fd != -1)
 	{
 		dup2(pipex->infile_fd, STDIN_FILENO);
@@ -110,7 +110,12 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 
 	i = 0;
 	path_cmd = NULL;
-	ft_redir(cmds, pipex);
+	if (ft_redir(&cmds, &pipex) == -1)
+	{
+		perror("bash: infile: ");
+		return ;
+	}
+	// printf("Redirection de file vers STDIN, fd = %d (fichier: %s)\n", pipex->infile_fd, cmds->cmd->tab[1]);  // Vérifie bien le fichier ici
 	if (pipex->infile_fd != -1)
 	{
 		printf("Redirection de file vers STDIN, fd = %d (fichier: %s)\n", 
@@ -143,51 +148,52 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
 		if (cmds->o_cmd->next != NULL)
 			cmds->o_cmd = cmds->o_cmd->next;
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
+		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->o_cmd->tab, pipex->env) == -1)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
 	return (perror("NOPE"));
 }
 ///HERE : issue with redir, alway takes the first redir instead of the last one. 
-int	ft_redir(t_list *cmds, t_pipe *pipex)
+int	ft_redir(t_list **cmds, t_pipe **pipex)
 {
 	t_list	*list;
-	int		fd;
+	
 
-	list = cmds;
-	pipex->infile_fd = -1;
-	pipex->outfile_fd = -1;
-	if (!list)
+	list = (*cmds);
+	(*pipex)->infile_fd = -1;
+	(*pipex)->outfile_fd = -1;
+	if (!cmds)
 		return (-1);
 	while (list && list->cmd->type != pip)
 	{
+		printf("Redirection de file vers STDIN, fd = %d (fichier: %s)\n", (*pipex)->infile_fd, list->cmd->tab[1]);  // Vérifie bien le fichier ici
 		printf("list = %s\n", list->cmd->tab[1]);
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
 		{
-			if (pipex->infile_fd != -1)
+			if ((*pipex)->infile_fd != -1)
 			{
-				close(pipex->infile_fd);
-				pipex->infile_fd = -1;
+				close((*pipex)->infile_fd);
+				(*pipex)->infile_fd = -1;
 			}
-			fd = open(list->cmd->tab[1], O_RDONLY);
-			if (fd == -1)
+			(*pipex)->fd = open(list->cmd->tab[1], O_RDONLY);
+			if ((*pipex)->fd == -1)
 			return (-1);
-			pipex->infile_fd = fd;
-			cmds = cmds->next;
+			(*pipex)->infile_fd = (*pipex)->fd;
+			// list = list->next;
 		}
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">") == 0)
 		{
-			if (pipex->outfile_fd != 1)
+			if ((*pipex)->outfile_fd != 1)
 			{
-				close(pipex->outfile_fd);
-				pipex->outfile_fd = 0;
+				close((*pipex)->outfile_fd);
+				(*pipex)->outfile_fd = 0;
 			}
-			fd = open(list->cmd->tab[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd == -1)
+			(*pipex)->fd = open(list->cmd->tab[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if ((*pipex)->fd == -1)
 				return (-1);
-			pipex->outfile_fd = fd;
-			cmds = cmds->next;
+			(*pipex)->outfile_fd = (*pipex)->fd;
+			// list = cmds->next;
 		}
 		list = list->next;
 	}
