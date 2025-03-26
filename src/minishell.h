@@ -68,6 +68,8 @@ typedef struct s_pipe
 	int		fd;
 	int		infile_fd;
 	int		outfile_fd;
+	int		backup_stdin;
+	int		backup_stdout;
 	int		abs_path;
 	char	**env;
 	char	**path;
@@ -148,6 +150,12 @@ int				cp_cmdtab(t_list *cmds, t_list *list);
 //EXEC_UTILS
 void			one_exe(t_list *cmds, t_pipe *pipex);
 void			first_exe(t_list *cmds, t_pipe *pipex);
+//EXEC_REDIR
+int				redir_in(t_pipe **pipex, t_list *list);
+int				redir_out(t_pipe **pipex, t_list *list);
+int				redir_fdin(t_pipe **pipex, t_list *cmds);
+int				redir_fdout_pip(t_pipe **pipex, t_list *cmds);
+int				redir_fdout(t_pipe **pipex, t_list *cmds);
 // void			next_exe(t_list *cmds, t_pipe *pipex);
 void			last_exe(t_list *cmds, t_pipe *pipex);
 int				invert_stdin(t_list *cmds, int fd);

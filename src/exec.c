@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/21 16:20:19 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/26 12:30:32 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 {
 	pipex->abs_path = 0;
+	pipex->backup_stdin = dup(STDIN_FILENO);
+	pipex->backup_stdout = dup(STDOUT_FILENO);
+	pipex->pipe_fd[0] = -1;
+	pipex->pipe_fd[1] = -1;
 	ft_only_cmd(cmds);
-	printf("CHECK HEAD OF CMD %s\n", cmds->o_cmd->tab[0]);
 	cmds->mem_cmd_nbr = cmds->cmd_nbr;
 	(void)cmds;
 	// if (cmds->cmd)
@@ -44,6 +47,7 @@ int	ft_only_cmd(t_list *cmds)
 		return (-1);
 	while (list)
 	{
+		i = 0;
 		if (list->cmd->type == word)
 		{
 			cmds->o_cmd->tab = ft_calloc(sizeof(char *), ft_count_line_split(list->cmd->tab) + 1);
@@ -146,9 +150,8 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
 	//GET PATH / ABSOLUT PATH
-	printf("cmds = %i\n", cmds->head->cmd_nbr);
 	if (ft_builtin(cmds, &pipex, ev) == 0)
-		return (0);
+	return (0);
 	if (pipe(pipex.pipe_fd) == -1)
 	{
 		perror("pipe");
@@ -159,7 +162,7 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 	{
 		pid = fork();
 		if (pid == -1)
-		return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
+			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
 		{
 			first_exe(cmds, &pipex);//CREATE FT
@@ -167,20 +170,9 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 		cmds->head->cmd_nbr--;
 		cmds = cmds->next;
 	}
-	// while (cmds->head->cmd_nbr > 1 && cmds && cmds->next)
-	// {
-		// 	cmds = cmds->next;
-		// 	pid = fork();
-		// 	if (pid == -1)
-		// 		return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
-		// 	if (pid == 0)
-		// 	{
-			// 		next_exe(cmds, &pipex);//CREATE FT
-			// 	}
-			// cmds->head->cmd_nbr--;
-			// }
 	if (cmds->head->cmd_nbr == 1 && cmds)
 	{
+		printf("//////////////last (parent)\n");
 		pid = fork();
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
