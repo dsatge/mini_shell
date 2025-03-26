@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/26 13:29:22 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/26 17:42:47 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds)
 	}
 	else if ((*pipex)->pipe_fd[1] != -1)
 	{
+		close((*pipex)->pipe_fd[1]);
 		dup2((*pipex)->pipe_fd[0], STDIN_FILENO);//GET bACK CONTENT FROM PIPE
 		// close((*pipex)->pipe_fd[1]);
 		close((*pipex)->pipe_fd[0]);
@@ -63,11 +64,14 @@ int	redir_fdout_pip(t_pipe **pipex, t_list *cmds)
 	(void) cmds;
 	if ((*pipex)->outfile_fd != -1)
 	{
+		printf("Only if redir??\n");
 		dup2((*pipex)->outfile_fd, STDOUT_FILENO);
 		close((*pipex)->outfile_fd);
 	}
 	else // else if ((*pipex)->pipe_fd[0] != -1)
 	{
+		// close((*pipex)->pipe_fd[0]);
+		printf("Rdir to pipe incoming\n");
 		dup2((*pipex)->pipe_fd[1], STDOUT_FILENO);
 		// close((*pipex)->pipe_fd[0]);
 		close((*pipex)->pipe_fd[1]);
@@ -87,8 +91,6 @@ int	redir_fdout(t_pipe **pipex, t_list *cmds)
 	else
 	{
 		printf("STDOUT not changed\n");
-		dup2(STDOUT_FILENO, STDOUT_FILENO);
-		printf("check fds:\n");
 	}
 	return (0);
 }
