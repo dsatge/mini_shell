@@ -59,6 +59,8 @@ int	main(int ac, char **av, char **env)
 		buf_value = ft_buffer(buffer, head, mini_struct);
 		if (buf_value == -1)
 			return (-1);
+		if (ft_strcmp("exit", buffer) == 0)
+			exit(0);
 		if (buf_value == 0)
 		{
 			head = ft_split_word(buffer, mini_struct);
@@ -69,6 +71,7 @@ int	main(int ac, char **av, char **env)
 					return (1);
 				cmds_list(head, cmds);
 				curr_cmd = cmds;
+				printf("Launch of exec\n");
 				ft_exec(curr_cmd, env, ev);
 				free_list(head);
 				free_cmds(cmds);

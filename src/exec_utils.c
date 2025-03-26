@@ -24,13 +24,12 @@ int	invert_stdin(t_list *cmds, int fd)
 	return (0);
 }
 
-
 void	first_exe(t_list *cmds, t_pipe *pipex)
 {
 	int i;
 	char	*path_cmd;
-	
-	i = 0;
+  
+  i = 0;
 	path_cmd = NULL;
 	printf("FIRST.....\n");
 	if (ft_redir(&cmds, &pipex) == -1)
@@ -80,6 +79,7 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 	}
 	return (perror("NOPE LAST EXE"));
 }
+
 int	ft_redir(t_list **cmds, t_pipe **pipex)
 {
 	t_list	*list;
