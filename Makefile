@@ -6,7 +6,7 @@
 #    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/03/26 16:02:28 by enschnei         ###   ########.fr        #
+#    Updated: 2025/03/26 16:44:09 by enschnei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ C_FILES = main.c\
 			ft_pwd.c\
 			ft_echo.c\
 			ft_exit.c\
+			heredoc.c\
 			ft_unset.c\
 			tokenise.c\
 			exec_utils.c\

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/26 12:30:32 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/26 17:04:31 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 	init_path(env, &pipex);
 	//GET PATH / ABSOLUT PATH
 	if (ft_builtin(cmds, &pipex, ev) == 0)
-	return (0);
+		return (0);
 	if (pipe(pipex.pipe_fd) == -1)
 	{
 		perror("pipe");

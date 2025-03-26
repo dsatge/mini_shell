@@ -162,4 +162,7 @@ void			last_exe(t_list *cmds, t_pipe *pipex);
 int				invert_stdin(t_list *cmds, int fd);
 int				ft_redir(t_list **cmds, t_pipe **pipex);
 
+//HEREDOC
+int				heredoc(t_list *cmds);
+
 #endif

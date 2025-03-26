@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/26 12:33:54 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/26 17:19:27 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 			if (redir_out(pipex, list) == -1)
 				return (-1);
 		}
+		// if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<<") == 0)
+		// 	if (heredoc(*cmds) == -1)
 		list = list->next;
 	}
 	return (0);

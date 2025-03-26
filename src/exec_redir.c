@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/26 13:29:22 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/26 17:23:45 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	redir_in(t_pipe **pipex, t_list *list)
 	if ((*pipex)->fd == -1)
 		return (-1);
 	(*pipex)->infile_fd = (*pipex)->fd;
-	return (0);
+	return (0);	
 }
 
 int redir_out(t_pipe **pipex, t_list *list)
