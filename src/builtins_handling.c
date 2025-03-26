@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_handling.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/03/26 13:29:00 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/26 15:46:18 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_builtin(t_list *cmds, t_pipe *pipex, t_env *ev)
 		printf("HEREDOC\n");
 	// else if (ft_strcmp(cmd->str, "export") == 0)
 	// 	return(ft_export(cmd->str), 0);
-	// else if (ft_strcmp(cmd->str, "exit") == 0)
-	// 	return(ft_exit(cmd), 0);
+	else if (ft_strcmp(cmds->cmd->tab[0], "exit") == 0)
+		return(ft_exit(cmds), 0);
 	return (1);
 }

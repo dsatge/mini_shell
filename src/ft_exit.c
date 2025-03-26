@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:18:32 by baiannon          #+#    #+#             */
-/*   Updated: 2025/01/31 16:47:46 by baiannon         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:52:15 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
+#include "minishell.h"
 
-// int ft_exit(char  **cmd)
-// {
-// 	return(0);
-// }
+int ft_exit(t_list *cmds)
+{
+    (void)cmds;
+
+    printf("Bisous mon chou <3\n");
+	exit(EXIT_SUCCESS);
+}

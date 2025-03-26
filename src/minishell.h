@@ -137,6 +137,7 @@ void			ft_init_env(char **cmd, t_env *ev);
 int				ft_echo(char **cmd);
 int				ft_cd(char **cmd);
 int				ft_pwd(char **cmd);
+int 			ft_exit(t_list *cmds);
 void			ft_env(t_env *ev);
 void			ft_unset(char **cmd, t_env *ev);
 

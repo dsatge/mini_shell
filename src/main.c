@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/24 14:00:50 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/26 15:49:56 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	main(int ac, char **av, char **env)
 		buf_value = ft_buffer(buffer, head, mini_struct);
 		if (buf_value == -1)
 			return (-1);
-		if (ft_strcmp("exit", buffer) == 0)
-			exit(0);
+		// if (ft_strcmp("exit", buffer) == 0)
+		// 	exit(0);
 		if (buf_value == 0)
 		{
 			head = ft_split_word(buffer, mini_struct);
