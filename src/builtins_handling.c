@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/02/07 15:38:28 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/26 13:29:00 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	ft_builtin(t_list *cmds, t_pipe *pipex, t_env *ev)
 		return(ft_env(ev), 0);
 	else if (ft_strcmp(cmds->cmd->tab[0], "unset") == 0)
 		return(ft_unset(cmds->cmd->tab, ev), 0);
+	else if (ft_strcmp(cmds->cmd->tab[0], "<<") == 0)
+		printf("HEREDOC\n");
 	// else if (ft_strcmp(cmd->str, "export") == 0)
 	// 	return(ft_export(cmd->str), 0);
 	// else if (ft_strcmp(cmd->str, "exit") == 0)

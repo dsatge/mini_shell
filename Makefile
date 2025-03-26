@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+         #
+#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/01/31 18:29:49 by baiannon         ###   ########.fr        #
+#    Updated: 2025/03/24 15:28:39 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC_FILES = main.c\
 			list.c\
 			exec.c\
 			exec_utils.c\
+			exec_redir.c\
 			ft_env.c\
 			ft_unset.c\
 

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/02/06 17:24:44 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/26 12:33:54 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,169 +24,84 @@ int	invert_stdin(t_list *cmds, int fd)
 	return (0);
 }
 
-int	invert_stdout(t_list *cmds, t_pipe *pipex)
-{
-	(void)cmds;
-	printf("Before invert fd\n");
-	if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
-	{
-		return (-1);
-	}
-	close(pipex->pipe_fd[0]);
-	close(pipex->pipe_fd[1]);
-	return (0);
-}
-
-void	one_exe(t_list *cmds, t_pipe *pipex)
-{
-	/*MISSING:
-	-securities
-	-access for files
-	-redirection when redir after cmd*/
-	int i;
-	char	*path_cmd;
-	int fd;	
-
-	i = 0;
-	path_cmd = NULL;
-	pipex->file = NULL;
-	fd = 0;
-	if (cmds->cmd->type == redir)
-	{
-		printf("HONEY I M IN\n");
-		while (cmds && cmds->cmd->type == redir && cmds->cmd->type != pip)
-		{
-			if (invert_stdin(cmds, fd) == -1)
-				return (perror("invert_stdin failed\n"));
-			cmds = cmds->next;
-		}
-	}
-	printf("ONE CMD\n");
-	while (pipex->path[i])
-	{
-		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->cmd->tab[0]);
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
-			return (exit(127), perror("exe_cmd:"));
-		i++;
-	}
-	return (perror("NOPE"));
-}
-
 void	first_exe(t_list *cmds, t_pipe *pipex)
 {
-	/*MISSING:
-	-securities
-	-access for files
-	_redir when redir after cmd*/
 	int i;
 	char	*path_cmd;
-	int		fd;
-	// int fd;	
-	
-	i = 0;
+  
+  i = 0;
 	path_cmd = NULL;
-	pipex->file = NULL;
-	fd = 0;
-	if (cmds->cmd->type == redir)
+	printf("FIRST.....\n");
+	if (ft_redir(&cmds, &pipex) == -1)
 	{
-		printf("HONEY I M IN\n");
-		while (cmds && cmds->cmd->type == redir && cmds->cmd->type != pip)
-		{
-			if (invert_stdin(cmds, fd) == -1)
-				return (perror("invert_stdin failed\n"));
-			cmds = cmds->next;
-		}
-	}																			
-	if (invert_stdout(cmds, pipex))
-		return (perror("Error invert_stdout\n"));
-	ft_putstr_fd("FIRST\n", 2);	// fd = open()
-	// if (invert_inout(&pipex, 0, fd) == -1)
-	// 	return ;
-	// (void)fd;
+		perror("bash: infile: ");
+		return;
+	}
+	redir_fdin(&pipex, cmds);
+	redir_fdout_pip(&pipex, cmds); /// NE PAS OUBLIER DE DECOMMENTER QUAND PATH FONCTIONNE !!!
 	while (pipex->path[i])
 	{
 		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->cmd->tab[0]);
-		if (!path_cmd)
-			return (perror("error join\n"));
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
-		{
-			return (exit(127), perror("exe_cmd:"));
-		}
-		i++;
-	}
-	return (perror("NOPE"));
-}
-
-void	next_exe(t_list *cmds, t_pipe *pipex)
-{
-	int i;
-	char	*path_cmd;
-	// int fd;	
-
-	i = 0;
-	path_cmd = NULL;
-	pipex->file = NULL;
-	if (dup2(pipex->pipe_fd[0], STDIN_FILENO) == -1)
-		return ;
-	if (dup2(pipex->pipe_fd[1], STDOUT_FILENO) == -1)
-		return ;
-	close(pipex->pipe_fd[1]);
-	close(pipex->pipe_fd[0]);
-	// fd = open()
-	// if (invert_inout(&pipex, 0, fd) == -1)
-	// 	return ;
-	// (void)fd;
-	printf("FOLLOWERS....\n");
-	while (pipex->path[i])
-	{
-		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->cmd->tab[0]);
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
+		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
+		if (cmds->o_cmd->next != NULL)
+			cmds->o_cmd = cmds->o_cmd->next;
+		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->o_cmd->tab, pipex->env) == -1)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
-	return (perror("NOPE"));
+	return (perror("NOPE FIRST EXE"));
 }
 
 void	last_exe(t_list *cmds, t_pipe *pipex)
 {
 	int i;
 	char	*path_cmd;
-	// int fd;	
 
 	i = 0;
 	path_cmd = NULL;
-	pipex->file = NULL;
-	if (dup2(pipex->pipe_fd[0], STDIN_FILENO) == -1)
+	if (ft_redir(&cmds, &pipex) == -1)
+	{
+		perror("bash: infile: ");
 		return ;
-	if (dup2(STDOUT_FILENO, pipex->pipe_fd[1]) == -1)
-		return ;
-	close(pipex->pipe_fd[1]);
-	close(pipex->pipe_fd[0]);
+	}
+	redir_fdin(&pipex, cmds);
+	redir_fdout(&pipex, cmds);
 	printf("LAST....\n");
 	while (pipex->path[i])
 	{
 		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->cmd->tab[0]);
-		if (!path_cmd)
-			return (perror("strjoin fail\n"));
-		// if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
-		// 	return (exit(127), perror("exe_cmd:"));
-		// if (access(path_cmd, F_OK | X_OK) == -1)
-		// 	return (perror("ACCESS PROBLEME "));
-		if (access(path_cmd, F_OK) == 0 && access(path_cmd, X_OK) == 0 && execve(path_cmd, cmds->cmd->tab, pipex->env) == -1)
-		{
-			return (perror("EXECVE ERROR\n"));
-			// exit (1);
-		}
+		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
+		if (cmds->o_cmd->next != NULL)
+			cmds->o_cmd = cmds->o_cmd->next;
+		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->o_cmd->tab, pipex->env) == -1)
+			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
-	if (access(path_cmd, F_OK) == -1 && access(path_cmd, X_OK) == -1)
+	return (perror("NOPE LAST EXE"));
+}
+
+int	ft_redir(t_list **cmds, t_pipe **pipex)
+{
+	t_list	*list;
+	
+	list = (*cmds);
+	(*pipex)->infile_fd = -1;
+	(*pipex)->outfile_fd = -1;
+	if (!cmds)
+		return (-1);
+	while (list && list->cmd->type != pip)
 	{
-	    perror("File exist");
-	    perror("File is executable");
+		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
+		{
+			if (redir_in(pipex, list) == -1)
+				return (-1);
+		}
+		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">") == 0)
+		{
+			if (redir_out(pipex, list) == -1)
+				return (-1);
+		}
+		list = list->next;
 	}
-	return (perror("NOPE"));
+	return (0);
 }

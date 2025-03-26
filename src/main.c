@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/02/07 15:41:04 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/24 14:00:50 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,3 +84,28 @@ int	main(int ac, char **av, char **env)
 	}
 	free(mini_struct);		
 }
+
+
+
+
+
+
+// tableau de fd =
+// 0 STDIN
+// 1 STDOUT
+// 2 STDERR
+// 3 ...
+// 4 ....
+// ..ETC
+// 1024 ...
+
+
+
+
+
+
+// ls < in1
+
+
+// dup2(in1, STDIN)
+// close(STDIN);
