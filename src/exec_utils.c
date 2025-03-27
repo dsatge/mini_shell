@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/26 12:33:54 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/27 16:06:11 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	first_exe(t_list *cmds, t_pipe *pipex)
 	int i;
 	char	*path_cmd;
   
-  i = 0;
+  	i = 0;
 	path_cmd = NULL;
 	printf("FIRST.....\n");
 	if (ft_redir(&cmds, &pipex) == -1)
@@ -42,6 +42,8 @@ void	first_exe(t_list *cmds, t_pipe *pipex)
 	while (pipex->path[i])
 	{
 		free(path_cmd);
+		printf("Pipex->path %s\n", pipex->path[i]);
+		printf("cmds->o_cmd->tab[0] %s\n", cmds->o_cmd->tab[0]);
 		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
 		if (cmds->o_cmd->next != NULL)
 			cmds->o_cmd = cmds->o_cmd->next;
@@ -70,6 +72,8 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 	while (pipex->path[i])
 	{
 		free(path_cmd);
+		printf("Pipex->path %s\n", pipex->path[i]);
+		printf("cmds->o_cmd->tab[0] %s\n", cmds->o_cmd->tab[0]);
 		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
 		if (cmds->o_cmd->next != NULL)
 			cmds->o_cmd = cmds->o_cmd->next;

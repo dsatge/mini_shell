@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/26 12:30:32 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/27 15:48:47 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,14 +152,15 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 	//GET PATH / ABSOLUT PATH
 	if (ft_builtin(cmds, &pipex, ev) == 0)
 	return (0);
-	if (pipe(pipex.pipe_fd) == -1)
-	{
-		perror("pipe");
-		ft_freetab(pipex.path);
-		exit(EXIT_FAILURE);
-	}
 	while (cmds->head->cmd_nbr > 1)
 	{
+		if (pipe(pipex.pipe_fd) == -1) // modification de samy // CESSST BONNN
+		{
+			perror("pipe");
+			ft_freetab(pipex.path);
+			exit(EXIT_FAILURE);
+		}
+		printf("//////////////Firsts (parent)\n");
 		pid = fork();
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
@@ -167,9 +168,13 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 		{
 			first_exe(cmds, &pipex);//CREATE FT
 		}
+		// close(pipex.infile_fd);
+		// close(pipex.outfile_fd);
+		// close(pipex.fd);
 		cmds->head->cmd_nbr--;
 		cmds = cmds->next;
 	}
+	printf("cmd number %d\n", cmds->head->cmd_nbr);
 	if (cmds->head->cmd_nbr == 1 && cmds)
 	{
 		printf("//////////////last (parent)\n");
@@ -180,14 +185,18 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 		{
 			last_exe(cmds, &pipex);//CREATE FT
 		}
+		// close(pipex.infile_fd);
+		// close(pipex.outfile_fd);
+		// close(pipex.pipe_fd[0]);
+		close(pipex.pipe_fd[1]);
 		cmds->head->cmd_nbr--;
 	}
 	if (pid == 0)
 		exit(1);
 	// wait(&pid);
 	waitpid(pid, &status, 0);
-	close(pipex.pipe_fd[0]);
-	close(pipex.pipe_fd[1]);
+	// close(pipex.pipe_fd[0]);
+	// close(pipex.pipe_fd[1]);
 	//FREE pipex.path
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/26 17:42:47 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/27 16:11:27 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	redir_fdout_pip(t_pipe **pipex, t_list *cmds)
 	}
 	else // else if ((*pipex)->pipe_fd[0] != -1)
 	{
-		// close((*pipex)->pipe_fd[0]);
+		close((*pipex)->pipe_fd[0]);
 		printf("Rdir to pipe incoming\n");
 		dup2((*pipex)->pipe_fd[1], STDOUT_FILENO);
 		// close((*pipex)->pipe_fd[0]);
@@ -91,6 +91,8 @@ int	redir_fdout(t_pipe **pipex, t_list *cmds)
 	else
 	{
 		printf("STDOUT not changed\n");
+		// close((*pipex)->pipe_fd[0]); ////////THIS ONE CLOSES BECAUSE OF VALGRIND IN ONE EXE
+		// close((*pipex)->pipe_fd[1]);
 	}
 	return (0);
 }
