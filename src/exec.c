@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/27 15:48:47 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:16:00 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@ void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 	(void)cmds;
 	// if (cmds->cmd)
 	if (env[0] == NULL)
-		pipex->abs_path = -1;
+	pipex->abs_path = -1;
 	else
-		pipex->env = env;
-		
+	pipex->env = env;
 }
 
 int	ft_only_cmd(t_list *cmds)
@@ -36,15 +35,15 @@ int	ft_only_cmd(t_list *cmds)
 	t_o_cmd	*head;
 	
 	int		i;
-
+	
 	list = cmds;
 	i = 0;
 	if (!cmds || !cmds->cmd || !cmds->cmd->tab[0])
-		return (-1);
+	return (-1);
 	cmds->o_cmd = malloc(sizeof(t_o_cmd));
 	head = cmds->o_cmd;
 	if (!cmds->o_cmd)
-		return (-1);
+	return (-1);
 	while (list)
 	{
 		i = 0;
@@ -52,7 +51,7 @@ int	ft_only_cmd(t_list *cmds)
 		{
 			cmds->o_cmd->tab = ft_calloc(sizeof(char *), ft_count_line_split(list->cmd->tab) + 1);
 			if (!cmds->o_cmd->tab)
-				return (-1);
+			return (-1);
 			while(list->cmd->tab[i] != 0)
 			{
 				cmds->o_cmd->tab[i] = ft_strdup(list->cmd->tab[i]);
@@ -66,7 +65,7 @@ int	ft_only_cmd(t_list *cmds)
 	while (list)
 	{
 		if (list->cmd->type == word)
-			cp_cmdtab(cmds, list); //FILL TAB
+		cp_cmdtab(cmds, list); //FILL TAB
 		list = list->next;
 	}
 	cmds->o_cmd = head;
@@ -80,7 +79,7 @@ int	cp_cmdtab(t_list *cmds, t_list *list)
 	i = 0;
 	cmds->o_cmd->next->tab = ft_calloc(sizeof(char *), ft_count_line_split(list->cmd->tab) + 1);
 	if (!cmds->o_cmd->tab)
-		return (-1);
+	return (-1);
 	while(list->cmd->tab[i] != 0)
 	{
 		cmds->o_cmd->tab[i] = ft_strdup(list->cmd->tab[i]);
@@ -96,7 +95,7 @@ char	**add_path(char *add, int len, char **path_split)
 {
 	int		line;
 	char	**new;
-
+	
 	line = 0;
 	new = malloc(sizeof(char *) * (len + 1));
 	if (!new)
@@ -126,13 +125,13 @@ int	init_path(char **env, t_pipe *pipex)
 	char	**path_split;
 	int		i;
 	int		line_path_count;
-
+	
 	path = NULL;
 	i = 0;
 	if (!env)
-		return (-1);
+	return (-1);
 	while (env[i] && ft_strncmp(env[i], "PATH=", 5) != 0)
-		i++;
+	i++;
 	path = ft_strtrim(env[i], "PATH=");
 	path_split = ft_split(path, ':');
 	free(path);
@@ -152,27 +151,33 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 	//GET PATH / ABSOLUT PATH
 	if (ft_builtin(cmds, &pipex, ev) == 0)
 	return (0);
-	while (cmds->head->cmd_nbr > 1)
-	{
-		if (pipe(pipex.pipe_fd) == -1) // modification de samy // CESSST BONNN
+		while (cmds->head->cmd_nbr > 1)
 		{
-			perror("pipe");
-			ft_freetab(pipex.path);
-			exit(EXIT_FAILURE);
-		}
-		printf("//////////////Firsts (parent)\n");
-		pid = fork();
-		if (pid == -1)
-			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
-		if (pid == 0)
-		{
-			first_exe(cmds, &pipex);//CREATE FT
-		}
+			if (pipe(pipex.pipe_fd) == -1) // modification de samy // CESSST BONNN
+			{
+				perror("pipe");
+				ft_freetab(pipex.path);
+				exit(EXIT_FAILURE);
+			}
+			pipex.mempipe_fd0 = pipex.pipe_fd[0];
+			pipex.mempipe_fd0 = pipex.pipe_fd[1];
+			printf("~~~uuuuuuuuuuuu~~LETS CHECK pipe_fd[1] = %d\n", pipex.pipe_fd[1]);	
+			printf("//////////////Firsts (parent)\n");
+			pid = fork();
+			if (pid == -1)
+				return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
+			if (pid == 0)
+			{
+				first_exe(cmds, &pipex);//CREATE FT
+			}
 		// close(pipex.infile_fd);
 		// close(pipex.outfile_fd);
-		// close(pipex.fd);
+			// close(pipex.fd);
+		dup2(STDIN_FILENO, STDIN_FILENO);
+		dup2(STDOUT_FILENO, STDOUT_FILENO);
 		cmds->head->cmd_nbr--;
 		cmds = cmds->next;
+		pipex.outfile_fd = -1;
 	}
 	printf("cmd number %d\n", cmds->head->cmd_nbr);
 	if (cmds->head->cmd_nbr == 1 && cmds)
@@ -193,7 +198,6 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 	}
 	if (pid == 0)
 		exit(1);
-	// wait(&pid);
 	waitpid(pid, &status, 0);
 	// close(pipex.pipe_fd[0]);
 	// close(pipex.pipe_fd[1]);

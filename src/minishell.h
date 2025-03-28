@@ -65,6 +65,8 @@ typedef struct s_o_cmd
 typedef struct s_pipe
 {
 	int		pipe_fd[2];
+	int		mempipe_fd0;
+	int		mempipe_fd1;
 	int		fd;
 	int		infile_fd;
 	int		outfile_fd;

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/27 16:06:11 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:39:18 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ void	first_exe(t_list *cmds, t_pipe *pipex)
 	while (pipex->path[i])
 	{
 		free(path_cmd);
-		printf("Pipex->path %s\n", pipex->path[i]);
-		printf("cmds->o_cmd->tab[0] %s\n", cmds->o_cmd->tab[0]);
 		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
 		if (cmds->o_cmd->next != NULL)
 			cmds->o_cmd = cmds->o_cmd->next;
@@ -72,8 +70,6 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 	while (pipex->path[i])
 	{
 		free(path_cmd);
-		printf("Pipex->path %s\n", pipex->path[i]);
-		printf("cmds->o_cmd->tab[0] %s\n", cmds->o_cmd->tab[0]);
 		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
 		if (cmds->o_cmd->next != NULL)
 			cmds->o_cmd = cmds->o_cmd->next;
@@ -84,17 +80,35 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 	return (perror("NOPE LAST EXE"));
 }
 
+void	ft_print(t_list *list)
+{
+	t_list	*cmds;
+
+	cmds = list;
+	while (cmds)
+	{
+		printf("%s\n", cmds->cmd->tab[0]);
+		if (cmds->cmd->type == redir)
+			printf(" -> %s\n", cmds->cmd->tab[1]);
+		if (cmds->cmd->tab == pip)
+			printf ("|\n");
+		cmds = cmds->next;
+	}
+}
 int	ft_redir(t_list **cmds, t_pipe **pipex)
 {
 	t_list	*list;
 	
 	list = (*cmds);
+	ft_print(list);
 	(*pipex)->infile_fd = -1;
 	(*pipex)->outfile_fd = -1;
 	if (!cmds)
 		return (-1);
+	printf (".................................\n");
 	while (list && list->cmd->type != pip)
 	{
+		printf(" 				list is at : %s\n", list->cmd->tab[0]);
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
 		{
 			if (redir_in(pipex, list) == -1)
@@ -107,5 +121,7 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 		}
 		list = list->next;
 	}
+	if (list && list->cmd->type == pip)
+		list = list->next;
 	return (0);
 }
