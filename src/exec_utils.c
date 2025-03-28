@@ -6,11 +6,27 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/26 17:19:27 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:14:29 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+// static int redir_heredoc()
+// {
+//     int fd;
+
+//     fd = open("File_heredoc", O_RDONLY);
+//     if (fd == -1)
+//         return (perror("open heredoc failed"), -1);
+//     if (dup2(fd, STDIN_FILENO) == -1)
+//     {
+//         close(fd);
+//         return (perror("dup2 failed"), -1);
+//     }
+//     close(fd);
+//     return (0);
+// }
 
 int	invert_stdin(t_list *cmds, int fd)
 {
@@ -102,7 +118,12 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 				return (-1);
 		}
 		// if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<<") == 0)
-		// 	if (heredoc(*cmds) == -1)
+		// {
+    	// 	if (heredoc(*cmds) == -1)
+	    // 	    return (-1);
+    	// 	if (redir_heredoc() == -1)
+        // 		return (-1);
+		// }
 		list = list->next;
 	}
 	return (0);

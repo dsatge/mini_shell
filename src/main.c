@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/26 16:59:24 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/03/28 13:53:12 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,13 @@ int	main(int ac, char **av, char **env)
 	t_token			*head;
 	t_list			*cmds;
 	t_list			*curr_cmd;
-	t_env			*ev;
 	
 	head = NULL;
 	cmds = NULL;
-	mini_struct = malloc(sizeof(t_minish));
+	mini_struct = ft_calloc(sizeof(t_minish), 1);
 	if (!mini_struct)
 		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
-	ev = malloc(sizeof(t_env));
-	ft_init_env(env, ev);
+	ft_init_env(env, &mini_struct->env);
 	while (1)
 	{
 		signal_handle();
@@ -72,7 +70,7 @@ int	main(int ac, char **av, char **env)
 				cmds_list(head, cmds);
 				curr_cmd = cmds;
 				// printf("Launch of exec\n");
-				ft_exec(curr_cmd, env, ev);
+				ft_exec(curr_cmd, env, &mini_struct->env);
 				free_list(head);
 				free_cmds(cmds);
 			}

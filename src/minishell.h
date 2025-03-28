@@ -40,8 +40,15 @@ typedef enum s_type
 typedef struct s_env
 {
 	char				*value;
+	char 				*type;
 	struct s_env		*next;
 }						t_env;
+
+typedef struct s_env_head
+{
+	t_env			*head;
+	unsigned int	size;
+}	t_env_head;
 
 typedef struct s_token
 {
@@ -91,6 +98,7 @@ typedef struct s_minish
 	t_token			*element;
 	t_type			*type;
 	t_quote			*quote;
+	t_env_head		env;
 }	t_minish;
 
 
@@ -131,21 +139,24 @@ int	redir_cmds(t_token *list, t_list *cmds);
 int	word_cmds(t_token *list, t_list *cmds);
 //PRINT_TEST_LIST
 
-// CAMMANDS
-int				ft_builtin(t_list *cmds, t_pipe *pipex, t_env *ev);
-void			ft_init_env(char **cmd, t_env *ev);
+// COMMANDS
+int				ft_builtin(t_list *cmds, t_pipe *pipex, t_env_head *env_head);
+int 			ft_init_env(char **env, t_env_head *env_head);
+char 			*get_value_env(char *cmd);
+char 			*get_type_env(char *cmd);
 int				ft_echo(char **cmd);
 int				ft_cd(char **cmd);
 int				ft_pwd(char **cmd);
 int 			ft_exit(t_list *cmds);
-void			ft_env(t_env *ev);
-void			ft_unset(char **cmd, t_env *ev);
+int				ft_export(char **cmd, t_env_head *env_head);
+void			ft_env(t_env_head *env_head);
+void			ft_unset(char **cmd, t_env_head *env_head);
 
 //EXEC
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
 char			**add_path(char *add, int len, char **path_split);
 int				init_path(char **env, t_pipe *pipex);
-int				ft_exec(t_list *cmds, char **env, t_env *ev);
+int				ft_exec(t_list *cmds, char **env, t_env_head *env_head);
 int				ft_only_cmd(t_list *cmds);
 int				cp_cmdtab(t_list *cmds, t_list *list);
 //EXEC_UTILS

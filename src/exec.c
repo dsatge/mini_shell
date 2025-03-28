@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/26 17:04:31 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/03/28 13:28:40 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int	init_path(char **env, t_pipe *pipex)
 	return (0);
 }
 
-int	ft_exec(t_list *cmds, char **env, t_env *ev)
+int	ft_exec(t_list *cmds, char **env, t_env_head *env_head)
 {
 	pid_t	pid;
 	t_pipe	pipex;
@@ -150,7 +150,7 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
 	//GET PATH / ABSOLUT PATH
-	if (ft_builtin(cmds, &pipex, ev) == 0)
+	if (ft_builtin(cmds, &pipex, env_head) == 0)
 		return (0);
 	if (pipe(pipex.pipe_fd) == -1)
 	{
