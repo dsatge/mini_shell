@@ -156,7 +156,7 @@ void			ft_unset(char **cmd, t_env_head *env_head);
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
 char			**add_path(char *add, int len, char **path_split);
 int				init_path(char **env, t_pipe *pipex);
-int				ft_exec(t_list *cmds, char **env, t_env_head *env_head);
+int				ft_exec(t_list *cmds, t_env_head *env_head);
 int				ft_only_cmd(t_list *cmds);
 int				cp_cmdtab(t_list *cmds, t_list *list);
 //EXEC_UTILS

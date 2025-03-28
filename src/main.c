@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/28 13:53:12 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/03/28 15:39:23 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int ac, char **av, char **env)
 				cmds_list(head, cmds);
 				curr_cmd = cmds;
 				// printf("Launch of exec\n");
-				ft_exec(curr_cmd, env, &mini_struct->env);
+				ft_exec(curr_cmd, &mini_struct->env);
 				free_list(head);
 				free_cmds(cmds);
 			}

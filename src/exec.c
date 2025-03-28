@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/28 13:28:40 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:38:54 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,12 +141,54 @@ int	init_path(char **env, t_pipe *pipex)
 	return (0);
 }
 
-int	ft_exec(t_list *cmds, char **env, t_env_head *env_head)
+void free_tab_2(char **tab, int size)
 {
+    int i = 0;
+    while (i < size)
+    {
+        free(tab[i]);
+        i++;
+    }
+    free(tab);
+}
+
+char **buildtab(t_env_head *env_head)
+{
+    t_env   *tmp;
+    int     i;
+    char    **env;
+    char    *temp;
+
+    i = 0;
+    tmp = env_head->head;
+    env = malloc(sizeof(char *) * (env_head->size + 1));
+    if (!env)
+        return (NULL);
+    while (tmp)
+    {
+        temp = ft_strjoin(tmp->type, "="); // Ajout du "=" entre type et value
+        if (!temp)
+            return (free_tab_2(env, i), NULL);
+        env[i] = ft_strjoin(temp, tmp->value);
+        free(temp);
+        if (!env[i])
+            return (free_tab_2(env, i), NULL);
+        tmp = tmp->next;
+        i++;
+    }
+    env[i] = NULL;
+    return (env);
+}
+
+int	ft_exec(t_list *cmds, t_env_head *env_head)
+{
+	char **env;
 	pid_t	pid;
 	t_pipe	pipex;
 	int		status;
 	
+	
+	env = buildtab(env_head);
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
 	//GET PATH / ABSOLUT PATH
