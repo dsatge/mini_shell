@@ -150,7 +150,7 @@ int				ft_pwd(char **cmd);
 int 			ft_exit(t_list *cmds);
 int				ft_export(char **cmd, t_env_head *env_head);
 void			ft_env(t_env_head *env_head);
-void			ft_unset(char **cmd, t_env_head *env_head);
+void			ft_unset(char **cmds, t_env_head *env_head);
 
 //EXEC
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);

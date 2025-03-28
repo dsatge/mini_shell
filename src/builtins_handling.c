@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/03/28 15:25:16 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/03/28 18:11:33 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	ft_builtin(t_list *cmds, t_pipe *pipex, t_env_head *env_head)
 		return(ft_pwd(cmds->cmd->tab), 0);
 	else if (ft_strcmp(cmds->cmd->tab[0], "env") == 0)
 		return(ft_env(env_head), 0);
-	// else if (ft_strcmp(cmds->cmd->tab[0], "unset") == 0)
-	// 	return(ft_unset(cmds->cmd->tab, ev), 0);
+	else if (ft_strcmp(cmds->cmd->tab[0], "unset") == 0)
+		return(ft_unset(cmds->cmd->tab, env_head), 0);
 	else if (ft_strcmp(cmds->cmd->tab[0], "<<") == 0)
 		return(heredoc(cmds), 0);
 	else if (ft_strcmp(cmds->cmd->tab[0], "export") == 0)
