@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 14:25:31 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/03/31 17:06:49 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int ac, char **av, char **env)
 	cmds = NULL;
 	mini_struct = ft_calloc(sizeof(t_minish), 1);
 	if (!mini_struct)
-		return (ft_putstr_fd("Err    (void)env_head;or malloc minish in main\n", 2), -1);
+		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
 	ft_init_env(env, &mini_struct->env);
 	while (1)
 	{
@@ -99,7 +99,8 @@ int	main(int ac, char **av, char **env)
 		}
 	}
 	free_env(&mini_struct->env);
-	free(mini_struct);			
+	free(mini_struct);
+	return (0);
 }
 
 
@@ -111,7 +112,7 @@ int	main(int ac, char **av, char **env)
 // 0 STDIN
 // 1 STDOUT
 // 2 STDERR
-// 3 ...
+// 3 ....
 // 4 ....
 // ..ETC
 // 1024 ...
@@ -125,4 +126,4 @@ int	main(int ac, char **av, char **env)
 
 
 // dup2(in1, STDIN)
-// close(STDIN);
+// close(in1);
