@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 12:38:41 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/31 13:09:12 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 	(*pipex)->outfile_fd = -1;
 	if (!cmds)
 		return (-1);
+	printf ("start of the command is : %s~~~~~~\n", list->cmd->tab[0]);
 	while (list && list->cmd->type != pip)
 	{
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 12:39:56 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/31 13:22:39 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,19 @@ int	init_path(char **env, t_pipe *pipex)
 	return (0);
 }
 
+int	next_cmdexe(t_list **cmds)
+{
+	if (!cmds)
+		return (-1);
+	while (cmds && (*cmds)->cmd->type != pip)
+	{
+		(*cmds) = (*cmds)->next;
+	}
+	if (cmds && (*cmds)->cmd->type == pip)
+		(*cmds) = (*cmds)->next;
+	return (0);
+}
+
 int	ft_exec(t_list *cmds, char **env, t_env *ev)
 {
 	pid_t	pid;
@@ -150,33 +163,34 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 	init_path(env, &pipex);
 	//GET PATH / ABSOLUT PATH
 	if (ft_builtin(cmds, &pipex, ev) == 0)
-	return (0);
-		while (cmds->head->cmd_nbr > 1)
+		return (0);
+	if (pipe(pipex.pipe_fd) == -1)
+	{
+		perror("pipe");
+		ft_freetab(pipex.path);
+		exit(EXIT_FAILURE);
+	}
+	while (cmds->head->cmd_nbr > 1)
+	{
+		// pipex.mempipe_fd0 = pipex.pipe_fd[0];
+		// pipex.mempipe_fd0 = pipex.pipe_fd[1];
+		printf("//////////////Firsts (parent)\n");
+		pid = fork();
+		if (pid == -1)
+			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
+		if (pid == 0)
 		{
-			if (pipe(pipex.pipe_fd) == -1)
-			{
-				perror("pipe");
-				ft_freetab(pipex.path);
-				exit(EXIT_FAILURE);
-			}
-			pipex.mempipe_fd0 = pipex.pipe_fd[0];
-			pipex.mempipe_fd0 = pipex.pipe_fd[1];
-			printf("//////////////Firsts (parent)\n");
-			pid = fork();
-			if (pid == -1)
-				return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
-			if (pid == 0)
-			{
-				first_exe(cmds, &pipex);//CREATE FT
-			}
+			first_exe(cmds, &pipex);//CREATE FT
+		}
 		// close(pipex.infile_fd);
 		// close(pipex.outfile_fd);
 			// close(pipex.fd);
 		dup2(STDIN_FILENO, STDIN_FILENO);
 		dup2(STDOUT_FILENO, STDOUT_FILENO);
 		cmds->head->cmd_nbr--;
-		cmds = cmds->next;
+		// cmds = cmds->next;
 		pipex.outfile_fd = -1;
+		next_cmdexe(&cmds);
 	}
 	printf("cmd number %d\n", cmds->head->cmd_nbr);
 	if (cmds->head->cmd_nbr == 1 && cmds)
@@ -192,6 +206,9 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 		// close(pipex.infile_fd);
 		// close(pipex.outfile_fd);
 		// close(pipex.pipe_fd[0]);
+		dup2(STDIN_FILENO, STDIN_FILENO);
+		dup2(STDOUT_FILENO, STDOUT_FILENO);
+
 		close(pipex.pipe_fd[1]);
 		cmds->head->cmd_nbr--;
 	}

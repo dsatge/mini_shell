@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/28 18:37:36 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/31 12:53:00 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds)
 	}
 	else if ((*pipex)->pipe_fd[1] != (*pipex)->mempipe_fd1)
 	{
-		printf("~~~~~~~~~~~~~LETS CHECK pipe_fd[1] = %d and meme = %d\n", (*pipex)->pipe_fd[1], (*pipex)->mempipe_fd1);
 		close((*pipex)->pipe_fd[1]);
 		dup2((*pipex)->pipe_fd[0], STDIN_FILENO);//GET bACK CONTENT FROM PIPE
 		// close((*pipex)->pipe_fd[1]);
