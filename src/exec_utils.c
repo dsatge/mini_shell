@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 13:09:12 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/31 16:45:23 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	invert_stdin(t_list *cmds, int fd)
 	return (0);
 }
 
-void	first_exe(t_list *cmds, t_pipe *pipex)
+void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 {
 	int i;
 	char	*path_cmd;
@@ -42,23 +42,24 @@ void	first_exe(t_list *cmds, t_pipe *pipex)
 	while (pipex->path[i])
 	{
 		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
-		if (cmds->o_cmd->next != NULL)
-			cmds->o_cmd = cmds->o_cmd->next;
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->o_cmd->tab, pipex->env) == -1)
-			return (exit(127), perror("exe_cmd:"));
+		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
+		// if (cmds->o_cmd->next != NULL)
+		// 	cmds->o_cmd = cmds->o_cmd->next;
+		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)
+		return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
 	return (perror("NOPE FIRST EXE"));
 }
 
-void	last_exe(t_list *cmds, t_pipe *pipex)
+void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 {
 	int i;
 	char	*path_cmd;
-
+	
 	i = 0;
 	path_cmd = NULL;
+	printf("CMDS is %s\n", o_cmd->tab[0]);
 	if (ft_redir(&cmds, &pipex) == -1)
 	{
 		perror("bash: infile: ");
@@ -67,13 +68,14 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 	redir_fdin(&pipex, cmds);
 	redir_fdout(&pipex, cmds);
 	printf("LAST....\n");
+	printf("cmd is %s\n", o_cmd->tab[0]);
 	while (pipex->path[i])
 	{
 		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
-		if (cmds->o_cmd->next != NULL)
-			cmds->o_cmd = cmds->o_cmd->next;
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->o_cmd->tab, pipex->env) == -1)
+		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
+		// if (o_cmd->next != NULL)
+		// 	cmds->o_cmd = cmds->o_cmd->next;
+		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
@@ -85,8 +87,8 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 	t_list	*list;
 	
 	list = (*cmds);
-	(*pipex)->infile_fd = -1;
-	(*pipex)->outfile_fd = -1;
+	(*pipex)->redir_in = 0;
+	(*pipex)->redir_out = 0;
 	if (!cmds)
 		return (-1);
 	printf ("start of the command is : %s~~~~~~\n", list->cmd->tab[0]);

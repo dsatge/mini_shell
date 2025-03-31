@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 12:53:00 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/31 15:14:53 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	redir_in(t_pipe **pipex, t_list *list)
 	if ((*pipex)->fd == -1)
 		return (-1);
 	(*pipex)->infile_fd = (*pipex)->fd;
+	(*pipex)->redir_in = 1;
 	return (0);
 }
 
@@ -38,6 +39,7 @@ int redir_out(t_pipe **pipex, t_list *list)
 	if ((*pipex)->fd == -1)
 		return (-1);
 	(*pipex)->outfile_fd = (*pipex)->fd;
+	(*pipex)->redir_out = 1;
 	return (0);
 }
 
@@ -45,38 +47,42 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds)
 {
 	
 	(void) cmds;
-	if ((*pipex)->infile_fd != -1)
+	if ((*pipex)->redir_in != 0)
 	{
 		dup2((*pipex)->infile_fd, STDIN_FILENO);
 		close((*pipex)->infile_fd);
 	}
-	else if ((*pipex)->pipe_fd[1] != (*pipex)->mempipe_fd1)
+	else if ((*pipex)->redir_pipe != 0)
 	{
+		printf("it goes here\n");
 		close((*pipex)->pipe_fd[1]);
 		dup2((*pipex)->pipe_fd[0], STDIN_FILENO);//GET bACK CONTENT FROM PIPE
 		// close((*pipex)->pipe_fd[1]);
 		close((*pipex)->pipe_fd[0]);
 	}
+	// else
+	// 	dup2(STDIN_FILENO, STDIN_FILENO);
 	return (0);
 }
 
 int	redir_fdout_pip(t_pipe **pipex, t_list *cmds)
 {
 	(void) cmds;
-	if ((*pipex)->outfile_fd != -1)
+	if ((*pipex)->redir_out != 0)
 	{
 		printf("Only if redir??\n");
 		dup2((*pipex)->outfile_fd, STDOUT_FILENO);
 		close((*pipex)->outfile_fd);
+		(*pipex)->redir_pipe = 0;
 	}
 	else
 	{
-		printf("check pipe %d mem = %d\n", (*pipex)->pipe_fd[0], (*pipex)->mempipe_fd0);
 		close((*pipex)->pipe_fd[0]);
 		printf("Rdir to pipe incoming\n");
 		dup2((*pipex)->pipe_fd[1], STDOUT_FILENO);
 		// close((*pipex)->pipe_fd[0]);
 		close((*pipex)->pipe_fd[1]);
+		(*pipex)->redir_pipe = 1;
 	}
 	return (0);
 }
@@ -84,7 +90,7 @@ int	redir_fdout_pip(t_pipe **pipex, t_list *cmds)
 int	redir_fdout(t_pipe **pipex, t_list *cmds)
 {
 	(void) cmds;
-	if ((*pipex)->outfile_fd != -1)
+	if ((*pipex)->redir_out != 0)
 	{
 		printf("STDOUT changed\n");
 		dup2((*pipex)->outfile_fd, STDOUT_FILENO);
