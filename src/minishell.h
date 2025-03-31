@@ -131,6 +131,7 @@ int				ft_cmd(t_token *list, t_list *cmds, int	nbr_cmd);
 int				tab_cmds(t_token *list, t_list *cmds);
 int	redir_cmds(t_token *list, t_list *cmds);
 int	word_cmds(t_token *list, t_list *cmds);
+int	pipe_cmds(t_token *list, t_list *cmds);
 //PRINT_TEST_LIST
 
 // CAMMANDS

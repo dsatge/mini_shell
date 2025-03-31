@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/28 18:16:00 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/31 12:39:56 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 	return (0);
 		while (cmds->head->cmd_nbr > 1)
 		{
-			if (pipe(pipex.pipe_fd) == -1) // modification de samy // CESSST BONNN
+			if (pipe(pipex.pipe_fd) == -1)
 			{
 				perror("pipe");
 				ft_freetab(pipex.path);
@@ -161,7 +161,6 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 			}
 			pipex.mempipe_fd0 = pipex.pipe_fd[0];
 			pipex.mempipe_fd0 = pipex.pipe_fd[1];
-			printf("~~~uuuuuuuuuuuu~~LETS CHECK pipe_fd[1] = %d\n", pipex.pipe_fd[1]);	
 			printf("//////////////Firsts (parent)\n");
 			pid = fork();
 			if (pid == -1)

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/28 18:39:18 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/31 12:38:41 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,35 +80,17 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 	return (perror("NOPE LAST EXE"));
 }
 
-void	ft_print(t_list *list)
-{
-	t_list	*cmds;
-
-	cmds = list;
-	while (cmds)
-	{
-		printf("%s\n", cmds->cmd->tab[0]);
-		if (cmds->cmd->type == redir)
-			printf(" -> %s\n", cmds->cmd->tab[1]);
-		if (cmds->cmd->tab == pip)
-			printf ("|\n");
-		cmds = cmds->next;
-	}
-}
 int	ft_redir(t_list **cmds, t_pipe **pipex)
 {
 	t_list	*list;
 	
 	list = (*cmds);
-	ft_print(list);
 	(*pipex)->infile_fd = -1;
 	(*pipex)->outfile_fd = -1;
 	if (!cmds)
 		return (-1);
-	printf (".................................\n");
 	while (list && list->cmd->type != pip)
 	{
-		printf(" 				list is at : %s\n", list->cmd->tab[0]);
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
 		{
 			if (redir_in(pipex, list) == -1)
