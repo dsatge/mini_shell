@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 14:56:38 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:54:28 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 		return (-1);
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
-	free_tab_2(env, ft_count_line_split(env));
+	// free_tab_2(env, ft_count_line_split(env));
 	//GET PATH / ABSOLUT PATH
 	if (ft_builtin(cmds, &pipex, env_head) == 0)
 		return (0);
