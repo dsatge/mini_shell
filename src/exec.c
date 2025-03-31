@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 17:49:03 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:59:12 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,8 +180,6 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 	}
 	while (cmds->head->cmd_nbr > 1)
 	{
-		// pipex.mempipe_fd0 = pipex.pipe_fd[0];
-		// pipex.mempipe_fd0 = pipex.pipe_fd[1];
 		pid = fork();
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
@@ -189,16 +187,14 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 		{
 			first_exe(cmds, &pipex, o_cmd);//CREATE FT
 		}
-		dup2(STDIN_FILENO, STDIN_FILENO);
-		dup2(STDOUT_FILENO, STDOUT_FILENO);
+		// dup2(STDIN_FILENO, STDIN_FILENO);
+		// dup2(STDOUT_FILENO, STDOUT_FILENO);
 		cmds->head->cmd_nbr--;
 		pipex.outfile_fd = -1;
 		pipex.redir_in = 0;
 		pipex.redir_out = 0;	
 		next_cmdexe(&cmds);
 		o_cmd = o_cmd->next;
-		if (o_cmd)
-			printf("CMD is %s\n\n", o_cmd->tab[0]);
 	}
 	if (cmds->head->cmd_nbr == 1 && cmds)
 	{
@@ -211,8 +207,6 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 		}
 		dup2(STDIN_FILENO, STDIN_FILENO);
 		dup2(STDOUT_FILENO, STDOUT_FILENO);
-
-		// close(pipex.pipe_fd[1]);
 		cmds->head->cmd_nbr--;
 	}
 	if (pid == 0)

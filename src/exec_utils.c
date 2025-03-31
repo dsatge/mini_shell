@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 16:45:23 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:53:38 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
   
   	i = 0;
 	path_cmd = NULL;
-	printf("FIRST.....\n");
 	if (ft_redir(&cmds, &pipex) == -1)
 	{
 		perror("bash: infile: ");
@@ -59,7 +58,6 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 	
 	i = 0;
 	path_cmd = NULL;
-	printf("CMDS is %s\n", o_cmd->tab[0]);
 	if (ft_redir(&cmds, &pipex) == -1)
 	{
 		perror("bash: infile: ");
@@ -67,8 +65,6 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 	}
 	redir_fdin(&pipex, cmds);
 	redir_fdout(&pipex, cmds);
-	printf("LAST....\n");
-	printf("cmd is %s\n", o_cmd->tab[0]);
 	while (pipex->path[i])
 	{
 		free(path_cmd);
@@ -91,7 +87,6 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 	(*pipex)->redir_out = 0;
 	if (!cmds)
 		return (-1);
-	printf ("start of the command is : %s~~~~~~\n", list->cmd->tab[0]);
 	while (list && list->cmd->type != pip)
 	{
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
