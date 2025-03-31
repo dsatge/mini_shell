@@ -128,6 +128,7 @@ void			signal_handle(void);
 void			sigint_handle(int signal);
 //FREE
 void			free_list(t_token *list);
+void 			free_env(t_env_head *env_head);
 void			free_cmds(t_list *cmds);
 void			free_tab(char **tab);
 //LIST
@@ -147,7 +148,7 @@ char 			*get_type_env(char *cmd);
 int				ft_echo(char **cmd);
 int				ft_cd(char **cmd);
 int				ft_pwd(char **cmd);
-int 			ft_exit(t_list *cmds);
+int 			ft_exit(t_list *cmds, t_env_head *env_head);
 int				ft_export(char **cmd, t_env_head *env_head);
 void			ft_env(t_env_head *env_head);
 void			ft_unset(char **cmds, t_env_head *env_head);

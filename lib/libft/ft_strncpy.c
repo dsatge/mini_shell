@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 17:18:32 by baiannon          #+#    #+#             */
-/*   Updated: 2025/03/31 14:27:06 by enschnei         ###   ########.fr       */
+/*   Created: 2025/03/31 12:58:58 by enschnei          #+#    #+#             */
+/*   Updated: 2025/03/31 12:59:07 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int ft_exit(t_list *cmds, t_env_head *env_head)
+char	*ft_strncpy(char *dst, const char *src, size_t len)
 {
-    free(cmds);
-    free_env(env_head);
-    printf("Bisous mon chou <3\n");
-    exit(EXIT_SUCCESS);
+    size_t	i;
+
+    i = 0;
+    while (src[i] && i < len)
+    {
+        dst[i] = src[i];
+        i++;
+    }
+    while (i < len)
+    {
+        dst[i] = '\0';
+        i++;
+    }
+    return (dst);
 }

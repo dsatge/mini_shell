@@ -44,6 +44,7 @@ SRC = ft_isalpha.c\
 	ft_striteri.c\
 	get_next_line.c\
 	get_next_line_bonus.c\
+	ft_strncpy.c\
 
 CC = cc
 

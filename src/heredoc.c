@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/03/27 15:36:17 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/03/31 12:38:12 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void creat_heredoc(t_list *cmds)
         write(fd, "\n", 1);
         free(buffer);
     }
+    unlink("File_heredoc");
     close (fd);
 }
 

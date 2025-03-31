@@ -6,13 +6,31 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/28 15:39:23 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:25:31 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int g_error_code = 0;
+
+void free_env(t_env_head *env_head)
+{
+	t_env *tmp;
+	t_env *next;
+
+	tmp = env_head->head;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->type);
+		free(tmp->value);
+		free(tmp);
+		tmp = next;
+	}
+	env_head->head = NULL;
+	env_head->size = 0;
+}
 
 int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 {
@@ -21,6 +39,7 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	if (!buffer)
 	{
 		free_list(token_list);
+		free_env(&mini_struct->env);
 		free(mini_struct);
 		return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
 	}
@@ -32,6 +51,7 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	add_history(buffer);
 	return (0);
 }
+
 
 int	main(int ac, char **av, char **env)
 {
@@ -48,7 +68,7 @@ int	main(int ac, char **av, char **env)
 	cmds = NULL;
 	mini_struct = ft_calloc(sizeof(t_minish), 1);
 	if (!mini_struct)
-		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
+		return (ft_putstr_fd("Err    (void)env_head;or malloc minish in main\n", 2), -1);
 	ft_init_env(env, &mini_struct->env);
 	while (1)
 	{
@@ -57,8 +77,6 @@ int	main(int ac, char **av, char **env)
 		buf_value = ft_buffer(buffer, head, mini_struct);
 		if (buf_value == -1)
 			return (-1);
-		// if (ft_strcmp("exit", buffer) == 0)
-		// 	exit(0);
 		if (buf_value == 0)
 		{
 			head = ft_split_word(buffer, mini_struct);
@@ -80,7 +98,8 @@ int	main(int ac, char **av, char **env)
 			free(buffer);
 		}
 	}
-	free(mini_struct);		
+	free_env(&mini_struct->env);
+	free(mini_struct);			
 }
 
 

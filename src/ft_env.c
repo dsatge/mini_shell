@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:48:16 by baiannon          #+#    #+#             */
-/*   Updated: 2025/03/28 14:00:07 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/03/31 13:08:36 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*get_type_env(char *cmd)
 	res = ft_calloc(sizeof(char), i + 1);
 	if (!res)
 		return (NULL);
-	strncpy(res, cmd, i);
+	ft_strncpy(res, cmd, i);
 	res[i] = '\0';
 	return (res);
 }
@@ -44,21 +44,8 @@ char *get_value_env(char *cmd)
 	res = ft_calloc(sizeof(char), (ft_strlen(cmd) - i) + 1);
 	if (!res)
 		return NULL;
-    strncpy(res, &cmd[i], ft_strlen(cmd) - i);
+    ft_strncpy(res, &cmd[i], ft_strlen(cmd) - i);
     return (res);
-}
-
-void ft_test_env(t_env_head *env_head)
-{
-    t_env *tmp;
-
-    tmp = env_head->head;
-    while (tmp && tmp->next)
-    {
-        printf("type : |%s| ", tmp->type);
-        printf("value : |%s|\n", tmp->value);   
-        tmp = tmp->next;
-    }
 }
 
 int ft_init_env(char **env, t_env_head *env_head)
@@ -67,7 +54,7 @@ int ft_init_env(char **env, t_env_head *env_head)
     t_env *tmp;
     t_env *new;
     
-    i = 0;\
+    i = 0;
     while (env[i])
     {
     	new = malloc(sizeof(t_env));

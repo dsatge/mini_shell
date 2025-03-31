@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/28 16:38:54 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/03/31 14:56:38 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ char **buildtab(t_env_head *env_head)
         return (NULL);
     while (tmp)
     {
-        temp = ft_strjoin(tmp->type, "="); // Ajout du "=" entre type et value
+        temp = ft_strjoin(tmp->type, "=");
         if (!temp)
             return (free_tab_2(env, i), NULL);
         env[i] = ft_strjoin(temp, tmp->value);
@@ -189,8 +189,11 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	
 	
 	env = buildtab(env_head);
+	if (!env)
+		return (-1);
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
+	free_tab_2(env, ft_count_line_split(env));
 	//GET PATH / ABSOLUT PATH
 	if (ft_builtin(cmds, &pipex, env_head) == 0)
 		return (0);
@@ -229,7 +232,7 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	// wait(&pid);
 	waitpid(pid, &status, 0);
 	close(pipex.pipe_fd[0]);
-	close(pipex.pipe_fd[1]);
+	close(pipex.pipe_fd[1]);	
 	//FREE pipex.path
 	return (0);
 }
