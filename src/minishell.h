@@ -149,6 +149,7 @@ void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
 char			**add_path(char *add, int len, char **path_split);
 int				init_path(char **env, t_pipe *pipex);
 int				ft_exec(t_list *cmds, char **env, t_env *ev);
+int				next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex);
 // int				ft_only_cmd(t_list *cmds);
 t_o_cmd	*ft_only_cmd(t_list *cmds);
 int	cp_cmdtab(t_o_cmd *o_cmd, t_list *list);

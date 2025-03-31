@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 17:59:12 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/31 18:44:56 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 	pipex->abs_path = 0;
 	pipex->backup_stdin = dup(STDIN_FILENO);
 	pipex->backup_stdout = dup(STDOUT_FILENO);
-	pipex->pipe_fd[0] = -1;
-	pipex->pipe_fd[1] = -1;
-	// ft_only_cmd(cmds);
+	pipex->redir_in = 0;
+	pipex->redir_out = 0;
+	pipex->redir_pipe = 0;
+
 	cmds->mem_cmd_nbr = cmds->cmd_nbr;
 	(void)cmds;
-	// if (cmds->cmd)
 	if (env[0] == NULL)
 	pipex->abs_path = -1;
 	else
@@ -142,16 +142,21 @@ int	init_path(char **env, t_pipe *pipex)
 	return (0);
 }
 
-int	next_cmdexe(t_list **cmds)
+int	next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex)
 {
 	if (!cmds)
 	return (-1);
+	pipex->outfile_fd = -1;
+	pipex->redir_in = 0;
+	pipex->redir_out = 0;
+	(*cmds)->head->cmd_nbr--;
 	while (cmds && (*cmds)->cmd->type != pip)
 	{
 		(*cmds) = (*cmds)->next;
 	}
 	if (cmds && (*cmds)->cmd->type == pip)
 	(*cmds) = (*cmds)->next;
+	(*o_cmd) = (*o_cmd)->next;
 	return (0);
 }
 
@@ -162,13 +167,10 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 	t_o_cmd	*o_cmd;
 	int		status;
 	
-	init_pipex(cmds, &pipex, env);
-	init_path(env, &pipex);
-	pipex.redir_in = 0;
-	pipex.redir_out = 0;
-	pipex.redir_pipe = 0;
 	o_cmd = NULL;
 	o_cmd = ft_only_cmd(cmds);
+	init_pipex(cmds, &pipex, env);
+	init_path(env, &pipex);
 	//GET PATH / ABSOLUT PATH
 	if (ft_builtin(cmds, &pipex, ev) == 0)
 		return (0);
@@ -184,17 +186,8 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
-		{
 			first_exe(cmds, &pipex, o_cmd);//CREATE FT
-		}
-		// dup2(STDIN_FILENO, STDIN_FILENO);
-		// dup2(STDOUT_FILENO, STDOUT_FILENO);
-		cmds->head->cmd_nbr--;
-		pipex.outfile_fd = -1;
-		pipex.redir_in = 0;
-		pipex.redir_out = 0;	
-		next_cmdexe(&cmds);
-		o_cmd = o_cmd->next;
+		next_cmdexe(&cmds, &o_cmd, &pipex);
 	}
 	if (cmds->head->cmd_nbr == 1 && cmds)
 	{
@@ -202,12 +195,7 @@ int	ft_exec(t_list *cmds, char **env, t_env *ev)
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
-		{
 			last_exe(cmds, &pipex, o_cmd);//CREATE FT
-		}
-		dup2(STDIN_FILENO, STDIN_FILENO);
-		dup2(STDOUT_FILENO, STDOUT_FILENO);
-		cmds->head->cmd_nbr--;
 	}
 	if (pid == 0)
 		exit(1);
