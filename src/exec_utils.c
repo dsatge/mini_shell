@@ -40,14 +40,13 @@ int	invert_stdin(t_list *cmds, int fd)
 	return (0);
 }
 
-void	first_exe(t_list *cmds, t_pipe *pipex)
+void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 {
 	int i;
 	char	*path_cmd;
   
-  i = 0;
+  	i = 0;
 	path_cmd = NULL;
-	printf("FIRST.....\n");
 	if (ft_redir(&cmds, &pipex) == -1)
 	{
 		perror("bash: infile: ");
@@ -58,21 +57,21 @@ void	first_exe(t_list *cmds, t_pipe *pipex)
 	while (pipex->path[i])
 	{
 		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
-		if (cmds->o_cmd->next != NULL)
-			cmds->o_cmd = cmds->o_cmd->next;
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->o_cmd->tab, pipex->env) == -1)
-			return (exit(127), perror("exe_cmd:"));
+		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
+		// if (cmds->o_cmd->next != NULL)
+		// 	cmds->o_cmd = cmds->o_cmd->next;
+		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)
+		return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
 	return (perror("NOPE FIRST EXE"));
 }
 
-void	last_exe(t_list *cmds, t_pipe *pipex)
+void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 {
 	int i;
 	char	*path_cmd;
-
+	
 	i = 0;
 	path_cmd = NULL;
 	if (ft_redir(&cmds, &pipex) == -1)
@@ -82,16 +81,15 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 	}
 	redir_fdin(&pipex, cmds);
 	redir_fdout(&pipex, cmds);
-	printf("LAST....\n");
 	while (pipex->path[i])
 	{
 		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
-		if (path_cmd == NULL)
-			return (perror("strjoin failed"), exit(1));
-		if (cmds->o_cmd->next != NULL)
-			cmds->o_cmd = cmds->o_cmd->next;
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->o_cmd->tab, pipex->env) == -1)
+		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
+    if (path_cmd == NULL)
+		  return (perror("strjoin failed"), exit(1));
+		// if (o_cmd->next != NULL)
+		// 	cmds->o_cmd = cmds->o_cmd->next;
+		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
@@ -103,8 +101,8 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 	t_list	*list;
 	
 	list = (*cmds);
-	(*pipex)->infile_fd = -1;
-	(*pipex)->outfile_fd = -1;
+	(*pipex)->redir_in = 0;
+	(*pipex)->redir_out = 0;
 	if (!cmds)
 		return (-1);
 	while (list && list->cmd->type != pip)
@@ -128,5 +126,7 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 		// }
 		list = list->next;
 	}
+	if (list && list->cmd->type == pip)
+		list = list->next;
 	return (0);
 }

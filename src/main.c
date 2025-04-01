@@ -87,7 +87,6 @@ int	main(int ac, char **av, char **env)
 					return (1);
 				cmds_list(head, cmds);
 				curr_cmd = cmds;
-				// printf("Launch of exec\n");
 				ft_exec(curr_cmd, &mini_struct->env);
 				free_list(head);
 				free_cmds(cmds);
