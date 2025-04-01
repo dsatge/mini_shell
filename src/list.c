@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 17:07:47 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:12:48 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ int	redir_cmds(t_token *list, t_list *cmds)
 	while (i < 2)
 	{
 		cmds->cmd->tab[i] = ft_strdup(list->str);
+		if (!cmds->cmd->tab[i])
+			return (-1);
 		i++;
 		list = list->next;
 	}
@@ -161,6 +163,8 @@ int	word_cmds(t_token *list, t_list *cmds)
 	while (current && current->type == word)
 	{
 		cmds->cmd->tab[i] = ft_strdup(current->str);
+		if (!cmds->cmd->tab[i])
+			return (-1);
 		i++;
 		current = current->next;
 	}

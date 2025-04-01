@@ -44,6 +44,7 @@ SRC = ft_isalpha.c\
 	ft_striteri.c\
 	get_next_line.c\
 	get_next_line_bonus.c\
+	ft_strncpy.c\
 
 CC = cc
 
@@ -54,8 +55,11 @@ FLAGS = -Wall -Wextra -Werror
 #########ACTION######################################
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	ar rc $(NAME) $(OBJ)
+$(NAME): 
+	@$(CC) $(FLAGS) -c $(SRC)
+	@ar -rc $(NAME) $(OBJ)
+	@echo "Compiled $(NAME) & .o."
+
 #### Va creer archives
 #
 #	#$<: the name of the first prerequisite
@@ -72,10 +76,12 @@ $(NAME): $(OBJ)
 # 	cc -nostartfiles -shared -o libft.so $(OBJ) -ldl
 
 clean:
-	rm -rf $(OBJ)
+	@rm -f $(OBJ) 
+	@echo "Deleted .o files."
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -f $(NAME)
+	@echo "Deleted $(NAME)."
 
 re: fclean all
 

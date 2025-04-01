@@ -1,66 +1,73 @@
 #ifndef MINISHELL_H
-    #define MINISHELL_H
-#ifndef BUFFER_SIZE
-    #define BUFFER_SIZE 10000
-#endif
+# define MINISHELL_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10000
+# endif
 
 # define PROMPT "\001\e[0;102m\002=>\001\e[0m\e[0;95m\002Mini-merde>$ \001\e[0m\002"
 // # define PROMPT ">"
 
 # include "../lib/libft/libft.h"
 # include "../lib/printf/ft_printf.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <stdbool.h>
-# include <signal.h>
-# include <unistd.h>
-# include <sys/types.h>
-# include <sys/wait.h>
 # include <errno.h>
 # include <fcntl.h>
-# include <readline/readline.h>
 # include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
-extern int g_error_code;
+extern int			g_error_code;
 
 typedef enum e_quote_status
 {
 	DEFAULT,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE
-}	t_quote;
+}					t_quote;
 
 typedef enum s_type
 {
 	pip,
 	redir,
 	word,
-}	t_type;
+}					t_type;
 
 typedef struct s_env
 {
-	char				*value;
-	struct s_env		*next;
-}						t_env;
+	char			*value;
+	char			*type;
+	struct s_env	*next;
+}					t_env;
+
+typedef struct s_env_head
+{
+	t_env			*head;
+	unsigned int	size;
+}					t_env_head;
 
 typedef struct s_token
 {
-	char *str;
-	t_type type;
-	struct s_token *next;
-}	t_token;
+	char			*str;
+	t_type			type;
+	struct s_token	*next;
+}					t_token;
 
 typedef struct s_cmd
 {
-	char	**tab;
-	t_type	type;
-}	t_cmd;
+	char			**tab;
+	t_type			type;
+}					t_cmd;
 
 typedef struct s_o_cmd
 {
-	char	**tab;
+	char			**tab;
 	struct s_o_cmd	*next;
-}	t_o_cmd;
+}					t_o_cmd;
 
 typedef struct s_pipe
 {
@@ -87,15 +94,15 @@ typedef struct s_list
 	int				mem_cmd_nbr;
 	t_cmd			*cmd;
 	t_o_cmd			*o_cmd;
-}	t_list;
+}					t_list;
 
 typedef struct s_minish
 {
 	t_token			*element;
 	t_type			*type;
 	t_quote			*quote;
+ 	t_env_head		env;
 }	t_minish;
-
 
 //MAIN
 int				ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct);
@@ -118,12 +125,14 @@ void			ft_token_type(t_token *element);
 int				ft_ispipe(t_token element);
 int				ft_isredir(t_token element);
 char			*word_from_str(char *buffer, int start, int end);
+char 				*ft_dollar(t_env_head *env_head, char *var_name);
 //SIGNAUX
 void			signal_handle(void);
 void			sigint_handle(int signal);
 //FREE
 void			free_list(t_token *list);
 void			free_cmds(t_list *cmds);
+void			free_env(t_env_head *env_head);
 void			free_tab(char **tab);
 //LIST
 int				cmds_list(t_token *list, t_list *cmds);
@@ -136,26 +145,29 @@ int	pipe_cmds(t_token *list, t_list *cmds);
 //PRINT_TEST_LIST
 
 // CAMMANDS
-int				ft_builtin(t_list *cmds, t_pipe *pipex, t_env *ev);
-void			ft_init_env(char **cmd, t_env *ev);
+int				ft_builtin(t_list *cmds, t_pipe *pipex,
+						t_env_head *env_head);
+int				ft_init_env(char **env, t_env_head *env_head);
+char				*get_value_env(char *cmd);
+char				*get_type_env(char *cmd);
 int				ft_echo(char **cmd);
 int				ft_cd(char **cmd);
 int				ft_pwd(char **cmd);
 void			ft_env(t_env *ev);
 void			ft_unset(char **cmd, t_env *ev);
-
+int				ft_exit(t_list *cmds, t_env_head *env_head);
+int				ft_export(char **cmd, t_env_head *env_head);
 //EXEC
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
 char			**add_path(char *add, int len, char **path_split);
 int				init_path(char **env, t_pipe *pipex);
-int				ft_exec(t_list *cmds, char **env, t_env *ev);
+int				ft_exec(t_list *cmds, t_env_head *env_head);
 int				next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex);
 // int				ft_only_cmd(t_list *cmds);
 t_o_cmd	*ft_only_cmd(t_list *cmds);
 int	cp_cmdtab(t_o_cmd *o_cmd, t_list *list);
 //EXEC_UTILS
 void			one_exe(t_list *cmds, t_pipe *pipex);
-// void			first_exe(t_list *cmds, t_pipe *pipex);
 void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd);
 void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd);
 //EXEC_REDIR
@@ -164,9 +176,9 @@ int				redir_out(t_pipe **pipex, t_list *list);
 int				redir_fdin(t_pipe **pipex, t_list *cmds);
 int				redir_fdout_pip(t_pipe **pipex, t_list *cmds);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
-// void			next_exe(t_list *cmds, t_pipe *pipex);
-// void			last_exe(t_list *cmds, t_pipe *pipex);
 int				invert_stdin(t_list *cmds, int fd);
 int				ft_redir(t_list **cmds, t_pipe **pipex);
+// HEREDOC
+int					heredoc(t_list *cmds);
 
 #endif

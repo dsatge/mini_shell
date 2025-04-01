@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 17:53:38 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/31 16:53:01 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+// static int redir_heredoc()
+// {
+//     int fd;
+
+//     fd = open("File_heredoc", O_RDONLY);
+//     if (fd == -1)
+//         return (perror("open heredoc failed"), -1);
+//     if (dup2(fd, STDIN_FILENO) == -1)
+//     {
+//         close(fd);
+//         return (perror("dup2 failed"), -1);
+//     }
+//     close(fd);
+//     return (0);
+// }
 
 int	invert_stdin(t_list *cmds, int fd)
 {
@@ -69,6 +85,8 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
+    if (path_cmd == NULL)
+		  return (perror("strjoin failed"), exit(1));
 		// if (o_cmd->next != NULL)
 		// 	cmds->o_cmd = cmds->o_cmd->next;
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)
@@ -99,6 +117,13 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 			if (redir_out(pipex, list) == -1)
 				return (-1);
 		}
+		// if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<<") == 0)
+		// {
+    	// 	if (heredoc(*cmds) == -1)
+	    // 	    return (-1);
+    	// 	if (redir_heredoc() == -1)
+        // 		return (-1);
+		// }
 		list = list->next;
 	}
 	if (list && list->cmd->type == pip)
