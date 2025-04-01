@@ -14,8 +14,10 @@ CFLAGS =        -Wall -Wextra -Werror
 
 all:            ${NAME}
 
-${NAME}:        ${OBJS}
-				ar rc ${NAME} ${OBJS}
+${NAME}:
+	@$(CC) $(CFLAGS) -c $(SRCS)
+	@ar -rc $(NAME) $(OBJS)
+	@echo "Compiled $(NAME) & .o."
 
 ${OBJS_BONUS}:
 				cc ${CFLAGS} -c -I.
@@ -24,10 +26,12 @@ ${OBJS}:
 				cc ${CFLAGS} ${SRCS} -c -I.
 
 clean:
-				rm -rf ${OBJS}
+	@rm -f $(OBJS) 
+	@echo "Deleted .o files."
 
-fclean:         clean
-				rm -rf ${NAME}
+fclean:  		clean
+	@rm -f $(NAME)
+	@echo "Deleted $(NAME)."
 
 re:             fclean all
 

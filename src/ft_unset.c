@@ -3,71 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 18:23:37 by baiannon          #+#    #+#             */
-/*   Updated: 2025/02/07 15:39:54 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:49:11 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void free_node(t_env *ev, t_env *prev)
+static void	free_node(t_env *target)
 {
-    t_env *target;
-
-    target = ev;
-    if (ev == prev)
-    {
-        ev = ev->next;
-        prev = prev->next;
-        free(target->value);
-        free(target);
-    }
-    else if (ev->next->value)
-    {
-        ev = ev->next;
-        free(target->value);
-        free(target);
-        prev->next = ev;
-    }
-    else
-    {
-        ev = prev;
-        free(target->value);
-        free(target);
-    }
+	free(target->type);
+	free(target->value);
+	target->type = NULL;
+	target->value = NULL;
+	free(target);
 }
 
-void ft_unset(char **cmd, t_env *ev)
+static void	delete_node(t_env_head *env_head, t_env *target)
 {
-    size_t i;
-    size_t y;
-    t_env *tmp;
-    t_env *tmp_prev;
-    
-    i = 1;
-    while (cmd[i])
-    {
-        tmp = ev;
-        tmp_prev = ev;
-        while (ev->next->value)
-        {
-            y = 0;
-            while (ev->value[y] == cmd[i][y])
-                y++;
-            if (y == ft_strlen(cmd[i]))
-            {
-                free_node(ev, tmp_prev);
-                break;
-            }
-            tmp_prev = ev;
-            ev = ev->next;
-        }
-        i++;
-        // printf("VAUTERC==%s\n", ev->head->value);
-        // ev = ev->head;
-        ev = tmp;
-        printf("CACCACACACA %s\n", tmp->value);
-    }
+	t_env	*current;
+	t_env	*prev;
+
+	if (!env_head || !env_head->head || !target)
+		return ;
+
+	current = env_head->head;
+	prev = NULL;
+
+	if (current == target) // Si le premier élément est à supprimer
+	{
+		env_head->head = current->next;
+		free_node(target);
+		env_head->size--;
+		return ;
+	}
+
+	while (current && current != target)
+	{
+		prev = current;
+		current = current->next;
+	}
+	if (current)
+	{
+		prev->next = current->next;
+		free_node(current);
+		env_head->size--;
+	}
+}
+
+static t_env *find_env_node(t_env *env, char *thing)
+{
+	while (env)
+	{
+		if (ft_strcmp(env->type, thing) == 0)
+			return env;
+		env = env->next;
+	}
+	return NULL;
+}
+
+void	ft_unset(char **cmds, t_env_head *env_head)
+{
+	int		i;
+	t_env	*target;
+
+	if (!cmds || !env_head || !env_head->head)
+		return ;
+	i = 1;
+	while (cmds[i])
+	{
+		target = find_env_node(env_head->head, cmds[i]);
+		if (target)
+			delete_node(env_head, target);
+		i++;
+	}
 }

@@ -3,59 +3,82 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
+#    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/03/24 15:28:39 by dsatge           ###   ########.fr        #
+#    Updated: 2025/03/31 17:27:26 by enschnei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
 NAME = minishell
 
-SRC_FILES = main.c\
-			line_to_words.c\
-			line_to_words_utils.c\
-			tokenise.c\
-			tokenise_utils.c\
-			signal_handling.c\
-			builtins_handling.c\
-			ft_echo.c\
-			ft_pwd.c\
-			ft_cd.c\
-			print_test_list.c\
+C_FILES = main.c\
+			exec.c\
 			free.c\
 			list.c\
-			exec.c\
+			ft_cd.c\
+			expand.c\
+			ft_env.c\
+			ft_pwd.c\
+			ft_echo.c\
+			ft_exit.c\
+			heredoc.c\
+			ft_unset.c\
+			tokenise.c\
+			ft_export.c\
 			exec_utils.c\
 			exec_redir.c\
-			ft_env.c\
-			ft_unset.c\
+			line_to_words.c\
+			tokenise_utils.c\
+			print_test_list.c\
+			signal_handling.c\
+			builtins_handling.c\
+			line_to_words_utils.c\
 
-FLAGS = -Wall -Wextra -Werror -I includes/ -g
+BOLD = \033[1m
+RED = \033[31m
+RESET = \033[0m
+BLACK  = \033[30m
+GREEN  = \033[32m
+YELLOW = \033[33m
+BLUE   = \033[34m
+MAGENTA= \033[35m
+CYAN   = \033[36m
+WHITE  = \033[37m
+
+SRCS = $(addprefix src/, $(C_FILES))
+
+CFLAGS = -Wall -Wextra -Werror -I includes/ -g
 
 LIB = libft/libft.a printf/libftprintf.a
 
-DEPS = $(addprefix lib/,${LIB:%.c=%.o})
-
-SRC = $(addprefix src/,${SRC_FILES})
+DEPS = $(addprefix lib/,${LIB})
 
 all: ${NAME}
 
-${NAME} : ${SRC}
-	make -C lib/libft
-	make -C lib/printf
-	cc ${FLAGS} ${SRC} -o ${NAME} ${DEPS} -lreadline
+$(NAME): $(SRCS)
+	@echo "$(BOLD)$(RED)Compilation des libs...$(RESET)"
+	@$(MAKE) --no-print-directory -C lib/libft
+	@echo "$(BLUE)////////////////////////////////$(RESET)"
+	@echo "$(BLUE)||$(RESET)$(GREEN)compilation de la libft fini$(RESET)$(BLUE)||$(RESET)"
+	@echo "$(BLUE)////////////////////////////////$(RESET)"
+	@$(MAKE) --no-print-directory -C lib/printf
+	@echo "$(BLUE)////////////////////////////////$(RESET)"
+	@echo "$(BLUE)|||$(RESET)$(GREEN)compilation de Printf fini$(RESET)$(BLUE)|||$(RESET)"
+	@echo "$(BLUE)////////////////////////////////$(RESET)"
+	@echo "$(BOLD)$(RED)Creation de $(NAME)...$(RESET)"
+	@cc $(CFLAGS) $(SRCS) -o $(NAME) $(DEPS) -lreadline
+	@echo "$(BOLD)$(YELLOW) COMPILATION TERMINER $(RESET)"
 
 clean:
-	make -C lib/libft clean
-	make -C lib/printf clean
+	@echo "$(RED)Cleaning up object files...$(RESET)"
+	@$(MAKE) --no-print-directory -C lib/libft fclean
+	@$(MAKE) --no-print-directory -C lib/printf fclean
 
 fclean: clean
-	rm -rf ${NAME}
+	@echo "Removing executable..."
+	@rm -rf $(NAME)
 
-re: fclean all
-	make -C lib/libft re
-	make -C lib/printf re
+re:	fclean all
 
-.PHONY: all clean fclean re%  
+.PHONY: all clean fclean re
