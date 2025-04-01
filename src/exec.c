@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 16:54:28 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:12:43 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,26 +72,6 @@ t_o_cmd	*ft_only_cmd(t_list *cmds)
 	}
 	return (head);
 }
-
-
-// int	cp_cmdtab(t_o_cmd *o_cmd, t_list *list)
-// {
-// 	int	i;
-	
-// 	i = 0;
-// 	o_cmd->next->tab = ft_calloc(sizeof(char *), ft_count_line_split(list->cmd->tab) + 1);
-// 	if (!o_cmd->tab)
-// 	return (-1);
-// 	while(list->cmd->tab[i] != 0)
-// 	{
-// 		o_cmd->tab[i] = ft_strdup(list->cmd->tab[i]);
-// 		i++;
-// 	}
-// 	o_cmd->tab[i] = 0;
-// 	o_cmd = o_cmd->next;
-// 	o_cmd->next = NULL;
-// 	return (0);
-// }
 
 char	**add_path(char *add, int len, char **path_split)
 {

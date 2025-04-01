@@ -125,7 +125,7 @@ void			ft_token_type(t_token *element);
 int				ft_ispipe(t_token element);
 int				ft_isredir(t_token element);
 char			*word_from_str(char *buffer, int start, int end);
-char 				*ft_dollar(t_env_head *env_head, char *var_name);
+char 			*ft_dollar(t_env_head *env_head, char *var_name);
 //SIGNAUX
 void			signal_handle(void);
 void			sigint_handle(int signal);
@@ -139,22 +139,22 @@ int				cmds_list(t_token *list, t_list *cmds);
 int				init_cmds_list(t_list *cmds, t_token *list, int next);
 int				ft_cmd(t_token *list, t_list *cmds, int	nbr_cmd);
 int				tab_cmds(t_token *list, t_list *cmds);
-int	redir_cmds(t_token *list, t_list *cmds);
-int	word_cmds(t_token *list, t_list *cmds);
-int	pipe_cmds(t_token *list, t_list *cmds);
+int				redir_cmds(t_token *list, t_list *cmds);
+int				word_cmds(t_token *list, t_list *cmds);
+int				pipe_cmds(t_token *list, t_list *cmds);
 //PRINT_TEST_LIST
 
 // CAMMANDS
 int				ft_builtin(t_list *cmds, t_pipe *pipex,
 						t_env_head *env_head);
 int				ft_init_env(char **env, t_env_head *env_head);
-char				*get_value_env(char *cmd);
-char				*get_type_env(char *cmd);
+char			*get_value_env(char *cmd);
+char			*get_type_env(char *cmd);
 int				ft_echo(char **cmd);
 int				ft_cd(char **cmd);
 int				ft_pwd(char **cmd);
-void			ft_env(t_env *ev);
-void			ft_unset(char **cmd, t_env *ev);
+void			ft_env(t_env_head *env_head);
+void			ft_unset(char **cmds, t_env_head *env_head);
 int				ft_exit(t_list *cmds, t_env_head *env_head);
 int				ft_export(char **cmd, t_env_head *env_head);
 //EXEC
@@ -163,22 +163,19 @@ char			**add_path(char *add, int len, char **path_split);
 int				init_path(char **env, t_pipe *pipex);
 int				ft_exec(t_list *cmds, t_env_head *env_head);
 int				next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex);
-// int				ft_only_cmd(t_list *cmds);
-t_o_cmd	*ft_only_cmd(t_list *cmds);
-int	cp_cmdtab(t_o_cmd *o_cmd, t_list *list);
+t_o_cmd			*ft_only_cmd(t_list *cmds);
 //EXEC_UTILS
-void			one_exe(t_list *cmds, t_pipe *pipex);
-void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd);
-void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd);
+void			first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd);
+void			last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd);
+int				invert_stdin(t_list *cmds, int fd);
+int				ft_redir(t_list **cmds, t_pipe **pipex);
 //EXEC_REDIR
 int				redir_in(t_pipe **pipex, t_list *list);
 int				redir_out(t_pipe **pipex, t_list *list);
 int				redir_fdin(t_pipe **pipex, t_list *cmds);
 int				redir_fdout_pip(t_pipe **pipex, t_list *cmds);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
-int				invert_stdin(t_list *cmds, int fd);
-int				ft_redir(t_list **cmds, t_pipe **pipex);
 // HEREDOC
-int					heredoc(t_list *cmds);
+int				heredoc(t_list *cmds);
 
 #endif
