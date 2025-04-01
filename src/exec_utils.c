@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 16:53:01 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:57:33 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 	}
 	redir_fdin(&pipex, cmds);
 	redir_fdout_pip(&pipex, cmds); /// NE PAS OUBLIER DE DECOMMENTER QUAND PATH FONCTIONNE !!!
+	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0], o_cmd->tab, pipex->env) == -1)
+		return (exit(127), perror("exe_cmd:"));
 	while (pipex->path[i])
 	{
 		free(path_cmd);
@@ -81,19 +83,21 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 	}
 	redir_fdin(&pipex, cmds);
 	redir_fdout(&pipex, cmds);
+	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0], o_cmd->tab, pipex->env) == -1)
+		return (exit(127), perror("exe_cmd:"));
 	while (pipex->path[i])
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
-    if (path_cmd == NULL)
-		  return (perror("strjoin failed"), exit(1));
+    	if (path_cmd == NULL)
+			return (perror("strjoin failed"), exit(1));
 		// if (o_cmd->next != NULL)
 		// 	cmds->o_cmd = cmds->o_cmd->next;
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
-	return (perror("NOPE LAST EXE"));
+	return (ft_printf("bash: %s: command not found\n", o_cmd->tab[0]), exit(127));
 }
 
 int	ft_redir(t_list **cmds, t_pipe **pipex)

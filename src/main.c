@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 17:06:49 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:44:56 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 		free(mini_struct);
 		return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
 	}
-	if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
+	if (*buffer == '\0')
 	{
 		free(buffer);
 		return (1);

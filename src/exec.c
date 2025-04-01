@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/01 14:12:43 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/01 15:29:07 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,18 @@ int	init_path(char **env, t_pipe *pipex)
 	path = NULL;
 	i = 0;
 	if (!env)
-	return (-1);
+		return (-1);
 	while (env[i] && ft_strncmp(env[i], "PATH=", 5) != 0)
-	i++;
+		i++;
+	if (!env[i])
+	{
+		ft_printf("bash: (INSERER COMMANDE): No such file or directory\n");
+		return (1);
+	}
 	path = ft_strtrim(env[i], "PATH=");
 	path_split = ft_split(path, ':');
+	if (!path_split)
+		return (1);
 	free(path);
 	line_path_count = ft_count_line_split(path_split);
 	pipex->path = add_path("/", line_path_count, path_split);
@@ -169,6 +176,8 @@ char **buildtab(t_env_head *env_head)
         if (!temp)
             return (free_tab_2(env, i), NULL);
         env[i] = ft_strjoin(temp, tmp->value);
+		if (!env[i])
+			return (free_tab_2(env, i), NULL);
         free(temp);
         if (!env[i])
             return (free_tab_2(env, i), NULL);
