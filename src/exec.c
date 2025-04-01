@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/01 14:12:43 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/01 18:57:16 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,13 @@ int	init_path(char **env, t_pipe *pipex)
 int	next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex)
 {
 	if (!cmds)
-	return (-1);
+		return (-1);
+	int reader = 0;
+	ioctl(pipex->pipe_fd[0], FIONREAD, &reader);	
+	if (reader > 0)
+		printf("VICTORRRRRRYYYYYYYYYYYYYYYYYYYY\n");
+	else
+		printf("fuck you \n");
 	pipex->outfile_fd = -1;
 	pipex->redir_in = 0;
 	pipex->redir_out = 0;

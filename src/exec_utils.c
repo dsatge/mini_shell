@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 16:53:01 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:53:29 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,10 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 int	ft_redir(t_list **cmds, t_pipe **pipex)
 {
 	t_list	*list;
+	char	*buff;
 	
 	list = (*cmds);
+	buff = NULL;
 	(*pipex)->redir_in = 0;
 	(*pipex)->redir_out = 0;
 	if (!cmds)
@@ -125,6 +127,30 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
         // 		return (-1);
 		// }
 		list = list->next;
+	}
+	printf("~~~~~~~~~~~\n");
+	if ((*pipex)->redir_in == 0)
+	{
+		int reader = 0;
+		ioctl((*pipex)->pipe_fd[0], FIONREAD, &reader);	
+		if (reader > 0)
+			printf("VICTORRRRRRYYYYYYYYYYYYYYYYYYYY\n");
+		else
+			printf("fuck you \n");
+
+		if (reader != 0)
+		{
+			close((*pipex)->pipe_fd[1]);
+			printf("INSIDE IF\n");
+			(*pipex)->redir_pipe = 1;
+			free(buff);
+		}
+		else
+		{
+			printf("INSIDE ELSE\n");			
+			close((*pipex)->pipe_fd[1]);
+			close((*pipex)->pipe_fd[0]);
+		}
 	}
 	if (list && list->cmd->type == pip)
 		list = list->next;
