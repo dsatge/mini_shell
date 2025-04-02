@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/01 18:53:29 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/02 12:49:44 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,46 +112,26 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
 		{
 			if (redir_in(pipex, list) == -1)
-				return (-1);
+			return (-1);
 		}
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">") == 0)
 		{
 			if (redir_out(pipex, list) == -1)
-				return (-1);
+			return (-1);
 		}
-		// if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<<") == 0)
-		// {
-    	// 	if (heredoc(*cmds) == -1)
-	    // 	    return (-1);
-    	// 	if (redir_heredoc() == -1)
-        // 		return (-1);
-		// }
 		list = list->next;
 	}
-	printf("~~~~~~~~~~~\n");
-	if ((*pipex)->redir_in == 0)
-	{
-		int reader = 0;
-		ioctl((*pipex)->pipe_fd[0], FIONREAD, &reader);	
-		if (reader > 0)
-			printf("VICTORRRRRRYYYYYYYYYYYYYYYYYYYY\n");
-		else
-			printf("fuck you \n");
-
-		if (reader != 0)
-		{
-			close((*pipex)->pipe_fd[1]);
-			printf("INSIDE IF\n");
-			(*pipex)->redir_pipe = 1;
-			free(buff);
-		}
-		else
-		{
-			printf("INSIDE ELSE\n");			
-			close((*pipex)->pipe_fd[1]);
-			close((*pipex)->pipe_fd[0]);
-		}
-	}
+	// printf("~~~~~~~~~~~\n");
+	// if ((*pipex)->redir_in == 0)
+	// {
+	// 	int reader = 0;
+	// 	ioctl((*pipex)->pipe_fd[0], FIONREAD, &reader);	
+	// 	if (reader > 0)
+	// 		printf("VICTORRRRRRYYYYYYYYYYYYYYYYYYYY\n");
+	// 	else
+	// 		printf("fuck you \n");
+	// close((*pipex)->pipe_fd[1]);
+	// close((*pipex)->pipe_fd[0]);
 	if (list && list->cmd->type == pip)
 		list = list->next;
 	return (0);

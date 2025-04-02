@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/01 18:53:20 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/02 12:52:39 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ int redir_out(t_pipe **pipex, t_list *list)
 	if ((*pipex)->fd == -1)
 		return (-1);
 	(*pipex)->outfile_fd = (*pipex)->fd;
+	// close((*pipex)->fd);
 	(*pipex)->redir_out = 1;
+	// close((*pipex)->pipe_fd[0]);
 	return (0);
 }
 
