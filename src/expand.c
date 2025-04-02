@@ -6,13 +6,14 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:09:15 by enschnei          #+#    #+#             */
-/*   Updated: 2025/03/31 18:35:29 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:14:27 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *ft_dollar(t_env_head *env_head, char *var_name)
+char *ft_dollar(t_env_head *env_head, 
+    char *var_name)
 {
     t_env *tmp;
     char *env_name;
