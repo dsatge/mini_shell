@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/01 15:57:33 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:55:00 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 		return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
+	g_error_code = 127;
 	return (perror("NOPE FIRST EXE"));
 }
 
@@ -97,7 +98,7 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
-	return (ft_printf("bash: %s: command not found\n", o_cmd->tab[0]), exit(127));
+	return (ft_printf("bash: %s: command not found\n", o_cmd->tab[0]), exit (127));
 }
 
 int	ft_redir(t_list **cmds, t_pipe **pipex)

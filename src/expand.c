@@ -6,34 +6,120 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:09:15 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/02 14:14:27 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:26:16 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *ft_dollar(t_env_head *env_head, 
-    char *var_name)
+static char *ft_strjoin_char(char *s, char c)
+{
+    int len;
+    char *new_str;
+    int i;
+
+    if (!s)
+        return (NULL);
+    len = ft_strlen(s);
+    new_str = malloc(sizeof(char) * (len + 2)); // +1 pour `c`, +1 pour `\0`
+    if (!new_str)
+        return (NULL);
+    i = 0;
+    while (i < len)
+    {
+        new_str[i] = s[i];
+        i++;
+    }
+    new_str[i] = c; // Ajoute le caractère à la fin
+    new_str[i + 1] = '\0'; // Termine la string
+    return (new_str);
+}
+
+
+static char *ft_get_env_value(t_env_head *env_head, char *var)
 {
     t_env *tmp;
-    char *env_name;
-    
-    if (ft_strcmp(var_name, "?") == 0) // Gestion de $?
-        return (ft_itoa(g_error_code));
+
     tmp = env_head->head;
     while (tmp)
     {
-        env_name = get_type_env(tmp->type); // Récupère le nom propre de la variable
-        if (ft_strcmp(env_name, var_name) == 0)
-        {
-            free(env_name);
-            printf("%s\n", get_value_env(tmp->type));
-            return (get_value_env(tmp->type)); // Récupère la valeur propre
-        }
-        free(env_name);
+        if (ft_strcmp(tmp->type, var) == 0)
+            return (tmp->value);
         tmp = tmp->next;
     }
-    return (ft_strdup("")); // Si la variable n'existe pas, retourner une chaîne vide
+    return (NULL); // Retourne NULL si la variable n'existe pas
 }
 
-//c de la merde
+static char *ft_expand_env_vars(char *str, t_env_head *env_head)
+{
+    int i;
+    int j;
+    char *res;
+    char *var_name;
+    char *var_value;
+    char *temp;
+
+    if (!str || !env_head)
+        return (NULL);
+    res = ft_strdup("");
+	if (!res)
+		return (NULL);
+    i = 0;
+    while (str[i])
+    {
+		if (str[i] == '$' && str[i + 1])
+        {
+            if (str[i + 1] == '?')
+            {
+                var_value = ft_itoa(g_error_code);
+				if (!var_value)
+					return (NULL);
+                temp = ft_strjoin(res, var_value);
+                free(res);
+                free(var_value);
+                res = temp;
+                i += 2;
+                continue;
+            }
+		}
+        if (str[i] == '$' && str[i + 1] && (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
+        {
+            j = i + 1;
+            while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
+                j++;
+            var_name = ft_substr(str, i + 1, j - i - 1);
+            var_value = ft_get_env_value(env_head, var_name);
+            if (var_value)
+            {
+                temp = ft_strjoin(res, var_value);
+                free(res);
+                res = temp;
+            }
+            free(var_name);
+            i = j;
+        }
+        else
+        {
+            temp = ft_strjoin_char(res, str[i]);
+            free(res);
+            res = temp;
+            i++;
+        }
+    }
+    return (res);
+}
+	
+void ft_expand_args(t_list *cmds, t_env_head *env_head)
+{
+    int i;
+    char *expanded;
+
+    i = 0;
+    while (cmds->cmd->tab[i])
+    {
+        expanded = ft_expand_env_vars(cmds->cmd->tab[i], env_head);
+        free(cmds->cmd->tab[i]);
+        cmds->cmd->tab[i] = expanded;
+        i++;
+    }
+}

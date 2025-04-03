@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/01 15:29:07 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/03 14:56:40 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	init_path(char **env, t_pipe *pipex)
 		ft_printf("bash: (INSERER COMMANDE): No such file or directory\n");
 		return (1);
 	}
-	path = ft_strtrim(env[i], "PATH=");
+	path = ft_strtrim(env[i], "PATH=");		
 	path_split = ft_split(path, ':');
 	if (!path_split)
 		return (1);
@@ -228,7 +228,16 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
+		{
 			last_exe(cmds, &pipex, o_cmd);//CREATE FT
+			exit(g_error_code);
+		}
+		else if (pid > 0) // Processus parent
+		{
+    		waitpid(pid, &status, 0);
+    		if (WIFEXITED(status)) // Vérifie si le processus s'est terminé normalement
+        		g_error_code = WEXITSTATUS(status);
+		}
 	}
 	if (pid == 0)
 		exit(1);
