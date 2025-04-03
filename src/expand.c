@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:09:15 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/03 15:26:16 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:53:31 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char *ft_strjoin_char(char *s, char c)
     if (!s)
         return (NULL);
     len = ft_strlen(s);
-    new_str = malloc(sizeof(char) * (len + 2)); // +1 pour `c`, +1 pour `\0`
+    new_str = malloc(sizeof(char) * (len + 2));
     if (!new_str)
         return (NULL);
     i = 0;
@@ -30,8 +30,8 @@ static char *ft_strjoin_char(char *s, char c)
         new_str[i] = s[i];
         i++;
     }
-    new_str[i] = c; // Ajoute le caractère à la fin
-    new_str[i + 1] = '\0'; // Termine la string
+    new_str[i] = c;
+    new_str[i + 1] = '\0';
     return (new_str);
 }
 
@@ -47,7 +47,7 @@ static char *ft_get_env_value(t_env_head *env_head, char *var)
             return (tmp->value);
         tmp = tmp->next;
     }
-    return (NULL); // Retourne NULL si la variable n'existe pas
+    return (NULL);
 }
 
 static char *ft_expand_env_vars(char *str, t_env_head *env_head)
@@ -75,6 +75,12 @@ static char *ft_expand_env_vars(char *str, t_env_head *env_head)
 				if (!var_value)
 					return (NULL);
                 temp = ft_strjoin(res, var_value);
+                if (!temp)
+                {
+                    free(res);
+                    free(var_value);
+                    return (NULL);
+                }
                 free(res);
                 free(var_value);
                 res = temp;
