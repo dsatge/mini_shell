@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
+#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/03/31 17:27:26 by enschnei         ###   ########.fr        #
+#    Updated: 2025/04/02 14:56:37 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ C_FILES = main.c\
 			ft_unset.c\
 			tokenise.c\
 			ft_export.c\
+			exec_init.c\
 			exec_utils.c\
 			exec_redir.c\
 			line_to_words.c\
@@ -68,7 +69,7 @@ $(NAME): $(SRCS)
 	@echo "$(BLUE)////////////////////////////////$(RESET)"
 	@echo "$(BOLD)$(RED)Creation de $(NAME)...$(RESET)"
 	@cc $(CFLAGS) $(SRCS) -o $(NAME) $(DEPS) -lreadline
-	@echo "$(BOLD)$(YELLOW) COMPILATION TERMINER $(RESET)"
+	@echo "$(BOLD)$(YELLOW) COMPILATION TERMINE $(RESET)"
 
 clean:
 	@echo "$(RED)Cleaning up object files...$(RESET)"

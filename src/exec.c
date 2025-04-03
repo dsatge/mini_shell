@@ -3,100 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 16:54:28 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:03:47 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
-{
-	pipex->abs_path = 0;
-	pipex->backup_stdin = dup(STDIN_FILENO);
-	pipex->backup_stdout = dup(STDOUT_FILENO);
-	pipex->pipe_fd[0] = -1;
-	pipex->pipe_fd[1] = -1;
-	ft_only_cmd(cmds);
-	cmds->mem_cmd_nbr = cmds->cmd_nbr;
-	(void)cmds;
-	// if (cmds->cmd)
-	if (env[0] == NULL)
-		pipex->abs_path = -1;
-	else
-		pipex->env = env;
-		
-}
-
-int	ft_only_cmd(t_list *cmds)
-{
-	t_list	*list;
-	t_o_cmd	*head;
-	
-	int		i;
-
-	list = cmds;
-	i = 0;
-	if (!cmds || !cmds->cmd || !cmds->cmd->tab[0])
-		return (-1);
-	cmds->o_cmd = malloc(sizeof(t_o_cmd));
-	head = cmds->o_cmd;
-	if (!cmds->o_cmd)
-		return (-1);
-	while (list)
-	{
-		i = 0;
-		if (list->cmd->type == word)
-		{
-			cmds->o_cmd->tab = ft_calloc(sizeof(char *), ft_count_line_split(list->cmd->tab) + 1);
-			if (!cmds->o_cmd->tab)
-				return (-1);
-			while(list->cmd->tab[i] != 0)
-			{
-				cmds->o_cmd->tab[i] = ft_strdup(list->cmd->tab[i]);
-				i++;
-			}
-			cmds->o_cmd->tab[i] = 0;
-			cmds->o_cmd->next = NULL;
-		}
-		list = list->next;
-	}
-	while (list)
-	{
-		if (list->cmd->type == word)
-			cp_cmdtab(cmds, list); //FILL TAB
-		list = list->next;
-	}
-	cmds->o_cmd = head;
-	return (0);
-}
-
-int	cp_cmdtab(t_list *cmds, t_list *list)
-{
-	int	i;
-	
-	i = 0;
-	cmds->o_cmd->next->tab = ft_calloc(sizeof(char *), ft_count_line_split(list->cmd->tab) + 1);
-	if (!cmds->o_cmd->tab)
-		return (-1);
-	while(list->cmd->tab[i] != 0)
-	{
-		cmds->o_cmd->tab[i] = ft_strdup(list->cmd->tab[i]);
-		i++;
-	}
-	cmds->o_cmd->tab[i] = 0;
-	cmds->o_cmd = cmds->o_cmd->next;
-	cmds->o_cmd->next = NULL;
-	return (0);
-}
-
 char	**add_path(char *add, int len, char **path_split)
 {
 	int		line;
 	char	**new;
-
+	
 	line = 0;
 	new = malloc(sizeof(char *) * (len + 1));
 	if (!new)
@@ -126,13 +46,13 @@ int	init_path(char **env, t_pipe *pipex)
 	char	**path_split;
 	int		i;
 	int		line_path_count;
-
+	
 	path = NULL;
 	i = 0;
 	if (!env)
-		return (-1);
+	return (-1);
 	while (env[i] && ft_strncmp(env[i], "PATH=", 5) != 0)
-		i++;
+	i++;
 	path = ft_strtrim(env[i], "PATH=");
 	path_split = ft_split(path, ':');
 	free(path);
@@ -185,9 +105,13 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	char **env;
 	pid_t	pid;
 	t_pipe	pipex;
+	t_o_cmd	*o_cmd;
 	int		status;
+	int		prev_pip;
 	
-	
+	o_cmd = NULL;
+	prev_pip = -1;
+	o_cmd = ft_only_cmd(cmds);
 	env = buildtab(env_head);
 	if (!env)
 		return (-1);
@@ -197,42 +121,102 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	//GET PATH / ABSOLUT PATH
 	if (ft_builtin(cmds, &pipex, env_head) == 0)
 		return (0);
-	if (pipe(pipex.pipe_fd) == -1)
+	while (pipex.nbr_cmds > 1)
 	{
-		perror("pipe");
-		ft_freetab(pipex.path);
-		exit(EXIT_FAILURE);
-	}
-	while (cmds->head->cmd_nbr > 1)
-	{
+		if (pipe(pipex.pipe_fd) == -1)
+		{
+			perror("pipe");
+			ft_freetab(pipex.path);
+			exit(EXIT_FAILURE);
+		}
 		pid = fork();
 		if (pid == -1)
-			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
+			return (ft_putstr_fd("ERROR pid firsts\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
 		{
-			first_exe(cmds, &pipex);//CREATE FT
+			if (prev_pip != -1)
+			{
+				dup2(prev_pip, STDIN_FILENO);
+				close(prev_pip);
+			}
+			first_exe(cmds, &pipex, o_cmd);//CREATE FT
 		}
-		cmds->head->cmd_nbr--;
-		cmds = cmds->next;
+		next_cmdexe(&cmds, &o_cmd, &pipex);
+		prev_pip = pipex.pipe_fd[1];
+		// close(pipex.pipe_fd[0]);
+		close(pipex.pipe_fd[1]);
 	}
-	if (cmds->head->cmd_nbr == 1 && cmds)
+	if (pipex.nbr_cmds == 1)
 	{
-		printf("//////////////last (parent)\n");
+		if (pipe(pipex.pipe_fd) == -1)
+		{
+			perror("pipe");
+			ft_freetab(pipex.path);
+			exit(EXIT_FAILURE);
+		}
 		pid = fork();
 		if (pid == -1)
-			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
+			return (ft_putstr_fd("ERROR pid last\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
 		{
-			last_exe(cmds, &pipex);//CREATE FT
+			if (prev_pip != -1)
+			{
+				dup2(prev_pip, STDIN_FILENO);
+				close(prev_pip);
+			}
+			last_exe(cmds, &pipex, o_cmd);//CREATE FT
 		}
-		cmds->head->cmd_nbr--;
 	}
 	if (pid == 0)
 		exit(1);
-	// wait(&pid);
 	waitpid(pid, &status, 0);
 	close(pipex.pipe_fd[0]);
-	close(pipex.pipe_fd[1]);	
+	close(pipex.pipe_fd[1]);
+	if (prev_pip != -1)	
+		close (prev_pip);
 	//FREE pipex.path
 	return (0);
 }
+/*
+//pseudo code, using an array of pipes created up-front:
+
+// parent creates all needed pipes at the start / 
+for( i = 0; i < num-pipes; i++ ) //number of commands - 1
+{
+    if( pipe(pipefds + i2) < 0 ){
+        perror and exit
+    }
+}
+
+commandc = 0
+while( command ){
+    pid = fork()
+    if( pid == 0 ){
+        // child gets input from the previous command,
+           // if it's not the first command 
+        if( not first command ){
+            if( dup2(pipefds[(commandc-1)2], 0) < ){
+                perror and exit
+            }
+        }
+        // child outputs to next command, if it's not
+            //the last command /
+        if( not last command ){
+            if( dup2(pipefds[commandc2+1], 1) < 0 ){
+                perror and exit
+            }
+        }
+        close all pipe-fds
+        execvp
+        perror and exit
+    } else if( pid < 0 ){
+        perror and exit
+    }
+    cmd = cmd->next
+    commandc++
+}
+
+//parent closes all of its copies at the end /
+for( i = 0; i < 2 num-pipes; i++ ){
+    close( pipefds[i] );
+}*/

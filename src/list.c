@@ -98,8 +98,8 @@ int	tab_cmds(t_token *list, t_list *cmds)
 	run_loop = 0;
 	if (current->type == pip)
 	{
-		list_element++;
-		current = current->next;
+		list_element += pipe_cmds(current, curr_cmds);
+		// current = current->next;
 		if (cmds->head)
 		{
 			cmds->head->cmd_nbr += 1;
@@ -169,5 +169,22 @@ int	word_cmds(t_token *list, t_list *cmds)
 		current = current->next;
 	}
 	cmds->cmd->tab[i] = 0;
+	return (tab_len);
+}
+
+int	pipe_cmds(t_token *list, t_list *cmds)
+{
+	int	tab_len;
+	t_token	*current;
+	
+	tab_len = 1;
+	current = list;
+	cmds->cmd->type = pip;
+	cmds->cmd->tab = ft_calloc(sizeof(char*), (tab_len + 1));
+	if (!cmds->cmd->tab)
+		return (-1);
+	cmds->cmd->tab[0] = ft_strdup("|");
+	cmds->cmd->tab[1] = 0;
+	current = current->next;
 	return (tab_len);
 }

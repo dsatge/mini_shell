@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 16:53:01 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:49:44 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,13 @@ int	invert_stdin(t_list *cmds, int fd)
 	return (0);
 }
 
-void	first_exe(t_list *cmds, t_pipe *pipex)
+void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 {
 	int i;
 	char	*path_cmd;
   
-  i = 0;
+  	i = 0;
 	path_cmd = NULL;
-	printf("FIRST.....\n");
 	if (ft_redir(&cmds, &pipex) == -1)
 	{
 		perror("bash: infile: ");
@@ -58,21 +57,21 @@ void	first_exe(t_list *cmds, t_pipe *pipex)
 	while (pipex->path[i])
 	{
 		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
-		if (cmds->o_cmd->next != NULL)
-			cmds->o_cmd = cmds->o_cmd->next;
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->o_cmd->tab, pipex->env) == -1)
-			return (exit(127), perror("exe_cmd:"));
+		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
+		// if (cmds->o_cmd->next != NULL)
+		// 	cmds->o_cmd = cmds->o_cmd->next;
+		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)
+		return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
 	return (perror("NOPE FIRST EXE"));
 }
 
-void	last_exe(t_list *cmds, t_pipe *pipex)
+void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 {
 	int i;
 	char	*path_cmd;
-
+	
 	i = 0;
 	path_cmd = NULL;
 	if (ft_redir(&cmds, &pipex) == -1)
@@ -82,16 +81,15 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 	}
 	redir_fdin(&pipex, cmds);
 	redir_fdout(&pipex, cmds);
-	printf("LAST....\n");
 	while (pipex->path[i])
 	{
 		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], cmds->o_cmd->tab[0]);
-		if (path_cmd == NULL)
-			return (perror("strjoin failed"), exit(1));
-		if (cmds->o_cmd->next != NULL)
-			cmds->o_cmd = cmds->o_cmd->next;
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, cmds->o_cmd->tab, pipex->env) == -1)
+		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
+    if (path_cmd == NULL)
+		  return (perror("strjoin failed"), exit(1));
+		// if (o_cmd->next != NULL)
+		// 	cmds->o_cmd = cmds->o_cmd->next;
+		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
@@ -101,10 +99,12 @@ void	last_exe(t_list *cmds, t_pipe *pipex)
 int	ft_redir(t_list **cmds, t_pipe **pipex)
 {
 	t_list	*list;
+	char	*buff;
 	
 	list = (*cmds);
-	(*pipex)->infile_fd = -1;
-	(*pipex)->outfile_fd = -1;
+	buff = NULL;
+	(*pipex)->redir_in = 0;
+	(*pipex)->redir_out = 0;
 	if (!cmds)
 		return (-1);
 	while (list && list->cmd->type != pip)
@@ -112,21 +112,27 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
 		{
 			if (redir_in(pipex, list) == -1)
-				return (-1);
+			return (-1);
 		}
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">") == 0)
 		{
 			if (redir_out(pipex, list) == -1)
-				return (-1);
+			return (-1);
 		}
-		// if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<<") == 0)
-		// {
-    	// 	if (heredoc(*cmds) == -1)
-	    // 	    return (-1);
-    	// 	if (redir_heredoc() == -1)
-        // 		return (-1);
-		// }
 		list = list->next;
 	}
+	// printf("~~~~~~~~~~~\n");
+	// if ((*pipex)->redir_in == 0)
+	// {
+	// 	int reader = 0;
+	// 	ioctl((*pipex)->pipe_fd[0], FIONREAD, &reader);	
+	// 	if (reader > 0)
+	// 		printf("VICTORRRRRRYYYYYYYYYYYYYYYYYYYY\n");
+	// 	else
+	// 		printf("fuck you \n");
+	// close((*pipex)->pipe_fd[1]);
+	// close((*pipex)->pipe_fd[0]);
+	if (list && list->cmd->type == pip)
+		list = list->next;
 	return (0);
 }
