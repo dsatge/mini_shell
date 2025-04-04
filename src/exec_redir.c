@@ -44,7 +44,6 @@ int redir_out(t_pipe **pipex, t_list *list)
 
 int	redir_fdin(t_pipe **pipex, t_list *cmds)
 {
-	
 	(void) cmds;
 	// printf("redir_pipe value = %i\n", (*pipex)->redir_pipe);
 	if ((*pipex)->redir_in == 1)
