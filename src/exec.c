@@ -186,8 +186,10 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	t_pipe	pipex;
 	t_o_cmd	*o_cmd;
 	int		status;
+	int		prev_pip;
 	
 	o_cmd = NULL;
+	prev_pip = -1;
 	o_cmd = ft_only_cmd(cmds);
 	env = buildtab(env_head);
 	if (!env)
@@ -198,34 +200,102 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	//GET PATH / ABSOLUT PATH
 	if (ft_builtin(cmds, &pipex, env_head) == 0)
 		return (0);
-	if (pipe(pipex.pipe_fd) == -1)
+	while (pipex.nbr_cmds > 1)
 	{
-		perror("pipe");
-		ft_freetab(pipex.path);
-		exit(EXIT_FAILURE);
-	}
-	while (cmds->head->cmd_nbr > 1)
-	{
+		if (pipe(pipex.pipe_fd) == -1)
+		{
+			perror("pipe");
+			ft_freetab(pipex.path);
+			exit(EXIT_FAILURE);
+		}
+		if (prev_pip != -1)
+		{
+			dup2(prev_pip, STDIN_FILENO);
+			close(prev_pip);
+		}
 		pid = fork();
 		if (pid == -1)
-			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
+			return (ft_putstr_fd("ERROR pid firsts\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
+		{
 			first_exe(cmds, &pipex, o_cmd);//CREATE FT
+		}
 		next_cmdexe(&cmds, &o_cmd, &pipex);
+		prev_pip = pipex.pipe_fd[1];
+		close(pipex.pipe_fd[0]);
+		close(pipex.pipe_fd[1]);
 	}
-	if (cmds->head->cmd_nbr == 1 && cmds)
+	if (pipex.nbr_cmds == 1)
 	{
+		if (pipe(pipex.pipe_fd) == -1)
+		{
+			perror("pipe");
+			ft_freetab(pipex.path);
+			exit(EXIT_FAILURE);
+		}
 		pid = fork();
 		if (pid == -1)
-			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
+			return (ft_putstr_fd("ERROR pid last\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
+		{
+			if (prev_pip != -1)
+			{
+				dup2(prev_pip, STDIN_FILENO);
+				close(prev_pip);
+			}
 			last_exe(cmds, &pipex, o_cmd);//CREATE FT
+		}
 	}
 	if (pid == 0)
 		exit(1);
 	waitpid(pid, &status, 0);
 	close(pipex.pipe_fd[0]);
-	close(pipex.pipe_fd[1]);	
+	close(pipex.pipe_fd[1]);
+	if (prev_pip != -1)	
+		close (prev_pip);
 	//FREE pipex.path
 	return (0);
 }
+/*
+//pseudo code, using an array of pipes created up-front:
+
+// parent creates all needed pipes at the start / 
+for( i = 0; i < num-pipes; i++ ) //number of commands - 1
+{
+    if( pipe(pipefds + i2) < 0 ){
+        perror and exit
+    }
+}
+
+commandc = 0
+while( command ){
+    pid = fork()
+    if( pid == 0 ){
+        // child gets input from the previous command,
+           // if it's not the first command 
+        if( not first command ){
+            if( dup2(pipefds[(commandc-1)2], 0) < ){
+                perror and exit
+            }
+        }
+        // child outputs to next command, if it's not
+            //the last command /
+        if( not last command ){
+            if( dup2(pipefds[commandc2+1], 1) < 0 ){
+                perror and exit
+            }
+        }
+        close all pipe-fds
+        execvp
+        perror and exit
+    } else if( pid < 0 ){
+        perror and exit
+    }
+    cmd = cmd->next
+    commandc++
+}
+
+//parent closes all of its copies at the end /
+for( i = 0; i < 2 num-pipes; i++ ){
+    close( pipefds[i] );
+}*/
