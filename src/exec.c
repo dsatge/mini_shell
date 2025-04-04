@@ -5,10 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/04 13:27:03 by dsatge           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/04/04 15:02:11 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+
+
+
+
+
 
 #include "minishell.h"
 
@@ -16,7 +23,7 @@ char	**add_path(char *add, int len, char **path_split)
 {
 	int		line;
 	char	**new;
-	
+		
 	line = 0;
 	new = malloc(sizeof(char *) * (len + 1));
 	if (!new)
@@ -46,10 +53,11 @@ int	init_path(char **env, t_pipe *pipex)
 	char	**path_split;
 	int		i;
 	int		line_path_count;
-	
+		
 	path = NULL;
 	i = 0;
 	if (!env)
+	return (-1);
 	return (-1);
 	while (env[i] && ft_strncmp(env[i], "PATH=", 5) != 0)
 	i++;
@@ -113,6 +121,7 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	prev_pip = -1;
 	o_cmd = ft_only_cmd(cmds);
 	env = buildtab(env_head);
+	// printf("is there still something here? %i", cmds->mem_cmd_nbr);
 	if (!env)
 		return (-1);
 	init_pipex(cmds, &pipex, env);
