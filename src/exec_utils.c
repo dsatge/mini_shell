@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/02 12:49:44 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/04 16:40:15 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
-    if (path_cmd == NULL)
-		  return (perror("strjoin failed"), exit(1));
+    	if (path_cmd == NULL)
+			return (perror("strjoin failed"), exit(1));
 		// if (o_cmd->next != NULL)
 		// 	cmds->o_cmd = cmds->o_cmd->next;
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)

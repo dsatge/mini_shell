@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/04 12:47:53 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/04 16:24:30 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,8 @@ int redir_out(t_pipe **pipex, t_list *list)
 int	redir_fdin(t_pipe **pipex, t_list *cmds)
 {
 	(void) cmds;
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
 	// printf("redir_pipe value = %i\n", (*pipex)->redir_pipe);
->>>>>>> main
-=======
-	// printf("redir_pipe value = %i\n", (*pipex)->redir_pipe);
->>>>>>> c61485f49a52cfcc8ddf653f9be6958f1b032324
 	if ((*pipex)->redir_in == 1)
 	{
 		dup2((*pipex)->infile_fd, STDIN_FILENO);
@@ -82,13 +75,6 @@ int	redir_fdout_pip(t_pipe **pipex, t_list *cmds)
 		// printf ("---------------HERE\n");
 		dup2((*pipex)->pipe_fd[1], STDOUT_FILENO);
 		close((*pipex)->pipe_fd[1]);
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> main
-=======
->>>>>>> c61485f49a52cfcc8ddf653f9be6958f1b032324
 	}
 	return (0);
 }
