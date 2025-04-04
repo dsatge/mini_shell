@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:48:16 by baiannon          #+#    #+#             */
-/*   Updated: 2025/03/31 13:08:36 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:10:59 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,5 @@ void ft_env(t_env_head *env_head)
     }
     ft_printf("%s=", tmp->type);
     ft_printf("%s\n", tmp->value);
+    g_error_code = 0;
 }

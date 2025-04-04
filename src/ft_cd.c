@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:25:14 by baiannon          #+#    #+#             */
-/*   Updated: 2025/01/14 18:26:14 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/04 15:13:02 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int ft_cd(char **cmd)
     }
     if (chdir(path) == -1)
     {
-        ft_printf("cd: %s: %s\n", path, strerror(errno));
+        ft_printf("bash : cd: %s: %s\n", path, strerror(errno));
         exit_code = 1;
     }
     else
         exit_code = 0;
-
+    g_error_code = exit_code;
     return (exit_code);
 }

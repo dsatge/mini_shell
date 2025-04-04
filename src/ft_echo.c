@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:36:45 by baiannon          #+#    #+#             */
-/*   Updated: 2025/03/31 18:36:17 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/04 13:41:03 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ int ft_echo(char **cmd)
 	}
 	if (!flag)
 		ft_printf("\n");
+	g_error_code = 0;
 	return (0);
 }

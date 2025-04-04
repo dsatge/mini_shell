@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:09:15 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/03 15:53:31 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/04 12:03:01 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char *ft_strjoin_char(char *s, char c)
 }
 
 
-static char *ft_get_env_value(t_env_head *env_head, char *var)
+static char *ft_get_env_value(t_env_head *env_head, char *var)  
 {
     t_env *tmp;
 

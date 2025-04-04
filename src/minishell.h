@@ -177,5 +177,7 @@ int				redir_fdout_pip(t_pipe **pipex, t_list *cmds);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
 // HEREDOC
 int				heredoc(t_list *cmds);
+// ERROR
+int 		error_special(char *buffer);
 
 #endif

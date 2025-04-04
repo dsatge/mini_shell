@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/01 14:44:56 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/04 12:55:39 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 		free_list(token_list);
 		free_env(&mini_struct->env);
 		free(mini_struct);
-		return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
+		return (ft_putstr_fd("exit\n", 2), -1);
 	}
 	if (*buffer == '\0')
 	{
@@ -74,11 +74,15 @@ int	main(int ac, char **av, char **env)
 	{
 		signal_handle();
 		buffer = readline(PROMPT);
+		if (!buffer)
+			break ;
 		buf_value = ft_buffer(buffer, head, mini_struct);
 		if (buf_value == -1)
-			return (-1);
+			return (0);
 		if (buf_value == 0)
 		{
+			if (error_special(buffer) == 1)
+				continue ;
 			head = ft_split_word(buffer, mini_struct);
 			if (ft_checktype_order(head) == 0)
 			{

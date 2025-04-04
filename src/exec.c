@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/03 14:56:40 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:24:09 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,13 +229,14 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
 		{
-			last_exe(cmds, &pipex, o_cmd);//CREATE FT
-			exit(g_error_code);
+			last_exe(cmds, &pipex, o_cmd);
+			exit(0); // On quitte avec le code de retour
 		}
+			
 		else if (pid > 0) // Processus parent
 		{
     		waitpid(pid, &status, 0);
-    		if (WIFEXITED(status)) // Vérifie si le processus s'est terminé normalement
+    		if (WIFEXITED(status))
         		g_error_code = WEXITSTATUS(status);
 		}
 	}

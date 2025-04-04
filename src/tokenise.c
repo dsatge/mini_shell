@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/18 09:28:51 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/04 12:54:18 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ int	ft_checktype_order(t_token *element)
 		element = element->next;
 	}
 	if (element->type == pip || element->type == redir)
-		return (ft_putstr_fd("Error: not ending by word\n", 2), -1);
+	{
+		g_error_code = 2;
+		ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
+		return (-1);
+	}
 	return (0);
 }
 
