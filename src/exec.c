@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/03 16:03:47 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/04 13:27:03 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,21 +129,21 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 			ft_freetab(pipex.path);
 			exit(EXIT_FAILURE);
 		}
+		if (prev_pip != -1)
+		{
+			dup2(prev_pip, STDIN_FILENO);
+			close(prev_pip);
+		}
 		pid = fork();
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR pid firsts\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
 		{
-			if (prev_pip != -1)
-			{
-				dup2(prev_pip, STDIN_FILENO);
-				close(prev_pip);
-			}
 			first_exe(cmds, &pipex, o_cmd);//CREATE FT
 		}
 		next_cmdexe(&cmds, &o_cmd, &pipex);
 		prev_pip = pipex.pipe_fd[1];
-		// close(pipex.pipe_fd[0]);
+		close(pipex.pipe_fd[0]);
 		close(pipex.pipe_fd[1]);
 	}
 	if (pipex.nbr_cmds == 1)

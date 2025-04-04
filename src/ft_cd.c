@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:25:14 by baiannon          #+#    #+#             */
-/*   Updated: 2025/01/14 18:26:14 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/04 13:29:41 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int ft_cd(char **cmd)
     unsigned char exit_code;
 
     if (cmd[1] && cmd[2])
-        return(ft_printf("cd: too many arguments\n"), 1);
+        return(ft_printf(2, "cd: too many arguments\n"), 1);
     if (!cmd[1])
     {
         home = getenv("HOME");
@@ -40,7 +40,7 @@ int ft_cd(char **cmd)
     }
     if (chdir(path) == -1)
     {
-        ft_printf("cd: %s: %s\n", path, strerror(errno));
+        ft_printf(2, "cd: %s: %s\n", path, strerror(errno));
         exit_code = 1;
     }
     else

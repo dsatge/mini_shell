@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:33:47 by baiannon          #+#    #+#             */
-/*   Updated: 2024/12/11 17:41:41 by baiannon         ###   ########.fr       */
+/*   Updated: 2025/04/04 13:36:39 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	signal_handle(void)
 void	sigint_handle(int signal)
 {
 	g_error_code = signal + 128;
-	ft_printf("\n");
+	ft_printf(2, "\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

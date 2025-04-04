@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:13:48 by baiannon          #+#    #+#             */
-/*   Updated: 2024/12/04 17:17:10 by baiannon         ###   ########.fr       */
+/*   Updated: 2025/04/04 13:35:42 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int ft_pwd(char **cmd)
         perror("PWD Error");
         return (1);
     }
-    ft_printf("%s\n", cwd);
+    ft_printf(1, "%s\n", cwd);
     free(cwd);
     return (0);
 }
