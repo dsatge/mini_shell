@@ -75,7 +75,6 @@ int	redir_fdout_pip(t_pipe **pipex, t_list *cmds)
 		// printf ("---------------HERE\n");
 		dup2((*pipex)->pipe_fd[1], STDOUT_FILENO);
 		close((*pipex)->pipe_fd[1]);
-
 	}
 	return (0);
 }
