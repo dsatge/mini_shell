@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/04 16:27:06 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/04 16:49:12 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ int	init_path(char **env, t_pipe *pipex)
 	path = NULL;
 	i = 0;
 	if (!env)
-	return (-1);
-	return (-1);
+		return (-1);
 	while (env[i] && ft_strncmp(env[i], "PATH=", 5) != 0)
 	i++;
 	path = ft_strtrim(env[i], "PATH=");
