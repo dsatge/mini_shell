@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/04 16:40:15 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/04 17:33:34 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,21 @@ int	invert_stdin(t_list *cmds, int fd)
 	return (0);
 }
 
-void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
+void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
 {
 	int i;
 	char	*path_cmd;
   
   	i = 0;
 	path_cmd = NULL;
+	if (prev_pip != -1)
+		ft_printf(2, "JE SUIS LA. %d\n", prev_pip);	
 	if (ft_redir(&cmds, &pipex) == -1)
 	{
 		perror("bash: infile: ");
 		return;
 	}
-	redir_fdin(&pipex, cmds);
+	redir_fdin(&pipex, cmds, prev_pip);
 	redir_fdout_pip(&pipex, cmds); /// NE PAS OUBLIER DE DECOMMENTER QUAND PATH FONCTIONNE !!!
 	while (pipex->path[i])
 	{
@@ -67,7 +69,7 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 	return (perror("NOPE FIRST EXE"));
 }
 
-void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
+void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
 {
 	int i;
 	char	*path_cmd;
@@ -79,7 +81,7 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd)
 		perror("bash: infile: ");
 		return ;
 	}
-	redir_fdin(&pipex, cmds);
+	redir_fdin(&pipex, cmds, prev_pip);
 	redir_fdout(&pipex, cmds);
 	while (pipex->path[i])
 	{
