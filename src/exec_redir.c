@@ -51,7 +51,11 @@ int redir_out(t_pipe **pipex, t_list *list)
 int	redir_fdin(t_pipe **pipex, t_list *cmds)
 {
 	(void) cmds;
+<<<<<<< HEAD
 
+=======
+	// printf("redir_pipe value = %i\n", (*pipex)->redir_pipe);
+>>>>>>> main
 	if ((*pipex)->redir_in == 1)
 	{
 		dup2((*pipex)->infile_fd, STDIN_FILENO);
@@ -80,7 +84,10 @@ int	redir_fdout_pip(t_pipe **pipex, t_list *cmds)
 		// printf ("---------------HERE\n");
 		dup2((*pipex)->pipe_fd[1], STDOUT_FILENO);
 		close((*pipex)->pipe_fd[1]);
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 	}
 	return (0);
 }
