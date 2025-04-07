@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/04 17:47:38 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/07 14:42:02 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,15 +138,18 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 		{
 			first_exe(cmds, &pipex, o_cmd, prev_pip);//CREATE FT
 		}
-		next_cmdexe(&cmds, &o_cmd, &pipex);
-		prev_pip = pipex.pipe_fd[1];
-		if (prev_pip != -1)
-			ft_printf(2, "SOMETHING %d\n", prev_pip);
-		close(pipex.pipe_fd[0]);
 		close(pipex.pipe_fd[1]);
+		// if (prev_pip != -1)
+		// {
+		// 	ft_printf(2, "SOMETHING %d\n", prev_pip);
+		// 	close(prev_pip);
+		// }
+		prev_pip = pipex.pipe_fd[0];
+		next_cmdexe(&cmds, &o_cmd, &pipex);
 	}
 	if (pipex.nbr_cmds == 1)
 	{
+		ft_printf(2, "cmds = %s o_cmd = %s\n~~~~~~~~\n", cmds->cmd->tab[0], o_cmd->tab[0]);
 		if (pipe(pipex.pipe_fd) == -1)
 		{
 			perror("pipe");
@@ -158,11 +161,11 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 			return (ft_putstr_fd("ERROR pid last\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
 		{
-			if (prev_pip != -1)
-			{
-				dup2(prev_pip, STDIN_FILENO);
-				close(prev_pip);
-			}
+			// if (prev_pip != -1)
+			// {
+			// 	dup2(prev_pip, STDIN_FILENO);
+			// 	close(prev_pip);
+			// }
 			last_exe(cmds, &pipex, o_cmd, prev_pip);//CREATE FT
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/04 17:46:38 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/07 14:43:24 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip)
 {
 	(void) cmds;
 
-	// printf("redir_pipe value = %i\n", (*pipex)->redir_pipe);
+	ft_printf(2, "prev_pip = %d\n", prev_pip);
 	if ((*pipex)->redir_in == 1)
 	{
 		dup2((*pipex)->infile_fd, STDIN_FILENO);
@@ -54,11 +54,8 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip)
 	}
 	else if (prev_pip != -1)
 	{
-		ft_printf(2, "Je check bien le fd envoye\n");
 		dup2(prev_pip, STDIN_FILENO);
 		close(prev_pip);
-		// close((*pipex)->pipe_fd[0]);
-		// close(prev_pip);
 	}
 	return (0);
 }
@@ -70,11 +67,11 @@ int	redir_fdout_pip(t_pipe **pipex, t_list *cmds)
 	{
 		dup2((*pipex)->outfile_fd, STDOUT_FILENO);
 		close((*pipex)->outfile_fd);
-		(*pipex)->redir_pipe = 0;
+		// (*pipex)->redir_pipe = 0;
 	}
 	else
 	{
-		// close((*pipex)->pipe_fd[0]);
+		close((*pipex)->pipe_fd[0]);
 		// printf ("---------------HERE\n");
 		dup2((*pipex)->pipe_fd[1], STDOUT_FILENO);
 		close((*pipex)->pipe_fd[1]);
