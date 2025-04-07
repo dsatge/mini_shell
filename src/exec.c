@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/07 14:42:02 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/07 15:07:38 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,18 +113,16 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	prev_pip = -1;
 	o_cmd = ft_only_cmd(cmds);
 	env = buildtab(env_head);
-	// printf("is there still something here? %i", cmds->mem_cmd_nbr);
 	if (!env)
 		return (-1);
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
 	// free_tab_2(env, ft_count_line_split(env));
 	//GET PATH / ABSOLUT PATH
-	if (ft_builtin(cmds, &pipex, env_head) == 0)
-		return (0);
 	while (pipex.nbr_cmds > 1)
 	{
-		ft_printf(1, "cmds = %s o_cmd = %s\n~~~~~~~~\n", cmds->cmd->tab[0], o_cmd->tab[0]);
+		if (ft_builtin(cmds, &pipex, env_head) == 0)
+			return (0);
 		if (pipe(pipex.pipe_fd) == -1)
 		{
 			perror("pipe");
@@ -139,17 +137,13 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 			first_exe(cmds, &pipex, o_cmd, prev_pip);//CREATE FT
 		}
 		close(pipex.pipe_fd[1]);
-		// if (prev_pip != -1)
-		// {
-		// 	ft_printf(2, "SOMETHING %d\n", prev_pip);
-		// 	close(prev_pip);
-		// }
 		prev_pip = pipex.pipe_fd[0];
 		next_cmdexe(&cmds, &o_cmd, &pipex);
 	}
 	if (pipex.nbr_cmds == 1)
 	{
-		ft_printf(2, "cmds = %s o_cmd = %s\n~~~~~~~~\n", cmds->cmd->tab[0], o_cmd->tab[0]);
+		if (ft_builtin(cmds, &pipex, env_head) == 0)
+			return (0);
 		if (pipe(pipex.pipe_fd) == -1)
 		{
 			perror("pipe");
@@ -161,11 +155,6 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 			return (ft_putstr_fd("ERROR pid last\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
 		{
-			// if (prev_pip != -1)
-			// {
-			// 	dup2(prev_pip, STDIN_FILENO);
-			// 	close(prev_pip);
-			// }
 			last_exe(cmds, &pipex, o_cmd, prev_pip);//CREATE FT
 		}
 	}
@@ -179,46 +168,3 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	//FREE pipex.path
 	return (0);
 }
-/*
-//pseudo code, using an array of pipes created up-front:
-
-// parent creates all needed pipes at the start / 
-for( i = 0; i < num-pipes; i++ ) //number of commands - 1
-{
-    if( pipe(pipefds + i2) < 0 ){
-        perror and exit
-    }
-}
-
-commandc = 0
-while( command ){
-    pid = fork()
-    if( pid == 0 ){
-        // child gets input from the previous command,
-           // if it's not the first command 
-        if( not first command ){
-            if( dup2(pipefds[(commandc-1)2], 0) < ){
-                perror and exit
-            }
-        }
-        // child outputs to next command, if it's not
-            //the last command /
-        if( not last command ){
-            if( dup2(pipefds[commandc2+1], 1) < 0 ){
-                perror and exit
-            }
-        }
-        close all pipe-fds
-        execvp
-        perror and exit
-    } else if( pid < 0 ){
-        perror and exit
-    }
-    cmd = cmd->next
-    commandc++
-}
-
-//parent closes all of its copies at the end /
-for( i = 0; i < 2 num-pipes; i++ ){
-    close( pipefds[i] );
-}*/

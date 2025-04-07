@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/04 17:33:34 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/07 15:27:40 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
   
   	i = 0;
 	path_cmd = NULL;
-	if (prev_pip != -1)
-		ft_printf(2, "JE SUIS LA. %d\n", prev_pip);	
 	if (ft_redir(&cmds, &pipex) == -1)
 	{
 		perror("bash: infile: ");
@@ -101,40 +99,46 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
 int	ft_redir(t_list **cmds, t_pipe **pipex)
 {
 	t_list	*list;
-	char	*buff;
 	
 	list = (*cmds);
-	buff = NULL;
 	(*pipex)->redir_in = 0;
 	(*pipex)->redir_out = 0;
 	if (!cmds)
 		return (-1);
 	while (list && list->cmd->type != pip)
 	{
-		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
-		{
-			if (redir_in(pipex, list) == -1)
+		if (ft_redir_in(list, pipex) == -1)
 			return (-1);
-		}
-		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">") == 0)
-		{
-			if (redir_out(pipex, list) == -1)
+		if (ft_redir_out(list, pipex) == -1)
 			return (-1);
-		}
 		list = list->next;
 	}
-	// printf("~~~~~~~~~~~\n");
-	// if ((*pipex)->redir_in == 0)
-	// {
-	// 	int reader = 0;
-	// 	ioctl((*pipex)->pipe_fd[0], FIONREAD, &reader);	
-	// 	if (reader > 0)
-	// 		printf("VICTORRRRRRYYYYYYYYYYYYYYYYYYYY\n");
-	// 	else
-	// 		printf("fuck you \n");
-	// close((*pipex)->pipe_fd[1]);
-	// close((*pipex)->pipe_fd[0]);
 	if (list && list->cmd->type == pip)
 		list = list->next;
+	return (0);
+}
+
+int	ft_redir_in(t_list *list, t_pipe **pipex)
+{
+	if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
+	{
+		if (redir_in(pipex, list) == -1)
+		return (-1);
+	}
+	if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">") == 0)
+	{
+		if (redir_out(pipex, list) == -1)
+		return (-1);
+	}
+	return (0);
+}
+
+int	ft_redir_out(t_list *list, t_pipe **pipex)
+{
+	if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">>") == 0)
+	{
+		if (redir_d_out(pipex, list) == -1)
+		return (-1);
+	}
 	return (0);
 }
