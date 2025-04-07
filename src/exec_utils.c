@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/07 15:27:40 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/07 19:02:38 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
 		perror("bash: infile: ");
 		return;
 	}
-	redir_fdin(&pipex, cmds, prev_pip);
 	redir_fdout_pip(&pipex, cmds); /// NE PAS OUBLIER DE DECOMMENTER QUAND PATH FONCTIONNE !!!
+	redir_fdin(&pipex, cmds, prev_pip, o_cmd);
 	while (pipex->path[i])
 	{
 		free(path_cmd);
@@ -74,13 +74,15 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
 	
 	i = 0;
 	path_cmd = NULL;
-	if (ft_redir(&cmds, &pipex) == -1)
+	if (ft_redir(&cmds, &pipex) == EXIT_FAILURE)
 	{
 		perror("bash: infile: ");
 		return ;
 	}
-	redir_fdin(&pipex, cmds, prev_pip);
 	redir_fdout(&pipex, cmds);
+	redir_fdin(&pipex, cmds, prev_pip, o_cmd);
+	if (pipex->redir_in == 2)
+		return ;
 	while (pipex->path[i])
 	{
 		free(path_cmd);
@@ -107,38 +109,42 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 		return (-1);
 	while (list && list->cmd->type != pip)
 	{
-		if (ft_redir_in(list, pipex) == -1)
-			return (-1);
-		if (ft_redir_out(list, pipex) == -1)
-			return (-1);
+		if (ft_redir_in(list, pipex) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		if (ft_redir_out(list, pipex) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 		list = list->next;
 	}
 	if (list && list->cmd->type == pip)
 		list = list->next;
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_redir_in(t_list *list, t_pipe **pipex)
 {
 	if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
 	{
-		if (redir_in(pipex, list) == -1)
-		return (-1);
+		if (redir_in(pipex, list) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 	}
-	if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">") == 0)
+	if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<<") == 0)
 	{
-		if (redir_out(pipex, list) == -1)
-		return (-1);
+		(*pipex)->redir_in = 2;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_redir_out(t_list *list, t_pipe **pipex)
 {
+	if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">") == 0)
+	{
+		if (redir_out(pipex, list) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
 	if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">>") == 0)
 	{
-		if (redir_d_out(pipex, list) == -1)
-		return (-1);
+		if (redir_d_out(pipex, list) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

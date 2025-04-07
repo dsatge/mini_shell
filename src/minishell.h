@@ -181,10 +181,10 @@ int				ft_redir_out(t_list *list, t_pipe **pipex);
 int				redir_in(t_pipe **pipex, t_list *list);
 int				redir_out(t_pipe **pipex, t_list *list);
 int 			redir_d_out(t_pipe **pipex, t_list *list);
-int				redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip);
+int				redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_o_cmd *o_cmd);
 int				redir_fdout_pip(t_pipe **pipex, t_list *cmds);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
 // HEREDOC
-int				heredoc(t_list *cmds);
+int 			heredoc(t_pipe **pipex, t_list *cmds, t_o_cmd *o_cmd);
 
 #endif

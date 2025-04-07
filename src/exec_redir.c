@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/07 15:16:20 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/07 19:17:12 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,21 @@ int redir_d_out(t_pipe **pipex, t_list *list)
 	return (0);
 }
 
-int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip)
+int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_o_cmd *o_cmd)
 {
-	(void) cmds;
-
 	if ((*pipex)->redir_in == 1)
 	{
 		dup2((*pipex)->infile_fd, STDIN_FILENO);
 		close((*pipex)->infile_fd);
+	}
+	else if ((*pipex)->redir_in == 2)
+	{
+		while (cmds)
+		{
+			if (cmds->cmd->type == redir && ft_strcmp(cmds->cmd->tab[0], "<<") == 0)
+				heredoc(pipex, cmds, o_cmd);
+			cmds = cmds->next;	
+		}
 	}
 	else if (prev_pip != -1)
 	{

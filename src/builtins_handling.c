@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_handling.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/03/31 18:36:46 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:41:52 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	ft_builtin(t_list *cmds, t_pipe *pipex, t_env_head *env_head)
 		return(ft_env(env_head), 0);
 	else if (ft_strcmp(cmds->cmd->tab[0], "unset") == 0)
 		return(ft_unset(cmds->cmd->tab, env_head), 0);
-	else if (ft_strcmp(cmds->cmd->tab[0], "<<") == 0)
-		return(heredoc(cmds), 0); // pas la
 	else if (ft_strcmp(cmds->cmd->tab[0], "export") == 0)
 		return(ft_export(cmds->cmd->tab, env_head), 0);
 	// else if (ft_strcmp(cmds->cmd->tab[0], "$") == 0)
