@@ -128,6 +128,7 @@ char			*word_from_str(char *buffer, int start, int end);
 //SIGNAUX
 void			signal_handle(void);
 void			sigint_handle(int signal);
+// void			signal_child(void);
 //FREE
 void			free_list(t_token *list);
 void			free_cmds(t_list *cmds);

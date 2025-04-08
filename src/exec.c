@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/04 15:24:09 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:45:23 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,17 +147,6 @@ int	next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex)
 	return (0);
 }
 
-void free_tab_2(char **tab, int size)
-{
-    int i = 0;
-    while (i < size)
-    {
-        free(tab[i]);
-        i++;
-    }
-    free(tab);
-}
-
 char **buildtab(t_env_head *env_head)
 {
     t_env   *tmp;
@@ -174,13 +163,17 @@ char **buildtab(t_env_head *env_head)
     {
         temp = ft_strjoin(tmp->type, "=");
         if (!temp)
-            return (free_tab_2(env, i), NULL);
+        {
+            ft_freetab(env);
+            return (NULL);
+        }
         env[i] = ft_strjoin(temp, tmp->value);
-		if (!env[i])
-			return (free_tab_2(env, i), NULL);
         free(temp);
         if (!env[i])
-            return (free_tab_2(env, i), NULL);
+        {
+            ft_freetab(env);
+            return (NULL);
+        }
         tmp = tmp->next;
         i++;
     }
@@ -203,8 +196,6 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 		return (-1);
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
-	// free_tab_2(env, ft_count_line_split(env));
-	//GET PATH / ABSOLUT PATH
 	if (ft_builtin(cmds, &pipex, env_head) == 0)
 		return (0);
 	if (pipe(pipex.pipe_fd) == -1)
@@ -230,10 +221,9 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 		if (pid == 0)
 		{
 			last_exe(cmds, &pipex, o_cmd);
-			exit(0); // On quitte avec le code de retour
+			exit(0);
 		}
-			
-		else if (pid > 0) // Processus parent
+		else if (pid > 0)
 		{
     		waitpid(pid, &status, 0);
     		if (WIFEXITED(status))
@@ -244,7 +234,7 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 		exit(1);
 	waitpid(pid, &status, 0);
 	close(pipex.pipe_fd[0]);
-	close(pipex.pipe_fd[1]);	
-	//FREE pipex.path
+	close(pipex.pipe_fd[1]);
+	ft_freetab(env);
 	return (0);
 }

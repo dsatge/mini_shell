@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 12:41:42 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/04 16:05:45 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/04 17:31:02 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ int is_only_slash_dot(char *buffer)
     }
     return (0);
 }
-
-
 
 int error_special(char *buffer)
 {

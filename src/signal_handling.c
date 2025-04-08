@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:33:47 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/01 17:43:23 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/08 17:40:55 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,3 +26,10 @@ void	sigint_handle(int signal)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
+
+// void signal_child(void)
+// {
+// 	signal(SIGINT, SIG_DFL);
+// 	signal(SIGQUIT, SIG_DFL);
+// 	ft_putstr_fd("Quit (core dumped)\n", 2);
+// }

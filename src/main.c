@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/04 12:55:39 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/07 15:34:30 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	add_history(buffer);
 	return (0);
 }
-
 
 int	main(int ac, char **av, char **env)
 {
