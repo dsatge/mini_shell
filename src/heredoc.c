@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/07 19:27:38 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/08 17:51:44 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,18 @@ void	close_fd(int sig)
 	exit(EXIT_FAILURE);
 }
 
-static void creat_heredoc(t_pipe **pipex, t_list *cmds, t_o_cmd *o_cmd)
+static void creat_heredoc(t_pipe **pipex, t_list *cmds)
 {
     char	*buffer;
 	char	*path_cmd;
-    // int fd;
 	int	i;
+    int fd;
 
 	i = 0;
 	path_cmd = NULL;
-    (*pipex)->infile_fd = open("File_heredoc", O_RDWR | O_TRUNC | O_CREAT, 0644);
-    if ((*pipex)->infile_fd == -1)
+    (void)pipex;
+    fd = open("File_heredoc", O_RDWR | O_TRUNC | O_CREAT, 0644);
+    if (fd == -1)
         return ;
     while (1)
     {
@@ -38,53 +39,53 @@ static void creat_heredoc(t_pipe **pipex, t_list *cmds, t_o_cmd *o_cmd)
         if (!buffer)
         {
             ft_putstr_fd("close heredoc\n", 2);
-            close((*pipex)->infile_fd);
             unlink("File_heredoc");
             return ;
         }
         if (!ft_strcmp(buffer, cmds->cmd->tab[1]))
         {
-			dup2((*pipex)->infile_fd, STDIN_FILENO);
-			close((*pipex)->infile_fd);
-			free(buffer);
+            close(fd);
             break;
         }
-        ft_putstr_fd(buffer, (*pipex)->infile_fd);
-        write((*pipex)->infile_fd, "\n", 1);
+        ft_putstr_fd(buffer, fd);
+        write(fd, "\n", 1);
         free(buffer);
     }
-	while ((*pipex)->path[i])
-	{
-		free(path_cmd);
-		path_cmd = ft_strjoin((*pipex)->path[i], o_cmd->tab[0]);
-		// if (cmds->o_cmd->next != NULL)
-		// 	cmds->o_cmd = cmds->o_cmd->next;
-		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, (*pipex)->env) == -1)
-			return (exit(127), perror("exe_cmd:"));
-		i++;
-	}
 }
 
-int heredoc(t_pipe **pipex, t_list *cmds, t_o_cmd *o_cmd)
+int heredoc(t_pipe **pipex, t_list *cmds)
 {
-    int pid;
-    int status;
+    int		pid;
+    int		status;
+    t_list	*list;
     
-	ft_printf(2, "cmds = %s, o_cmd = %s\n", cmds->cmd->tab[1], o_cmd->tab[0]);
 	signal(SIGINT, SIG_IGN);
-    pid = fork();
-    if (pid == -1)
-	{
-		perror("Error fork heredoc");
-		return (EXIT_FAILURE);
-	}
-    if (pid == 0)
+	list = cmds;
+	while (list && list->cmd->type != pip)
     {
-        signal(SIGINT, close_fd);
-        creat_heredoc(pipex, cmds, o_cmd);
-        // exit(EXIT_SUCCESS);
-    }
-    wait(&status);
+		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<<") == 0)
+		{
+			pid = fork();
+		    if (pid == -1)
+			{
+				perror("Error fork heredoc");
+				return (EXIT_FAILURE);
+			}
+			if (pid == 0)
+			{
+				signal(SIGINT, close_fd);
+				creat_heredoc(pipex, list);
+				exit(EXIT_SUCCESS);
+			}
+		}
+		list = list->next;
+	}
+    waitpid(pid, &status, 0);
+    (*pipex)->infile_fd = open("File_heredoc", O_RDONLY);
+    if ((*pipex)->infile_fd == -1)
+        return (EXIT_FAILURE);
+    dup2((*pipex)->infile_fd, STDIN_FILENO);
+    close((*pipex)->infile_fd);
 	unlink("File_heredoc");
     signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sigint_handle);

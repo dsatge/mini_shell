@@ -77,6 +77,7 @@ typedef struct s_pipe
 	int		redir_out;
 	int		redir_pipe;
 	int		fd;
+	int		heredoc_pip[2];
 	int		nbr_cmds;
 	int		infile_fd;
 	int		outfile_fd;
@@ -181,10 +182,10 @@ int				ft_redir_out(t_list *list, t_pipe **pipex);
 int				redir_in(t_pipe **pipex, t_list *list);
 int				redir_out(t_pipe **pipex, t_list *list);
 int 			redir_d_out(t_pipe **pipex, t_list *list);
-int				redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_o_cmd *o_cmd);
+int				redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip);
 int				redir_fdout_pip(t_pipe **pipex, t_list *cmds);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
 // HEREDOC
-int 			heredoc(t_pipe **pipex, t_list *cmds, t_o_cmd *o_cmd);
+int 			heredoc(t_pipe **pipex, t_list *cmds);
 
 #endif

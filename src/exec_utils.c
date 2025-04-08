@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/07 19:02:38 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/08 14:35:24 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
 		return;
 	}
 	redir_fdout_pip(&pipex, cmds); /// NE PAS OUBLIER DE DECOMMENTER QUAND PATH FONCTIONNE !!!
-	redir_fdin(&pipex, cmds, prev_pip, o_cmd);
+	redir_fdin(&pipex, cmds, prev_pip);
 	while (pipex->path[i])
 	{
 		free(path_cmd);
@@ -80,9 +80,7 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
 		return ;
 	}
 	redir_fdout(&pipex, cmds);
-	redir_fdin(&pipex, cmds, prev_pip, o_cmd);
-	if (pipex->redir_in == 2)
-		return ;
+	redir_fdin(&pipex, cmds, prev_pip);
 	while (pipex->path[i])
 	{
 		free(path_cmd);
