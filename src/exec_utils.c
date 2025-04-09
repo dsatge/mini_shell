@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/08 18:22:38 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/09 16:59:57 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	invert_stdin(t_list *cmds, int fd)
 	return (0);
 }
 
-void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
+void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_head *env_head)
 {
 	int i;
 	char	*path_cmd;
@@ -52,14 +52,14 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
 		perror("bash: infile: ");
 		return;
 	}
-	redir_fdout_pip(&pipex, cmds); /// NE PAS OUBLIER DE DECOMMENTER QUAND PATH FONCTIONNE !!!
+	redir_fdout_pip(&pipex); /// NE PAS OUBLIER DE DECOMMENTER QUAND PATH FONCTIONNE !!!
 	redir_fdin(&pipex, cmds, prev_pip);
+	if (ft_builtin(cmds, &pipex, env_head) == 0)
+		exit (EXIT_SUCCESS);
 	while (pipex->path[i])
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
-		// if (cmds->o_cmd->next != NULL)
-		// 	cmds->o_cmd = cmds->o_cmd->next;
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)
 		return (exit(127), perror("exe_cmd:"));
 		i++;
@@ -67,7 +67,7 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
 	return (perror("NOPE FIRST EXE"));
 }
 
-void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
+void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_head *env_head)
 {
 	int i;
 	char	*path_cmd;
@@ -81,14 +81,14 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip)
 	}
 	redir_fdout(&pipex, cmds);
 	redir_fdin(&pipex, cmds, prev_pip);
+	if (ft_builtin(cmds, &pipex, env_head) == 0)
+		exit (EXIT_FAILURE) ;
 	while (pipex->path[i])
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
     	if (path_cmd == NULL)
 			return (perror("strjoin failed"), exit(1));
-		// if (o_cmd->next != NULL)
-		// 	cmds->o_cmd = cmds->o_cmd->next;
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
@@ -104,7 +104,7 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 	(*pipex)->redir_in = 0;
 	(*pipex)->redir_out = 0;
 	if (!cmds)
-		return (-1);
+		return (EXIT_FAILURE);
 	while (list && list->cmd->type != pip)
 	{
 		if (ft_redir_in(list, pipex) == EXIT_FAILURE)

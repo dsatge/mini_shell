@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/07 17:39:38 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/09 15:29:52 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	//GET PATH / ABSOLUT PATH
 	while (pipex.nbr_cmds > 1)
 	{
-		if (ft_builtin(cmds, &pipex, env_head) == 0)
-			return (0);
 		if (pipe(pipex.pipe_fd) == -1)
 		{
 			perror("pipe");
@@ -134,7 +132,7 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 			return (ft_putstr_fd("ERROR pid firsts\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
 		{
-			first_exe(cmds, &pipex, o_cmd, prev_pip);//CREATE FT
+			first_exe(cmds, &pipex, o_cmd, prev_pip, env_head);//CREATE FT
 		}
 		close(pipex.pipe_fd[1]);
 		prev_pip = pipex.pipe_fd[0];
@@ -142,8 +140,6 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	}
 	if (pipex.nbr_cmds == 1)
 	{
-		if (ft_builtin(cmds, &pipex, env_head) == 0)
-			return (0);
 		if (pipe(pipex.pipe_fd) == -1)
 		{
 			perror("pipe");
@@ -155,11 +151,11 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 			return (ft_putstr_fd("ERROR pid last\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
 		{
-			last_exe(cmds, &pipex, o_cmd, prev_pip);//CREATE FT
+			last_exe(cmds, &pipex, o_cmd, prev_pip, env_head);//CREATE FT
 		}
 	}
-	if (pid == 0)
-		exit(1);
+	// if (pid == 0)
+	// 	exit (1);
 	waitpid(pid, &status, 0);
 	close(pipex.pipe_fd[0]);
 	close(pipex.pipe_fd[1]);

@@ -147,7 +147,7 @@ int				pipe_cmds(t_token *list, t_list *cmds);
 //PRINT_TEST_LIST
 
 // COMMANDS
-int				ft_builtin(t_list *cmds, t_pipe *pipex,
+int				ft_builtin(t_list *cmds, t_pipe **pipex,
 						t_env_head *env_head);
 int				ft_init_env(char **env, t_env_head *env_head);
 char			*get_value_env(char *cmd);
@@ -172,8 +172,10 @@ t_o_cmd			*ft_only_cmd(t_list *cmds);
 int				next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex);
 
 //EXEC_UTILS
-void			first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip);
-void			last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip);
+void			first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
+						t_env_head *env_head);
+void			last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
+						t_env_head *env_head);
 int				invert_stdin(t_list *cmds, int fd);
 int				ft_redir(t_list **cmds, t_pipe **pipex);
 int				ft_redir_in(t_list *list, t_pipe **pipex);
@@ -183,7 +185,7 @@ int				redir_in(t_pipe **pipex, t_list *list);
 int				redir_out(t_pipe **pipex, t_list *list);
 int 			redir_d_out(t_pipe **pipex, t_list *list);
 int				redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip);
-int				redir_fdout_pip(t_pipe **pipex, t_list *cmds);
+int				redir_fdout_pip(t_pipe **pipex);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
 // HEREDOC
 int 			heredoc(t_pipe **pipex, t_list *cmds);

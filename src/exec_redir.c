@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/08 18:56:13 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/09 15:55:01 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,8 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip)
 	return (0);
 }
 
-int	redir_fdout_pip(t_pipe **pipex, t_list *cmds)
+int	redir_fdout_pip(t_pipe **pipex)
 {
-	(void) cmds;
 	if ((*pipex)->redir_out == 1)
 	{
 		dup2((*pipex)->outfile_fd, STDOUT_FILENO);
