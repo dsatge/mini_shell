@@ -50,8 +50,7 @@ int	init_path(char **env, t_pipe *pipex)
 	path = NULL;
 	i = 0;
 	if (!env)
-	return (-1);
-	return (-1);
+		return (-1);
 	while (env[i] && ft_strncmp(env[i], "PATH=", 5) != 0)
 	i++;
 	path = ft_strtrim(env[i], "PATH=");
@@ -114,15 +113,12 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	prev_pip = -1;
 	o_cmd = ft_only_cmd(cmds);
 	env = buildtab(env_head);
-	// printf("is there still something here? %i", cmds->mem_cmd_nbr);
 	if (!env)
 		return (-1);
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
 	// free_tab_2(env, ft_count_line_split(env));
 	//GET PATH / ABSOLUT PATH
-	if (ft_builtin(cmds, &pipex, env_head) == 0)
-		return (0);
 	while (pipex.nbr_cmds > 1)
 	{
 		if (pipe(pipex.pipe_fd) == -1)
@@ -131,22 +127,16 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 			ft_freetab(pipex.path);
 			exit(EXIT_FAILURE);
 		}
-		if (prev_pip != -1)
-		{
-			dup2(prev_pip, STDIN_FILENO);
-			close(prev_pip);
-		}
 		pid = fork();
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR pid firsts\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
 		{
-			first_exe(cmds, &pipex, o_cmd);//CREATE FT
+			first_exe(cmds, &pipex, o_cmd, prev_pip, env_head);//CREATE FT
 		}
-		next_cmdexe(&cmds, &o_cmd, &pipex);
-		prev_pip = pipex.pipe_fd[1];
-		close(pipex.pipe_fd[0]);
 		close(pipex.pipe_fd[1]);
+		prev_pip = pipex.pipe_fd[0];
+		next_cmdexe(&cmds, &o_cmd, &pipex);
 	}
 	if (pipex.nbr_cmds == 1)
 	{
@@ -161,16 +151,11 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 			return (ft_putstr_fd("ERROR pid last\n", 2), 1);//PUT RIGHT EXIT
 		if (pid == 0)
 		{
-			if (prev_pip != -1)
-			{
-				dup2(prev_pip, STDIN_FILENO);
-				close(prev_pip);
-			}
-			last_exe(cmds, &pipex, o_cmd);//CREATE FT
+			last_exe(cmds, &pipex, o_cmd, prev_pip, env_head);//CREATE FT
 		}
 	}
-	if (pid == 0)
-		exit(1);
+	// if (pid == 0)
+	// 	exit (1);
 	waitpid(pid, &status, 0);
 	close(pipex.pipe_fd[0]);
 	close(pipex.pipe_fd[1]);
@@ -179,46 +164,3 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	//FREE pipex.path
 	return (0);
 }
-/*
-//pseudo code, using an array of pipes created up-front:
-
-// parent creates all needed pipes at the start / 
-for( i = 0; i < num-pipes; i++ ) //number of commands - 1
-{
-    if( pipe(pipefds + i2) < 0 ){
-        perror and exit
-    }
-}
-
-commandc = 0
-while( command ){
-    pid = fork()
-    if( pid == 0 ){
-        // child gets input from the previous command,
-           // if it's not the first command 
-        if( not first command ){
-            if( dup2(pipefds[(commandc-1)2], 0) < ){
-                perror and exit
-            }
-        }
-        // child outputs to next command, if it's not
-            //the last command /
-        if( not last command ){
-            if( dup2(pipefds[commandc2+1], 1) < 0 ){
-                perror and exit
-            }
-        }
-        close all pipe-fds
-        execvp
-        perror and exit
-    } else if( pid < 0 ){
-        perror and exit
-    }
-    cmd = cmd->next
-    commandc++
-}
-
-//parent closes all of its copies at the end /
-for( i = 0; i < 2 num-pipes; i++ ){
-    close( pipefds[i] );
-}*/
