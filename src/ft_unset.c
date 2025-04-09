@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 18:23:37 by baiannon          #+#    #+#             */
-/*   Updated: 2025/03/28 18:49:11 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:17:34 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	delete_node(t_env_head *env_head, t_env *target)
 	current = env_head->head;
 	prev = NULL;
 
-	if (current == target) // Si le premier élément est à supprimer
+	if (current == target)
 	{
 		env_head->head = current->next;
 		free_node(target);
@@ -79,4 +79,5 @@ void	ft_unset(char **cmds, t_env_head *env_head)
 			delete_node(env_head, target);
 		i++;
 	}
+	g_error_code = 0;
 }

@@ -90,4 +90,5 @@ void ft_env(t_env_head *env_head)
     }
     ft_printf(2, "%s=", tmp->type);
     ft_printf(2, "%s\n", tmp->value);
+    g_error_code = 0;
 }

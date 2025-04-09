@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-int g_error_code = 0;
+int		g_error_code = 0;
 
-void free_env(t_env_head *env_head)
+void	free_env(t_env_head *env_head)
 {
-	t_env *tmp;
-	t_env *next;
+	t_env	*tmp;
+	t_env	*next;
 
 	tmp = env_head->head;
 	while (tmp)
@@ -41,9 +41,9 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 		free_list(token_list);
 		free_env(&mini_struct->env);
 		free(mini_struct);
-		return (ft_putstr_fd("Exit with CTRL+D\n", 2), -1);
+		return (ft_putstr_fd("exit\n", 2), -1);
 	}
-	if (*buffer == '\0') // Segfault si on retourne a la ligne sur un prompt vide fixed
+	if (*buffer == '\0')
 	{
 		free(buffer);
 		return (1);
@@ -52,18 +52,17 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	return (0);
 }
 
-
 int	main(int ac, char **av, char **env)
 {
+	char		*buffer;
+	int			buf_value;
+	t_minish	*mini_struct;
+	t_token		*head;
+	t_list		*cmds;
+	t_list		*curr_cmd;
+
 	(void)ac;
 	(void)av;
-	char			*buffer;
-	int				buf_value;
-	t_minish		*mini_struct;
-	t_token			*head;
-	t_list			*cmds;
-	t_list			*curr_cmd;
-	
 	head = NULL;
 	cmds = NULL;
 	mini_struct = ft_calloc(sizeof(t_minish), 1);
@@ -74,11 +73,15 @@ int	main(int ac, char **av, char **env)
 	{
 		signal_handle();
 		buffer = readline(PROMPT);
+		if (!buffer)
+			break ;
 		buf_value = ft_buffer(buffer, head, mini_struct);
 		if (buf_value == -1)
-			return (-1);
+			return (0);
 		if (buf_value == 0)
 		{
+			if (error_special(buffer) == 1)
+				continue ;
 			head = ft_split_word(buffer, mini_struct);
 			if (ft_checktype_order(head) == 0)
 			{
@@ -102,7 +105,6 @@ int	main(int ac, char **av, char **env)
 	return (0);
 }
 
-
 // tableau de fd =
 // 0 STDIN
 // 1 STDOUT
@@ -112,13 +114,7 @@ int	main(int ac, char **av, char **env)
 // ..ETC
 // 1024 ...
 
-
-
-
-
-
 // ls < in1
-
 
 // dup2(in1, STDIN)
 // close(in1);

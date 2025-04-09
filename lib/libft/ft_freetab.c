@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_freetab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:06:08 by dsatge            #+#    #+#             */
-/*   Updated: 2024/09/27 19:23:38 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/07 13:57:39 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	ft_freetab(char **tab)
 {
 	size_t	i;
 
+	if (!tab)
+		return;
 	i = 0;
 	while (tab[i])
 	{

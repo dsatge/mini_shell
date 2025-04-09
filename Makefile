@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
+#    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/01 14:15:03 by dsatge           ###   ########.fr        #
+#    Updated: 2025/04/04 12:45:45 by enschnei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ C_FILES = main.c\
 			exec.c\
 			free.c\
 			list.c\
+			error.c\
 			ft_cd.c\
 			expand.c\
 			ft_env.c\

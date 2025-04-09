@@ -54,5 +54,6 @@ int ft_echo(char **cmd)
 	}
 	if (!flag)
 		ft_printf(1, "\n");
+	g_error_code = 0;
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:13:48 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/04 13:35:42 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/04 15:11:15 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ int ft_pwd(char **cmd)
     }
     ft_printf(1, "%s\n", cwd);
     free(cwd);
+    g_error_code = 0;
     return (0);
 }

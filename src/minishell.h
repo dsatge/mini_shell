@@ -127,10 +127,10 @@ void			ft_token_type(t_token *element);
 int				ft_ispipe(t_token element);
 int				ft_isredir(t_token element);
 char			*word_from_str(char *buffer, int start, int end);
-char 			*ft_dollar(t_env_head *env_head, char *var_name);
 //SIGNAUX
 void			signal_handle(void);
 void			sigint_handle(int signal);
+void			signal_child(void);
 //FREE
 void			free_list(t_token *list);
 void			free_cmds(t_list *cmds);
@@ -160,6 +160,8 @@ void			ft_unset(char **cmds, t_env_head *env_head);
 int				ft_exit(t_list *cmds, t_env_head *env_head);
 int				ft_export(char **cmd, t_env_head *env_head);
 //EXEC
+void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
+void 			ft_expand_args(t_list *cmds, t_env_head *env_head);
 char			**add_path(char *add, int len, char **path_split);
 int				init_path(char **env, t_pipe *pipex);
 void			free_tab_2(char **tab, int size);
@@ -167,7 +169,6 @@ char			**buildtab(t_env_head *env_head);
 int				ft_exec(t_list *cmds, t_env_head *env_head);
 //EXEC_INIT
 int				ft_count_cmds(t_list *cmd_list);
-void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
 t_o_cmd			*ft_only_cmd(t_list *cmds);
 int				next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex);
 
@@ -189,5 +190,7 @@ int				redir_fdout_pip(t_pipe **pipex);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
 // HEREDOC
 int 			heredoc(t_pipe **pipex, t_list *cmds);
+// ERROR
+int 		error_special(char *buffer);
 
 #endif

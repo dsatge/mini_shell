@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 int	redir_in(t_pipe **pipex, t_list *list)
 {
@@ -26,7 +26,7 @@ int	redir_in(t_pipe **pipex, t_list *list)
 	return (0);
 }
 
-int redir_out(t_pipe **pipex, t_list *list)
+int	redir_out(t_pipe **pipex, t_list *list)
 {
 	if ((*pipex)->redir_out == 1)
 	{
@@ -96,7 +96,7 @@ int	redir_fdout_pip(t_pipe **pipex)
 
 int	redir_fdout(t_pipe **pipex, t_list *cmds)
 {
-	(void) cmds;
+	(void)cmds;
 	if ((*pipex)->redir_out == 1)
 	{
 		dup2((*pipex)->outfile_fd, STDOUT_FILENO);

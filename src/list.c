@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 17:12:48 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:11:05 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,8 @@ int	pipe_cmds(t_token *list, t_list *cmds)
 	if (!cmds->cmd->tab)
 		return (-1);
 	cmds->cmd->tab[0] = ft_strdup("|");
+	if (!cmds->cmd->tab[0])
+		return (-1);
 	cmds->cmd->tab[1] = 0;
 	current = current->next;
 	return (tab_len);

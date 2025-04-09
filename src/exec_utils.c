@@ -12,22 +12,6 @@
 
 # include "minishell.h"
 
-// static int redir_heredoc()
-// {
-//     int fd;
-
-//     fd = open("File_heredoc", O_RDONLY);
-//     if (fd == -1)
-//         return (perror("open heredoc failed"), -1);
-//     if (dup2(fd, STDIN_FILENO) == -1)
-//     {
-//         close(fd);
-//         return (perror("dup2 failed"), -1);
-//     }
-//     close(fd);
-//     return (0);
-// }
-
 int	invert_stdin(t_list *cmds, int fd)
 {
 	printf("CHECK : %s, type = %i\n", cmds->cmd->tab[1], cmds->cmd->type);
@@ -54,17 +38,22 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_
 	}
 	redir_fdout_pip(&pipex); /// NE PAS OUBLIER DE DECOMMENTER QUAND PATH FONCTIONNE !!!
 	redir_fdin(&pipex, cmds, prev_pip);
-	if (ft_builtin(cmds, &pipex, env_head) == 0)
+  if (ft_builtin(cmds, &pipex, env_head) == 0)
 		exit (EXIT_SUCCESS);
+	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0], o_cmd->tab, pipex->env) == -1)
+		return (exit(127), perror("exe_cmd:"));
 	while (pipex->path[i])
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
+		if (!path_cmd)
+			return (perror("strjoin failed"), exit(1));
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)
-		return (exit(127), perror("exe_cmd:"));
+			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
-	return (perror("NOPE FIRST EXE"));
+	ft_printf("bash: %s: command not found\n", o_cmd->tab[0]);
+	exit(127);
 }
 
 void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_head *env_head)
@@ -80,20 +69,22 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_h
 		return ;
 	}
 	redir_fdout(&pipex, cmds);
-	redir_fdin(&pipex, cmds, prev_pip);
+  redir_fdin(&pipex, cmds, prev_pip);
 	if (ft_builtin(cmds, &pipex, env_head) == 0)
 		exit (EXIT_FAILURE) ;
+	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0], o_cmd->tab, pipex->env) == -1)
+		return (exit(127), perror("exe_cmd:"));
 	while (pipex->path[i])
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
-    	if (path_cmd == NULL)
+    if (!path_cmd)
 			return (perror("strjoin failed"), exit(1));
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab, pipex->env) == -1)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
-	return (perror("NOPE LAST EXE"));
+	return (ft_printf("bash: %s: command not found\n", o_cmd->tab[0]), exit (127));
 }
 
 int	ft_redir(t_list **cmds, t_pipe **pipex)
