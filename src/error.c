@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 12:41:42 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/09 15:08:25 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:59:55 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	is_only_slash_dot(char *buffer)
 	}
 	if (flag)
 	{
-		ft_printf("bash: %s: No such file or directory\n", buffer);
+		ft_printf(2, "bash: %s: No such file or directory\n", buffer);
 		return (1);
 	}
 	return (0);

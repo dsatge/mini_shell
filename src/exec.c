@@ -6,27 +6,11 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/04 16:00:11 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/09 18:04:43 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
-{
-	pipex->abs_path = 0;
-	pipex->backup_stdin = dup(STDIN_FILENO);
-	pipex->backup_stdout = dup(STDOUT_FILENO);
-	pipex->redir_in = 0;
-	pipex->redir_out = 0;
-	pipex->redir_pipe = 0;
-	cmds->mem_cmd_nbr = cmds->cmd_nbr;
-	(void)cmds;
-	if (env[0] == NULL)
-		pipex->abs_path = -1;
-	else
-		pipex->env = env;
-}
 
 t_o_cmd	*ft_only_cmd(t_list *cmds)
 {
@@ -118,7 +102,7 @@ int	init_path(char **env, t_pipe *pipex)
 		i++;
 	if (!env[i])
 	{
-		ft_printf("bash: (INSERER COMMANDE): No such file or directory\n");
+		ft_printf(2, "bash: (INSERER COMMANDE): No such file or directory\n");
 		return (1);
 	}
 	path = ft_strtrim(env[i], "PATH=");
@@ -128,24 +112,6 @@ int	init_path(char **env, t_pipe *pipex)
 	free(path);
 	line_path_count = ft_count_line_split(path_split);
 	pipex->path = add_path("/", line_path_count, path_split);
-	return (0);
-}
-
-int	next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex)
-{
-	if (!cmds)
-		return (-1);
-	pipex->outfile_fd = -1;
-	pipex->redir_in = 0;
-	pipex->redir_out = 0;
-	(*cmds)->head->cmd_nbr--;
-	while (cmds && (*cmds)->cmd->type != pip)
-	{
-		(*cmds) = (*cmds)->next;
-	}
-	if (cmds && (*cmds)->cmd->type == pip)
-		(*cmds) = (*cmds)->next;
-	(*o_cmd) = (*o_cmd)->next;
 	return (0);
 }
 
