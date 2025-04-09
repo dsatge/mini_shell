@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/08 17:45:23 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:20:36 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 	pipex->redir_in = 0;
 	pipex->redir_out = 0;
 	pipex->redir_pipe = 0;
-
 	cmds->mem_cmd_nbr = cmds->cmd_nbr;
 	(void)cmds;
 	if (env[0] == NULL)
-	pipex->abs_path = -1;
+		pipex->abs_path = -1;
 	else
-	pipex->env = env;
+		pipex->env = env;
 }
 
 t_o_cmd	*ft_only_cmd(t_list *cmds)
@@ -35,9 +34,8 @@ t_o_cmd	*ft_only_cmd(t_list *cmds)
 	t_o_cmd	*head;
 	t_o_cmd	*current;
 	t_o_cmd	*new_node;
-	
 	int		i;
-	
+
 	list = cmds;
 	head = NULL;
 	current = NULL;
@@ -52,12 +50,15 @@ t_o_cmd	*ft_only_cmd(t_list *cmds)
 			new_node = malloc(sizeof(t_o_cmd));
 			if (!new_node)
 				return (NULL);
-			new_node->tab = ft_calloc(sizeof(char *), ft_count_line_split(list->cmd->tab) + 1);
+			new_node->tab = ft_calloc(sizeof(char *),
+					ft_count_line_split(list->cmd->tab) + 1);
 			if (!new_node->tab)
 				return (0);
-			while(list->cmd->tab[i] != 0)
+			while (list->cmd->tab[i] != 0)
 			{
 				new_node->tab[i] = ft_strdup(list->cmd->tab[i]);
+				if (!new_node->tab[i])
+					return (NULL);
 				i++;
 			}
 			new_node->tab[i] = 0;
@@ -77,7 +78,7 @@ char	**add_path(char *add, int len, char **path_split)
 {
 	int		line;
 	char	**new;
-	
+
 	line = 0;
 	new = malloc(sizeof(char *) * (len + 1));
 	if (!new)
@@ -91,6 +92,7 @@ char	**add_path(char *add, int len, char **path_split)
 		if (!new[line])
 		{
 			perror("path creation");
+			return (NULL);
 			// ft_freetab(new);
 			// clean_to_exit(2, *pipe);
 		}
@@ -100,14 +102,14 @@ char	**add_path(char *add, int len, char **path_split)
 	new[line] = 0;
 	return (new);
 }
-//check env with ACCESS
+// check env with ACCESS
 int	init_path(char **env, t_pipe *pipex)
 {
 	char	*path;
 	char	**path_split;
 	int		i;
 	int		line_path_count;
-	
+
 	path = NULL;
 	i = 0;
 	if (!env)
@@ -119,7 +121,7 @@ int	init_path(char **env, t_pipe *pipex)
 		ft_printf("bash: (INSERER COMMANDE): No such file or directory\n");
 		return (1);
 	}
-	path = ft_strtrim(env[i], "PATH=");		
+	path = ft_strtrim(env[i], "PATH=");
 	path_split = ft_split(path, ':');
 	if (!path_split)
 		return (1);
@@ -132,7 +134,7 @@ int	init_path(char **env, t_pipe *pipex)
 int	next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex)
 {
 	if (!cmds)
-	return (-1);
+		return (-1);
 	pipex->outfile_fd = -1;
 	pipex->redir_in = 0;
 	pipex->redir_out = 0;
@@ -142,53 +144,53 @@ int	next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex)
 		(*cmds) = (*cmds)->next;
 	}
 	if (cmds && (*cmds)->cmd->type == pip)
-	(*cmds) = (*cmds)->next;
+		(*cmds) = (*cmds)->next;
 	(*o_cmd) = (*o_cmd)->next;
 	return (0);
 }
 
-char **buildtab(t_env_head *env_head)
+char	**buildtab(t_env_head *env_head)
 {
-    t_env   *tmp;
-    int     i;
-    char    **env;
-    char    *temp;
+	t_env	*tmp;
+	int		i;
+	char	**env;
+	char	*temp;
 
-    i = 0;
-    tmp = env_head->head;
-    env = malloc(sizeof(char *) * (env_head->size + 1));
-    if (!env)
-        return (NULL);
-    while (tmp)
-    {
-        temp = ft_strjoin(tmp->type, "=");
-        if (!temp)
-        {
-            ft_freetab(env);
-            return (NULL);
-        }
-        env[i] = ft_strjoin(temp, tmp->value);
-        free(temp);
-        if (!env[i])
-        {
-            ft_freetab(env);
-            return (NULL);
-        }
-        tmp = tmp->next;
-        i++;
-    }
-    env[i] = NULL;
-    return (env);
+	i = 0;
+	tmp = env_head->head;
+	env = malloc(sizeof(char *) * (env_head->size + 1));
+	if (!env)
+		return (NULL);
+	while (tmp)
+	{
+		temp = ft_strjoin(tmp->type, "=");
+		if (!temp)
+		{
+			ft_freetab(env);
+			return (NULL);
+		}
+		env[i] = ft_strjoin(temp, tmp->value);
+		free(temp);
+		if (!env[i])
+		{
+			ft_freetab(env);
+			return (NULL);
+		}
+		tmp = tmp->next;
+		i++;
+	}
+	env[i] = NULL;
+	return (env);
 }
 
 int	ft_exec(t_list *cmds, t_env_head *env_head)
 {
-	char **env;
+	char	**env;
 	pid_t	pid;
 	t_pipe	pipex;
 	t_o_cmd	*o_cmd;
 	int		status;
-	
+
 	o_cmd = NULL;
 	o_cmd = ft_only_cmd(cmds);
 	env = buildtab(env_head);
@@ -208,16 +210,18 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	{
 		pid = fork();
 		if (pid == -1)
-			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
+			return (ft_putstr_fd("ERROR\n", 2), 1); // PUT RIGHT EXIT
+		signal_child();
 		if (pid == 0)
-			first_exe(cmds, &pipex, o_cmd);//CREATE FT
+			first_exe(cmds, &pipex, o_cmd); // CREATE FT
 		next_cmdexe(&cmds, &o_cmd, &pipex);
 	}
 	if (cmds->head->cmd_nbr == 1 && cmds)
 	{
 		pid = fork();
 		if (pid == -1)
-			return (ft_putstr_fd("ERROR\n", 2), 1);//PUT RIGHT EXIT
+			return (ft_putstr_fd("ERROR\n", 2), 1); // PUT RIGHT EXIT
+		signal_child();
 		if (pid == 0)
 		{
 			last_exe(cmds, &pipex, o_cmd);
@@ -225,9 +229,9 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 		}
 		else if (pid > 0)
 		{
-    		waitpid(pid, &status, 0);
-    		if (WIFEXITED(status))
-        		g_error_code = WEXITSTATUS(status);
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				g_error_code = WEXITSTATUS(status);
 		}
 	}
 	if (pid == 0)

@@ -6,11 +6,11 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/26 17:23:45 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:08:33 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 int	redir_in(t_pipe **pipex, t_list *list)
 {
@@ -26,7 +26,7 @@ int	redir_in(t_pipe **pipex, t_list *list)
 	return (0);
 }
 
-int redir_out(t_pipe **pipex, t_list *list)
+int	redir_out(t_pipe **pipex, t_list *list)
 {
 	if ((*pipex)->redir_out == 1)
 	{
@@ -43,8 +43,7 @@ int redir_out(t_pipe **pipex, t_list *list)
 
 int	redir_fdin(t_pipe **pipex, t_list *cmds)
 {
-	
-	(void) cmds;
+	(void)cmds;
 	if ((*pipex)->redir_in == 1)
 	{
 		dup2((*pipex)->infile_fd, STDIN_FILENO);
@@ -60,7 +59,7 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds)
 
 int	redir_fdout_pip(t_pipe **pipex, t_list *cmds)
 {
-	(void) cmds;
+	(void)cmds;
 	if ((*pipex)->redir_out == 1)
 	{
 		dup2((*pipex)->outfile_fd, STDOUT_FILENO);
@@ -79,7 +78,7 @@ int	redir_fdout_pip(t_pipe **pipex, t_list *cmds)
 
 int	redir_fdout(t_pipe **pipex, t_list *cmds)
 {
-	(void) cmds;
+	(void)cmds;
 	if ((*pipex)->redir_out == 1)
 	{
 		dup2((*pipex)->outfile_fd, STDOUT_FILENO);

@@ -6,18 +6,18 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/07 15:34:30 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:08:06 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_error_code = 0;
+int		g_error_code = 0;
 
-void free_env(t_env_head *env_head)
+void	free_env(t_env_head *env_head)
 {
-	t_env *tmp;
-	t_env *next;
+	t_env	*tmp;
+	t_env	*next;
 
 	tmp = env_head->head;
 	while (tmp)
@@ -54,15 +54,15 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 
 int	main(int ac, char **av, char **env)
 {
+	char		*buffer;
+	int			buf_value;
+	t_minish	*mini_struct;
+	t_token		*head;
+	t_list		*cmds;
+	t_list		*curr_cmd;
+
 	(void)ac;
 	(void)av;
-	char			*buffer;
-	int				buf_value;
-	t_minish		*mini_struct;
-	t_token			*head;
-	t_list			*cmds;
-	t_list			*curr_cmd;
-	
 	head = NULL;
 	cmds = NULL;
 	mini_struct = ft_calloc(sizeof(t_minish), 1);
@@ -105,11 +105,6 @@ int	main(int ac, char **av, char **env)
 	return (0);
 }
 
-
-
-
-
-
 // tableau de fd =
 // 0 STDIN
 // 1 STDOUT
@@ -119,13 +114,7 @@ int	main(int ac, char **av, char **env)
 // ..ETC
 // 1024 ...
 
-
-
-
-
-
 // ls < in1
-
 
 // dup2(in1, STDIN)
 // close(in1);

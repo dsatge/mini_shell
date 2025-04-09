@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:48:19 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/04 15:11:09 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:12:41 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ static void	creation(t_env_head *env_head, char *cmd, char *type)
 		if (current->type && ft_strcmp(current->type, type) == 0)
 		{
 			set_value_env(current, cmd);
-			printf("Variable mise à jour: %s=%s\n", current->type,
-				current->value);
 			return ;
 		}
 		if (!current->next)
@@ -45,10 +43,11 @@ static void	creation(t_env_head *env_head, char *cmd, char *type)
 	if (!new_env)
 		return ;
 	new_env->type = ft_strdup(type);
+	if (!new_env->type)
+		return (free(new_env));
 	set_value_env(new_env, cmd);
 	current->next = new_env;
 	env_head->size++;
-	printf("Nouvelle variable ajoutée: %s=%s\n", new_env->type, new_env->value);
 }
 
 int	ft_export(char **cmd, t_env_head *env_head)

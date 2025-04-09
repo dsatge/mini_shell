@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:25:14 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/04 15:13:02 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:39:05 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int ft_cd(char **cmd)
             if (!home)
                 return(ft_putstr_fd("cd: HOME undefined\n", 2), 1);
             path = ft_strjoin(home, path + 1);
+            if (!path)
+                return (ft_putstr_fd("cd: memory allocation error\n", 2), 1);
         }
     }
     if (chdir(path) == -1)

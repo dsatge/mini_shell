@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:09:15 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/04 12:03:01 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:38:57 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,12 @@ static char *ft_expand_env_vars(char *str, t_env_head *env_head)
             if (var_value)
             {
                 temp = ft_strjoin(res, var_value);
+                if (!temp)
+                {
+                    free(res);
+                    free(var_name);
+                    return (NULL);
+                }
                 free(res);
                 res = temp;
             }
@@ -107,6 +113,11 @@ static char *ft_expand_env_vars(char *str, t_env_head *env_head)
         else
         {
             temp = ft_strjoin_char(res, str[i]);
+            if (!temp)
+            {
+                free(res);
+                return (NULL);
+            }
             free(res);
             res = temp;
             i++;

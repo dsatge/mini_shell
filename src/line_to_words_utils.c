@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:02:28 by dsatge            #+#    #+#             */
-/*   Updated: 2024/12/06 19:03:37 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/09 14:27:38 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,36 @@ char	*redir_pipe_to_word(char *buffer, int *i)
 		word = ft_strdup("|");
 	else if (buffer[*i] == '<')
 	{
-		if (buffer[*i] == '<' && buffer[*i + 1] == '<'){
+		if (buffer[*i] == '<' && buffer[*i + 1] == '<')
+		{
 			*i = *i + 1;
 			word = ft_strdup("<<");
+			if (!word)
+				return (NULL);
 		}
 		else
+		{
 			word = ft_strdup("<");
+			if (!word)
+				return (NULL);	
+		}
 	}
 	else if (buffer[*i] == '>')
 	{
-		if (buffer[*i] == '>' && buffer[*i + 1] == '>'){
+		if (buffer[*i] == '>' && buffer[*i + 1] == '>')
+		{
 			*i = *i + 1;
 			word = ft_strdup(">>");
+			if (!word)
+				return (NULL);
 		}
 		else
+		{
 			word = ft_strdup(">");
+			if (!word)
+				return (NULL);
+		}
+			
 	}
 	*i = *i + 1;
 	return (word);
