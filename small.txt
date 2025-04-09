@@ -1,0 +1,3 @@
+HERE
+is content OF
+SMALL.TXT

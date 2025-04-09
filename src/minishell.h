@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/ioctl.h>
 # include <unistd.h>
 
 extern int			g_error_code;
@@ -76,6 +77,8 @@ typedef struct s_pipe
 	int		redir_out;
 	int		redir_pipe;
 	int		fd;
+	int		heredoc_pip[2];
+	int		nbr_cmds;
 	int		infile_fd;
 	int		outfile_fd;
 	int		backup_stdin;
@@ -91,7 +94,6 @@ typedef struct s_list
 	struct s_list	*prev;
 	struct s_list	*head;
 	int				cmd_nbr;
-	int				mem_cmd_nbr;
 	t_cmd			*cmd;
 	t_o_cmd			*o_cmd;
 }					t_list;
@@ -144,8 +146,8 @@ int				word_cmds(t_token *list, t_list *cmds);
 int				pipe_cmds(t_token *list, t_list *cmds);
 //PRINT_TEST_LIST
 
-// CAMMANDS
-int				ft_builtin(t_list *cmds, t_pipe *pipex,
+// COMMANDS
+int				ft_builtin(t_list *cmds, t_pipe **pipex,
 						t_env_head *env_head);
 int				ft_init_env(char **env, t_env_head *env_head);
 char			*get_value_env(char *cmd);
@@ -162,22 +164,32 @@ void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
 void 			ft_expand_args(t_list *cmds, t_env_head *env_head);
 char			**add_path(char *add, int len, char **path_split);
 int				init_path(char **env, t_pipe *pipex);
+void			free_tab_2(char **tab, int size);
+char			**buildtab(t_env_head *env_head);
 int				ft_exec(t_list *cmds, t_env_head *env_head);
-int				next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex);
+//EXEC_INIT
+int				ft_count_cmds(t_list *cmd_list);
 t_o_cmd			*ft_only_cmd(t_list *cmds);
+int				next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex);
+
 //EXEC_UTILS
-void			first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd);
-void			last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd);
+void			first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
+						t_env_head *env_head);
+void			last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
+						t_env_head *env_head);
 int				invert_stdin(t_list *cmds, int fd);
 int				ft_redir(t_list **cmds, t_pipe **pipex);
+int				ft_redir_in(t_list *list, t_pipe **pipex);
+int				ft_redir_out(t_list *list, t_pipe **pipex);
 //EXEC_REDIR
 int				redir_in(t_pipe **pipex, t_list *list);
 int				redir_out(t_pipe **pipex, t_list *list);
-int				redir_fdin(t_pipe **pipex, t_list *cmds);
-int				redir_fdout_pip(t_pipe **pipex, t_list *cmds);
+int 			redir_d_out(t_pipe **pipex, t_list *list);
+int				redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip);
+int				redir_fdout_pip(t_pipe **pipex);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
 // HEREDOC
-int				heredoc(t_list *cmds);
+int 			heredoc(t_pipe **pipex, t_list *cmds);
 // ERROR
 int 		error_special(char *buffer);
 

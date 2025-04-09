@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/09 15:20:36 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:00:11 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,41 +190,49 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	t_pipe	pipex;
 	t_o_cmd	*o_cmd;
 	int		status;
-
+	int		prev_pip;
+  
 	o_cmd = NULL;
+	prev_pip = -1;
 	o_cmd = ft_only_cmd(cmds);
 	env = buildtab(env_head);
 	if (!env)
 		return (-1);
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
-	if (ft_builtin(cmds, &pipex, env_head) == 0)
-		return (0);
-	if (pipe(pipex.pipe_fd) == -1)
+	while (pipex.nbr_cmds > 1)
 	{
-		perror("pipe");
-		ft_freetab(pipex.path);
-		exit(EXIT_FAILURE);
-	}
-	while (cmds->head->cmd_nbr > 1)
-	{
+		if (pipe(pipex.pipe_fd) == -1)
+		{
+			perror("pipe");
+			ft_freetab(pipex.path);
+			exit(EXIT_FAILURE);
+		}
 		pid = fork();
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1); // PUT RIGHT EXIT
 		signal_child();
 		if (pid == 0)
-			first_exe(cmds, &pipex, o_cmd); // CREATE FT
+			first_exe(cmds, &pipex, o_cmd, prev_pip, env_head); // CREATE FT
+		close(pipex.pipe_fd[1]);
+		prev_pip = pipex.pipe_fd[0];
 		next_cmdexe(&cmds, &o_cmd, &pipex);
 	}
-	if (cmds->head->cmd_nbr == 1 && cmds)
+	if (pipex.nbr_cmds == 1)
 	{
+		if (pipe(pipex.pipe_fd) == -1)
+		{
+			perror("pipe");
+			ft_freetab(pipex.path);
+			exit(EXIT_FAILURE);
+		}
 		pid = fork();
 		if (pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1); // PUT RIGHT EXIT
 		signal_child();
 		if (pid == 0)
 		{
-			last_exe(cmds, &pipex, o_cmd);
+			last_exe(cmds, &pipex, o_cmd, prev_pip, env_head);
 			exit(0);
 		}
 		else if (pid > 0)
@@ -234,11 +242,14 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 				g_error_code = WEXITSTATUS(status);
 		}
 	}
-	if (pid == 0)
-		exit(1);
+	// if (pid == 0)
+	// 	exit (1);
 	waitpid(pid, &status, 0);
 	close(pipex.pipe_fd[0]);
 	close(pipex.pipe_fd[1]);
 	ft_freetab(env);
+	if (prev_pip != -1)	
+		close (prev_pip);
+	//FREE pipex.path
 	return (0);
 }

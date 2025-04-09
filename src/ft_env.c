@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:48:16 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/07 14:30:27 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/04 13:30:34 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ void ft_env(t_env_head *env_head)
     tmp = env_head->head;
     while(tmp->next)
     {
-        ft_printf("%s=", tmp->type);
-        ft_printf("%s\n", tmp->value);
+        ft_printf(2, "%s=", tmp->type);
+        ft_printf(2, "%s\n", tmp->value);
         tmp = tmp->next;
     }
-    ft_printf("%s=", tmp->type);
-    ft_printf("%s\n", tmp->value);
+    ft_printf(2, "%s=", tmp->type);
+    ft_printf(2, "%s\n", tmp->value);
     g_error_code = 0;
 }

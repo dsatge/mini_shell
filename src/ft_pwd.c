@@ -23,7 +23,7 @@ int ft_pwd(char **cmd)
         perror("PWD Error");
         return (1);
     }
-    ft_printf("%s\n", cwd);
+    ft_printf(1, "%s\n", cwd);
     free(cwd);
     g_error_code = 0;
     return (0);

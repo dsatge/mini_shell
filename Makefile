@@ -27,6 +27,7 @@ C_FILES = main.c\
 			ft_unset.c\
 			tokenise.c\
 			ft_export.c\
+			exec_init.c\
 			exec_utils.c\
 			exec_redir.c\
 			line_to_words.c\
