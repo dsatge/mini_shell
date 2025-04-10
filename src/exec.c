@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/09 18:23:23 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:28:56 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 		prev_pip = pipex.pipe_fd[0];
 		next_cmdexe(&cmds, &o_cmd, &pipex);
 	}
+	// ft_printf(2, "YO LEKIP pipex pipex.nbr = %d\n", pipex.nbr_cmds);
 	if (pipex.nbr_cmds == 1)
 	{
 		if (pipe(pipex.pipe_fd) == -1)
