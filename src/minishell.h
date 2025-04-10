@@ -38,6 +38,13 @@ typedef enum s_type
 	word,
 }					t_type;
 
+typedef enum e_quote_type
+{
+	no_q,
+	single_q,
+	double_q,
+}					t_quote_type;
+
 typedef struct s_env
 {
 	char			*value;
@@ -55,6 +62,7 @@ typedef struct s_token
 {
 	char			*str;
 	t_type			type;
+	t_quote_type	quote_t;
 	struct s_token	*next;
 }					t_token;
 
@@ -62,6 +70,7 @@ typedef struct s_cmd
 {
 	char			**tab;
 	t_type			type;
+	t_quote_type	quote_t;
 }					t_cmd;
 
 typedef struct s_o_cmd
@@ -120,10 +129,10 @@ char			*ft_join_quotes(char *buffer, int *i, char *tmp);
 t_token			*ft_split_word(char *buffer, t_minish *mini_struct);
 //TOKENISE
 int				ft_checktype_order(t_token *element);
-t_token			*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_word);
-t_token			*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word);
+t_token			*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_word, int quote_typ);
+t_token			*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word, int quote_typ);
 //TOKENISE_UTILS
-void			ft_token_type(t_token *element);
+void			ft_token_type(t_token *element, int quote_typ);
 int				ft_ispipe(t_token element);
 int				ft_isredir(t_token element);
 char			*word_from_str(char *buffer, int start, int end);
@@ -160,7 +169,7 @@ int				ft_exit(t_list *cmds, t_env_head *env_head);
 int				ft_export(char **cmd, t_env_head *env_head);
 //EXEC
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
-void 			ft_expand_args(t_list *cmds, t_env_head *env_head);
+void			ft_expand_args(t_list *cmds, t_env_head *env_head);
 char			**add_path(char *add, int len, char **path_split);
 int				init_path(char **env, t_pipe *pipex);
 void			free_tab_2(char **tab, int size);

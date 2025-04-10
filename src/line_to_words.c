@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/01/10 18:26:19 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/10 14:34:35 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,38 @@ char	*ft_quotes(char *buffer, int *i)
 	return (ft_putstr_fd("Error: unclosed quote\n", 2), NULL);
 }
 
+static int	ft_q_type(char c)
+{
+	t_quote_type	quote;
+	
+	quote = no_q;
+	if (c == '"')
+		quote = double_q;
+	if (c == '\'')
+		quote = single_q;
+	return (quote);
+}
+
 int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
 {
 	char	*word;
 	char	*tmp;
 	int		start;
+	int		quote_typ;
 
 	word = NULL;
 	start = *i;
 	tmp = NULL;
+	quote_typ = 0;
 	if (is_redir_pipe(buffer[*i]) == true){
 		word = redir_pipe_to_word(buffer, i);
-		return (ft_tokenise_pipe_redir(word, *mini_struct, first_word), 0);
+		return (ft_tokenise_pipe_redir(word, *mini_struct, first_word, quote_typ), 0);
 	}
 	while (buffer[*i] && is_redir_pipe(buffer[*i]) == false && is_White_Space(buffer[*i]) == false)
 	{
 		if (buffer[*i] == '\'' || buffer[*i] == '"')
 		{
+			quote_typ = ft_q_type(buffer[*i]);
 			if (start != *i){
 				tmp = letters_to_word(word, buffer, start, *i);
 				if (!tmp)
@@ -79,7 +94,7 @@ int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
 	}
 	if (start != *i && start != -1)
 		word = letters_to_word(word, buffer, start, *i);
-	return (ft_tokenise_word(word, *mini_struct, first_word), 0);
+	return (ft_tokenise_word(word, *mini_struct, first_word, quote_typ), 0);
 }
 
 char	*letters_to_word(char *word, char *buffer, int start, int i)
@@ -131,6 +146,7 @@ t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
 	if (!mini_struct->element)
 		return (NULL);
 	mini_struct->element->str = NULL;
+	mini_struct->element->quote_t = 0;
 	head = mini_struct->element;
 	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 		i++;

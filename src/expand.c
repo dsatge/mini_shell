@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 17:09:15 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/09 14:38:57 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:33:25 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ void ft_expand_args(t_list *cmds, t_env_head *env_head)
     char *expanded;
 
     i = 0;
+    if (cmds->cmd->quote_t == single_q)
+        return ;
     while (cmds->cmd->tab[i])
     {
         expanded = ft_expand_env_vars(cmds->cmd->tab[i], env_head);
