@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:36:45 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/04 13:31:43 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/10 17:30:03 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int check_flagN(char *s)
-{  
+static int	check_flagN(char *s)
+{
 	int	i;
 
 	i = 0;
@@ -23,23 +23,20 @@ static int check_flagN(char *s)
 	{
 		if (s[i] != 'n')
 			return (EXIT_FAILURE);
-        i++;
+		i++;
 	}
 	return (EXIT_SUCCESS);
 }
 
-int ft_echo(char **cmd)
+int	ft_echo(char **cmd)
 {
-	int flag;
+	int	flag;
 	int	i;
 
 	flag = 0;
 	i = 1;
 	if (!cmd[i])
-	{
-		ft_printf(1, "\n");
-		return(0);
-	}
+		return (write(1, "\n", 1), 0);
 	while (cmd[i] && cmd[i][0] == '-' && check_flagN(cmd[i]))
 	{
 		flag = 1;

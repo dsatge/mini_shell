@@ -35,7 +35,6 @@ static char *ft_strjoin_char(char *s, char c)
     return (new_str);
 }
 
-
 static char *ft_get_env_value(t_env_head *env_head, char *var)  
 {
     t_env *tmp;

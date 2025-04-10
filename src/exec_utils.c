@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/10 17:09:53 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/10 17:14:45 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_
 		perror("bash: infile: ");
 		return;
 	}
-	redir_fdout_pip(&pipex); /// NE PAS OUBLIER DE DECOMMENTER QUAND PATH FONCTIONNE !!!
+	redir_fdout_pip(&pipex);
 	redir_fdin(&pipex, cmds, prev_pip, env_head);
   	if (ft_builtin(cmds, env_head) == 0)
 		exit (EXIT_SUCCESS);

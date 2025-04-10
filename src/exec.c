@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/10 16:28:56 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/10 14:57:53 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,47 +115,13 @@ int	init_path(char **env, t_pipe *pipex)
 	return (0);
 }
 
-char	**buildtab(t_env_head *env_head)
-{
-	t_env	*tmp;
-	int		i;
-	char	**env;
-	char	*temp;
-
-	i = 0;
-	tmp = env_head->head;
-	env = malloc(sizeof(char *) * (env_head->size + 1));
-	if (!env)
-		return (NULL);
-	while (tmp)
-	{
-		temp = ft_strjoin(tmp->type, "=");
-		if (!temp)
-		{
-			ft_freetab(env);
-			return (NULL);
-		}
-		env[i] = ft_strjoin(temp, tmp->value);
-		free(temp);
-		if (!env[i])
-		{
-			ft_freetab(env);
-			return (NULL);
-		}
-		tmp = tmp->next;
-		i++;
-	}
-	env[i] = NULL;
-	return (env);
-}
-
 int	ft_exec(t_list *cmds, t_env_head *env_head)
 {
 	char	**env;
-	pid_t	pid;
+	// pid_t	pid;
 	t_pipe	pipex;
 	t_o_cmd	*o_cmd;
-	int		status;
+	// int		status;
 	int		prev_pip;
   
 	o_cmd = NULL;
@@ -171,57 +137,19 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 		if (ft_builtin(cmds, env_head) == 0)
 			return (0); 
 	}
-	while (pipex.nbr_cmds > 1)
-	{
-		if (pipe(pipex.pipe_fd) == -1)
-		{
-			perror("pipe");
-			ft_freetab(pipex.path);
-			exit(EXIT_FAILURE);
-		}
-		pid = fork();
-		if (pid == -1)
-			return (ft_putstr_fd("ERROR\n", 2), 1); // PUT RIGHT EXIT
-		signal_child();
-		if (pid == 0)
-			first_exe(cmds, &pipex, o_cmd, prev_pip, env_head); // CREATE FT
-		close(pipex.pipe_fd[1]);
-		prev_pip = pipex.pipe_fd[0];
-		next_cmdexe(&cmds, &o_cmd, &pipex);
-	}
-	// ft_printf(2, "YO LEKIP pipex pipex.nbr = %d\n", pipex.nbr_cmds);
+	if (exec_multiple_cmds(&cmds, &o_cmd, &pipex, &prev_pip, env_head) != 0)
+		return (1);
 	if (pipex.nbr_cmds == 1)
 	{
-		if (pipe(pipex.pipe_fd) == -1)
-		{
-			perror("pipe");
-			ft_freetab(pipex.path);
-			exit(EXIT_FAILURE);
-		}
-		pid = fork();
-		if (pid == -1)
-			return (ft_putstr_fd("ERROR\n", 2), 1); // PUT RIGHT EXIT
-		signal_child();
-		if (pid == 0)
-		{
-			last_exe(cmds, &pipex, o_cmd, prev_pip, env_head);
-			exit(0);
-		}
-		else if (pid > 0)
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				g_error_code = WEXITSTATUS(status);
-		}
+		if (ft_builtin(cmds, env_head) == 0)
+			return (0);
+		return (exec_single_cmd(cmds, &pipex, o_cmd, prev_pip, env_head));
 	}
-	// if (pid == 0)
-	// 	exit (1);
-	waitpid(pid, &status, 0);
+	// waitpid(pid, &status, 0);
 	close(pipex.pipe_fd[0]);
 	close(pipex.pipe_fd[1]);
 	ft_freetab(env);
 	if (prev_pip != -1)	
 		close (prev_pip);
-	//FREE pipex.path
 	return (0);
 }
