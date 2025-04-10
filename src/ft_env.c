@@ -31,11 +31,9 @@ char	*get_type_env(char *cmd)
 char *get_value_env(char *cmd)
 {
 	int	i;
-	int	j;
     char *res;
 
 	i = 0;
-	j = 0;
 	while (cmd[i] && cmd[i] != '=')
 		i++;
 	if (cmd[i] == '\0')
