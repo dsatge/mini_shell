@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/09 15:55:01 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/10 17:08:07 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int redir_d_out(t_pipe **pipex, t_list *list)
 	return (0);
 }
 
-int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip)
+int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_head)
 {
 	if ((*pipex)->redir_in == 1)
 	{
@@ -66,7 +66,10 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip)
 		while (cmds)
 		{
 			if (cmds->cmd->type == redir && ft_strcmp(cmds->cmd->tab[0], "<<") == 0)
-				heredoc(pipex, cmds);
+			{
+				// ft_printf(2, "YO LA TEAM\n");
+				heredoc(pipex, cmds, env_head);
+			}
 			cmds = cmds->next;	
 		}
 	}
