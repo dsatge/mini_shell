@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/09 18:58:24 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/09 18:22:26 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_
 	}
 	redir_fdout_pip(&pipex); /// NE PAS OUBLIER DE DECOMMENTER QUAND PATH FONCTIONNE !!!
 	redir_fdin(&pipex, cmds, prev_pip);
-  if (ft_builtin(cmds, &pipex, env_head) == 0)
+  	if (ft_builtin(cmds, env_head) == 0)
 		exit (EXIT_SUCCESS);
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0], o_cmd->tab, pipex->env) == -1)
 		return (exit(127), perror("exe_cmd:"));
@@ -69,7 +69,7 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_h
 		return ;
 	}
 	redir_fdout(&pipex, cmds);
-  	redir_fdin(&pipex, cmds, prev_pip);
+  redir_fdin(&pipex, cmds, prev_pip);
 	if (ft_builtin(cmds, &pipex, env_head) == 0)
 		exit (EXIT_FAILURE) ;
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0], o_cmd->tab, pipex->env) == -1)

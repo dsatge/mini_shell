@@ -156,8 +156,7 @@ int				pipe_cmds(t_token *list, t_list *cmds);
 //PRINT_TEST_LIST
 
 // COMMANDS
-int				ft_builtin(t_list *cmds, t_pipe **pipex,
-						t_env_head *env_head);
+int				ft_builtin(t_list *cmds, t_env_head *env_head);
 int				ft_init_env(char **env, t_env_head *env_head);
 char			*get_value_env(char *cmd);
 char			*get_type_env(char *cmd);

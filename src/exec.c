@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/09 18:04:43 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:23:23 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,11 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 		return (-1);
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
+	if (pipex.nbr_cmds == 1)
+	{
+		if (ft_builtin(cmds, env_head) == 0)
+			return (0); 
+	}
 	while (pipex.nbr_cmds > 1)
 	{
 		if (pipe(pipex.pipe_fd) == -1)
