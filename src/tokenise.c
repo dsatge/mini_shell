@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/04 12:54:18 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:31:54 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int	ft_checktype_order(t_token *element)
 	return (0);
 }
 
-t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_word)
+t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_word, int quote_typ)
 {
 	t_token	*new_node;
 
 	if (first_word == 0)
 	{
 		mini_struct->element->str = word;
-		ft_token_type(mini_struct->element);
+		ft_token_type(mini_struct->element, quote_typ);
 		mini_struct->element->next = NULL;
 	}
 	else
@@ -54,7 +54,7 @@ t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_wor
 		new_node->str = word;
 		if (!new_node->str)
 			return (NULL);
-		ft_token_type(new_node);
+		ft_token_type(new_node, quote_typ);
 		mini_struct->element->next = new_node;
 		mini_struct->element= mini_struct->element->next;
 	}
@@ -62,14 +62,15 @@ t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_wor
 }
 
 
-t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word)
+t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word, int quote_typ)
 {
 	t_token	*new_node;
 
 	if (first_word == 0)
 	{
 		mini_struct->element->str = word;
-		ft_token_type(mini_struct->element);
+		mini_struct->element->quote_t = quote_typ;
+		ft_token_type(mini_struct->element, quote_typ);
 		mini_struct->element->next = NULL;
 	}
 	else
@@ -81,6 +82,7 @@ t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word)
 			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
 		new_node->next = NULL;
 		new_node->str = word;
+		new_node->quote_t = quote_typ;
 		if (!new_node->str)
 			return (NULL);
 		new_node->type = 2;

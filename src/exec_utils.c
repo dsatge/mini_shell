@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/09 18:01:00 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:58:24 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_h
 		return ;
 	}
 	redir_fdout(&pipex, cmds);
-  redir_fdin(&pipex, cmds, prev_pip);
+  	redir_fdin(&pipex, cmds, prev_pip);
 	if (ft_builtin(cmds, &pipex, env_head) == 0)
 		exit (EXIT_FAILURE) ;
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0], o_cmd->tab, pipex->env) == -1)

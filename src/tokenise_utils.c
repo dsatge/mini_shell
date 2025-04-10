@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:10:34 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/31 17:16:05 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:36:59 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_token_type(t_token *element)
+void	ft_token_type(t_token *element, int quote_typ)
 {
 	if (ft_ispipe(*element) == 0)
 		element->type = pip;
@@ -20,6 +20,7 @@ void	ft_token_type(t_token *element)
 		element->type = redir;
 	else
 		element->type = word;
+	element->quote_t = quote_typ;
 }
 
 int	ft_ispipe(t_token element)
