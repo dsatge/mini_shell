@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_handling.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/09 18:22:06 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:14:20 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,5 @@ int	ft_builtin(t_list *cmds, t_env_head *env_head)
 		return (ft_export(cmds->cmd->tab, env_head), 0);
 	// else if (ft_strcmp(cmds->cmd->tab[0], "$") == 0)
 	// 	return(ft_dollar(env_head), 0);
-	// if (cmds->next)
-	// 	redir_fdout_pip(pipex);
 	return (1);
 }

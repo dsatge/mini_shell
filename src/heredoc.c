@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/09 17:03:45 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/10 17:24:19 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ void	close_fd(int sig)
 	exit(EXIT_FAILURE);
 }
 
-static void	creat_heredoc(t_list *cmds)
+static void	creat_heredoc(t_list *cmds, t_env_head *env_head)
 {
 	char	*buffer;
 	char	*path_cmd;
 	int fd;
 
 	path_cmd = NULL;
+	// (void)env_head;
 	signal(SIGINT, close_fd);
 	signal(SIGQUIT, SIG_IGN); 
 	fd = open("File_heredoc", O_RDWR | O_TRUNC | O_CREAT, 0644);
@@ -35,6 +36,7 @@ static void	creat_heredoc(t_list *cmds)
 	while (1)
 	{
 		buffer = readline("heredoc> ");
+		buffer = ft_expand_heredoc(buffer, env_head);
 		if (!buffer || ft_strcmp(buffer, cmds->cmd->tab[1]) == 0)
 		{
 			free(buffer);
@@ -48,7 +50,7 @@ static void	creat_heredoc(t_list *cmds)
 	exit(EXIT_SUCCESS);
 }
 
-int heredoc(t_pipe **pipex, t_list *cmds)
+int heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head)
 {
     pid_t		pid_heredoc;
     int		status;
@@ -68,7 +70,7 @@ int heredoc(t_pipe **pipex, t_list *cmds)
 				return (EXIT_FAILURE);
 			}
 			if (pid_heredoc == 0)
-				creat_heredoc(list);
+				creat_heredoc(list, env_head);
 			waitpid(pid_heredoc, &status, 0);
 		}
 		list = list->next;

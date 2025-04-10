@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/31 17:09:15 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/10 15:33:25 by dsatge           ###   ########.fr       */
+/*   Created: 2025/04/10 16:46:23 by dsatge            #+#    #+#             */
+/*   Updated: 2025/04/10 17:30:47 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
 static char *ft_strjoin_char(char *s, char c)
 {
@@ -34,6 +34,7 @@ static char *ft_strjoin_char(char *s, char c)
     new_str[i + 1] = '\0';
     return (new_str);
 }
+
 
 static char *ft_get_env_value(t_env_head *env_head, char *var)  
 {
@@ -125,19 +126,17 @@ static char *ft_expand_env_vars(char *str, t_env_head *env_head)
     return (res);
 }
 	
-void ft_expand_args(t_list *cmds, t_env_head *env_head)
+char *ft_expand_heredoc(char *buffer, t_env_head *env_head)
 {
-    int i;
     char *expanded;
 
-    i = 0;
-    if (cmds->cmd->quote_t == single_q)
-        return ;
-    while (cmds->cmd->tab[i])
+    if (!buffer)
+        return (NULL);
+    expanded = ft_expand_env_vars(buffer, env_head);
+    if (ft_strcmp(buffer, expanded) != 0)
     {
-        expanded = ft_expand_env_vars(cmds->cmd->tab[i], env_head);
-        free(cmds->cmd->tab[i]);
-        cmds->cmd->tab[i] = expanded;
-        i++;
+        free(buffer);
+        return (expanded);
     }
+    return (buffer);
 }

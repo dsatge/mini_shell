@@ -54,7 +54,7 @@ int redir_d_out(t_pipe **pipex, t_list *list)
 	return (0);
 }
 
-int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip)
+int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_head)
 {
 	if ((*pipex)->redir_in == 1)
 	{
@@ -66,7 +66,10 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip)
 		while (cmds)
 		{
 			if (cmds->cmd->type == redir && ft_strcmp(cmds->cmd->tab[0], "<<") == 0)
-				heredoc(pipex, cmds);
+			{
+				// ft_printf(2, "YO LA TEAM\n");
+				heredoc(pipex, cmds, env_head);
+			}
 			cmds = cmds->next;	
 		}
 	}

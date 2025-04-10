@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/09 14:11:05 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:37:11 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	  ft_cmd(t_token *list, t_list *cmds, int	nbr_cmd)
 	}
 	element = tab_cmds(list, cmds);
 	if (element == -1)
-		return (-1); //ajouter fonction tableau cmds
+		return (-1);
 	return (element);
 }
 
@@ -163,6 +163,7 @@ int	word_cmds(t_token *list, t_list *cmds)
 	while (current && current->type == word)
 	{
 		cmds->cmd->tab[i] = ft_strdup(current->str);
+		cmds->cmd->quote_t = current->quote_t;
 		if (!cmds->cmd->tab[i])
 			return (-1);
 		i++;
