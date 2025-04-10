@@ -6,7 +6,7 @@
 #    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/04 12:45:45 by enschnei         ###   ########.fr        #
+#    Updated: 2025/04/10 14:20:03 by enschnei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ C_FILES = main.c\
 			exec_init.c\
 			exec_utils.c\
 			exec_redir.c\
+			exec_utils_2.c\
 			line_to_words.c\
 			tokenise_utils.c\
 			print_test_list.c\
