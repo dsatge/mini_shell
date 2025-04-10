@@ -75,9 +75,17 @@ int	exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t
 	return (0);
 }
 
+void	wait_commands(int nb_cmds) {
+	while (nb_cmds > 0) {
+		waitpid(-1, NULL, 0);
+		nb_cmds--;
+	}
+}
+
 int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, int *prev_pip, t_env_head *env_head)
 {
 	pid_t	pid;
+	int		nb_cmds = pipex->nbr_cmds;
 
 	while (pipex->nbr_cmds > 1)
 	{
@@ -97,5 +105,6 @@ int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, int *prev_
 		*prev_pip = pipex->pipe_fd[0];
 		next_cmdexe(cmds, o_cmd, pipex);
 	}
+	wait_commands(nb_cmds);
 	return (0);
 }

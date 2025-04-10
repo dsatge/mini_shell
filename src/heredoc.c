@@ -23,10 +23,8 @@ void	close_fd(int sig)
 static void	creat_heredoc(t_list *cmds, t_env_head *env_head)
 {
 	char	*buffer;
-	char	*path_cmd;
 	int fd;
 
-	path_cmd = NULL;
 	// (void)env_head;
 	signal(SIGINT, close_fd);
 	signal(SIGQUIT, SIG_IGN); 
