@@ -6,7 +6,7 @@
 #    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/10 14:20:03 by enschnei         ###   ########.fr        #
+#    Updated: 2025/04/10 17:10:13 by enschnei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ C_FILES = main.c\
 			exec_utils_2.c\
 			line_to_words.c\
 			tokenise_utils.c\
+			exec_redir_pipe.c\
 			print_test_list.c\
 			signal_handling.c\
 			builtins_handling.c\

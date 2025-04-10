@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/03/19 18:24:04 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/10 17:18:51 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 void	free_list(t_token *list)
 {
-	t_token *tmp;
-    
+	t_token	*tmp;
+
 	tmp = NULL;
 	if (!list)
 		return ;
@@ -34,6 +34,7 @@ void	free_list(t_token *list)
 void	free_cmds(t_list *cmds)
 {
 	t_list	*tmp;
+
 	cmds = cmds->head;
 	while (cmds)
 	{
