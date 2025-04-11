@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/11 17:56:47 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:08:12 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char *fill_env(char *temp, t_env *tmp, char **env, int i)
+{
+	temp = ft_strjoin(tmp->type, "=");
+	if (!temp)
+	{
+		ft_freetab(env);
+		return (NULL);
+	}
+	env[i] = ft_strjoin(temp, tmp->value);
+	if (!env[i])
+	{
+		ft_freetab(env);
+		return (NULL);
+	}
+	return (temp);
+}
 
 char	**buildtab(t_env_head *env_head)
 {
@@ -26,19 +43,10 @@ char	**buildtab(t_env_head *env_head)
 		return (NULL);
 	while (tmp)
 	{
-		temp = ft_strjoin(tmp->type, "=");
-		if (!temp)
-		{
-			ft_freetab(env);
+		temp = fill_env(temp, tmp, env, i);
+		if (temp == NULL)
 			return (NULL);
-		}
-		env[i] = ft_strjoin(temp, tmp->value);
 		free(temp);
-		if (!env[i])
-		{
-			ft_freetab(env);
-			return (NULL);
-		}
 		tmp = tmp->next;
 		i++;
 	}
