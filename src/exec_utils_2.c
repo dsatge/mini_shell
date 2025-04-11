@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/10 14:31:24 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/11 13:02:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	**buildtab(t_env_head *env_head)
 	return (env);
 }
 
+
 int	exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_head *env_head)
 {
 	pid_t	pid;
@@ -75,10 +76,22 @@ int	exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t
 	return (0);
 }
 
+void	wait_commands(int nb_cmds) 
+{
+	printf("viens la\n");
+	while (nb_cmds > 0) 
+	{
+		waitpid(-1, NULL, 0);
+		nb_cmds--;
+	}
+}
+
 int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, int *prev_pip, t_env_head *env_head)
 {
 	pid_t	pid;
-
+	int		nb_cmds;
+	
+	nb_cmds = pipex->nbr_cmds;
 	while (pipex->nbr_cmds > 1)
 	{
 		if (pipe(pipex->pipe_fd) == -1)
@@ -97,5 +110,6 @@ int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, int *prev_
 		*prev_pip = pipex->pipe_fd[0];
 		next_cmdexe(cmds, o_cmd, pipex);
 	}
+	wait_commands(nb_cmds);
 	return (0);
 }
