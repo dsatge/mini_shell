@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 12:41:42 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/09 17:59:55 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:33:26 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,15 @@ int	error_special(char *buffer)
 		i++;
 	}
 	return (0);
+}
+
+void	error_print_msg(char *str, t_env_head *env_head)
+{
+	char	*cpy_str;
+	
+	cpy_str = ft_strdup(str);
+	cpy_str = ft_expand_heredoc(cpy_str, env_head);
+	ft_printf(2, "bash: %s: command not found\n", cpy_str);
+	free(cpy_str);
+	return ;
 }
