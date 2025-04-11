@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/10 17:14:45 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:34:14 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
-	ft_printf(2, "bash: %s: command not found\n", o_cmd->tab[0]);
+	error_print_msg(o_cmd->tab[0], env_head);
 	exit(127);
 }
 
@@ -84,7 +84,7 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_h
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
-	return (ft_printf(2, "bash: %s: command not found\n", o_cmd->tab[0]), exit (127));
+	return (error_print_msg(o_cmd->tab[0], env_head), exit (127));
 }
 
 int	ft_redir(t_list **cmds, t_pipe **pipex)

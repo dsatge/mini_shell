@@ -204,5 +204,6 @@ int				heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head);
 char 			*ft_expand_heredoc(char *buffer, t_env_head *env_head);
 // ERROR
 int 		error_special(char *buffer);
+void	error_print_msg(char *str, t_env_head *env_head);
 
 #endif
