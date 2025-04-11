@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/11 18:23:36 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/11 19:06:13 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,39 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	return (0);
 }
 
-int	main(int ac, char **av, char **env)
+void	ft_handle_input_line(char *buffer, t_minish *mini_struct)
 {
-	char		*buffer;
-	int			buf_value;
-	t_minish	*mini_struct;
-	t_token		*head;
-	t_list		*cmds;
-	t_list		*curr_cmd;
+	t_token	*head;
+	t_list	*cmds;
+	t_list	*curr_cmd;
 
-	(void)ac;
-	(void)av;
-	head = NULL;
-	cmds = NULL;
-	rl_outstream = stderr;
-	mini_struct = ft_calloc(sizeof(t_minish), 1);
-	if (!mini_struct)
-		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
-	ft_init_env(env, &mini_struct->env);
+	head = ft_split_word(buffer, mini_struct);
+	if (ft_checktype_order(head) == 0)
+	{
+		cmds = malloc(sizeof(t_list));
+		if (!cmds)
+			return ;
+		cmds_list(head, cmds);
+		curr_cmd = cmds;
+		ft_exec(curr_cmd, &mini_struct->env);
+		free_list(head);
+		free_cmds(cmds);
+	}
+	else
+	{
+		free_list(head);
+	}
+	free(buffer);
+}
+
+void	ft_prompt(t_token *head, t_minish *mini_struct, char **env)
+{
+	t_list	*cmds;
+	t_list	*curr_cmd;
+	char 	*buffer;
+	int		buf_value;
+
+	(void)env;
 	while (1)
 	{
 		signal_handle();
@@ -78,7 +93,7 @@ int	main(int ac, char **av, char **env)
 			break ;
 		buf_value = ft_buffer(buffer, head, mini_struct);
 		if (buf_value == -1)
-			return (0);
+			return ;
 		if (buf_value == 0)
 		{
 			if (error_special(buffer) == 1)
@@ -88,7 +103,7 @@ int	main(int ac, char **av, char **env)
 			{
 				cmds = malloc(sizeof(t_list));
 				if (!cmds)
-					return (1);
+					return ;
 				cmds_list(head, cmds);
 				curr_cmd = cmds;
 				ft_exec(curr_cmd, &mini_struct->env);
@@ -101,10 +116,29 @@ int	main(int ac, char **av, char **env)
 			free(buffer);
 		}
 	}
+}
+
+int	main(int ac, char **av, char **env)
+{
+	t_minish	*mini_struct;
+	t_token		*head;
+	t_list		*cmds;
+
+	(void)ac;
+	(void)av;
+	head = NULL;
+	cmds = NULL;
+	rl_outstream = stderr;
+	mini_struct = ft_calloc(sizeof(t_minish), 1);
+	if (!mini_struct)
+		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
+	ft_init_env(env, &mini_struct->env);
+	ft_prompt(head, mini_struct, env);
 	free_env(&mini_struct->env);
 	free(mini_struct);
 	return (0);
 }
+
 
 // tableau de fd =
 // 0 STDIN
