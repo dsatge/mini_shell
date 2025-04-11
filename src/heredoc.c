@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/10 17:24:19 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/11 16:04:59 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@ void	close_fd(int sig)
 static void	creat_heredoc(t_list *cmds, t_env_head *env_head)
 {
 	char	*buffer;
-	char	*path_cmd;
 	int fd;
 
-	path_cmd = NULL;
 	// (void)env_head;
 	signal(SIGINT, close_fd);
 	signal(SIGQUIT, SIG_IGN); 

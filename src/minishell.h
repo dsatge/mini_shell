@@ -76,6 +76,7 @@ typedef struct s_cmd
 typedef struct s_o_cmd
 {
 	char			**tab;
+	pid_t			pid;
 	struct s_o_cmd	*next;
 }					t_o_cmd;
 

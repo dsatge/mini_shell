@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:48:16 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/04 13:30:34 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/11 16:04:18 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,9 @@ char	*get_type_env(char *cmd)
 char *get_value_env(char *cmd)
 {
 	int	i;
-	int	j;
     char *res;
 
 	i = 0;
-	j = 0;
 	while (cmd[i] && cmd[i] != '=')
 		i++;
 	if (cmd[i] == '\0')

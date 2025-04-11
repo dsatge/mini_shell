@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/10 17:56:07 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/11 17:02:49 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 			return (0);
 		return (exec_single_cmd(cmds, &pipex, o_cmd, prev_pip, env_head));
 	}
-	// waitpid(pid, &status, 0);
 	close(pipex.pipe_fd[0]);
 	close(pipex.pipe_fd[1]);
 	ft_freetab(env);

@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:51:54 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/10 14:01:45 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:19:55 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int	next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex)
 {
 	if (!cmds)
 		return (-1);
-	pipex->outfile_fd = -1;
+	// pipex->outfile_fd = -1;
 	pipex->nbr_cmds--;
-	pipex->redir_in = 0;
-	pipex->redir_out = 0;
+	// pipex->redir_in = 0;
+	// pipex->redir_out = 0;
 	pipex->redir_pipe = 1;
-	(*cmds)->head->cmd_nbr--;
+	// (*cmds)->head->cmd_nbr--;
 	while (cmds && (*cmds)->cmd->type != pip)
 	{
 		(*cmds) = (*cmds)->next;
