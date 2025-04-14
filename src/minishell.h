@@ -178,11 +178,11 @@ char			**buildtab(t_env_head *env_head);
 int				ft_exec(t_list *cmds, t_env_head *env_head);
 //EXEC_INIT
 int				ft_count_cmds(t_list *cmd_list);
-t_o_cmd			*ft_only_cmd(t_list *cmds);
 int				next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex);
 int				exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_head *env_head);
 int				exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, int *prev_pip, t_env_head *env_head);
-
+//EXEC_ONLY_CMD
+t_o_cmd			*ft_only_cmd(t_list *cmds);
 //EXEC_UTILS
 void			first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
 						t_env_head *env_head);
