@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/11 17:02:49 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:54:48 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static t_o_cmd	*fill_new_node(t_o_cmd *new_node, char **cmds)
+{
+	int	i;
+
+	i = 0;
+	new_node = malloc(sizeof(t_o_cmd));
+	if (!new_node)
+		return (NULL);
+	new_node->tab = ft_calloc(sizeof(char *),
+			ft_count_line_split(cmds) + 1);
+	if (!new_node->tab)
+		return (0);
+	while (cmds[i] != 0)
+	{
+		new_node->tab[i] = ft_strdup(cmds[i]);
+		if (!new_node->tab[i])
+			return (NULL);
+		i++;
+	}
+	new_node->tab[i] = 0;
+	new_node->next = NULL;
+	return (new_node);
+}
 
 t_o_cmd	*ft_only_cmd(t_list *cmds)
 {
@@ -18,35 +42,19 @@ t_o_cmd	*ft_only_cmd(t_list *cmds)
 	t_o_cmd	*head;
 	t_o_cmd	*current;
 	t_o_cmd	*new_node;
-	int		i;
 
 	list = cmds;
 	head = NULL;
 	current = NULL;
-	i = 0;
 	if (!list || !list->cmd || !list->cmd->tab[0])
 		return (NULL);
 	while (list)
 	{
-		i = 0;
 		if (list->cmd->type == word)
 		{
-			new_node = malloc(sizeof(t_o_cmd));
+			new_node = fill_new_node(new_node, list->cmd->tab);
 			if (!new_node)
 				return (NULL);
-			new_node->tab = ft_calloc(sizeof(char *),
-					ft_count_line_split(list->cmd->tab) + 1);
-			if (!new_node->tab)
-				return (0);
-			while (list->cmd->tab[i] != 0)
-			{
-				new_node->tab[i] = ft_strdup(list->cmd->tab[i]);
-				if (!new_node->tab[i])
-					return (NULL);
-				i++;
-			}
-			new_node->tab[i] = 0;
-			new_node->next = NULL;
 			if (head == NULL)
 				head = new_node;
 			else

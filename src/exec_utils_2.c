@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/14 15:49:36 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/14 19:09:06 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ static void	wait_commands(t_o_cmd *cmd)
 
 int	exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_head *env_head)
 {
-	t_o_cmd *lastCmd = o_cmd;
+	t_o_cmd *lastCmd;
+	
+	lastCmd = o_cmd;
 	while (lastCmd->next)
 		lastCmd = lastCmd->next;
 	if (pipe(pipex->pipe_fd) == -1)
@@ -97,8 +99,10 @@ int	exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t
 int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, int *prev_pip, t_env_head *env_head)
 {
 	t_o_cmd	*current;
+	t_list	**cmds_curr;
 
 	current = *o_cmd;
+	cmds_curr = cmds;
 	while (current->next)
 	{
 		if (pipe(pipex->pipe_fd) == -1)
@@ -108,12 +112,13 @@ int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, int *prev_
 			return (ft_putstr_fd("ERROR\n", 2), 1);
 		signal_child();
 		if (current->pid == 0)
+		{
 			first_exe(*cmds, pipex, current, *prev_pip, env_head);
+			exit(EXIT_SUCCESS);
+		}
 		close(pipex->pipe_fd[1]);
 		*prev_pip = pipex->pipe_fd[0];
-		// next_cmdexe(cmds, o_cmd, pipex);
-		current = current->next;
-		pipex->nbr_cmds--;
+		next_cmdexe(cmds_curr, &current, pipex);
 	}
 	return (0);
 }
