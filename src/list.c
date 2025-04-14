@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/10 15:37:11 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/14 19:54:22 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 int	cmds_list(t_token *list, t_list *cmds)
 {
-	t_list *tmp;
-	int	skip;
-	int	i;
-	
+	t_list	*tmp;
+	int		skip;
+	int		i;
+
 	i = 0;
 	skip = 0;
 	skip = init_cmds_list(cmds, list, skip);
@@ -33,7 +33,7 @@ int	cmds_list(t_token *list, t_list *cmds)
 				return (ft_putstr_fd("ERROR : malloc fail", 2), -1);
 			cmds = cmds->next; // remet cmd_nbr a 0
 			cmds->head = tmp->head;
-			skip = ft_cmd(list, cmds, tmp->head->cmd_nbr);//ft t_cmd add tab
+			skip = ft_cmd(list, cmds, tmp->head->cmd_nbr); // ft t_cmd add tab
 			cmds->next = NULL;
 			cmds->prev = tmp;
 		}
@@ -66,10 +66,10 @@ int	init_cmds_list(t_list *cmds, t_token *list, int skip)
 	return (skip);
 }
 
-int	  ft_cmd(t_token *list, t_list *cmds, int	nbr_cmd)
+int	ft_cmd(t_token *list, t_list *cmds, int nbr_cmd)
 {
 	int	element;
-	
+
 	element = 0;
 	cmds->cmd = malloc(sizeof(t_cmd));
 	if (!cmds->cmd)
@@ -120,7 +120,7 @@ int	tab_cmds(t_token *list, t_list *cmds)
 
 int	redir_cmds(t_token *list, t_list *cmds)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!cmds)
@@ -146,7 +146,7 @@ int	word_cmds(t_token *list, t_list *cmds)
 	int		tab_len;
 	int		i;
 	t_token	*current;
-	
+
 	tab_len = 0;
 	i = 0;
 	current = list;
@@ -157,7 +157,7 @@ int	word_cmds(t_token *list, t_list *cmds)
 		current = current->next;
 	}
 	current = list;
-	cmds->cmd->tab = ft_calloc(sizeof(char*), (tab_len + 1));
+	cmds->cmd->tab = ft_calloc(sizeof(char *), (tab_len + 1));
 	if (!cmds->cmd->tab)
 		return (-1);
 	while (current && current->type == word)
@@ -175,13 +175,13 @@ int	word_cmds(t_token *list, t_list *cmds)
 
 int	pipe_cmds(t_token *list, t_list *cmds)
 {
-	int	tab_len;
+	int		tab_len;
 	t_token	*current;
-	
+
 	tab_len = 1;
 	current = list;
 	cmds->cmd->type = pip;
-	cmds->cmd->tab = ft_calloc(sizeof(char*), (tab_len + 1));
+	cmds->cmd->tab = ft_calloc(sizeof(char *), (tab_len + 1));
 	if (!cmds->cmd->tab)
 		return (-1);
 	cmds->cmd->tab[0] = ft_strdup("|");

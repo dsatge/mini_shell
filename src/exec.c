@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/11 17:02:49 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/14 18:41:21 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	t_o_cmd	*o_cmd;
 	// int		status;
 	int		prev_pip;
-  
+
 	o_cmd = NULL;
 	prev_pip = -1;
 	o_cmd = ft_only_cmd(cmds);
@@ -135,7 +135,7 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	if (pipex.nbr_cmds == 1)
 	{
 		if (ft_builtin(cmds, env_head) == 0)
-			return (0); 
+			return (0);
 	}
 	if (exec_multiple_cmds(&cmds, &o_cmd, &pipex, &prev_pip, env_head) != 0)
 		return (1);
@@ -148,7 +148,7 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	close(pipex.pipe_fd[0]);
 	close(pipex.pipe_fd[1]);
 	ft_freetab(env);
-	if (prev_pip != -1)	
+	if (prev_pip != -1)
 		close (prev_pip);
 	return (0);
 }

@@ -6,17 +6,17 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:51:54 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/11 17:19:55 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:32:14 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 int	ft_count_cmds(t_list *cmd_list)
 {
 	t_list	*current;
 	int		cmds;
-	
+
 	if (!cmd_list)
 		return (-1);
 	cmds = 0;
@@ -39,30 +39,25 @@ void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 	pipex->redir_in = 0;
 	pipex->redir_out = 0;
 	pipex->redir_pipe = 0;
-
 	(void)cmds;
 	if (env[0] == NULL)
-	pipex->abs_path = -1;
+		pipex->abs_path = -1;
 	else
-	pipex->env = env;
+		pipex->env = env;
 }
 
 int	next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex)
 {
 	if (!cmds)
 		return (-1);
-	// pipex->outfile_fd = -1;
 	pipex->nbr_cmds--;
-	// pipex->redir_in = 0;
-	// pipex->redir_out = 0;
 	pipex->redir_pipe = 1;
-	// (*cmds)->head->cmd_nbr--;
 	while (cmds && (*cmds)->cmd->type != pip)
 	{
 		(*cmds) = (*cmds)->next;
 	}
 	if (cmds && (*cmds)->cmd->type == pip)
-	(*cmds) = (*cmds)->next;
+		(*cmds) = (*cmds)->next;
 	(*o_cmd) = (*o_cmd)->next;
 	return (0);
 }

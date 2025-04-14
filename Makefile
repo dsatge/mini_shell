@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
+#    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/10 17:10:13 by enschnei         ###   ########.fr        #
+#    Updated: 2025/04/14 19:44:52 by enschnei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,11 +31,11 @@ C_FILES = main.c\
 			exec_utils.c\
 			exec_redir.c\
 			exec_utils_2.c\
+			expand_utils.c\
 			line_to_words.c\
 			expand_heredoc.c\
 			tokenise_utils.c\
 			exec_redir_pipe.c\
-			print_test_list.c\
 			signal_handling.c\
 			builtins_handling.c\
 			line_to_words_utils.c\

@@ -6,19 +6,19 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:36:45 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/10 17:30:03 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:47:37 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_flagN(char *s)
+static int	check_flag(char *s)
 {
 	int	i;
 
-	i = 0;
-	if (!s[i])
+	if (!s || s[0] != '-' || s[1] != 'n')
 		return (EXIT_FAILURE);
+	i = 2;
 	while (s[i])
 	{
 		if (s[i] != 'n')
@@ -30,16 +30,16 @@ static int	check_flagN(char *s)
 
 int	ft_echo(char **cmd)
 {
-	int	flag;
+	int	new_line;
 	int	i;
 
-	flag = 0;
+	new_line = 0;
 	i = 1;
 	if (!cmd[i])
 		return (write(1, "\n", 1), 0);
-	while (cmd[i] && cmd[i][0] == '-' && check_flagN(cmd[i]))
+	while (cmd[i] && check_flag(cmd[i]) == 0)
 	{
-		flag = 1;
+		new_line = 1;
 		i++;
 	}
 	while (cmd[i])
@@ -49,7 +49,7 @@ int	ft_echo(char **cmd)
 			ft_printf(1, " ");
 		i++;
 	}
-	if (!flag)
+	if (!new_line)
 		ft_printf(1, "\n");
 	g_error_code = 0;
 	return (0);

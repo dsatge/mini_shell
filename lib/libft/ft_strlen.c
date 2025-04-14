@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: baiannon <baiannon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 16:06:45 by dsatge            #+#    #+#             */
-/*   Updated: 2024/11/11 03:11:22 by baiannon         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:49:48 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
 size_t	ft_strlen(const char *s)
 {
 	int	i;
 
 	i = 0;
-
 	if (!s)
 		return (0);
 	while (s[i] != '\0')

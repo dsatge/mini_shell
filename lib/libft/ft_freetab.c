@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 15:06:08 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/07 13:57:39 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:46:30 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_freetab(char **tab)
 	size_t	i;
 
 	if (!tab)
-		return;
+		return ;
 	i = 0;
 	while (tab[i])
 	{
