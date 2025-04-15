@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/15 18:21:46 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 19:20:33 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,5 +227,7 @@ char			*expand_env_variable(char *res, const char *str, int *i, t_env_head *env_
 char			*expand_exit_code(char *res, int *i);
 //EXEC_INCHILD
 int				ft_redir_manager(t_list *cmds, t_pipe *pipex, t_env_head *env_head, int pip);
+//EXPORT_UTILS
+void			print_declare(t_env **sorted);
 
 #endif
