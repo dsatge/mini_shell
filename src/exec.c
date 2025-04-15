@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 18:41:21 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:36:59 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**add_path(char *add, int len, char **path_split)
 	new = malloc(sizeof(char *) * (len + 1));
 	if (!new)
 	{
-		// clean_to_exit(0, *pipe);
+		ft_freetab(path_split);
 		exit(EXIT_FAILURE);
 	}
 	while (line < len)
@@ -31,7 +31,7 @@ char	**add_path(char *add, int len, char **path_split)
 		{
 			perror("path creation");
 			return (NULL);
-			// ft_freetab(new);
+			ft_freetab(new);
 			// clean_to_exit(2, *pipe);
 		}
 		line++;
@@ -71,12 +71,12 @@ int	init_path(char **env, t_pipe *pipex)
 
 static void	close_clean(t_pipe pipex, int prev_pip, char **env)
 {
-	close(pipex.pipe_fd[0]);
-	close(pipex.pipe_fd[1]);
-	ft_freetab(env);
-	if (prev_pip != -1)
-		close (prev_pip);
-	return ;
+    close(pipex.pipe_fd[0]);
+    close(pipex.pipe_fd[1]);
+    ft_freetab(env);
+    if (prev_pip != -1)
+        close(prev_pip);
+    return;
 }
 
 int	ft_exec(t_list *cmds, t_env_head *env_head)
@@ -93,13 +93,13 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
 	if (pipex.nbr_cmds == 1)
-		if (ft_builtin(cmds, env_head) == 0)
+		if (ft_builtin(cmds, env_head, env) == 0)
 			return (0);
 	if (exec_multiple_cmds(&cmds, &o_cmd, &pipex, env_head) != 0)
 		return (1);
 	if (pipex.nbr_cmds == 1 || pipex.nbr_cmds == 0)
 	{
-		if (ft_builtin(cmds, env_head) == 0)
+		if (ft_builtin(cmds, env_head, env) == 0)
 			return (0);
 		if (exec_one_cmd(cmds, &pipex, o_cmd, env_head) == EXIT_FAILURE)
 			return (-1);

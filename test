@@ -1,6 +1,0 @@
-ignore.supp
-lib
-Makefile
-minishell
-src
-test

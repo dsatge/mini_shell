@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:36:45 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/14 19:47:37 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:37:33 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	ft_echo(char **cmd)
 	}
 	while (cmd[i])
 	{
+		if (cmd[i][0] == '\\')
+			ft_printf(1, "%s ", cmd[i++] + 1);
 		ft_printf(1, "%s", cmd[i]);
 		if (cmd[i + 1] != 0)
 			ft_printf(1, " ");

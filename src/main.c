@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 19:44:13 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:14:13 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ void	ft_handle_input_line(char *buffer, t_minish *mini_struct)
 		free_cmds(cmds);
 	}
 	else
-	{
 		free_list(head);
-	}
 	free(buffer);
 }
 
@@ -135,6 +133,7 @@ int	main(int ac, char **av, char **env)
 	ft_init_env(env, &mini_struct->env);
 	ft_prompt(head, mini_struct, env);
 	free_env(&mini_struct->env);
+	free_list(head);
 	free(mini_struct);
 	return (0);
 }
