@@ -6,7 +6,7 @@
 #    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/14 19:44:52 by enschnei         ###   ########.fr        #
+#    Updated: 2025/04/14 19:53:31 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ C_FILES = main.c\
 			exec_utils_2.c\
 			expand_utils.c\
 			line_to_words.c\
+			exec_only_cmd.c\
 			expand_heredoc.c\
 			tokenise_utils.c\
 			exec_redir_pipe.c\

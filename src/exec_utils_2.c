@@ -3,26 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/15 12:15:32 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 14:19:10 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static int invert_stdin(t_list *cmds, int fd)
-// {
-// 	printf("CHECK : %s, type = %i\n", cmds->cmd->tab[1], cmds->cmd->type);
-// 	fd = open(cmds->cmd->tab[1], O_RDONLY);
-// 	if (fd == -1)
-// 		return (perror("open failed\n"), -1);
-// 	if (dup2(fd, STDIN_FILENO) == -1)
-// 		return (-1);
-// 	close(fd);
-// 	return (0);
-// }
+static char *fill_env(char *temp, t_env *tmp, char **env, int i)
+{
+	temp = ft_strjoin(tmp->type, "=");
+	if (!temp)
+	{
+		ft_freetab(env);
+		return (NULL);
+	}
+	env[i] = ft_strjoin(temp, tmp->value);
+	if (!env[i])
+	{
+		ft_freetab(env);
+		return (NULL);
+	}
+	return (temp);
+}
 
 char	**buildtab(t_env_head *env_head)
 {
@@ -38,21 +43,12 @@ char	**buildtab(t_env_head *env_head)
 		return (NULL);
 	while (tmp)
 	{
-		temp = ft_strjoin(tmp->type, "=");
-		if (!temp)
-		{
-			ft_freetab(env);
+		temp = fill_env(temp, tmp, env, i);
+		if (temp == NULL)
 			return (NULL);
-		}
-		env[i] = ft_strjoin(temp, tmp->value);
 		free(temp);
-		if (!env[i])
-		{
-			ft_freetab(env);
-			return (NULL);
-		}
 		tmp = tmp->next;
-		i++;
+		i++;	
 	}
 	env[i] = NULL;
 	return (env);
@@ -73,36 +69,35 @@ static void	wait_commands(t_o_cmd *cmd)
 	}
 }
 
-int	exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
-		t_env_head *env_head)
+int	exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head)
 {
-	t_o_cmd	*lastCmd;
-
-	lastCmd = o_cmd;
-	while (lastCmd->next)
-		lastCmd = lastCmd->next;
+	t_o_cmd *lastcmd;
+	
+	lastcmd = o_cmd;
+	while (lastcmd->next)
+		lastcmd = lastcmd->next;
 	if (pipe(pipex->pipe_fd) == -1)
 	{
 		perror("pipe");
 		ft_freetab(pipex->path);
 		exit(EXIT_FAILURE);
 	}
-	lastCmd->pid = fork();
-	if (lastCmd->pid == -1)
+	lastcmd->pid = fork();
+	if (lastcmd->pid == -1)
 		return (ft_putstr_fd("ERROR\n", 2), 1);
 	signal_child();
-	if (lastCmd->pid == 0)
+	if (lastcmd->pid == 0)
 	{
-		last_exe(cmds, pipex, lastCmd, prev_pip, env_head);
+		last_exe(cmds, pipex, lastcmd, pipex->prev_pip, env_head);
 		exit(0);
 	}
-	else if (lastCmd->pid > 0)
+	else if (lastcmd->pid > 0)
 		wait_commands(o_cmd);
 	return (0);
 }
 
-int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex,
-		int *prev_pip, t_env_head *env_head)
+
+int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, t_env_head *env_head)
 {
 	t_o_cmd	*current;
 	t_list	**cmds_curr;
@@ -120,11 +115,11 @@ int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex,
 		signal_child();
 		if (current->pid == 0)
 		{
-			first_exe(*cmds, pipex, current, *prev_pip, env_head);
+			firsts_exe(*cmds, pipex, current, pipex->prev_pip, env_head);
 			exit(EXIT_SUCCESS);
 		}
 		close(pipex->pipe_fd[1]);
-		*prev_pip = pipex->pipe_fd[0];
+		pipex->prev_pip = pipex->pipe_fd[0];
 		next_cmdexe(cmds_curr, &current, pipex);
 	}
 	return (0);

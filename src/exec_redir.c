@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 19:32:40 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:13:58 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_head)
 			if (cmds->cmd->type == redir && ft_strcmp(cmds->cmd->tab[0],
 					"<<") == 0)
 			{
-				// ft_printf(2, "YO LA TEAM\n");
 				heredoc(pipex, cmds, env_head);
+				break ;
 			}
 			cmds = cmds->next;
 		}

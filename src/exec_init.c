@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:51:54 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 19:32:14 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 12:37:42 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	ft_count_cmds(t_list *cmd_list)
 void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 {
 	pipex->abs_path = 0;
+	pipex->prev_pip = -1;
 	pipex->backup_stdin = dup(STDIN_FILENO);
 	pipex->backup_stdout = dup(STDOUT_FILENO);
 	pipex->nbr_cmds = ft_count_cmds(cmds);
