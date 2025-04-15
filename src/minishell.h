@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/15 14:57:19 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 18:21:46 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ t_o_cmd			*ft_only_cmd(t_list *cmds);
 //EXEC_UTILS
 void			firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head);
 void			last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head);
+int				no_cmd_exe(t_list *cmds, t_pipe *pipex, t_env_head *env_head);
 int				ft_redir(t_list **cmds, t_pipe **pipex);
 int				ft_redir_in(t_list *list, t_pipe **pipex);
 int				ft_redir_out(t_list *list, t_pipe **pipex);
@@ -223,5 +224,7 @@ void			error_print_msg(char *str, t_env_head *env_head);
 //EXPAND_UTILS
 char			*expand_env_variable(char *res, const char *str, int *i, t_env_head *env_head);
 char			*expand_exit_code(char *res, int *i);
+//EXEC_INCHILD
+int				ft_redir_manager(t_list *cmds, t_pipe *pipex, t_env_head *env_head, int pip);
 
 #endif

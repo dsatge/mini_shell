@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 12:41:42 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/11 16:33:26 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 18:50:54 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	error_special(char *buffer)
 void	error_print_msg(char *str, t_env_head *env_head)
 {
 	char	*cpy_str;
-	
+
 	cpy_str = ft_strdup(str);
 	cpy_str = ft_expand_heredoc(cpy_str, env_head);
 	ft_printf(2, "bash: %s: command not found\n", cpy_str);
