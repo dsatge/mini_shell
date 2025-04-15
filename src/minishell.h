@@ -83,6 +83,7 @@ typedef struct s_o_cmd
 typedef struct s_pipe
 {
 	int		pipe_fd[2];
+	int		prev_pip;
 	int		redir_in;
 	int		redir_out;
 	int		redir_pipe;
@@ -178,17 +179,16 @@ char			**buildtab(t_env_head *env_head);
 int				ft_exec(t_list *cmds, t_env_head *env_head);
 //EXEC_INIT
 int				ft_count_cmds(t_list *cmd_list);
-t_o_cmd			*ft_only_cmd(t_list *cmds);
 int				next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex);
-int				exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_head *env_head);
-int				exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, int *prev_pip, t_env_head *env_head);
-
+int				exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head);
+int				exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, t_env_head *env_head);
+//EXEC_ONLY_CMD
+t_o_cmd			*ft_only_cmd(t_list *cmds);
 //EXEC_UTILS
-void			first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
+void			firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
 						t_env_head *env_head);
 void			last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
 						t_env_head *env_head);
-int				invert_stdin(t_list *cmds, int fd);
 int				ft_redir(t_list **cmds, t_pipe **pipex);
 int				ft_redir_in(t_list *list, t_pipe **pipex);
 int				ft_redir_out(t_list *list, t_pipe **pipex);

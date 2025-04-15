@@ -6,25 +6,13 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/11 16:34:14 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 14:17:57 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-int	invert_stdin(t_list *cmds, int fd)
-{
-	printf("CHECK : %s, type = %i\n", cmds->cmd->tab[1], cmds->cmd->type);
-	fd = open(cmds->cmd->tab[1], O_RDONLY);
-	if (fd == -1)
-		return (perror("open failed\n"), -1);
-	if (dup2(fd, STDIN_FILENO) == -1)
-		return (-1);
-	close(fd);
-	return (0);
-}
-
-void	first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_head *env_head)
+void	firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_head *env_head)
 {
 	int i;
 	char	*path_cmd;
