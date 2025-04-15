@@ -6,13 +6,14 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/15 14:57:13 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:35:24 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head)
+void	firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
+	t_env_head *env_head)
 {
 	int		i;
 	char	*path_cmd;
@@ -46,7 +47,8 @@ void	firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_hea
 	exit(127);
 }
 
-void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head)
+void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
+	t_env_head *env_head)
 {
 	int		i;
 	char	*path_cmd;

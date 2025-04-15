@@ -6,13 +6,13 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/15 14:58:34 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:33:44 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *fill_env(char *temp, t_env *tmp, char **env, int i)
+static char	*fill_env(char *temp, t_env *tmp, char **env, int i)
 {
 	temp = ft_strjoin(tmp->type, "=");
 	if (!temp)
@@ -48,7 +48,7 @@ char	**buildtab(t_env_head *env_head)
 			return (NULL);
 		free(temp);
 		tmp = tmp->next;
-		i++;	
+		i++;
 	}
 	env[i] = NULL;
 	return (env);
@@ -69,10 +69,11 @@ static void	wait_commands(t_o_cmd *cmd)
 	}
 }
 
-int	exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head)
+int	exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
+	t_env_head *env_head)
 {
-	t_o_cmd *lastcmd;
-	
+	t_o_cmd	*lastcmd;
+
 	lastcmd = o_cmd;
 	while (lastcmd->next)
 		lastcmd = lastcmd->next;
@@ -96,8 +97,8 @@ int	exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_he
 	return (0);
 }
 
-
-int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, t_env_head *env_head)
+int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex,
+	t_env_head *env_head)
 {
 	t_o_cmd	*current;
 	t_list	**cmds_curr;

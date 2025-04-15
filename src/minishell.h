@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/15 14:57:19 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 16:24:48 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,5 +223,7 @@ void			error_print_msg(char *str, t_env_head *env_head);
 //EXPAND_UTILS
 char			*expand_env_variable(char *res, const char *str, int *i, t_env_head *env_head);
 char			*expand_exit_code(char *res, int *i);
+//EXEC_INCHILD
+int				ft_redir_manager(t_list *cmds, t_pipe *pipex, t_env_head *env_head);
 
 #endif
