@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/15 14:12:47 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 14:17:09 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	{
 		if (ft_builtin(cmds, env_head) == 0)
 			return (0);
-		if (exec_single_cmd(cmds, &pipex, o_cmd, env_head) == EXIT_FAILURE)
+		if (exec_one_cmd(cmds, &pipex, o_cmd, env_head) == EXIT_FAILURE)
 			return (-1);
 	}
 	close_clean(pipex, pipex.prev_pip, env);

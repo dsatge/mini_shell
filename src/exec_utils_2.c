@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/15 12:36:25 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 14:19:10 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,29 +69,29 @@ static void	wait_commands(t_o_cmd *cmd)
 	}
 }
 
-int	exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head)
+int	exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head)
 {
-	t_o_cmd *lastCmd;
+	t_o_cmd *lastcmd;
 	
-	lastCmd = o_cmd;
-	while (lastCmd->next)
-		lastCmd = lastCmd->next;
+	lastcmd = o_cmd;
+	while (lastcmd->next)
+		lastcmd = lastcmd->next;
 	if (pipe(pipex->pipe_fd) == -1)
 	{
 		perror("pipe");
 		ft_freetab(pipex->path);
 		exit(EXIT_FAILURE);
 	}
-	lastCmd->pid = fork();
-	if (lastCmd->pid == -1)
+	lastcmd->pid = fork();
+	if (lastcmd->pid == -1)
 		return (ft_putstr_fd("ERROR\n", 2), 1);
 	signal_child();
-	if (lastCmd->pid == 0)
+	if (lastcmd->pid == 0)
 	{
-		last_exe(cmds, pipex, lastCmd, pipex->prev_pip, env_head);
+		last_exe(cmds, pipex, lastcmd, pipex->prev_pip, env_head);
 		exit(0);
 	}
-	else if (lastCmd->pid > 0)
+	else if (lastcmd->pid > 0)
 		wait_commands(o_cmd);
 	return (0);
 }
@@ -113,7 +113,7 @@ int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, t_env_head
 		signal_child();
 		if (current->pid == 0)
 		{
-			first_exe(*cmds, pipex, current, pipex->prev_pip, env_head);
+			firsts_exe(*cmds, pipex, current, pipex->prev_pip, env_head);
 			exit(EXIT_SUCCESS);
 		}
 		close(pipex->pipe_fd[1]);
