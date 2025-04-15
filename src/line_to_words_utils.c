@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:02:28 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/09 14:27:38 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/14 17:25:09 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,26 @@ char	*redir_pipe_to_word(char *buffer, int *i)
 			word = ft_strdup(">");
 			if (!word)
 				return (NULL);
-		}
-			
+		}	
 	}
 	*i = *i + 1;
 	return (word);
+}
+
+char	*letters_to_word(char *word, char *buffer, int start, int i)
+{
+	char	*joined_letters;
+	char	*joined_word;
+
+	joined_letters = word_from_str(buffer, start, i);
+	if (!joined_letters)
+		return (ft_putstr_fd("Error malloc: letters_to_word\n", 2), NULL);
+	if (word)
+	{
+		joined_word = ft_strjoin(word, joined_letters);
+		if (!joined_word)
+			return (ft_putstr_fd("Error ft_strjoin: letters_to_word", 2), NULL);
+		return (free(word), free(joined_letters), joined_word);
+	}
+	return (joined_letters);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:10:34 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/10 14:36:59 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/14 19:45:01 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	ft_token_type(t_token *element, int quote_typ)
 int	ft_ispipe(t_token element)
 {
 	if (element.str == NULL)
-		exit(EXIT_FAILURE); 
-	if(element.str[0] == '|' && element.str[1] == '\0')
+		exit(EXIT_FAILURE);
+	if (element.str[0] == '|' && element.str[1] == '\0')
 		return (0);
 	else
 		return (1);
@@ -37,17 +37,17 @@ int	ft_isredir(t_token element)
 {
 	if (element.str == NULL)
 		exit(EXIT_FAILURE);
-	if(element.str[0] == '>' && element.str[1] == '>')
+	if (element.str[0] == '>' && element.str[1] == '>')
 	{
 		if (element.str[2] == '\0')
 			return (0);
 	}
-	else if(element.str[0] == '<' && element.str[1] == '<') 
+	else if (element.str[0] == '<' && element.str[1] == '<')
 	{
 		if (element.str[2] == '\0')
 			return (0);
 	}
-	else if(element.str[0] == '<' || element.str[0] == '>')
+	else if (element.str[0] == '<' || element.str[0] == '>')
 	{
 		if (element.str[1] == '\0')
 			return (0);
@@ -59,7 +59,7 @@ char	*word_from_str(char *buffer, int start, int len)
 {
 	char	*word;
 	int		i;
-	
+
 	i = 0;
 	word = malloc(sizeof(char) * (len) + 1);
 	if (!word)
@@ -72,4 +72,3 @@ char	*word_from_str(char *buffer, int start, int len)
 	word[i] = '\0';
 	return (word);
 }
-

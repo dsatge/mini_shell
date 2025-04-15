@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/11 16:04:59 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:53:30 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,16 @@ void	close_fd(int sig)
 {
 	(void)sig;
 	close(0);
-	// ft_printf(2, "\n");
 	exit(EXIT_FAILURE);
 }
 
 static void	creat_heredoc(t_list *cmds, t_env_head *env_head)
 {
 	char	*buffer;
-	int fd;
+	int		fd;
 
-	// (void)env_head;
 	signal(SIGINT, close_fd);
-	signal(SIGQUIT, SIG_IGN); 
+	signal(SIGQUIT, SIG_IGN);
 	fd = open("File_heredoc", O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (fd == -1)
 		exit(EXIT_FAILURE);
@@ -38,7 +36,7 @@ static void	creat_heredoc(t_list *cmds, t_env_head *env_head)
 		if (!buffer || ft_strcmp(buffer, cmds->cmd->tab[1]) == 0)
 		{
 			free(buffer);
-			break;
+			break ;
 		}
 		ft_putstr_fd(buffer, fd);
 		write(fd, "\n", 1);
@@ -48,21 +46,21 @@ static void	creat_heredoc(t_list *cmds, t_env_head *env_head)
 	exit(EXIT_SUCCESS);
 }
 
-int heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head)
+int	heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head)
 {
-    pid_t		pid_heredoc;
-    int		status;
-    t_list	*list;
-    
+	pid_t	pid_heredoc;
+	int		status;
+	t_list	*list;
+
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	list = cmds;
 	while (list && list->cmd->tab != pip)
-    {
+	{
 		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<<") == 0)
 		{
 			pid_heredoc = fork();
-		    if (pid_heredoc == -1)
+			if (pid_heredoc == -1)
 			{
 				perror("Error fork heredoc");
 				return (EXIT_FAILURE);
@@ -78,7 +76,7 @@ int heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head)
 		return (EXIT_FAILURE);
 	unlink("File_heredoc");
 	dup2((*pipex)->infile_fd, STDIN_FILENO);
-	close((*pipex)->infile_fd);		
+	close((*pipex)->infile_fd);
 	signal(SIGINT, sigint_handle);
 	signal(SIGQUIT, SIG_IGN);
 	return (EXIT_SUCCESS);

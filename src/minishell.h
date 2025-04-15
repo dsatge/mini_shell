@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
+/*   Updated: 2025/04/15 12:15:34 by enschnei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # ifndef BUFFER_SIZE
@@ -17,12 +29,10 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/ioctl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <sys/ioctl.h>
 # include <unistd.h>
-
-extern int			g_error_code;
 
 typedef enum e_quote_status
 {
@@ -114,48 +124,55 @@ typedef struct s_minish
 	t_token			*element;
 	t_type			*type;
 	t_quote			*quote;
- 	t_env_head		env;
-}	t_minish;
+	t_env_head		env;
+}					t_minish;
 
-//MAIN
-int				ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct);
-//LINE_TO_WORDS_UTILS
-bool			is_White_Space(char c);
-bool			is_redir_pipe(char c);
-char			*redir_pipe_to_word(char *buffer, int *i);
-//LINE_TO_WORDS
-char			*ft_quotes(char *buffer, int *i);
-int				is_word(char *buffer, int *i, t_minish **mini_struct, int first_word);
-char			*letters_to_word(char *word, char *buffer, int start, int i);
-char			*ft_join_quotes(char *buffer, int *i, char *tmp);
-t_token			*ft_split_word(char *buffer, t_minish *mini_struct);
-//TOKENISE
-int				ft_checktype_order(t_token *element);
-t_token			*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_word, int quote_typ);
-t_token			*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word, int quote_typ);
-//TOKENISE_UTILS
-void			ft_token_type(t_token *element, int quote_typ);
-int				ft_ispipe(t_token element);
-int				ft_isredir(t_token element);
-char			*word_from_str(char *buffer, int start, int end);
-//SIGNAUX
-void			signal_handle(void);
-void			sigint_handle(int signal);
-void			signal_child(void);
-//FREE
-void			free_list(t_token *list);
-void			free_cmds(t_list *cmds);
-void			free_env(t_env_head *env_head);
-void			free_tab(char **tab);
-//LIST
-int				cmds_list(t_token *list, t_list *cmds);
-int				init_cmds_list(t_list *cmds, t_token *list, int next);
-int				ft_cmd(t_token *list, t_list *cmds, int	nbr_cmd);
-int				tab_cmds(t_token *list, t_list *cmds);
-int				redir_cmds(t_token *list, t_list *cmds);
-int				word_cmds(t_token *list, t_list *cmds);
-int				pipe_cmds(t_token *list, t_list *cmds);
-//PRINT_TEST_LIST
+extern int			g_error_code;
+
+// MAIN
+int					ft_buffer(char *buffer, t_token *token_list,
+						t_minish *mini_struct);
+// LINE_TO_WORDS_UTILS
+bool				is_White_Space(char c);
+bool				is_redir_pipe(char c);
+char				*redir_pipe_to_word(char *buffer, int *i);
+	// LINE_TO_WORDS
+char				*ft_quotes(char *buffer, int *i);
+int					is_word(char *buffer, int *i, t_minish **mini_struct,
+						int first_word);
+char				*letters_to_word(char *word, char *buffer, int start,
+						int i);
+char				*ft_join_quotes(char *buffer, int *i, char *tmp);
+t_token				*ft_split_word(char *buffer, t_minish *mini_struct);
+// TOKENISE
+int					ft_checktype_order(t_token *element);
+t_token				*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct,
+						int first_word, int quote_typ);
+t_token				*ft_tokenise_word(char *word, t_minish *mini_struct,
+						int first_word, int quote_typ);
+// TOKENISE_UTILS
+void				ft_token_type(t_token *element, int quote_typ);
+int					ft_ispipe(t_token element);
+int					ft_isredir(t_token element);
+char				*word_from_str(char *buffer, int start, int end);
+// SIGNAUX
+void				signal_handle(void);
+void				sigint_handle(int signal);
+void				signal_child(void);
+// FREE
+void				free_list(t_token *list);
+void				free_cmds(t_list *cmds);
+void				free_env(t_env_head *env_head);
+void				free_tab(char **tab);
+// LIST
+int					cmds_list(t_token *list, t_list *cmds);
+int					init_cmds_list(t_list *cmds, t_token *list, int next);
+int					ft_cmd(t_token *list, t_list *cmds, int nbr_cmd);
+int					tab_cmds(t_token *list, t_list *cmds);
+int					redir_cmds(t_token *list, t_list *cmds);
+int					word_cmds(t_token *list, t_list *cmds);
+int					pipe_cmds(t_token *list, t_list *cmds);
+// PRINT_TEST_LIST
 
 // COMMANDS
 int				ft_builtin(t_list *cmds, t_env_head *env_head);
@@ -200,8 +217,8 @@ int				redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_he
 int				redir_fdout_pip(t_pipe **pipex);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
 // HEREDOC
-int				heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head);
-char 			*ft_expand_heredoc(char *buffer, t_env_head *env_head);
+int					heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head);
+char				*ft_expand_heredoc(char *buffer, t_env_head *env_head);
 // ERROR
 int 		error_special(char *buffer);
 void	error_print_msg(char *str, t_env_head *env_head);

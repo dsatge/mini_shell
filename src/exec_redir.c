@@ -40,7 +40,7 @@ int	redir_out(t_pipe **pipex, t_list *list)
 	return (0);
 }
 
-int redir_d_out(t_pipe **pipex, t_list *list)
+int	redir_d_out(t_pipe **pipex, t_list *list)
 {
 	if ((*pipex)->redir_out == 1)
 	{
@@ -65,12 +65,13 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_head)
 	{
 		while (cmds)
 		{
-			if (cmds->cmd->type == redir && ft_strcmp(cmds->cmd->tab[0], "<<") == 0)
+			if (cmds->cmd->type == redir && ft_strcmp(cmds->cmd->tab[0],
+					"<<") == 0)
 			{
 				heredoc(pipex, cmds, env_head);
 				break ;
 			}
-			cmds = cmds->next;	
+			cmds = cmds->next;
 		}
 	}
 	else if (prev_pip != -1)

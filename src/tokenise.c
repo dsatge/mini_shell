@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/10 14:31:54 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/14 19:45:09 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	ft_checktype_order(t_token *element)
 	if (element->type == pip)
 	{
 		g_error_code = 2;
-		return (ft_putstr_fd("bash: syntax error near unexpected token `|'\n", 2), -1);
+		return (ft_putstr_fd("bash: syntax error near unexpected token `|'\n",
+				2), -1);
 	}
 	while (element->next != NULL)
 	{
@@ -27,7 +28,7 @@ int	ft_checktype_order(t_token *element)
 			return (ft_putstr_fd("Error: redir not followed by word\n", 2), -1);
 		}
 		if (element->type == pip && element->next->type == pip)
-			return (ft_putstr_fd("Error: 2 pipes\n", 2),1);
+			return (ft_putstr_fd("Error: 2 pipes\n", 2), 1);
 		element = element->next;
 	}
 	if (element->type == pip || element->type == redir)
@@ -39,7 +40,8 @@ int	ft_checktype_order(t_token *element)
 	return (0);
 }
 
-t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_word, int quote_typ)
+t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct,
+		int first_word, int quote_typ)
 {
 	t_token	*new_node;
 
@@ -62,13 +64,13 @@ t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct, int first_wor
 			return (NULL);
 		ft_token_type(new_node, quote_typ);
 		mini_struct->element->next = new_node;
-		mini_struct->element= mini_struct->element->next;
+		mini_struct->element = mini_struct->element->next;
 	}
 	return (mini_struct->element);
 }
 
-
-t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word, int quote_typ)
+t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word,
+		int quote_typ)
 {
 	t_token	*new_node;
 
@@ -93,7 +95,7 @@ t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word, int
 			return (NULL);
 		new_node->type = 2;
 		mini_struct->element->next = new_node;
-		mini_struct->element= mini_struct->element->next;
+		mini_struct->element = mini_struct->element->next;
 	}
 	return (mini_struct->element);
 }

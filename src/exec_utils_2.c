@@ -54,10 +54,10 @@ char	**buildtab(t_env_head *env_head)
 	return (env);
 }
 
-static void	wait_commands(t_o_cmd *cmd) 
+static void	wait_commands(t_o_cmd *cmd)
 {
-	int status;
-	t_o_cmd *curr;
+	int		status;
+	t_o_cmd	*curr;
 
 	curr = cmd;
 	while (curr)
@@ -96,6 +96,7 @@ int	exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_he
 	return (0);
 }
 
+
 int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, t_env_head *env_head)
 {
 	t_o_cmd	*current;
@@ -106,7 +107,8 @@ int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, t_env_head
 	while (current->next)
 	{
 		if (pipe(pipex->pipe_fd) == -1)
-			return (perror("pipe"), ft_freetab(pipex->path), exit(EXIT_FAILURE), 0);
+			return (perror("pipe"), ft_freetab(pipex->path), exit(EXIT_FAILURE),
+				0);
 		current->pid = fork();
 		if (current->pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);

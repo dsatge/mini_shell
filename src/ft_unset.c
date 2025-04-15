@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 18:23:37 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/04 15:17:34 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:43:49 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ static void	delete_node(t_env_head *env_head, t_env *target)
 
 	if (!env_head || !env_head->head || !target)
 		return ;
-
 	current = env_head->head;
 	prev = NULL;
-
 	if (current == target)
 	{
 		env_head->head = current->next;
@@ -39,7 +37,6 @@ static void	delete_node(t_env_head *env_head, t_env *target)
 		env_head->size--;
 		return ;
 	}
-
 	while (current && current != target)
 	{
 		prev = current;
@@ -53,15 +50,15 @@ static void	delete_node(t_env_head *env_head, t_env *target)
 	}
 }
 
-static t_env *find_env_node(t_env *env, char *thing)
+static t_env	*find_env_node(t_env *env, char *thing)
 {
 	while (env)
 	{
 		if (ft_strcmp(env->type, thing) == 0)
-			return env;
+			return (env);
 		env = env->next;
 	}
-	return NULL;
+	return (NULL);
 }
 
 void	ft_unset(char **cmds, t_env_head *env_head)
