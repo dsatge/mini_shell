@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/15 17:12:34 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:02:44 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	no_cmd_exe(t_list *cmds, t_pipe *pipex, t_env_head *env_head)
 	{
 		if (ft_redir_manager(cmds, pipex, env_head, 0) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		if (ft_builtin(cmds, env_head) == 0)
+		if (ft_builtin(cmds, env_head, NULL) == 0)
 			return (EXIT_SUCCESS);
 		exit(0);
 	}
@@ -51,7 +51,7 @@ void	firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
 	path_cmd = NULL;
 	if (ft_redir_manager(cmds, pipex, env_head, 1) == EXIT_FAILURE)
 		return ;
-	if (ft_builtin(cmds, env_head) == 0)
+	if (ft_builtin(cmds, env_head, NULL) == 0)
 		exit(EXIT_SUCCESS);
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
 			o_cmd->tab, pipex->env) == -1)
@@ -81,7 +81,7 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
 	path_cmd = NULL;
 	if (ft_redir_manager(cmds, pipex, env_head, 0) == EXIT_FAILURE)
 		return ;
-	if (ft_builtin(cmds, env_head) == 0)
+	if (ft_builtin(cmds, env_head, NULL) == 0)
 		exit(EXIT_FAILURE);
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
 			o_cmd->tab, pipex->env) == -1)
