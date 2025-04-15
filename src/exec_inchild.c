@@ -6,20 +6,23 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/15 16:26:37 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 17:14:42 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_redir_manager(t_list *cmds, t_pipe *pipex, t_env_head *env_head)
+int	ft_redir_manager(t_list *cmds, t_pipe *pipex, t_env_head *env_head, int pip)
 {
 	if (ft_redir(&cmds, &pipex) == -1)
 	{
 		perror("bash: infile: ");
 		return (EXIT_FAILURE);
 	}
-	redir_fdout_pip(&pipex);
+	if (pip == 1)
+		redir_fdout_pip(&pipex);
+	else
+		redir_fdout(&pipex, cmds);
 	redir_fdin(&pipex, cmds, pipex->prev_pip, env_head);
 	return (EXIT_SUCCESS);
 }

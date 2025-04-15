@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/15 16:33:44 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 18:45:56 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,10 @@ int	exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
 {
 	t_o_cmd	*lastcmd;
 
+	if (!o_cmd)
+		return (no_cmd_exe(cmds, pipex, env_head));
 	lastcmd = o_cmd;
-	while (lastcmd->next)
+	while (lastcmd && lastcmd->next)
 		lastcmd = lastcmd->next;
 	if (pipe(pipex->pipe_fd) == -1)
 	{
@@ -105,7 +107,7 @@ int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex,
 
 	current = *o_cmd;
 	cmds_curr = cmds;
-	while (current->next)
+	while (current && current->next)
 	{
 		if (pipe(pipex->pipe_fd) == -1)
 			return (perror("pipe"), ft_freetab(pipex->path), exit(EXIT_FAILURE),

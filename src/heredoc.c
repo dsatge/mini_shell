@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/14 19:53:30 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:13:11 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,19 @@ static void	creat_heredoc(t_list *cmds, t_env_head *env_head)
 	exit(EXIT_SUCCESS);
 }
 
+static int	exit_close(t_pipe **pipex)
+{
+	(*pipex)->infile_fd = open("File_heredoc", O_RDONLY);
+	if ((*pipex)->infile_fd == -1)
+		return (EXIT_FAILURE);
+	unlink("File_heredoc");
+	dup2((*pipex)->infile_fd, STDIN_FILENO);
+	close((*pipex)->infile_fd);
+	signal(SIGINT, sigint_handle);
+	signal(SIGQUIT, SIG_IGN);
+	return (EXIT_SUCCESS);
+}
+
 int	heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head)
 {
 	pid_t	pid_heredoc;
@@ -71,13 +84,6 @@ int	heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head)
 		}
 		list = list->next;
 	}
-	(*pipex)->infile_fd = open("File_heredoc", O_RDONLY);
-	if ((*pipex)->infile_fd == -1)
-		return (EXIT_FAILURE);
-	unlink("File_heredoc");
-	dup2((*pipex)->infile_fd, STDIN_FILENO);
-	close((*pipex)->infile_fd);
-	signal(SIGINT, sigint_handle);
-	signal(SIGQUIT, SIG_IGN);
+	exit_close(pipex);
 	return (EXIT_SUCCESS);
 }
