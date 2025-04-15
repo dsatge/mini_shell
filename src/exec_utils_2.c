@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/15 14:19:10 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 14:58:34 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_he
 	signal_child();
 	if (lastcmd->pid == 0)
 	{
-		last_exe(cmds, pipex, lastcmd, pipex->prev_pip, env_head);
+		last_exe(cmds, pipex, lastcmd, env_head);
 		exit(0);
 	}
 	else if (lastcmd->pid > 0)
@@ -115,7 +115,7 @@ int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, t_env_head
 		signal_child();
 		if (current->pid == 0)
 		{
-			firsts_exe(*cmds, pipex, current, pipex->prev_pip, env_head);
+			firsts_exe(*cmds, pipex, current, env_head);
 			exit(EXIT_SUCCESS);
 		}
 		close(pipex->pipe_fd[1]);
