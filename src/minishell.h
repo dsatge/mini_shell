@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/15 12:15:34 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 14:48:15 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,10 +217,13 @@ int				redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_he
 int				redir_fdout_pip(t_pipe **pipex);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
 // HEREDOC
-int					heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head);
-char				*ft_expand_heredoc(char *buffer, t_env_head *env_head);
+int				heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head);
+char			*ft_expand_heredoc(char *buffer, t_env_head *env_head);
 // ERROR
-int 		error_special(char *buffer);
-void	error_print_msg(char *str, t_env_head *env_head);
+int 			error_special(char *buffer);
+void			error_print_msg(char *str, t_env_head *env_head);
+//EXPAND_UTILS
+char			*expand_env_variable(char *res, const char *str, int *i, t_env_head *env_head);
+char			*expand_exit_code(char *res, int *i);
 
 #endif
