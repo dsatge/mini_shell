@@ -6,14 +6,13 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/15 14:49:22 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 14:57:13 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
-		t_env_head *env_head)
+void	firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head)
 {
 	int		i;
 	char	*path_cmd;
@@ -26,7 +25,7 @@ void	firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
 		return ;
 	}
 	redir_fdout_pip(&pipex);
-	redir_fdin(&pipex, cmds, prev_pip, env_head);
+	redir_fdin(&pipex, cmds, pipex->prev_pip, env_head);
 	if (ft_builtin(cmds, env_head) == 0)
 		exit(EXIT_SUCCESS);
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
@@ -47,8 +46,7 @@ void	firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
 	exit(127);
 }
 
-void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
-		t_env_head *env_head)
+void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head)
 {
 	int		i;
 	char	*path_cmd;
@@ -61,7 +59,7 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip,
 		return ;
 	}
 	redir_fdout(&pipex, cmds);
-	redir_fdin(&pipex, cmds, prev_pip, env_head);
+	redir_fdin(&pipex, cmds, pipex->prev_pip, env_head);
 	if (ft_builtin(cmds, env_head) == 0)
 		exit(EXIT_FAILURE);
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
