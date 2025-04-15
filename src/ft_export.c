@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:48:19 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/15 18:54:34 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:19:19 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,7 @@ int	print_sorted_env(t_env_head *env_head)
 	}
 	sort_env_array(sorted, env_head->size);
 	i = 0;
-	while (sorted[i])
-	{
-		if (sorted[i]->type)
-		{
-			if (sorted[i]->value)
-				ft_printf(1, "declare -x %s=\"%s\"\n", sorted[i]->type, sorted[i]->value);
-			else
-				ft_printf(1, "declare -x %s\n", sorted[i]->type);
-		}
-		i++;
-	}
+	print_declare(sorted);
 	free(sorted);
 	return (EXIT_SUCCESS);
 }

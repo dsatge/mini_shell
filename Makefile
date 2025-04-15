@@ -6,7 +6,7 @@
 #    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/15 16:50:05 by dsatge           ###   ########.fr        #
+#    Updated: 2025/04/15 19:20:00 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ C_FILES = main.c\
 			exec_only_cmd.c\
 			expand_heredoc.c\
 			tokenise_utils.c\
+			ft_export_utils.c\
 			exec_redir_pipe.c\
 			signal_handling.c\
 			builtins_handling.c\
