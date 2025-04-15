@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/14 19:53:07 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 12:15:34 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void				first_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
 						int prev_pip, t_env_head *env_head);
 void				last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
 						int prev_pip, t_env_head *env_head);
-int					invert_stdin(t_list *cmds, int fd);
+// int					invert_stdin(t_list *cmds, int fd);
 int					ft_redir(t_list **cmds, t_pipe **pipex);
 int					ft_redir_in(t_list *list, t_pipe **pipex);
 int					ft_redir_out(t_list *list, t_pipe **pipex);

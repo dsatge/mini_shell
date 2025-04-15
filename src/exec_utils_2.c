@@ -6,23 +6,23 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/14 19:33:58 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 12:15:32 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	invert_stdin(t_list *cmds, int fd)
-{
-	printf("CHECK : %s, type = %i\n", cmds->cmd->tab[1], cmds->cmd->type);
-	fd = open(cmds->cmd->tab[1], O_RDONLY);
-	if (fd == -1)
-		return (perror("open failed\n"), -1);
-	if (dup2(fd, STDIN_FILENO) == -1)
-		return (-1);
-	close(fd);
-	return (0);
-}
+// static int invert_stdin(t_list *cmds, int fd)
+// {
+// 	printf("CHECK : %s, type = %i\n", cmds->cmd->tab[1], cmds->cmd->type);
+// 	fd = open(cmds->cmd->tab[1], O_RDONLY);
+// 	if (fd == -1)
+// 		return (perror("open failed\n"), -1);
+// 	if (dup2(fd, STDIN_FILENO) == -1)
+// 		return (-1);
+// 	close(fd);
+// 	return (0);
+// }
 
 char	**buildtab(t_env_head *env_head)
 {

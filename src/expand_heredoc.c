@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:46:23 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 19:54:07 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 12:07:02 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ char	*ft_expand_heredoc(char *buffer, t_env_head *env_head)
 
 	if (!buffer)
 		return (NULL);
-	expanded = ft_expand_env_variable(buffer, env_head);
+	expanded = ft_expand_env_vars(buffer, env_head);
 	if (ft_strcmp(buffer, expanded) != 0)
 	{
 		free(buffer);
