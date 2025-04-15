@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
 /*   Updated: 2025/04/15 18:21:46 by dsatge           ###   ########.fr       */
@@ -117,6 +117,7 @@ typedef struct s_list
 	int				cmd_nbr;
 	t_cmd			*cmd;
 	t_o_cmd			*o_cmd;
+	t_pipe			*pipex;
 }					t_list;
 
 typedef struct s_minish
@@ -175,7 +176,7 @@ int					pipe_cmds(t_token *list, t_list *cmds);
 // PRINT_TEST_LIST
 
 // COMMANDS
-int				ft_builtin(t_list *cmds, t_env_head *env_head);
+int				ft_builtin(t_list *cmds, t_env_head *env_head, char **envp);
 int				ft_init_env(char **env, t_env_head *env_head);
 char			*get_value_env(char *cmd);
 char			*get_type_env(char *cmd);
@@ -184,7 +185,7 @@ int				ft_cd(char **cmd);
 int				ft_pwd(char **cmd);
 void			ft_env(t_env_head *env_head);
 void			ft_unset(char **cmds, t_env_head *env_head);
-int				ft_exit(t_list *cmds, t_env_head *env_head);
+int				ft_exit(t_list *cmds, t_env_head *env_head, char **envp);
 int				ft_export(char **cmd, t_env_head *env_head);
 //EXEC
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);

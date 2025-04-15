@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:48:19 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/14 19:42:35 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:54:34 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,79 @@ static void	creation(t_env_head *env_head, char *cmd, char *type)
 	env_head->size++;
 }
 
+void	sort_env_array(t_env **arr, int size)
+{
+	int		i;
+	int		j;
+	t_env	*tmp;
+
+	i = 0;
+	while (i < size - 1)
+	{
+		j = 0;
+		while (j < size - i - 1)
+		{
+			if (ft_strcmp(arr[j]->type, arr[j + 1]->type) > 0)
+			{
+				tmp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+int	print_sorted_env(t_env_head *env_head)
+{
+	t_env	**sorted;
+	t_env	*tmp;
+	int		i;
+
+	sorted = ft_calloc(env_head->size + 1, sizeof(t_env *));
+	if (!sorted)
+		return (EXIT_FAILURE);
+	tmp = env_head->head;
+	i = 0;
+	while (tmp)
+	{
+		sorted[i] = tmp;
+		tmp = tmp->next;
+		i++;
+	}
+	sort_env_array(sorted, env_head->size);
+	i = 0;
+	while (sorted[i])
+	{
+		if (sorted[i]->type)
+		{
+			if (sorted[i]->value)
+				ft_printf(1, "declare -x %s=\"%s\"\n", sorted[i]->type, sorted[i]->value);
+			else
+				ft_printf(1, "declare -x %s\n", sorted[i]->type);
+		}
+		i++;
+	}
+	free(sorted);
+	return (EXIT_SUCCESS);
+}
+
 int	ft_export(char **cmd, t_env_head *env_head)
 {
 	int		i;
 	char	*type;
 
 	i = 1;
+	if (!cmd[1])
+		return (print_sorted_env(env_head));
 	while (cmd[i])
 	{
 		type = get_type_env(cmd[i]);
 		if (!type)
 			return (EXIT_FAILURE);
 		creation(env_head, cmd[i], type);
+		free(type);
 		i++;
 	}
 	g_error_code = 0;

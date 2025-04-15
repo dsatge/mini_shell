@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
 /*   Updated: 2025/04/15 18:45:56 by dsatge           ###   ########.fr       */
@@ -92,6 +92,7 @@ int	exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
 	if (lastcmd->pid == 0)
 	{
 		last_exe(cmds, pipex, lastcmd, env_head);
+		ft_freetab(pipex->env);
 		exit(0);
 	}
 	else if (lastcmd->pid > 0)
