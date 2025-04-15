@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 19:51:03 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 14:12:47 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**add_path(char *add, int len, char **path_split)
 	new[line] = 0;
 	return (new);
 }
-// check env with ACCESS
+
 int	init_path(char **env, t_pipe *pipex)
 {
 	char	*path;
@@ -69,17 +69,23 @@ int	init_path(char **env, t_pipe *pipex)
 	return (0);
 }
 
+static void	close_clean(t_pipe pipex, int prev_pip, char **env)
+{
+	close(pipex.pipe_fd[0]);
+	close(pipex.pipe_fd[1]);
+	ft_freetab(env);
+	if (prev_pip != -1)
+		close (prev_pip);
+	return ;
+}
+
 int	ft_exec(t_list *cmds, t_env_head *env_head)
 {
 	char	**env;
-	// pid_t	pid;
 	t_pipe	pipex;
 	t_o_cmd	*o_cmd;
-	// int		status;
-	int		prev_pip;
-  
+
 	o_cmd = NULL;
-	prev_pip = -1;
 	o_cmd = ft_only_cmd(cmds);
 	env = buildtab(env_head);
 	if (!env)
@@ -87,22 +93,17 @@ int	ft_exec(t_list *cmds, t_env_head *env_head)
 	init_pipex(cmds, &pipex, env);
 	init_path(env, &pipex);
 	if (pipex.nbr_cmds == 1)
-	{
 		if (ft_builtin(cmds, env_head) == 0)
-			return (0); 
-	}
-	if (exec_multiple_cmds(&cmds, &o_cmd, &pipex, &prev_pip, env_head) != 0)
+			return (0);
+	if (exec_multiple_cmds(&cmds, &o_cmd, &pipex, env_head) != 0)
 		return (1);
 	if (pipex.nbr_cmds == 1 || pipex.nbr_cmds == 0)
 	{
 		if (ft_builtin(cmds, env_head) == 0)
 			return (0);
-		return (exec_single_cmd(cmds, &pipex, o_cmd, prev_pip, env_head));
+		if (exec_single_cmd(cmds, &pipex, o_cmd, env_head) == EXIT_FAILURE)
+			return (-1);
 	}
-	close(pipex.pipe_fd[0]);
-	close(pipex.pipe_fd[1]);
-	ft_freetab(env);
-	if (prev_pip != -1)	
-		close (prev_pip);
+	close_clean(pipex, pipex.prev_pip, env);
 	return (0);
 }

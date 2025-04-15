@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/14 19:09:06 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/15 12:36:25 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	wait_commands(t_o_cmd *cmd)
 	}
 }
 
-int	exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t_env_head *env_head)
+int	exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head)
 {
 	t_o_cmd *lastCmd;
 	
@@ -88,7 +88,7 @@ int	exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t
 	signal_child();
 	if (lastCmd->pid == 0)
 	{
-		last_exe(cmds, pipex, lastCmd, prev_pip, env_head);
+		last_exe(cmds, pipex, lastCmd, pipex->prev_pip, env_head);
 		exit(0);
 	}
 	else if (lastCmd->pid > 0)
@@ -96,7 +96,7 @@ int	exec_single_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, int prev_pip, t
 	return (0);
 }
 
-int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, int *prev_pip, t_env_head *env_head)
+int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, t_env_head *env_head)
 {
 	t_o_cmd	*current;
 	t_list	**cmds_curr;
@@ -113,11 +113,11 @@ int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, int *prev_
 		signal_child();
 		if (current->pid == 0)
 		{
-			first_exe(*cmds, pipex, current, *prev_pip, env_head);
+			first_exe(*cmds, pipex, current, pipex->prev_pip, env_head);
 			exit(EXIT_SUCCESS);
 		}
 		close(pipex->pipe_fd[1]);
-		*prev_pip = pipex->pipe_fd[0];
+		pipex->prev_pip = pipex->pipe_fd[0];
 		next_cmdexe(cmds_curr, &current, pipex);
 	}
 	return (0);
