@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/15 17:36:59 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:11:12 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ int	init_path(char **env, t_pipe *pipex)
 
 static void	close_clean(t_pipe pipex, int prev_pip, char **env)
 {
-    close(pipex.pipe_fd[0]);
-    close(pipex.pipe_fd[1]);
-    ft_freetab(env);
-    if (prev_pip != -1)
-        close(prev_pip);
-    return;
+	close(pipex.pipe_fd[0]);
+	close(pipex.pipe_fd[1]);
+	ft_freetab(env);
+	if (prev_pip != -1)
+		close(prev_pip);
+	return ;
 }
 
 int	ft_exec(t_list *cmds, t_env_head *env_head)
