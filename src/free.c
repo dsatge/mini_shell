@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 19:43:58 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 20:04:15 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	free_tocmd(t_o_cmd *o_cmd)
 		free_tab(tmp->tab);
 		free(tmp);
 	}
+	o_cmd = NULL;
 	return ;
 }
 
@@ -104,5 +105,8 @@ void	free_all(t_minish *minish, bool clean_env)
 	free_cmds(minish->cmds);
 	free_tocmd(minish->o_cmd);
 	if (clean_env == true)
+	{
 		free_env(&minish->env);
+		free(minish);
+	}
 }

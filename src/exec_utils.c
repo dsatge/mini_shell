@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 19:00:50 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 19:48:54 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	no_cmd_exe(t_list *cmds, t_minish *minish, t_env_head *env_head)
 	if (pipe(minish->pipex->pipe_fd) == -1)
 	{
 		perror("pipe");
-		ft_freetab(minish->pipex->path);
+		free_all(minish, 0);
 		exit(EXIT_FAILURE);
 	}
 	pid = fork();
