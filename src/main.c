@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 15:03:54 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 15:17:25 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ void	ft_handle_input_line(char *buffer, t_minish *mini_struct)
 			return ;
 		cmds_list(head, cmds);
 		curr_cmd = cmds;
-		// ft_exec(curr_cmd, &mini_struct->env, mini_struct);
-		ft_exec(&mini_struct->env, mini_struct);
+		ft_exec(curr_cmd, &mini_struct->env, mini_struct);
+		// ft_exec(&mini_struct->env, mini_struct);
 		free_list(head);
 		free_cmds(cmds);
 	}
@@ -104,8 +104,8 @@ void	ft_prompt(t_token *head, t_minish *mini_struct, char **env)
 					return ;
 				cmds_list(head, mini_struct->cmds);
 				curr_cmd = mini_struct->cmds;
-				// ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
-				ft_exec(&mini_struct->env, mini_struct);
+				ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
+				// ft_exec(&mini_struct->env, mini_struct);
 				free_list(head);
 				free_cmds(curr_cmd);
 			}

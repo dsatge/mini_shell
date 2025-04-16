@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 15:03:07 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 15:19:04 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,30 +79,30 @@ static void	close_clean(t_pipe *pipex, int prev_pip, char **env)
 	return ;
 }
 
-int	ft_exec(t_env_head *env_head, t_minish *minish)
+int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
 {
 	char	**env;
-	t_o_cmd	*o_cmd;
 
-	o_cmd = NULL;
-	o_cmd = ft_only_cmd(minish->cmds);
-	printf("content is %s\n", o_cmd->tab[0]);
+	minish->o_cmd = malloc(sizeof(t_o_cmd));
+	minish->o_cmd = ft_only_cmd(cmds);
 	env = buildtab(env_head);
 	if (!env)
 		return (-1);
 	minish->pipex = malloc(sizeof(t_pipe));
-	init_pipex(minish->cmds, minish->pipex, env);
+	init_pipex(cmds, minish->pipex, env);
 	init_path(env, minish->pipex);
 	if (minish->pipex->nbr_cmds == 1)
+	{
 		if (ft_builtin(env_head, env, minish) == 0)
 			return (0);
-	if (exec_multiple_cmds(&o_cmd, minish, env_head) != 0)
+	}
+	if (exec_multiple_cmds(&minish->o_cmd, minish, env_head) != 0)
 		return (1);
 	if (minish->pipex->nbr_cmds == 1 || minish->pipex->nbr_cmds == 0)
 	{
 		if (ft_builtin(env_head, env, minish) == 0)
 			return (0);
-		if (exec_one_cmd(minish, o_cmd, env_head) == EXIT_FAILURE)
+		if (exec_one_cmd(minish, minish->o_cmd, env_head) == EXIT_FAILURE)
 			return (-1);
 	}
 	close_clean(minish->pipex, minish->pipex->prev_pip, env);
