@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/10 17:18:51 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:46:47 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,19 @@ void	free_tab(char **tab)
 		free(tab[i]);
 		i++;
 	}
+}
+
+void	free_minish(t_minish *minish)
+{
+	if (!minish)
+	{
+		ft_printf(2, "oups\n");
+		return ;
+	}
+	if (minish->element)
+	{
+		free_list(minish->element);
+		free_env(&minish->env);
+	}
+	return ;
 }

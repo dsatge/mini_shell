@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/16 12:58:29 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:31:18 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,15 +117,16 @@ typedef struct s_list
 	int				cmd_nbr;
 	t_cmd			*cmd;
 	t_o_cmd			*o_cmd;
-	t_pipe			*pipex;
+	// t_pipe			*pipex;
 }					t_list;
 
 typedef struct s_minish
 {
-	t_token			*element;
-	t_type			*type;
-	t_quote			*quote;
-	t_env_head		env;
+	t_token			*element;//ft_del existe
+	t_type			*type;//enum
+	t_quote			*quote;//enum
+	t_env_head		env;//ft_del existe
+	t_pipe			*pipex;//env & path en char** A GERER
 }					t_minish;
 
 extern int			g_error_code;
@@ -165,6 +166,7 @@ void				free_list(t_token *list);
 void				free_cmds(t_list *cmds);
 void				free_env(t_env_head *env_head);
 void				free_tab(char **tab);
+void				free_minish(t_minish *minish);
 // LIST
 int					cmds_list(t_token *list, t_list *cmds);
 int					init_cmds_list(t_list *cmds, t_token *list, int next);
@@ -176,7 +178,7 @@ int					pipe_cmds(t_token *list, t_list *cmds);
 // PRINT_TEST_LIST
 
 // COMMANDS
-int				ft_builtin(t_list *cmds, t_env_head *env_head, char **envp);
+int				ft_builtin(t_list *cmds, t_env_head *env_head, char **envp, t_minish *minish);
 int				ft_init_env(char **env, t_env_head *env_head);
 char			*get_value_env(char *cmd);
 char			*get_type_env(char *cmd);
@@ -185,7 +187,7 @@ int				ft_cd(char **cmd);
 int				ft_pwd(char **cmd);
 void			ft_env(t_env_head *env_head);
 void			ft_unset(char **cmds, t_env_head *env_head);
-int				ft_exit(t_list *cmds, t_env_head *env_head, char **envp);
+int				ft_exit(t_list *cmds, t_env_head *env_head, char **envp, t_minish *minish);
 int				ft_export(char **cmd, t_env_head *env_head);
 //EXEC
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
@@ -194,18 +196,18 @@ char			**add_path(char *add, int len, char **path_split);
 int				init_path(char **env, t_pipe *pipex);
 void			free_tab_2(char **tab, int size);
 char			**buildtab(t_env_head *env_head);
-int				ft_exec(t_list *cmds, t_env_head *env_head);
+int				ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish);
 //EXEC_INIT
 int				ft_count_cmds(t_list *cmd_list);
 int				next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex);
-int				exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head);
-int				exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex, t_env_head *env_head);
+int				exec_one_cmd(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head);
+int				exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head);
 //EXEC_ONLY_CMD
 t_o_cmd			*ft_only_cmd(t_list *cmds);
 //EXEC_UTILS
-void			firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head);
-void			last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd, t_env_head *env_head);
-int				no_cmd_exe(t_list *cmds, t_pipe *pipex, t_env_head *env_head);
+void			firsts_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head);
+void			last_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head);
+int				no_cmd_exe(t_list *cmds, t_minish *minish, t_env_head *env_head);
 int				ft_redir(t_list **cmds, t_pipe **pipex);
 int				ft_redir_in(t_list *list, t_pipe **pipex);
 int				ft_redir_out(t_list *list, t_pipe **pipex);

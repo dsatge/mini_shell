@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/15 17:14:13 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:41:01 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_handle_input_line(char *buffer, t_minish *mini_struct)
 			return ;
 		cmds_list(head, cmds);
 		curr_cmd = cmds;
-		ft_exec(curr_cmd, &mini_struct->env);
+		ft_exec(curr_cmd, &mini_struct->env, mini_struct);
 		free_list(head);
 		free_cmds(cmds);
 	}
@@ -104,7 +104,7 @@ void	ft_prompt(t_token *head, t_minish *mini_struct, char **env)
 					return ;
 				cmds_list(head, cmds);
 				curr_cmd = cmds;
-				ft_exec(curr_cmd, &mini_struct->env);
+				ft_exec(curr_cmd, &mini_struct->env, mini_struct);
 				free_list(head);
 				free_cmds(cmds);
 			}

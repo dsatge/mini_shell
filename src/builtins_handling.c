@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_handling.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/15 17:07:32 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:28:54 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_builtin(t_list *cmds, t_env_head *env_head, char **envp)
+int	ft_builtin(t_list *cmds, t_env_head *env_head, char **envp, t_minish *minish)
 {
 	if (!cmds && !cmds->cmd && !cmds->cmd->tab)
 		return (1);
 	ft_expand_args(cmds, env_head);
 	if (ft_strcmp(cmds->cmd->tab[0], "exit") == 0)
-		return (ft_exit(cmds, env_head, envp), 0);
+		return (ft_exit(cmds, env_head, envp, minish), 0);
 	else if (ft_strcmp(cmds->cmd->tab[0], "echo") == 0)
 		return (ft_echo(cmds->cmd->tab), 0);
 	else if (ft_strcmp(cmds->cmd->tab[0], "cd") == 0)
