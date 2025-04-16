@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/16 15:47:28 by enschnei         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/16 15:12:40 by dsatge           ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2025/04/16 15:56:22 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +116,6 @@ typedef struct s_list
 	struct s_list	*head;
 	int				cmd_nbr;
 	t_cmd			*cmd;
-<<<<<<< HEAD
-	t_o_cmd			*o_cmd;
-=======
-	// t_o_cmd			*o_cmd;
-	// t_pipe			*pipex;
->>>>>>> main
 }					t_list;
 
 typedef struct s_minish
