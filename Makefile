@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
+#    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/15 19:20:00 by dsatge           ###   ########.fr        #
+#    Updated: 2025/04/16 12:59:49 by enschnei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,9 @@ C_FILES = main.c\
 			ft_export.c\
 			exec_init.c\
 			exec_utils.c\
-			exec_inchild.c\
 			exec_redir.c\
 			exec_utils_2.c\
+			exec_inchild.c\
 			expand_utils.c\
 			line_to_words.c\
 			exec_only_cmd.c\
@@ -40,6 +40,7 @@ C_FILES = main.c\
 			ft_export_utils.c\
 			exec_redir_pipe.c\
 			signal_handling.c\
+			exec_redir_types.c\
 			builtins_handling.c\
 			line_to_words_utils.c\
 
