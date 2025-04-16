@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/16 13:31:18 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 15:12:40 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ typedef struct s_list
 	struct s_list	*head;
 	int				cmd_nbr;
 	t_cmd			*cmd;
-	t_o_cmd			*o_cmd;
+	// t_o_cmd			*o_cmd;
 	// t_pipe			*pipex;
 }					t_list;
 
@@ -127,6 +127,8 @@ typedef struct s_minish
 	t_quote			*quote;//enum
 	t_env_head		env;//ft_del existe
 	t_pipe			*pipex;//env & path en char** A GERER
+	t_list			*cmds;
+	t_o_cmd			*o_cmd;
 }					t_minish;
 
 extern int			g_error_code;
@@ -178,7 +180,7 @@ int					pipe_cmds(t_token *list, t_list *cmds);
 // PRINT_TEST_LIST
 
 // COMMANDS
-int				ft_builtin(t_list *cmds, t_env_head *env_head, char **envp, t_minish *minish);
+int				ft_builtin(t_env_head *env_head, char **envp, t_minish *minish);
 int				ft_init_env(char **env, t_env_head *env_head);
 char			*get_value_env(char *cmd);
 char			*get_type_env(char *cmd);
@@ -187,7 +189,7 @@ int				ft_cd(char **cmd);
 int				ft_pwd(char **cmd);
 void			ft_env(t_env_head *env_head);
 void			ft_unset(char **cmds, t_env_head *env_head);
-int				ft_exit(t_list *cmds, t_env_head *env_head, char **envp, t_minish *minish);
+int				ft_exit(t_env_head *env_head, char **envp, t_minish *minish);
 int				ft_export(char **cmd, t_env_head *env_head);
 //EXEC
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);
@@ -200,8 +202,8 @@ int				ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish);
 //EXEC_INIT
 int				ft_count_cmds(t_list *cmd_list);
 int				next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex);
-int				exec_one_cmd(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head);
-int				exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head);
+int				exec_one_cmd(t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head);
+int				exec_multiple_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head);
 //EXEC_ONLY_CMD
 t_o_cmd			*ft_only_cmd(t_list *cmds);
 //EXEC_UTILS
