@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/16 15:04:09 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 18:57:05 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**buildtab(t_env_head *env_head)
 		tmp = tmp->next;
 		i++;
 	}
-	env[i] = NULL;
+	env[i] = 0;
 	return (env);
 }
 

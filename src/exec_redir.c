@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/11 16:13:58 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 17:18:08 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ int	redir_in(t_pipe **pipex, t_list *list)
 	}
 	(*pipex)->fd = open(list->cmd->tab[1], O_RDONLY);
 	if ((*pipex)->fd == -1)
-		return (-1);
+	{
+		perror("bash: ");
+		exit (1); // faire fonction qui clean et exit 1
+	}
 	(*pipex)->infile_fd = (*pipex)->fd;
 	(*pipex)->redir_in = 1;
 	return (0);

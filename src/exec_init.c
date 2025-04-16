@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:51:54 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 13:46:12 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 18:58:15 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 	(void)cmds;
 	if (env[0] == NULL)
 		pipex->abs_path = -1;
-	else
-		pipex->env = env;
+	pipex->env = env;
 }
 
 int	next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex)

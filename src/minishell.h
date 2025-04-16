@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/16 15:12:40 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 19:32:20 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ typedef struct s_pipe
 	int		backup_stdin;
 	int		backup_stdout;
 	int		abs_path;
-	char	**env;
 	char	**path;
+	char	**env;
 }	t_pipe;
 
 typedef struct s_list
@@ -122,20 +122,33 @@ typedef struct s_list
 
 typedef struct s_minish
 {
-	t_token			*element;//ft_del existe
+	t_token			*element;//free_list
 	t_type			*type;//enum
 	t_quote			*quote;//enum
 	t_env_head		env;//ft_del existe
 	t_pipe			*pipex;//env & path en char** A GERER
-	t_list			*cmds;
+	t_list			*cmds;// free_cmds
 	t_o_cmd			*o_cmd;
 }					t_minish;
+
+// int main(void)
+// {
+// 	t_minish data;
+
+// 	avant loop:
+// 	memset(&data, sizeof(t_minish), 0);
+// 	apres loop:
+// 	memset(&data.element, sizeof(t_minish), 0);
+// 	memset(&data.tpye, sizeof(t_minish), 0);
+// 	memset(&data.elem, sizeof(t_minish), 0);
+// }
+
 
 extern int			g_error_code;
 
 // MAIN
-int					ft_buffer(char *buffer, t_token *token_list,
-						t_minish *mini_struct);
+int					ft_buffer(char *buffer,	t_token *token_list,
+	t_minish *mini_struct);
 // LINE_TO_WORDS_UTILS
 bool				is_White_Space(char c);
 bool				is_redir_pipe(char c);
@@ -168,7 +181,7 @@ void				free_list(t_token *list);
 void				free_cmds(t_list *cmds);
 void				free_env(t_env_head *env_head);
 void				free_tab(char **tab);
-void				free_minish(t_minish *minish);
+void				free_all(t_minish *minish, bool clean_env);
 // LIST
 int					cmds_list(t_token *list, t_list *cmds);
 int					init_cmds_list(t_list *cmds, t_token *list, int next);
@@ -180,7 +193,7 @@ int					pipe_cmds(t_token *list, t_list *cmds);
 // PRINT_TEST_LIST
 
 // COMMANDS
-int				ft_builtin(t_env_head *env_head, char **envp, t_minish *minish);
+int				ft_builtin(t_env_head *env_head, t_minish *minish);
 int				ft_init_env(char **env, t_env_head *env_head);
 char			*get_value_env(char *cmd);
 char			*get_type_env(char *cmd);
@@ -189,7 +202,7 @@ int				ft_cd(char **cmd);
 int				ft_pwd(char **cmd);
 void			ft_env(t_env_head *env_head);
 void			ft_unset(char **cmds, t_env_head *env_head);
-int				ft_exit(t_env_head *env_head, char **envp, t_minish *minish);
+int				ft_exit(t_env_head *env_head, t_minish *minish);
 int				ft_export(char **cmd, t_env_head *env_head);
 //EXEC
 void			init_pipex(t_list *cmds, t_pipe *pipex, char **env);

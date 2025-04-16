@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 15:19:04 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 18:56:53 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,14 @@ int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
 	init_path(env, minish->pipex);
 	if (minish->pipex->nbr_cmds == 1)
 	{
-		if (ft_builtin(env_head, env, minish) == 0)
+		if (ft_builtin(env_head, minish) == 0)
 			return (0);
 	}
 	if (exec_multiple_cmds(&minish->o_cmd, minish, env_head) != 0)
 		return (1);
 	if (minish->pipex->nbr_cmds == 1 || minish->pipex->nbr_cmds == 0)
 	{
-		if (ft_builtin(env_head, env, minish) == 0)
+		if (ft_builtin(env_head, minish) == 0)
 			return (0);
 		if (exec_one_cmd(minish, minish->o_cmd, env_head) == EXIT_FAILURE)
 			return (-1);

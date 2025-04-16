@@ -6,19 +6,19 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/16 14:54:02 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 18:48:54 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_builtin(t_env_head *env_head, char **envp, t_minish *minish)
+int	ft_builtin(t_env_head *env_head, t_minish *minish)
 {
 	if (!minish->cmds && !minish->cmds->cmd && !minish->cmds->cmd->tab)
 		return (1);
 	ft_expand_args(minish->cmds, env_head);
 	if (ft_strcmp(minish->cmds->cmd->tab[0], "exit") == 0)
-		return (ft_exit(env_head, envp, minish), 0);
+		return (ft_exit(env_head, minish), 0);
 	else if (ft_strcmp(minish->cmds->cmd->tab[0], "echo") == 0)
 		return (ft_echo(minish->cmds->cmd->tab), 0);
 	else if (ft_strcmp(minish->cmds->cmd->tab[0], "cd") == 0)

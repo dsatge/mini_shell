@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 13:46:47 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 18:28:38 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	free_cmds(t_list *cmds)
 {
 	t_list	*tmp;
 
+	if (!cmds)
+		return ;
 	cmds = cmds->head;
 	while (cmds)
 	{
@@ -42,16 +44,11 @@ void	free_cmds(t_list *cmds)
 		{
 			if (cmds->cmd && cmds->cmd->tab)
 				free_tab(cmds->cmd->tab);
-			if (cmds->cmd && cmds->cmd->tab)
-				free(cmds->cmd->tab);
-			if (cmds->cmd)
-				free(cmds->cmd);
 		}
 		tmp = cmds;
 		cmds = cmds->next;
 		free(tmp);
 	}
-	free(cmds);
 }
 
 void	free_tab(char **tab)
@@ -66,19 +63,45 @@ void	free_tab(char **tab)
 		free(tab[i]);
 		i++;
 	}
+	free(tab);
 }
 
-void	free_minish(t_minish *minish)
+static void	free_tpipe(t_pipe *pipex)
 {
-	if (!minish)
-	{
-		ft_printf(2, "oups\n");
+	if (!pipex)
 		return ;
-	}
-	if (minish->element)
+	if (pipex->env)
+		free_tab(pipex->env);
+	if (pipex->path)
+		free_tab(pipex->path);
+	return ;
+}
+
+void	free_tocmd(t_o_cmd *o_cmd)
+{
+	t_o_cmd	*tmp;
+
+	if (!o_cmd)
+		return ;
+	while (o_cmd)
 	{
-		free_list(minish->element);
-		free_env(&minish->env);
+		tmp = o_cmd;
+		o_cmd = o_cmd->next;
+		free_tab(tmp->tab);
+		free(tmp);
 	}
 	return ;
+}
+
+
+void	free_all(t_minish *minish, bool clean_env)
+{
+	if (!minish)
+		return ;
+	free_list(minish->element);
+	free_tpipe(minish->pipex);
+	free_cmds(minish->cmds);
+	free_tocmd(minish->o_cmd);
+	if (clean_env == true)
+		free_env(&minish->env);
 }
