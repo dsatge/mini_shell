@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 15:55:55 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:47:17 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	ft_handle_input_line(char *buffer, t_minish *mini_struct)
 		cmds_list(head, cmds);
 		curr_cmd = cmds;
 		ft_exec(curr_cmd, &mini_struct->env, mini_struct);
-		// ft_exec(&mini_struct->env, mini_struct);
 		free_list(head);
 		free_cmds(cmds);
 	}
@@ -88,12 +87,13 @@ static void	ft_prompt(t_token *head, t_minish *mini_struct)
 	{
 		signal_handle();
 		if (isatty(STDIN_FILENO) == 0)
-		{
-			rl_on_new_line();
-			buffer = readline("");
-		}
-		else	
+			buffer = get_next_line(STDIN_FILENO);
+		else
 			buffer = readline(PROMPT);
+			// {
+			// 	ft_free_all(avec l environement)
+			// 	exit(0);
+			// }
 		if (!buffer)
 			break ;
 		buf_value = ft_buffer(buffer, head, mini_struct);
@@ -112,7 +112,6 @@ static void	ft_prompt(t_token *head, t_minish *mini_struct)
 				cmds_list(head, mini_struct->cmds);
 				curr_cmd = mini_struct->cmds;
 				ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
-				// ft_exec(&mini_struct->env, mini_struct);
 				free_list(head);
 				free_cmds(curr_cmd);
 			}
