@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/15 18:45:56 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:18:31 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,20 @@ static void	wait_commands(t_o_cmd *cmd)
 	}
 }
 
-int	exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
+int	exec_one_cmd(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 	t_env_head *env_head)
 {
 	t_o_cmd	*lastcmd;
 
 	if (!o_cmd)
-		return (no_cmd_exe(cmds, pipex, env_head));
+		return (no_cmd_exe(cmds, minish, env_head));
 	lastcmd = o_cmd;
 	while (lastcmd && lastcmd->next)
 		lastcmd = lastcmd->next;
-	if (pipe(pipex->pipe_fd) == -1)
+	if (pipe(minish->pipex->pipe_fd) == -1)
 	{
 		perror("pipe");
-		ft_freetab(pipex->path);
+		ft_freetab(minish->pipex->path);
 		exit(EXIT_FAILURE);
 	}
 	lastcmd->pid = fork();
@@ -91,8 +91,8 @@ int	exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
 	signal_child();
 	if (lastcmd->pid == 0)
 	{
-		last_exe(cmds, pipex, lastcmd, env_head);
-		ft_freetab(pipex->env);
+		last_exe(cmds, minish, lastcmd, env_head);
+		ft_freetab(minish->pipex->env);
 		exit(0);
 	}
 	else if (lastcmd->pid > 0)
@@ -100,7 +100,7 @@ int	exec_one_cmd(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
 	return (0);
 }
 
-int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex,
+int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_minish *minish,
 	t_env_head *env_head)
 {
 	t_o_cmd	*current;
@@ -110,8 +110,8 @@ int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex,
 	cmds_curr = cmds;
 	while (current && current->next)
 	{
-		if (pipe(pipex->pipe_fd) == -1)
-			return (perror("pipe"), ft_freetab(pipex->path), exit(EXIT_FAILURE),
+		if (pipe(minish->pipex->pipe_fd) == -1)
+			return (perror("pipe"), ft_freetab(minish->pipex->path), exit(EXIT_FAILURE),
 				0);
 		current->pid = fork();
 		if (current->pid == -1)
@@ -119,12 +119,12 @@ int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex,
 		signal_child();
 		if (current->pid == 0)
 		{
-			firsts_exe(*cmds, pipex, current, env_head);
+			firsts_exe(*cmds, minish, current, env_head);
 			exit(EXIT_SUCCESS);
 		}
-		close(pipex->pipe_fd[1]);
-		pipex->prev_pip = pipex->pipe_fd[0];
-		next_cmdexe(cmds_curr, &current, pipex);
+		close(minish->pipex->pipe_fd[1]);
+		minish->pipex->prev_pip = minish->pipex->pipe_fd[0];
+		next_cmdexe(cmds_curr, &current, minish->pipex);
 	}
 	return (0);
 }

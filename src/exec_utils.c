@@ -6,21 +6,21 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/15 19:02:44 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:19:35 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	no_cmd_exe(t_list *cmds, t_pipe *pipex, t_env_head *env_head)
+int	no_cmd_exe(t_list *cmds, t_minish *minish, t_env_head *env_head)
 {
 	pid_t	pid;
 	int		status;
 
-	if (pipe(pipex->pipe_fd) == -1)
+	if (pipe(minish->pipex->pipe_fd) == -1)
 	{
 		perror("pipe");
-		ft_freetab(pipex->path);
+		ft_freetab(minish->pipex->path);
 		exit(EXIT_FAILURE);
 	}
 	pid = fork();
@@ -29,9 +29,9 @@ int	no_cmd_exe(t_list *cmds, t_pipe *pipex, t_env_head *env_head)
 	signal_child();
 	if (pid == 0)
 	{
-		if (ft_redir_manager(cmds, pipex, env_head, 0) == EXIT_FAILURE)
+		if (ft_redir_manager(cmds, minish->pipex, env_head, 0) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		if (ft_builtin(cmds, env_head, NULL) == 0)
+		if (ft_builtin(cmds, env_head, NULL, minish) == 0)
 			return (EXIT_SUCCESS);
 		exit(0);
 	}
@@ -41,7 +41,7 @@ int	no_cmd_exe(t_list *cmds, t_pipe *pipex, t_env_head *env_head)
 	return (EXIT_SUCCESS);
 }
 
-void	firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
+void	firsts_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 	t_env_head *env_head)
 {
 	int		i;
@@ -49,21 +49,21 @@ void	firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
 
 	i = 0;
 	path_cmd = NULL;
-	if (ft_redir_manager(cmds, pipex, env_head, 1) == EXIT_FAILURE)
+	if (ft_redir_manager(cmds, minish->pipex, env_head, 1) == EXIT_FAILURE)
 		return ;
-	if (ft_builtin(cmds, env_head, NULL) == 0)
+	if (ft_builtin(cmds, env_head, NULL, minish) == 0)
 		exit(EXIT_SUCCESS);
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
-			o_cmd->tab, pipex->env) == -1)
+			o_cmd->tab, minish->pipex->env) == -1)
 		return (exit(127), perror("exe_cmd:"));
-	while (pipex->path[i])
+	while (minish->pipex->path[i])
 	{
 		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
+		path_cmd = ft_strjoin(minish->pipex->path[i], o_cmd->tab[0]);
 		if (!path_cmd)
 			return (perror("strjoin failed"), exit(1));
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab,
-				pipex->env) == -1)
+				minish->pipex->env) == -1)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
@@ -71,7 +71,7 @@ void	firsts_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
 	exit(127);
 }
 
-void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
+void	last_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 	t_env_head *env_head)
 {
 	int		i;
@@ -79,21 +79,21 @@ void	last_exe(t_list *cmds, t_pipe *pipex, t_o_cmd *o_cmd,
 
 	i = 0;
 	path_cmd = NULL;
-	if (ft_redir_manager(cmds, pipex, env_head, 0) == EXIT_FAILURE)
+	if (ft_redir_manager(cmds, minish->pipex, env_head, 0) == EXIT_FAILURE)
 		return ;
-	if (ft_builtin(cmds, env_head, NULL) == 0)
+	if (ft_builtin(cmds, env_head, NULL, minish) == 0)
 		exit(EXIT_FAILURE);
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
-			o_cmd->tab, pipex->env) == -1)
+			o_cmd->tab, minish->pipex->env) == -1)
 		return (exit(127), perror("exe_cmd:"));
-	while (pipex->path[i])
+	while (minish->pipex->path[i])
 	{
 		free(path_cmd);
-		path_cmd = ft_strjoin(pipex->path[i], o_cmd->tab[0]);
+		path_cmd = ft_strjoin(minish->pipex->path[i], o_cmd->tab[0]);
 		if (!path_cmd)
 			return (perror("strjoin failed"), exit(1));
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab,
-				pipex->env) == -1)
+				minish->pipex->env) == -1)
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
