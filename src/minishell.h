@@ -116,8 +116,6 @@ typedef struct s_list
 	struct s_list	*head;
 	int				cmd_nbr;
 	t_cmd			*cmd;
-	// t_o_cmd			*o_cmd;
-	// t_pipe			*pipex;
 }					t_list;
 
 typedef struct s_minish
