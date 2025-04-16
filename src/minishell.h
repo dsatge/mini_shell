@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/16 13:31:18 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 15:47:28 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ typedef struct s_list
 	int				cmd_nbr;
 	t_cmd			*cmd;
 	t_o_cmd			*o_cmd;
-	// t_pipe			*pipex;
 }					t_list;
 
 typedef struct s_minish

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 13:41:01 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 15:45:35 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 {
 	(void)token_list;
 	(void)mini_struct;
+	
 	if (!buffer)
 	{
 		free_list(token_list);
@@ -75,18 +76,23 @@ void	ft_handle_input_line(char *buffer, t_minish *mini_struct)
 	free(buffer);
 }
 
-void	ft_prompt(t_token *head, t_minish *mini_struct, char **env)
+static void	ft_prompt(t_token *head, t_minish *mini_struct)
 {
 	t_list	*cmds;
 	t_list	*curr_cmd;
 	char 	*buffer;
 	int		buf_value;
 
-	(void)env;
 	while (1)
 	{
 		signal_handle();
-		buffer = readline(PROMPT);
+		if (isatty(STDIN_FILENO) == 0)
+		{
+			rl_on_new_line();
+			buffer = readline("");
+		}
+		else	
+			buffer = readline(PROMPT);
 		if (!buffer)
 			break ;
 		buf_value = ft_buffer(buffer, head, mini_struct);
@@ -129,9 +135,9 @@ int	main(int ac, char **av, char **env)
 	rl_outstream = stderr;
 	mini_struct = ft_calloc(sizeof(t_minish), 1);
 	if (!mini_struct)
-		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
+	return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
 	ft_init_env(env, &mini_struct->env);
-	ft_prompt(head, mini_struct, env);
+	ft_prompt(head, mini_struct);
 	free_env(&mini_struct->env);
 	free_list(head);
 	free(mini_struct);
