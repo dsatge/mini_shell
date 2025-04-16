@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
 /*   Updated: 2025/04/16 13:31:18 by dsatge           ###   ########.fr       */
@@ -218,6 +218,7 @@ int 			redir_d_out(t_pipe **pipex, t_list *list);
 int				redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_head);
 int				redir_fdout_pip(t_pipe **pipex);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
+
 // HEREDOC
 int				heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head);
 char			*ft_expand_heredoc(char *buffer, t_env_head *env_head);

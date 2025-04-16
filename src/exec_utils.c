@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 13:19:35 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:04:56 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int check_file(t_pipe *pipex, t_o_cmd *o_cmd)
+{
+	if (ft_strchr(o_cmd->tab[0], '/'))
+	{
+		if (access(o_cmd->tab[0], F_OK | X_OK) == 0)
+			execve(o_cmd->tab[0], o_cmd->tab, pipex->env);
+		return (ft_printf(2, "bash: %s: no such a file or a directory\n",
+				o_cmd->tab[0]), exit(127), EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
 
 int	no_cmd_exe(t_list *cmds, t_minish *minish, t_env_head *env_head)
 {
@@ -37,7 +49,7 @@ int	no_cmd_exe(t_list *cmds, t_minish *minish, t_env_head *env_head)
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-			g_error_code = WEXITSTATUS(status);
+		g_error_code = WEXITSTATUS(status);
 	return (EXIT_SUCCESS);
 }
 
@@ -56,6 +68,7 @@ void	firsts_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
 			o_cmd->tab, minish->pipex->env) == -1)
 		return (exit(127), perror("exe_cmd:"));
+ 	check_file(pipex, o_cmd);
 	while (minish->pipex->path[i])
 	{
 		free(path_cmd);
@@ -86,7 +99,8 @@ void	last_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
 			o_cmd->tab, minish->pipex->env) == -1)
 		return (exit(127), perror("exe_cmd:"));
-	while (minish->pipex->path[i])
+	check_file(pipex, o_cmd);
+  while (minish->pipex->path[i])
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(minish->pipex->path[i], o_cmd->tab[0]);
@@ -97,34 +111,6 @@ void	last_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
-	return (error_print_msg(o_cmd->tab[0], env_head), exit (127));
+	return (error_print_msg(o_cmd->tab[0], env_head), exit(127));
 }
 
-int	ft_redir_in(t_list *list, t_pipe **pipex)
-{
-	if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<") == 0)
-	{
-		if (redir_in(pipex, list) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-	}
-	if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<<") == 0)
-	{
-		(*pipex)->redir_in = 2;
-	}
-	return (EXIT_SUCCESS);
-}
-
-int	ft_redir_out(t_list *list, t_pipe **pipex)
-{
-	if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">") == 0)
-	{
-		if (redir_out(pipex, list) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-	}
-	if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], ">>") == 0)
-	{
-		if (redir_d_out(pipex, list) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}
