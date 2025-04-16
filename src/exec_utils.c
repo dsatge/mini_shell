@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 14:28:14 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 15:01:21 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	no_cmd_exe(t_list *cmds, t_minish *minish, t_env_head *env_head)
 	{
 		if (ft_redir_manager(cmds, minish->pipex, env_head, 0) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		if (ft_builtin(cmds, env_head, NULL, minish) == 0)
+		if (ft_builtin(env_head, NULL, minish) == 0)
 			return (EXIT_SUCCESS);
 		exit(0);
 	}
@@ -63,7 +63,7 @@ void	firsts_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 	path_cmd = NULL;
 	if (ft_redir_manager(cmds, minish->pipex, env_head, 1) == EXIT_FAILURE)
 		return ;
-	if (ft_builtin(cmds, env_head, NULL, minish) == 0)
+	if (ft_builtin(env_head, NULL, minish) == 0)
 		exit(EXIT_SUCCESS);
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
 			o_cmd->tab, minish->pipex->env) == -1)
@@ -94,7 +94,7 @@ void	last_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 	path_cmd = NULL;
 	if (ft_redir_manager(cmds, minish->pipex, env_head, 0) == EXIT_FAILURE)
 		return ;
-	if (ft_builtin(cmds, env_head, NULL, minish) == 0)
+	if (ft_builtin(env_head, NULL, minish) == 0)
 		exit(EXIT_FAILURE);
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
 			o_cmd->tab, minish->pipex->env) == -1)
