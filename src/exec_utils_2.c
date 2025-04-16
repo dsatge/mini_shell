@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/16 13:18:31 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 15:04:09 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,12 @@ static void	wait_commands(t_o_cmd *cmd)
 	}
 }
 
-int	exec_one_cmd(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
-	t_env_head *env_head)
+int	exec_one_cmd(t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head)
 {
 	t_o_cmd	*lastcmd;
 
 	if (!o_cmd)
-		return (no_cmd_exe(cmds, minish, env_head));
+		return (no_cmd_exe(minish->cmds, minish, env_head));
 	lastcmd = o_cmd;
 	while (lastcmd && lastcmd->next)
 		lastcmd = lastcmd->next;
@@ -91,7 +90,7 @@ int	exec_one_cmd(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 	signal_child();
 	if (lastcmd->pid == 0)
 	{
-		last_exe(cmds, minish, lastcmd, env_head);
+		last_exe(minish->cmds, minish, lastcmd, env_head);
 		ft_freetab(minish->pipex->env);
 		exit(0);
 	}
@@ -100,14 +99,13 @@ int	exec_one_cmd(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 	return (0);
 }
 
-int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_minish *minish,
-	t_env_head *env_head)
+int	exec_multiple_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 {
 	t_o_cmd	*current;
 	t_list	**cmds_curr;
 
 	current = *o_cmd;
-	cmds_curr = cmds;
+	cmds_curr = &minish->cmds;
 	while (current && current->next)
 	{
 		if (pipe(minish->pipex->pipe_fd) == -1)
@@ -119,7 +117,7 @@ int	exec_multiple_cmds(t_list **cmds, t_o_cmd **o_cmd, t_minish *minish,
 		signal_child();
 		if (current->pid == 0)
 		{
-			firsts_exe(*cmds, minish, current, env_head);
+			firsts_exe(minish->cmds, minish, current, env_head);
 			exit(EXIT_SUCCESS);
 		}
 		close(minish->pipex->pipe_fd[1]);

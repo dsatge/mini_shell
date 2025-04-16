@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 13:41:01 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/16 15:03:54 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	ft_handle_input_line(char *buffer, t_minish *mini_struct)
 			return ;
 		cmds_list(head, cmds);
 		curr_cmd = cmds;
-		ft_exec(curr_cmd, &mini_struct->env, mini_struct);
+		// ft_exec(curr_cmd, &mini_struct->env, mini_struct);
+		ft_exec(&mini_struct->env, mini_struct);
 		free_list(head);
 		free_cmds(cmds);
 	}
@@ -77,7 +78,6 @@ void	ft_handle_input_line(char *buffer, t_minish *mini_struct)
 
 void	ft_prompt(t_token *head, t_minish *mini_struct, char **env)
 {
-	t_list	*cmds;
 	t_list	*curr_cmd;
 	char 	*buffer;
 	int		buf_value;
@@ -99,14 +99,15 @@ void	ft_prompt(t_token *head, t_minish *mini_struct, char **env)
 			head = ft_split_word(buffer, mini_struct);
 			if (ft_checktype_order(head) == 0)
 			{
-				cmds = malloc(sizeof(t_list));
-				if (!cmds)
+				mini_struct->cmds = malloc(sizeof(t_list));
+				if (!mini_struct->cmds)
 					return ;
-				cmds_list(head, cmds);
-				curr_cmd = cmds;
-				ft_exec(curr_cmd, &mini_struct->env, mini_struct);
+				cmds_list(head, mini_struct->cmds);
+				curr_cmd = mini_struct->cmds;
+				// ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
+				ft_exec(&mini_struct->env, mini_struct);
 				free_list(head);
-				free_cmds(cmds);
+				free_cmds(curr_cmd);
 			}
 			else
 				free_list(head);
