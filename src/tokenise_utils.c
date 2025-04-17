@@ -6,13 +6,13 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:10:34 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 19:45:01 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/17 15:01:47 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_token_type(t_token *element, int quote_typ)
+void	ft_token_type(t_token *element)
 {
 	if (ft_ispipe(*element) == 0)
 		element->type = pip;
@@ -20,7 +20,7 @@ void	ft_token_type(t_token *element, int quote_typ)
 		element->type = redir;
 	else
 		element->type = word;
-	element->quote_t = quote_typ;
+	element->quote_t = 0;
 }
 
 int	ft_ispipe(t_token element)

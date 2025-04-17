@@ -6,13 +6,13 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:02:28 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 17:25:09 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/17 10:52:29 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_White_Space(char c)
+bool	is_white_space(char c)
 {
 	if ((c >= 9 && c <= 13) || c == 32)
 	{
@@ -35,42 +35,16 @@ bool	is_redir_pipe(char c)
 char	*redir_pipe_to_word(char *buffer, int *i)
 {
 	char	*word;
-	
+
 	word = NULL;
 	if (buffer[*i] == '|')
 		word = ft_strdup("|");
 	else if (buffer[*i] == '<')
-	{
-		if (buffer[*i] == '<' && buffer[*i + 1] == '<')
-		{
-			*i = *i + 1;
-			word = ft_strdup("<<");
-			if (!word)
-				return (NULL);
-		}
-		else
-		{
-			word = ft_strdup("<");
-			if (!word)
-				return (NULL);	
-		}
-	}
+		word = handle_less_redirection(buffer, i);
 	else if (buffer[*i] == '>')
-	{
-		if (buffer[*i] == '>' && buffer[*i + 1] == '>')
-		{
-			*i = *i + 1;
-			word = ft_strdup(">>");
-			if (!word)
-				return (NULL);
-		}
-		else
-		{
-			word = ft_strdup(">");
-			if (!word)
-				return (NULL);
-		}	
-	}
+		word = handle_greater_redirection(buffer, i);
+	if (!word)
+		return (NULL);
 	*i = *i + 1;
 	return (word);
 }

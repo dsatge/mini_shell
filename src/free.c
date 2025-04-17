@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 13:46:47 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 14:41:57 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,22 @@ void	free_minish(t_minish *minish)
 		free_env(&minish->env);
 	}
 	return ;
+}
+
+void	free_env(t_env_head *env_head)
+{
+	t_env	*tmp;
+	t_env	*next;
+
+	tmp = env_head->head;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->type);
+		free(tmp->value);
+		free(tmp);
+		tmp = next;
+	}
+	env_head->head = NULL;
+	env_head->size = 0;
 }

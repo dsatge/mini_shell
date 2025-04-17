@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 19:45:09 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/17 15:04:49 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ int	ft_checktype_order(t_token *element)
 }
 
 t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct,
-		int first_word, int quote_typ)
+		int first_word)
 {
 	t_token	*new_node;
 
 	if (first_word == 0)
 	{
 		mini_struct->element->str = word;
-		ft_token_type(mini_struct->element, quote_typ);
+		ft_token_type(mini_struct->element);
 		mini_struct->element->next = NULL;
 	}
 	else
@@ -62,11 +62,19 @@ t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct,
 		new_node->str = word;
 		if (!new_node->str)
 			return (NULL);
-		ft_token_type(new_node, quote_typ);
+		ft_token_type(new_node);
 		mini_struct->element->next = new_node;
 		mini_struct->element = mini_struct->element->next;
 	}
 	return (mini_struct->element);
+}
+
+static void	init_first_token(t_minish *mini_struct, char *word, int quote_typ)
+{
+	mini_struct->element->str = word;
+	mini_struct->element->quote_t = quote_typ;
+	ft_token_type(mini_struct->element);
+	mini_struct->element->next = NULL;
 }
 
 t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word,
@@ -75,12 +83,7 @@ t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word,
 	t_token	*new_node;
 
 	if (first_word == 0)
-	{
-		mini_struct->element->str = word;
-		mini_struct->element->quote_t = quote_typ;
-		ft_token_type(mini_struct->element, quote_typ);
-		mini_struct->element->next = NULL;
-	}
+		init_first_token(mini_struct, word, quote_typ);
 	else
 	{
 		while (mini_struct->element->next)

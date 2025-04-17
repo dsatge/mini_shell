@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 15:19:04 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 14:31:17 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	**add_path(char *add, int len, char **path_split)
 			perror("path creation");
 			return (NULL);
 			ft_freetab(new);
-			// clean_to_exit(2, *pipe);
 		}
 		line++;
 	}
@@ -100,9 +99,8 @@ int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
 		return (1);
 	if (minish->pipex->nbr_cmds == 1 || minish->pipex->nbr_cmds == 0)
 	{
-		if (ft_builtin(env_head, env, minish) == 0)
-			return (0);
-		if (exec_one_cmd(minish, minish->o_cmd, env_head) == EXIT_FAILURE)
+		if (ft_builtin(env_head, env, minish) == 0
+			|| exec_one_cmd(minish, minish->o_cmd, env_head) == EXIT_FAILURE)
 			return (-1);
 	}
 	close_clean(minish->pipex, minish->pipex->prev_pip, env);

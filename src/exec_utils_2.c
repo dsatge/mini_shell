@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/16 15:04:09 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 12:23:20 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	exec_one_cmd(t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head)
 		lastcmd = lastcmd->next;
 	if (pipe(minish->pipex->pipe_fd) == -1)
 	{
-		perror("pipe");
 		ft_freetab(minish->pipex->path);
 		exit(EXIT_FAILURE);
 	}
@@ -109,8 +108,8 @@ int	exec_multiple_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 	while (current && current->next)
 	{
 		if (pipe(minish->pipex->pipe_fd) == -1)
-			return (perror("pipe"), ft_freetab(minish->pipex->path), exit(EXIT_FAILURE),
-				0);
+			return (perror("pipe"), ft_freetab(minish->pipex->path),
+				exit(EXIT_FAILURE), 0);
 		current->pid = fork();
 		if (current->pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);
