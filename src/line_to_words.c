@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 15:44:35 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/17 16:33:33 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,29 +56,28 @@ int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
 {
 	char	*word;
 	int		start;
-	int		quote_typ;
+	int		quote_type;
 
+	quote_type = 0;
 	word = NULL;
 	start = *i;
 	if (is_redir_pipe(buffer[*i]) == true)
-	{
-		word = redir_pipe_to_word(buffer, i);
-		return (ft_tokenise_pipe_redir(word, *mini_struct, first_word), 0);
-	}
+		return (ft_tokenise_pipe_redir(redir_pipe_to_word(buffer, i),
+				*mini_struct, first_word), 0);
 	while (buffer[*i] && is_redir_pipe(buffer[*i]) == false
 		&& is_white_space(buffer[*i]) == false)
 	{
 		if (buffer[*i] == '\'' || buffer[*i] == '"')
 		{
-			quote_typ = handle_quotes(buffer, i, &start, &word);
-			if (quote_typ == -1)
+			quote_type = handle_quotes(buffer, i, &start, &word);
+			if (quote_type == -1)
 				return (-1);
 		}
 		*i = *i + 1;
 	}
 	if (start != *i && start != -1)
 		word = letters_to_word(word, buffer, start, *i);
-	return (ft_tokenise_word(word, *mini_struct, first_word, quote_typ), 0);
+	return (ft_tokenise_word(word, *mini_struct, first_word, quote_type), 0);
 }
 
 char	*ft_join_quotes(char *buffer, int *i, char *tmp)

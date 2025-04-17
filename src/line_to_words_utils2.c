@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 10:43:16 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/17 15:45:34 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/17 16:27:28 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ char	*handle_greater_redirection(char *buffer, int *i)
 
 int	handle_quotes(char *buffer, int *i, int *start, char **word)
 {
-	char	*tmp;
-	int		quote_typ;
+	char			*tmp;
+	int				quote_typ;
 
 	tmp = NULL;
 	quote_typ = ft_q_type(buffer[*i]);

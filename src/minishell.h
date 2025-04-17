@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/17 15:41:26 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/17 15:58:42 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,10 @@ typedef enum s_type
 
 typedef enum e_quote_type
 {
-	no_q,
+	no_q = 0,
 	single_q,
 	double_q,
+	error_q,
 }					t_quote_type;
 
 typedef struct s_env
