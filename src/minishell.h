@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/16 19:32:20 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 17:07:53 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ typedef struct s_list
 	struct s_list	*prev;
 	struct s_list	*head;
 	int				cmd_nbr;
-	t_cmd			*cmd;
+	t_cmd			cmd;
 	// t_o_cmd			*o_cmd;
 	// t_pipe			*pipex;
 }					t_list;
@@ -123,6 +123,7 @@ typedef struct s_list
 typedef struct s_minish
 {
 	t_token			*element;//free_list
+	t_token			*element_head;
 	t_type			*type;//enum
 	t_quote			*quote;//enum
 	t_env_head		env;//ft_del existe
@@ -246,6 +247,9 @@ char			*expand_exit_code(char *res, int *i);
 //EXEC_INCHILD
 int				ft_redir_manager(t_list *cmds, t_pipe *pipex, t_env_head *env_head, int pip);
 //EXPORT_UTILS
+
 void			print_declare(t_env **sorted);
 
+//tests
+void test_print_tab(char **tab);
 #endif

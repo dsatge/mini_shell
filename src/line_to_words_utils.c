@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:02:28 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 17:25:09 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/17 16:59:13 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,7 @@ char	*letters_to_word(char *word, char *buffer, int start, int i)
 			return (ft_putstr_fd("Error ft_strjoin: letters_to_word", 2), NULL);
 		return (free(word), free(joined_letters), joined_word);
 	}
+	else
+		free(word);
 	return (joined_letters);
 }

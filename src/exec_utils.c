@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 19:48:54 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 20:28:00 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	no_cmd_exe(t_list *cmds, t_minish *minish, t_env_head *env_head)
 	if (pipe(minish->pipex->pipe_fd) == -1)
 	{
 		perror("pipe");
-		free_all(minish, 0);
+		free_all(minish, 1);
 		exit(EXIT_FAILURE);
 	}
 	pid = fork();
@@ -42,9 +42,10 @@ int	no_cmd_exe(t_list *cmds, t_minish *minish, t_env_head *env_head)
 	if (pid == 0)
 	{
 		if (ft_redir_manager(cmds, minish->pipex, env_head, 0) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
+			return (free_all(minish, 1), EXIT_FAILURE);
 		if (ft_builtin(env_head, minish) == 0)
 			return (EXIT_SUCCESS);
+		free_all(minish, 1);
 		exit(0);
 	}
 	waitpid(pid, &status, 0);
@@ -81,6 +82,8 @@ void	firsts_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 		i++;
 	}
 	error_print_msg(o_cmd->tab[0], env_head);
+	ft_printf(2, "[FIRST CHILD]something wrong\n");
+	free_all(minish, 1);
 	exit(127);
 }
 
@@ -111,6 +114,8 @@ void	last_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
-	return (error_print_msg(o_cmd->tab[0], env_head), exit(127));
+	// TO DELETE ***********************
+	ft_printf(2, "[LAST CHILD]something wrong\n");
+	return (error_print_msg(o_cmd->tab[0], env_head), free_all(minish, 1), exit(127));
 }
 

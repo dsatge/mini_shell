@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:51:54 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 18:58:15 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 19:20:53 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_count_cmds(t_list *cmd_list)
 	current = cmd_list;
 	while (current)
 	{
-		if (current->cmd->type == word)
+		if (current->cmd.type == word)
 			cmds++;
 		current = current->next;
 	}
@@ -34,8 +34,6 @@ void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 {
 	pipex->abs_path = 0;
 	pipex->prev_pip = -1;
-	pipex->backup_stdin = dup(STDIN_FILENO);
-	pipex->backup_stdout = dup(STDOUT_FILENO);
 	pipex->nbr_cmds = ft_count_cmds(cmds);
 	pipex->redir_in = 0;
 	pipex->redir_out = 0;
@@ -52,11 +50,11 @@ int	next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex)
 		return (-1);
 	pipex->nbr_cmds--;
 	pipex->redir_pipe = 1;
-	while (cmds && (*cmds)->cmd->type != pip)
+	while (cmds && (*cmds)->cmd.type != pip)
 	{
 		(*cmds) = (*cmds)->next;
 	}
-	if (cmds && (*cmds)->cmd->type == pip)
+	if (cmds && (*cmds)->cmd.type == pip)
 		(*cmds) = (*cmds)->next;
 	(*o_cmd) = (*o_cmd)->next;
 	return (0);

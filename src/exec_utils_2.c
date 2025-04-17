@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/16 18:57:05 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 19:45:37 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int	exec_multiple_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 			firsts_exe(minish->cmds, minish, current, env_head);
 			exit(EXIT_SUCCESS);
 		}
+		close(minish->pipex->prev_pip);
 		close(minish->pipex->pipe_fd[1]);
 		minish->pipex->prev_pip = minish->pipex->pipe_fd[0];
 		next_cmdexe(cmds_curr, &current, minish->pipex);

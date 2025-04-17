@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 12:41:42 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/15 18:50:54 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 12:30:52 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	error_special(char *buffer)
 	int	i;
 
 	i = 0;
+	if (!buffer)
+		return (0);
 	if (is_only_slash_dot(buffer) == 1)
 	{
 		g_error_code = 1;

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:50:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 19:55:10 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 12:26:11 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ t_o_cmd	*ft_only_cmd(t_list *cmds)
 	list = cmds;
 	head = NULL;
 	current = NULL;
-	if (!list || !list->cmd || !list->cmd->tab[0])
+	if (!list || !list->cmd.tab[0])
 		return (NULL);
 	while (list)
 	{
-		if (list->cmd->type == word)
+		if (list->cmd.type == word)
 		{
-			new_node = fill_new_node(new_node, list->cmd->tab);
+			new_node = fill_new_node(new_node, list->cmd.tab);
 			if (!new_node)
 				return (NULL);
 			head = headinit_currnext(head, new_node, current);

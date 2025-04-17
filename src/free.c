@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 20:04:15 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 20:18:37 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,16 @@ void	free_list(t_token *list)
 {
 	t_token	*tmp;
 
-	tmp = NULL;
 	if (!list)
 		return ;
 	while (list)
 	{
-		tmp = list;
-		list = list->next;
-		if (tmp)
-		{
-			free(tmp->str);
-		}
-		free(tmp);
+		tmp = list->next;
+		free(list->str);
+		free(list);
+		list = tmp;
 	}
+	list = NULL;
 }
 
 void	free_cmds(t_list *cmds)
@@ -40,13 +37,13 @@ void	free_cmds(t_list *cmds)
 	cmds = cmds->head;
 	while (cmds)
 	{
-		if (cmds)
-		{
-			if (cmds->cmd && cmds->cmd->tab)
-				free_tab(cmds->cmd->tab);
-		}
 		tmp = cmds;
 		cmds = cmds->next;
+		if (tmp)
+		{
+			if (tmp->cmd.tab)
+				free_tab(tmp->cmd.tab);
+		}
 		free(tmp);
 	}
 }
@@ -61,6 +58,7 @@ void	free_tab(char **tab)
 	while (tab[i])
 	{
 		free(tab[i]);
+		tab[i] = NULL;
 		i++;
 	}
 	free(tab);
@@ -82,16 +80,14 @@ void	free_tocmd(t_o_cmd *o_cmd)
 {
 	t_o_cmd	*tmp;
 
-	if (!o_cmd)
-		return ;
 	while (o_cmd)
 	{
-		tmp = o_cmd;
-		o_cmd = o_cmd->next;
-		free_tab(tmp->tab);
-		free(tmp);
+		tmp = o_cmd->next;
+		free_tab(o_cmd->tab);
+		o_cmd->tab = NULL;
+		free(o_cmd);
+		o_cmd = tmp;
 	}
-	o_cmd = NULL;
 	return ;
 }
 
@@ -100,13 +96,29 @@ void	free_all(t_minish *minish, bool clean_env)
 {
 	if (!minish)
 		return ;
-	free_list(minish->element);
+	free_list(minish->element_head);
+	minish->element_head = NULL;
 	free_tpipe(minish->pipex);
+	minish->pipex = NULL;
 	free_cmds(minish->cmds);
+	minish->cmds = NULL;
 	free_tocmd(minish->o_cmd);
+	minish->o_cmd = NULL;
 	if (clean_env == true)
 	{
 		free_env(&minish->env);
 		free(minish);
 	}
 }
+
+void test_print_tab(char **tab)
+{
+	if (!tab)
+		return;
+	int i = -1;
+	while (tab[++i])
+		printf(" %s | %p \n", tab[i], &tab[i]);
+	printf("end of tab\n");
+}
+
+// void test_print_list()

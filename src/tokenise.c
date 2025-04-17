@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 19:45:09 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:07:26 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word,
 
 	if (first_word == 0)
 	{
+		mini_struct->element_head = mini_struct->element;
 		mini_struct->element->str = word;
 		mini_struct->element->quote_t = quote_typ;
 		ft_token_type(mini_struct->element, quote_typ);

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 19:29:24 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 12:25:01 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,8 @@ int	cmds_list(t_token *list, t_list *cmds)
 
 int	init_cmds_list(t_list *cmds, t_token *list, int skip)
 {
-	cmds->next = NULL;
-	cmds->prev = NULL;
-	cmds->head = NULL;
+	ft_bzero(cmds, sizeof(t_list));
 	cmds->cmd_nbr = 1;
-	cmds->cmd = NULL;
 	if (!list)
 		return (-1);
 	else
@@ -71,9 +68,9 @@ int	ft_cmd(t_token *list, t_list *cmds, int nbr_cmd)
 	int	element;
 
 	element = 0;
-	cmds->cmd = malloc(sizeof(t_cmd));
-	if (!cmds->cmd)
-		return (-1);
+	// cmd->cmd = malloc(sizeof(t_cmd));
+	// if (!cmds->cmd)
+		// return (-1);
 	if (cmds && cmds->head == NULL)
 	{
 		cmds->head = cmds;
@@ -125,19 +122,19 @@ int	redir_cmds(t_token *list, t_list *cmds)
 	i = 0;
 	if (!cmds)
 		return (-1);
-	cmds->cmd->type = redir;
-	cmds->cmd->tab = ft_calloc(sizeof(char *), (3));
-	if (!cmds->cmd->tab)
+	cmds->cmd.type = redir;
+	cmds->cmd.tab = ft_calloc(sizeof(char *), (3));
+	if (!cmds->cmd.tab)
 		return (-1);
 	while (i < 2)
 	{
-		cmds->cmd->tab[i] = ft_strdup(list->str);
-		if (!cmds->cmd->tab[i])
+		cmds->cmd.tab[i] = ft_strdup(list->str);
+		if (!cmds->cmd.tab[i])
 			return (-1);
 		i++;
 		list = list->next;
 	}
-	cmds->cmd->tab[i] = 0;
+	cmds->cmd.tab[i] = 0;
 	return (2);
 }
 
@@ -150,26 +147,26 @@ int	word_cmds(t_token *list, t_list *cmds)
 	tab_len = 0;
 	i = 0;
 	current = list;
-	cmds->cmd->type = word;
+	cmds->cmd.type = word;
 	while (current && current->type == word)
 	{
 		tab_len++;
 		current = current->next;
 	}
 	current = list;
-	cmds->cmd->tab = ft_calloc(sizeof(char *), (tab_len + 1));
-	if (!cmds->cmd->tab)
+	cmds->cmd.tab = ft_calloc(sizeof(char *), (tab_len + 1));
+	if (!cmds->cmd.tab)
 		return (-1);
 	while (current && current->type == word)
 	{
-		cmds->cmd->tab[i] = ft_strdup(current->str);
-		cmds->cmd->quote_t = current->quote_t;
-		if (!cmds->cmd->tab[i])
+		cmds->cmd.tab[i] = ft_strdup(current->str);
+		cmds->cmd.quote_t = current->quote_t;
+		if (!cmds->cmd.tab[i])
 			return (-1);
 		i++;
 		current = current->next;
 	}
-	cmds->cmd->tab[i] = 0;
+	cmds->cmd.tab[i] = 0;
 	return (tab_len);
 }
 
@@ -180,14 +177,14 @@ int	pipe_cmds(t_token *list, t_list *cmds)
 
 	tab_len = 1;
 	current = list;
-	cmds->cmd->type = pip;
-	cmds->cmd->tab = ft_calloc(sizeof(char *), (tab_len + 1));
-	if (!cmds->cmd->tab)
+	cmds->cmd.type = pip;
+	cmds->cmd.tab = ft_calloc(sizeof(char *), (tab_len + 1));
+	if (!cmds->cmd.tab)
 		return (-1);
-	cmds->cmd->tab[0] = ft_strdup("|");
-	if (!cmds->cmd->tab[0])
+	cmds->cmd.tab[0] = ft_strdup("|");
+	if (!cmds->cmd.tab[0])
 		return (-1);
-	cmds->cmd->tab[1] = 0;
+	cmds->cmd.tab[1] = 0;
 	current = current->next;
 	return (tab_len);
 }
