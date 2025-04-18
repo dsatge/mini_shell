@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 15:57:14 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/17 16:53:59 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word,
 {
 	t_token	*new_node;
 
-	printf("quote = %d\n", quote_typ);
 	if (first_word == 0)
 		init_first_token(mini_struct, word, quote_typ);
 	else

@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 14:41:49 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:40:56 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,13 @@ static void	process_input(char *buffer, t_token **head, t_minish *mini_struct)
 			return ;
 		cmds_list(*head, mini_struct->cmds);
 		curr_cmd = mini_struct->cmds;
+		// heredoc
 		ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
 		free_list(*head);
 		free_cmds(curr_cmd);
 	}
 	else
-	{
 		free_list(*head);
-	}
 	*head = NULL;
 	free(buffer);
 }

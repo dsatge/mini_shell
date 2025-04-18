@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/11 16:13:58 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 17:35:02 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,6 @@ int	redir_d_out(t_pipe **pipex, t_list *list)
 
 int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_head)
 {
-	if ((*pipex)->redir_in == 1)
-	{
-		dup2((*pipex)->infile_fd, STDIN_FILENO);
-		close((*pipex)->infile_fd);
-	}
 	else if ((*pipex)->redir_in == 2)
 	{
 		while (cmds)
@@ -74,6 +69,12 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_head)
 			cmds = cmds->next;
 		}
 	}
+	if ((*pipex)->redir_in == 1)
+	{
+		dup2((*pipex)->infile_fd, STDIN_FILENO);
+		close((*pipex)->infile_fd);
+	}
+
 	else if (prev_pip != -1)
 	{
 		dup2(prev_pip, STDIN_FILENO);
