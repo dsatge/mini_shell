@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:02:28 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 16:59:13 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 17:13:47 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@ bool	is_White_Space(char c)
 	return (false);
 }
 
-bool	is_redir_pipe(char c)
+bool	is_redir_pipe(char c, t_minish *minish)
 {
 	if (c == '|')
+	{
+		minish->pipex->nbr_cmds++;
+		printf("c = | donc nbr_cmd = %d\n", minish->pipex->nbr_cmds);
 		return (true);
+	}
 	if (c == '<')
 		return (true);
 	if (c == '>')

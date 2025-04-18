@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir_types.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:58:49 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 20:06:03 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 16:03:04 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_redir_in(t_list *list, t_pipe **pipex)
+int	ft_redir_in(t_list *list, t_pipe **pipex, t_minish *minish)
 {
 	if (list->cmd.type == redir && ft_strcmp(list->cmd.tab[0], "<") == 0)
 	{
-		if (redir_in(pipex, list) == EXIT_FAILURE)
+		if (redir_in(pipex, list, minish) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
 	if (list->cmd.type == redir && ft_strcmp(list->cmd.tab[0], "<<") == 0)

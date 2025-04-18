@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/17 17:07:53 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 17:02:37 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ typedef struct s_minish
 {
 	t_token			*element;//free_list
 	t_token			*element_head;
+	t_token			*head_token;
 	t_type			*type;//enum
 	t_quote			*quote;//enum
 	t_env_head		env;//ft_del existe
@@ -150,7 +151,7 @@ int					ft_buffer(char *buffer,	t_token *token_list,
 	t_minish *mini_struct);
 // LINE_TO_WORDS_UTILS
 bool				is_White_Space(char c);
-bool				is_redir_pipe(char c);
+bool				is_redir_pipe(char c, t_minish *minish);
 char				*redir_pipe_to_word(char *buffer, int *i);
 	// LINE_TO_WORDS
 char				*ft_quotes(char *buffer, int *i);
@@ -222,11 +223,11 @@ t_o_cmd			*ft_only_cmd(t_list *cmds);
 void			firsts_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head);
 void			last_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head);
 int				no_cmd_exe(t_list *cmds, t_minish *minish, t_env_head *env_head);
-int				ft_redir(t_list **cmds, t_pipe **pipex);
-int				ft_redir_in(t_list *list, t_pipe **pipex);
+int				ft_redir(t_list **cmds, t_pipe **pipex, t_minish *minish);
+int				ft_redir_in(t_list *list, t_pipe **pipex, t_minish *minish);
 int				ft_redir_out(t_list *list, t_pipe **pipex);
 //EXEC_REDIR
-int				redir_in(t_pipe **pipex, t_list *list);
+int				redir_in(t_pipe **pipex, t_list *list, t_minish *minish);
 int				redir_out(t_pipe **pipex, t_list *list);
 int 			redir_d_out(t_pipe **pipex, t_list *list);
 int				redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_head);
@@ -237,13 +238,13 @@ int				redir_fdout(t_pipe **pipex, t_list *cmds);
 int				heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head);
 char			*ft_expand_heredoc(char *buffer, t_env_head *env_head);
 // ERROR
-int 			error_special(char *buffer);
+int				error_special(char *buffer);
 void			error_print_msg(char *str, t_env_head *env_head);
 //EXPAND_UTILS
 char			*expand_env_variable(char *res, const char *str, int *i, t_env_head *env_head);
 char			*expand_exit_code(char *res, int *i);
 //EXEC_INCHILD
-int				ft_redir_manager(t_list *cmds, t_pipe *pipex, t_env_head *env_head, int pip);
+int				ft_redir_manager(t_minish *minish, t_pipe *pipex, t_env_head *env_head, int pip);
 //EXPORT_UTILS
 
 void			print_declare(t_env **sorted);
