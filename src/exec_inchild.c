@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/15 17:14:42 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 19:31:41 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	ft_redir_manager(t_list *cmds, t_pipe *pipex, t_env_head *env_head, int pip)
 	else
 		redir_fdout(&pipex, cmds);
 	redir_fdin(&pipex, cmds, pipex->prev_pip, env_head);
+	close(pipex->pipe_fd[0]);
+	close(pipex->pipe_fd[1]);
 	return (EXIT_SUCCESS);
 }
 
@@ -36,7 +38,7 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 	(*pipex)->redir_out = 0;
 	if (!cmds)
 		return (EXIT_FAILURE);
-	while (list && list->cmd->type != pip)
+	while (list && list->cmd.type != pip)
 	{
 		if (ft_redir_in(list, pipex) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
@@ -44,7 +46,7 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 			return (EXIT_FAILURE);
 		list = list->next;
 	}
-	if (list && list->cmd->type == pip)
+	if (list && list->cmd.type == pip)
 		list = list->next;
 	return (EXIT_SUCCESS);
 }

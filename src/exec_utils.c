@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/16 15:01:21 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 20:28:00 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	no_cmd_exe(t_list *cmds, t_minish *minish, t_env_head *env_head)
 	if (pipe(minish->pipex->pipe_fd) == -1)
 	{
 		perror("pipe");
-		ft_freetab(minish->pipex->path);
+		free_all(minish, 1);
 		exit(EXIT_FAILURE);
 	}
 	pid = fork();
@@ -42,9 +42,10 @@ int	no_cmd_exe(t_list *cmds, t_minish *minish, t_env_head *env_head)
 	if (pid == 0)
 	{
 		if (ft_redir_manager(cmds, minish->pipex, env_head, 0) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		if (ft_builtin(env_head, NULL, minish) == 0)
+			return (free_all(minish, 1), EXIT_FAILURE);
+		if (ft_builtin(env_head, minish) == 0)
 			return (EXIT_SUCCESS);
+		free_all(minish, 1);
 		exit(0);
 	}
 	waitpid(pid, &status, 0);
@@ -63,7 +64,7 @@ void	firsts_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 	path_cmd = NULL;
 	if (ft_redir_manager(cmds, minish->pipex, env_head, 1) == EXIT_FAILURE)
 		return ;
-	if (ft_builtin(env_head, NULL, minish) == 0)
+	if (ft_builtin(env_head, minish) == 0)
 		exit(EXIT_SUCCESS);
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
 			o_cmd->tab, minish->pipex->env) == -1)
@@ -81,6 +82,8 @@ void	firsts_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 		i++;
 	}
 	error_print_msg(o_cmd->tab[0], env_head);
+	ft_printf(2, "[FIRST CHILD]something wrong\n");
+	free_all(minish, 1);
 	exit(127);
 }
 
@@ -94,7 +97,7 @@ void	last_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 	path_cmd = NULL;
 	if (ft_redir_manager(cmds, minish->pipex, env_head, 0) == EXIT_FAILURE)
 		return ;
-	if (ft_builtin(env_head, NULL, minish) == 0)
+	if (ft_builtin(env_head, minish) == 0)
 		exit(EXIT_FAILURE);
 	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
 			o_cmd->tab, minish->pipex->env) == -1)
@@ -111,6 +114,8 @@ void	last_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 			return (exit(127), perror("exe_cmd:"));
 		i++;
 	}
-	return (error_print_msg(o_cmd->tab[0], env_head), exit(127));
+	// TO DELETE ***********************
+	ft_printf(2, "[LAST CHILD]something wrong\n");
+	return (error_print_msg(o_cmd->tab[0], env_head), free_all(minish, 1), exit(127));
 }
 

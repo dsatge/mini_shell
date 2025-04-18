@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/11 16:13:58 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 20:06:09 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,13 @@ int	redir_in(t_pipe **pipex, t_list *list)
 	{
 		close((*pipex)->infile_fd);
 	}
-	(*pipex)->fd = open(list->cmd->tab[1], O_RDONLY);
+	(*pipex)->fd = open(list->cmd.tab[1], O_RDONLY);
 	if ((*pipex)->fd == -1)
-		return (-1);
+	{
+		perror("bash:");
+		// exit (1); // faire fonction qui clean et exit 1
+		return (EXIT_FAILURE);
+	}
 	(*pipex)->infile_fd = (*pipex)->fd;
 	(*pipex)->redir_in = 1;
 	return (0);
@@ -32,7 +36,7 @@ int	redir_out(t_pipe **pipex, t_list *list)
 	{
 		close((*pipex)->outfile_fd);
 	}
-	(*pipex)->fd = open(list->cmd->tab[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	(*pipex)->fd = open(list->cmd.tab[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if ((*pipex)->fd == -1)
 		return (-1);
 	(*pipex)->outfile_fd = (*pipex)->fd;
@@ -46,7 +50,7 @@ int	redir_d_out(t_pipe **pipex, t_list *list)
 	{
 		close((*pipex)->outfile_fd);
 	}
-	(*pipex)->fd = open(list->cmd->tab[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	(*pipex)->fd = open(list->cmd.tab[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if ((*pipex)->fd == -1)
 		return (-1);
 	(*pipex)->outfile_fd = (*pipex)->fd;
@@ -65,7 +69,7 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_head)
 	{
 		while (cmds)
 		{
-			if (cmds->cmd->type == redir && ft_strcmp(cmds->cmd->tab[0],
+			if (cmds->cmd.type == redir && ft_strcmp(cmds->cmd.tab[0],
 					"<<") == 0)
 			{
 				heredoc(pipex, cmds, env_head);

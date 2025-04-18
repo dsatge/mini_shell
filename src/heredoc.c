@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/15 17:13:11 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/17 12:23:40 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	creat_heredoc(t_list *cmds, t_env_head *env_head)
 	{
 		buffer = readline("heredoc> ");
 		buffer = ft_expand_heredoc(buffer, env_head);
-		if (!buffer || ft_strcmp(buffer, cmds->cmd->tab[1]) == 0)
+		if (!buffer || ft_strcmp(buffer, cmds->cmd.tab[1]) == 0)
 		{
 			free(buffer);
 			break ;
@@ -68,9 +68,9 @@ int	heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	list = cmds;
-	while (list && list->cmd->tab != pip)
+	while (list && list->cmd.tab != pip)
 	{
-		if (list->cmd->type == redir && ft_strcmp(list->cmd->tab[0], "<<") == 0)
+		if (list->cmd.type == redir && ft_strcmp(list->cmd.tab[0], "<<") == 0)
 		{
 			pid_heredoc = fork();
 			if (pid_heredoc == -1)
