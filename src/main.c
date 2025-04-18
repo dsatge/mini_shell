@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 20:24:35 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 11:54:47 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int	main(int ac, char **av, char **env)
 	if (!mini_struct)
 	return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
 	ft_init_env(env, &mini_struct->env);
-	ft_prompt(head, mini_struct, env);
+	ft_prompt(head, mini_struct);
 	// free_env(&mini_struct->env);
 	// free_list(&head);
 	free_all(mini_struct, 1);
