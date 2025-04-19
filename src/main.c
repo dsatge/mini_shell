@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 19:44:13 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:01:19 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,12 @@ static void	ft_prompt(t_minish *mini_struct)
 		{
 			if (error_special(buffer) == 1)
 				continue ;
-			mini_struct->head_token = ft_split_word(buffer, mini_struct);
-			if (!mini_struct->head_token)
+			if (ft_split_word(buffer, mini_struct) == EXIT_FAILURE)
 			{
 				free(buffer);
-				return (ft_putstr_fd("Error malloc: ft_split_word\n", 2), free_all(mini_struct, 0));
+				free(mini_struct->element);
+				free(mini_struct->pipex);
+				continue ;
 			}
 			free(buffer);
 			if (ft_checktype_order(mini_struct->head_token) == 0)

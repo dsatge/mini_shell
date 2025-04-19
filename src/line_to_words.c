@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 17:52:23 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/19 16:53:44 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,41 +110,43 @@ char	*ft_join_quotes(char *buffer, int *i, char *tmp)
 	joined_words = NULL;
 	quote_word = ft_quotes(buffer, i);
 	if (!quote_word)
-		return (ft_putstr_fd("Error malloc: ft_join_quotes", 2), NULL);
+		return (ft_putstr_fd("Error malloc: ft_join_quotes\n", 2), NULL);
 	if (tmp)
 	{
 		joined_words = ft_strjoin(tmp, quote_word);
 		if (!joined_words)
-			return (ft_putstr_fd("Error ft_strjoin: ft_join_quotes", 2), NULL);
+			return (ft_putstr_fd("Error ft_strjoin: ft_join_quotes\n", 2), NULL);
 		return (free(quote_word), free(tmp), joined_words);
 	}
 	return (quote_word);
 }
 
-t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
+int    ft_split_word(char *buffer, t_minish *mini_struct)
 {
-	int		i;
-	int		first_word;
-	t_token	*head;
+    int        i;
+    int        first_word;
+    t_token    *head;
 
-	i = 0;
-	first_word = 0;
-	mini_struct->pipex->nbr_cmds = 1;
-	mini_struct->element = malloc(sizeof(t_token));
-	if (!mini_struct->element)
-		return (NULL);
-	mini_struct->element->str = NULL;
-	mini_struct->element->quote_t = 0;
-	head = mini_struct->element;
-	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
-		i++;
-	while (buffer[i])
-	{
-		if (is_word(buffer, &i, &mini_struct, first_word) == -1)
-			return (head);
-		first_word++;
-		while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
-			i++;
-	}
-	return (head);
+    i = 0;
+    first_word = 0;
+    mini_struct->pipex->nbr_cmds = 1;
+    mini_struct->element = malloc(sizeof(t_token));
+    if (!mini_struct->element)
+        return (EXIT_FAILURE);
+    mini_struct->element->str = NULL;
+    mini_struct->element->quote_t = 0;
+    head = mini_struct->element;
+    while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
+        i++;
+    while (buffer[i])
+    {
+        if (is_word(buffer, &i, &mini_struct, first_word) == -1)
+            return (EXIT_FAILURE);
+        first_word++;
+        while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
+            i++;
+    }
+    if (head)
+        mini_struct->head_token = head;
+    return (EXIT_SUCCESS);
 }

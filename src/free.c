@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 15:49:30 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:00:52 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,10 @@ void	free_tocmd(t_o_cmd *o_cmd)
 	return ;
 }
 
-
 void	free_all(t_minish *minish, bool clean_env)
 {
 	if (!minish)
 		return ;
-	// free_list(minish->head_token);
-	// minish->head_token = NULL;
 	free_list(minish->element_head);
 	minish->element_head = NULL;
 	free_tpipe(minish->pipex);
@@ -120,7 +117,6 @@ void test_print_tab(char **tab)
 	int i = -1;
 	while (tab[++i])
 		printf(" %s | %p \n", tab[i], &tab[i]);
-	printf("end of tab\n");
 }
 
 // void test_print_list()
