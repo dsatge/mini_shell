@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 20:06:09 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 16:56:01 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	redir_in(t_pipe **pipex, t_list *list)
 {
 	if ((*pipex)->redir_in == 1)
-	{
 		close((*pipex)->infile_fd);
-	}
+	if ((*pipex)->redir_in == 2)
+		close((*pipex)->infile_fd);
 	(*pipex)->fd = open(list->cmd.tab[1], O_RDONLY);
 	if ((*pipex)->fd == -1)
 	{
@@ -60,23 +60,12 @@ int	redir_d_out(t_pipe **pipex, t_list *list)
 
 int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_head)
 {
-	if ((*pipex)->redir_in == 1)
+	(void)cmds;
+	(void)env_head;
+	if ((*pipex)->redir_in == 1 || (*pipex)->redir_in == 2)
 	{
 		dup2((*pipex)->infile_fd, STDIN_FILENO);
 		close((*pipex)->infile_fd);
-	}
-	else if ((*pipex)->redir_in == 2)
-	{
-		while (cmds)
-		{
-			if (cmds->cmd.type == redir && ft_strcmp(cmds->cmd.tab[0],
-					"<<") == 0)
-			{
-				heredoc(pipex, cmds, env_head);
-				break ;
-			}
-			cmds = cmds->next;
-		}
 	}
 	else if (prev_pip != -1)
 	{

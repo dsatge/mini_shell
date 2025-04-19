@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 20:28:00 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 16:27:40 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	firsts_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 		i++;
 	}
 	error_print_msg(o_cmd->tab[0], env_head);
-	ft_printf(2, "[FIRST CHILD]something wrong\n");
 	free_all(minish, 1);
 	exit(127);
 }
@@ -103,7 +102,7 @@ void	last_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 			o_cmd->tab, minish->pipex->env) == -1)
 		return (exit(127), perror("exe_cmd:"));
 	check_file(minish->pipex, o_cmd);
-  while (minish->pipex->path[i])
+ 	while (minish->pipex->path[i])
 	{
 		free(path_cmd);
 		path_cmd = ft_strjoin(minish->pipex->path[i], o_cmd->tab[0]);
@@ -111,11 +110,9 @@ void	last_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 			return (perror("strjoin failed"), exit(1));
 		if (access(path_cmd, F_OK | X_OK) == 0 && execve(path_cmd, o_cmd->tab,
 				minish->pipex->env) == -1)
-			return (exit(127), perror("exe_cmd:"));
+			return (perror("exe_cmd:"), free_all(minish, 1), exit(127));
 		i++;
 	}
-	// TO DELETE ***********************
-	ft_printf(2, "[LAST CHILD]something wrong\n");
 	return (error_print_msg(o_cmd->tab[0], env_head), free_all(minish, 1), exit(127));
 }
 

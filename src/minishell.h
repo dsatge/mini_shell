@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/17 17:07:53 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 16:54:43 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,6 @@ typedef struct s_pipe
 	int		nbr_cmds;
 	int		infile_fd;
 	int		outfile_fd;
-	int		backup_stdin;
-	int		backup_stdout;
 	int		abs_path;
 	char	**path;
 	char	**env;
@@ -234,8 +232,9 @@ int				redir_fdout_pip(t_pipe **pipex);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
 
 // HEREDOC
-int				heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head);
+int				heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head, char *file_name);
 char			*ft_expand_heredoc(char *buffer, t_env_head *env_head);
+int				heredoc_check(t_minish *minish, t_env_head *env_head);
 // ERROR
 int 			error_special(char *buffer);
 void			error_print_msg(char *str, t_env_head *env_head);
@@ -250,4 +249,6 @@ void			print_declare(t_env **sorted);
 
 //tests
 void test_print_tab(char **tab);
+//BAZARD
+int	redir_heredoc(t_pipe **pipex, t_list *list);
 #endif

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/17 19:45:37 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 20:01:11 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	exec_one_cmd(t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head)
 {
 	t_o_cmd	*lastcmd;
 
+	printf("appele dans exec_one_cmd\n");
+	heredoc_check(minish, env_head);
 	if (!o_cmd)
 		return (no_cmd_exe(minish->cmds, minish, env_head));
 	lastcmd = o_cmd;
@@ -106,6 +108,8 @@ int	exec_multiple_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 
 	current = *o_cmd;
 	cmds_curr = &minish->cmds;
+	printf("appele dans exec_mult_cmd\n");
+	heredoc_check(minish, env_head);
 	while (current && current->next)
 	{
 		if (pipe(minish->pipex->pipe_fd) == -1)

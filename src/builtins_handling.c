@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/17 12:26:21 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 16:37:41 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_builtin(t_env_head *env_head, t_minish *minish)
 {
+	// check infile
+	// check heredocs?
 	if (!minish->cmds && !minish->cmds->cmd.tab)
 		return (1);
 	ft_expand_args(minish->cmds, env_head);
