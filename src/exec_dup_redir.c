@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_redir_pipe.c                                  :+:      :+:    :+:   */
+/*   exec_dup_redir.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:09:29 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/19 18:11:50 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/19 20:22:08 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	redir_fdout(t_pipe **pipex, t_list *cmds)
 		dup2((*pipex)->outfile_fd, STDOUT_FILENO);
 		close((*pipex)->outfile_fd);
 	}
+	else
+		close((*pipex)->prev_pip);
 	return (0);
 }
 

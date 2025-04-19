@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/19 17:19:55 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/19 19:28:38 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,6 @@ static void	creat_heredoc(t_list *cmds, t_env_head *env_head, char *file_name)
 	exit(EXIT_SUCCESS);
 }
 
-// static int	exit_close(t_pipe **pipex, char *file_name)
-// {
-// 	(*pipex)->infile_fd = open(file_name, O_RDONLY);
-// 	if ((*pipex)->infile_fd == -1)
-// 		return (EXIT_FAILURE);
-// 	unlink(file_name);
-// 	dup2((*pipex)->infile_fd, STDIN_FILENO);
-// 	close((*pipex)->infile_fd);
-// 	signal(SIGINT, sigint_handle);
-// 	signal(SIGQUIT, SIG_IGN);
-// 	return (EXIT_SUCCESS);
-// }
-
 int	heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head, char *file_name)
 {
 	pid_t	pid_heredoc;
@@ -78,6 +65,10 @@ int	heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head, char *file_name)
 	if (pid_heredoc == 0)
 		creat_heredoc(cmds, env_head, file_name);
 	waitpid(pid_heredoc, &status, 0);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		return (EXIT_FAILURE);
+	if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
+		return (EXIT_FAILURE);
 	// exit_close(pipex, file_name);
 	return (EXIT_SUCCESS);
 }
@@ -130,11 +121,13 @@ int	heredoc_check(t_minish *minish, t_env_head *env_head)
 			file = file_name(minish->cmds->cmd.tab[1]);
 			if (!file)
 				return (EXIT_FAILURE);
-			heredoc(&minish->pipex, minish->cmds, env_head, file);
+			if (heredoc(&minish->pipex, minish->cmds, env_head, file) == EXIT_FAILURE)
+			{
+				g_error_code = 130;
+				return (unlink(file), free(file), ft_printf(2 , "\n"), EXIT_FAILURE);
+			}
 			if (heredoc_name(file, minish->cmds) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
-			// heredoc(pipex, cmds, env_head);
-			// break ;
 		}
 		minish->cmds = minish->cmds->next;
 	}

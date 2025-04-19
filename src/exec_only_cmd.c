@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:50:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 18:31:49 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/19 20:37:09 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_o_cmd	*fill_new_node(t_o_cmd *new_node, char **cmds)
 	int	i;
 
 	i = 0;
-	new_node = malloc(sizeof(t_o_cmd));
+	new_node = ft_calloc(sizeof(t_o_cmd), 1);
 	if (!new_node)
 		return (NULL);
 	if (cmds == NULL)
