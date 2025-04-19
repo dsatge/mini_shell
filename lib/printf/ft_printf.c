@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 12:31:02 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/04 13:28:29 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/19 14:37:00 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,32 +55,3 @@ int	ft_printf(int fd, const char *c, ...)
 	}
 	return (len);
 }
-/*
-int	main(void)
-{
-	char	str[] =  "Deborah";
-	char	name[] = "Satge";
-	int	age;
-	int	futur;
-	int	agehex;
-	
-	age = 24;
-	futur = 45226;
-	agehex = 24 * futur;
-	ft_printf("Hello my name is %s %c. I am %i. In %u years 
-	|| I will be %x in hex. the adress is %p %% great.\n %%%%%%%%%%%% 
-	||-> should be 6\n", str, name[0], age, futur, agehex, str);
-	printf("Hello my name is %s %c. I am %i. In %u years 
-	|| I will be %x in hex. the adress is %p %% great.\n %%%%%%%%%%%% 
-	|| -> should be 6\n", str, name[0], age, futur, agehex, str);
-	return(0);
-}
-
-int main()
-{
-	int nbr = 25;
-
-	ft_printf("%d", nbr);
-	printf("%d", nbr);
-	return(0);
-}*/

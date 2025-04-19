@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
 /*   Updated: 2025/04/18 20:01:11 by dsatge           ###   ########.fr       */
@@ -69,65 +69,33 @@ static void	wait_commands(t_o_cmd *cmd)
 	}
 }
 
-int	exec_one_cmd(t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head)
-{
-	t_o_cmd	*lastcmd;
-
-	printf("appele dans exec_one_cmd\n");
-	heredoc_check(minish, env_head);
-	if (!o_cmd)
-		return (no_cmd_exe(minish->cmds, minish, env_head));
-	lastcmd = o_cmd;
-	while (lastcmd && lastcmd->next)
-		lastcmd = lastcmd->next;
-	if (pipe(minish->pipex->pipe_fd) == -1)
-	{
-		perror("pipe");
-		ft_freetab(minish->pipex->path);
-		exit(EXIT_FAILURE);
-	}
-	lastcmd->pid = fork();
-	if (lastcmd->pid == -1)
-		return (ft_putstr_fd("ERROR\n", 2), 1);
-	signal_child();
-	if (lastcmd->pid == 0)
-	{
-		last_exe(minish->cmds, minish, lastcmd, env_head);
-		ft_freetab(minish->pipex->env);
-		exit(0);
-	}
-	else if (lastcmd->pid > 0)
-		wait_commands(o_cmd);
-	return (0);
-}
-
-int	exec_multiple_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
+int	exec_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 {
 	t_o_cmd	*current;
 	t_list	**cmds_curr;
 
 	current = *o_cmd;
 	cmds_curr = &minish->cmds;
-	printf("appele dans exec_mult_cmd\n");
-	heredoc_check(minish, env_head);
-	while (current && current->next)
+	while (minish->pipex->nbr_cmds > 0)
 	{
-		if (pipe(minish->pipex->pipe_fd) == -1)
+		heredoc_check(minish, env_head);
+    if (pipe(minish->pipex->pipe_fd) == -1)
 			return (perror("pipe"), ft_freetab(minish->pipex->path), exit(EXIT_FAILURE),
-				0);
+			0);
 		current->pid = fork();
 		if (current->pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);
 		signal_child();
 		if (current->pid == 0)
 		{
-			firsts_exe(minish->cmds, minish, current, env_head);
+			child_exe(minish->cmds, minish, current, env_head);
 			exit(EXIT_SUCCESS);
 		}
 		close(minish->pipex->prev_pip);
 		close(minish->pipex->pipe_fd[1]);
 		minish->pipex->prev_pip = minish->pipex->pipe_fd[0];
 		next_cmdexe(cmds_curr, &current, minish->pipex);
+		wait_commands(current);
 	}
 	return (0);
 }

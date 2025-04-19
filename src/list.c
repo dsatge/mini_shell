@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 12:25:01 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 13:49:55 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	cmds_list(t_token *list, t_list *cmds)
 			cmds->next = malloc(sizeof(t_list));
 			if (!cmds->next)
 				return (ft_putstr_fd("ERROR : malloc fail", 2), -1);
-			cmds = cmds->next; // remet cmd_nbr a 0
+			cmds = cmds->next;
 			cmds->head = tmp->head;
-			skip = ft_cmd(list, cmds, tmp->head->cmd_nbr); // ft t_cmd add tab
+			skip = ft_cmd(list, cmds, tmp->head->cmd_nbr);
 			cmds->next = NULL;
 			cmds->prev = tmp;
 		}

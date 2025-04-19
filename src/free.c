@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 20:18:37 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 15:49:30 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	free_all(t_minish *minish, bool clean_env)
 {
 	if (!minish)
 		return ;
+	// free_list(minish->head_token);
+	// minish->head_token = NULL;
 	free_list(minish->element_head);
 	minish->element_head = NULL;
 	free_tpipe(minish->pipex);

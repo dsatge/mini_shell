@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
 /*   Updated: 2025/04/18 20:05:56 by dsatge           ###   ########.fr       */
@@ -30,8 +30,8 @@ char	**add_path(char *add, int len, char **path_split)
 		if (!new[line])
 		{
 			perror("path creation");
-			return (NULL);
 			ft_freetab(new);
+			return (NULL);
 			// clean_to_exit(2, *pipe);
 		}
 		line++;
@@ -69,16 +69,48 @@ int	init_path(char **env, t_pipe *pipex)
 	return (0);
 }
 
-static void	close_clean(t_pipe *pipex, int prev_pip, char **env)
-{
-	(void)env;
-	close(pipex->pipe_fd[0]);
-	close(pipex->pipe_fd[1]);
-	// ft_freetab(env);
-	if (prev_pip != -1)
-		close(prev_pip);
-	return ;
-}
+// static void	close_clean(t_pipe *pipex, int prev_pip, char **env)
+// {
+// 	(void)env;
+	
+// 	close(pipex->pipe_fd[0]);
+// 	close(pipex->pipe_fd[1]);
+// 	if (prev_pip != -1)
+// 		close(prev_pip);
+// 	return ;
+// }
+
+// int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
+// {
+// 	char	**env;
+
+// 	minish->o_cmd = ft_only_cmd(cmds);
+// 	env = buildtab(env_head);
+// 	if (!env)
+// 		return (-1);
+// 	init_pipex(cmds, minish->pipex, env);
+// 	init_path(env, minish->pipex);
+// 	if (minish->pipex->nbr_cmds == 1)
+// 	{
+// 		if (ft_builtin(env_head, minish) == 0)
+// 			return (0);
+// 	}
+// 	if (minish->pipex->nbr_cmds > 1)
+// 	{
+// 		if (exec_multiple_cmds(&minish->o_cmd, minish, env_head) != 0)
+// 			return (1);
+// 	}
+// 	// printf("cmds %d\n", minish->pipex->nbr_cmds);
+// 	if (minish->pipex->nbr_cmds == 1 || minish->pipex->nbr_cmds == 0)
+// 	{
+// 		if (ft_builtin(env_head, minish) == 0)
+// 			return (0);
+// 		if (exec_one_cmd(minish, minish->o_cmd, env_head) == EXIT_FAILURE)
+// 			return (-1);
+// 	}
+// 	// close_clean(minish->pipex, minish->pipex->prev_pip, env);	
+// 	return (0);
+// }
 
 int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
 {
@@ -88,22 +120,12 @@ int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
 	env = buildtab(env_head);
 	if (!env)
 		return (-1);
-	minish->pipex = malloc(sizeof(t_pipe));
 	init_pipex(cmds, minish->pipex, env);
 	init_path(env, minish->pipex);
-	if (minish->pipex->nbr_cmds == 1)
-		if (ft_builtin(env_head, minish) == 0)
-			return (0);
-	if (minish->pipex->nbr_cmds > 1)
-		if (exec_multiple_cmds(&minish->o_cmd, minish, env_head) != 0)
-			return (1);
-	if (minish->pipex->nbr_cmds == 1 || minish->pipex->nbr_cmds == 0)
-	{
-		if (ft_builtin(env_head, minish) == 0)
-			return (0);
-		if (exec_one_cmd(minish, minish->o_cmd, env_head) == EXIT_FAILURE)
-			return (-1);
-	}
-	close_clean(minish->pipex, minish->pipex->prev_pip, env);
+	if (ft_builtin(env_head, minish) == 0)
+		return (0);
+	if (exec_cmds(&minish->o_cmd, minish, env_head))
+		return (1);
+	//close_clean(minish->pipex, minish->pipex->prev_pip, env);
 	return (0);
 }

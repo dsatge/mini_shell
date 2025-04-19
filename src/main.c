@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 11:54:47 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 19:44:13 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	
 	if (!buffer)
 	{
-		free_list(token_list);
-		free_all(mini_struct, 1);
-		// free(mini_struct);
+		free_all(mini_struct, 0);
 		return (ft_putstr_fd("exit\n", 2), -1);
 	}
 	if (*buffer == '\0')
@@ -54,31 +52,7 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	return (0);
 }
 
-void	ft_handle_input_line(char *buffer, t_minish *mini_struct)
-{
-	t_token	*head;
-	t_list	*cmds;
-	t_list	*curr_cmd;
-
-	head = ft_split_word(buffer, mini_struct);
-	if (ft_checktype_order(head) == 0)
-	{
-		cmds = malloc(sizeof(t_list));
-		if (!cmds)
-			return ;
-		cmds_list(head, cmds);
-		curr_cmd = cmds;
-		ft_exec(curr_cmd, &mini_struct->env, mini_struct);
-		// ft_exec(&mini_struct->env, mini_struct);
-		free_list(head);
-		free_cmds(cmds);
-	}
-	else
-		free_list(head);
-	free(buffer);
-}
-
-static void	ft_prompt(t_token *head, t_minish *mini_struct)
+static void	ft_prompt(t_minish *mini_struct)
 {
 	t_list	*curr_cmd;
 	char 	*buffer;
@@ -96,29 +70,33 @@ static void	ft_prompt(t_token *head, t_minish *mini_struct)
 			buffer = readline(PROMPT);
 		if (!buffer)
 			break ;
-		buf_value = ft_buffer(buffer, head, mini_struct);
+		buf_value = ft_buffer(buffer, mini_struct->head_token, mini_struct);
 		if (buf_value == -1)
 			return ;
+		mini_struct->pipex = malloc(sizeof(t_pipe));
+		if (!mini_struct->pipex)
+			return (ft_putstr_fd("Error malloc pipex in main\n", 2), free_all(mini_struct, 0));
 		if (buf_value == 0)
 		{
-			// if (error_special(buffer) == 1)
-			// 	continue ;
-			head = ft_split_word(buffer, mini_struct);
+			if (error_special(buffer) == 1)
+				continue ;
+			mini_struct->head_token = ft_split_word(buffer, mini_struct);
+			if (!mini_struct->head_token)
+			{
+				free(buffer);
+				return (ft_putstr_fd("Error malloc: ft_split_word\n", 2), free_all(mini_struct, 0));
+			}
 			free(buffer);
-			if (ft_checktype_order(head) == 0)
+			if (ft_checktype_order(mini_struct->head_token) == 0)
 			{
 				mini_struct->cmds = malloc(sizeof(t_list));
 				if (!mini_struct->cmds)
 					return ;
-				cmds_list(head, mini_struct->cmds);
+				cmds_list(mini_struct->head_token, mini_struct->cmds);
 				curr_cmd = mini_struct->cmds;
 				ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
 			}
-			else
-				free_list(head);
 			free_all(mini_struct, 0);
-			// head = NULL;
-			// free(buffer);
 		}
 	}
 }
@@ -126,20 +104,17 @@ static void	ft_prompt(t_token *head, t_minish *mini_struct)
 int	main(int ac, char **av, char **env)
 {
 	t_minish	*mini_struct;
-	t_token		*head;
 
 	(void)ac;
 	(void)av;
-	head = NULL;
+	mini_struct = NULL;
 	rl_outstream = stderr;
 	mini_struct = ft_calloc(sizeof(t_minish), 1);
 	if (!mini_struct)
-	return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
+		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
 	ft_init_env(env, &mini_struct->env);
-	ft_prompt(head, mini_struct);
-	// free_env(&mini_struct->env);
-	// free_list(&head);
+	mini_struct->head_token = NULL;
+	ft_prompt(mini_struct);
 	free_all(mini_struct, 1);
 	return (0);
 }
-	// free_list(&head);

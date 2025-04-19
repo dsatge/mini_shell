@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 12:41:42 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/17 12:30:52 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 14:17:05 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@ void	error_print_msg(char *str, t_env_head *env_head)
 	char	*cpy_str;
 
 	cpy_str = ft_strdup(str);
+	if (!cpy_str)
+	{
+		perror("Error: malloc");
+		return ;
+	}
 	cpy_str = ft_expand_heredoc(cpy_str, env_head);
 	ft_printf(2, "bash: %s: command not found\n", cpy_str);
 	free(cpy_str);
