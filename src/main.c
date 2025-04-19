@@ -82,13 +82,10 @@ static void	ft_prompt(t_minish *mini_struct)
 				continue ;
 			if (ft_split_word(buffer, mini_struct) == EXIT_FAILURE)
 			{
-				free(mini_struct->element_head), free(buffer);
-				continue ;
-			}
-			if (!mini_struct->head_token)
-			{
 				free(buffer);
-				return (ft_putstr_fd("Error malloc: ft_split_word\n", 2), free_all(mini_struct, 0));
+				free(mini_struct->element);
+				free(mini_struct->pipex);
+				continue ;
 			}
 			free(buffer);
 			if (ft_checktype_order(mini_struct->head_token) == 0)

@@ -59,6 +59,7 @@ void	child_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 		i++;
 	}
 	error_print_msg(o_cmd->tab[0], env_head);
+	free(path_cmd);
 	free_all(minish, 1);
 	exit(127);
 }

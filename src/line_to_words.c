@@ -110,22 +110,22 @@ char	*ft_join_quotes(char *buffer, int *i, char *tmp)
 	joined_words = NULL;
 	quote_word = ft_quotes(buffer, i);
 	if (!quote_word)
-		return (ft_putstr_fd("Error malloc: ft_join_quotes", 2), NULL);
+		return (ft_putstr_fd("Error malloc: ft_join_quotes\n", 2), NULL);
 	if (tmp)
 	{
 		joined_words = ft_strjoin(tmp, quote_word);
 		if (!joined_words)
-			return (ft_putstr_fd("Error ft_strjoin: ft_join_quotes", 2), NULL);
+			return (ft_putstr_fd("Error ft_strjoin: ft_join_quotes\n", 2), NULL);
 		return (free(quote_word), free(tmp), joined_words);
 	}
 	return (quote_word);
 }
 
-int	ft_split_word(char *buffer, t_minish *mini_struct)
+int    ft_split_word(char *buffer, t_minish *mini_struct)
 {
-	int		i;
-	int		first_word;
-	t_token	*head;
+    int        i;
+    int        first_word;
+    t_token    *head;
 
 	i = 0;
 	first_word = 0;
