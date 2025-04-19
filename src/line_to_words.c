@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 20:27:11 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/18 17:52:23 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
 	start = *i;
 	tmp = NULL;
 	quote_typ = 0;
-	if (is_redir_pipe(buffer[*i]) == true)
+	if (is_redir_pipe(buffer[*i], *mini_struct) == true)
 	{
 		word = redir_pipe_to_word(buffer, i);
 		return (ft_tokenise_pipe_redir(word, *mini_struct, first_word,
 				quote_typ), 0);
 	}
-	while (buffer[*i] && is_redir_pipe(buffer[*i]) == false
+	while (buffer[*i] && is_redir_pipe(buffer[*i], *mini_struct) == false
 		&& is_White_Space(buffer[*i]) == false)
 	{
 		if (buffer[*i] == '\'' || buffer[*i] == '"')
@@ -86,13 +86,11 @@ int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
 					return (-1);
 			}
 			else if (word && start == *i)
-			{
 				tmp = word;
-			}
 			word = ft_join_quotes(buffer, i, tmp);
 			if (!word)
 				return (-1);
-			if (buffer[*i + 1] && is_redir_pipe(buffer[*i + 1]) == false)
+			if (buffer[*i + 1] && is_redir_pipe(buffer[*i + 1], *mini_struct) == false)
 				start = *i + 1;
 			else
 				start = -1;
@@ -131,6 +129,7 @@ t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
 
 	i = 0;
 	first_word = 0;
+	mini_struct->pipex->nbr_cmds = 1;
 	mini_struct->element = malloc(sizeof(t_token));
 	if (!mini_struct->element)
 		return (NULL);

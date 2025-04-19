@@ -3,23 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   exec_inchild.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 19:31:41 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/19 14:41:23 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_redir_manager(t_list *cmds, t_pipe *pipex, t_env_head *env_head, int pip)
+int	ft_redir_manager(t_minish *minish, t_pipe *pipex, t_env_head *env_head, int pip)
 {
-	if (ft_redir(&cmds, &pipex) == -1)
+	t_list	*cmds;
+	// bool	should_WE_GO = false;
+	
+	(void)pip;
+	cmds = minish->cmds;
+	if (ft_redir(&cmds, &pipex, minish) == EXIT_FAILURE)
 	{
-		perror("bash: infile: ");
 		return (EXIT_FAILURE);
+		// should_WE_GO = true;
 	}
-	if (pip == 1)
+	if (minish->pipex->nbr_cmds > 1)
 		redir_fdout_pip(&pipex);
 	else
 		redir_fdout(&pipex, cmds);
@@ -29,7 +34,7 @@ int	ft_redir_manager(t_list *cmds, t_pipe *pipex, t_env_head *env_head, int pip)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_redir(t_list **cmds, t_pipe **pipex)
+int	ft_redir(t_list **cmds, t_pipe **pipex, t_minish *minish)
 {
 	t_list	*list;
 
@@ -40,7 +45,7 @@ int	ft_redir(t_list **cmds, t_pipe **pipex)
 		return (EXIT_FAILURE);
 	while (list && list->cmd.type != pip)
 	{
-		if (ft_redir_in(list, pipex) == EXIT_FAILURE)
+		if (ft_redir_in(list, pipex, minish) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		if (ft_redir_out(list, pipex) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
