@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 12:41:42 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/18 14:17:05 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:11:00 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,19 @@ int	error_special(char *buffer)
 		g_error_code = 1;
 		return (1);
 	}
-	while (buffer[i])
-	{
-		while (buffer[i] == 32 || buffer[i] == '\t')
-			i++;
-		if (ft_strcmp(buffer, ":") == 0 || ft_strcmp(buffer, "#") == 0)
-			return (1);
-		if (ft_strcmp(buffer, "!") == 0)
-		{
-			g_error_code = 1;
-			return (1);
-		}
-		i++;
-	}
+	// while (buffer[i])
+	// {
+	// 	while (buffer[i] == 32 || buffer[i] == '\t')
+	// 		i++;
+	// 	if (ft_strcmp(buffer, ":") == 0 || ft_strcmp(buffer, "#") == 0)
+	// 		return (1);
+	// 	if (ft_strcmp(buffer, "!") == 0)
+	// 	{
+	// 		g_error_code = 1;
+	// 		return (1);
+	// 	}
+	// 	i++;
+	// }
 	return (0);
 }
 

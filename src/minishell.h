@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/18 16:54:43 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/19 16:16:38 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int					is_word(char *buffer, int *i, t_minish **mini_struct,
 char				*letters_to_word(char *word, char *buffer, int start,
 						int i);
 char				*ft_join_quotes(char *buffer, int *i, char *tmp);
-t_token				*ft_split_word(char *buffer, t_minish *mini_struct);
+int					ft_split_word(char *buffer, t_minish *mini_struct);
 // TOKENISE
 int					ft_checktype_order(t_token *element);
 t_token				*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct,

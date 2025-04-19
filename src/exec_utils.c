@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 16:27:40 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/19 17:56:45 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	child_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 		i++;
 	}
 	error_print_msg(o_cmd->tab[0], env_head);
+	free(path_cmd);
 	free_all(minish, 1);
 	exit(127);
 }
