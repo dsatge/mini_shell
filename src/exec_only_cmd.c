@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_only_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:50:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 14:10:48 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:31:49 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,11 @@ t_o_cmd	*ft_only_cmd(t_list *cmds)
 		return (NULL);
 	while (list)
 	{
+		
 		found_word = false;
 		if (list->cmd.type == pip)
 			list = list->next;
-		while (list->cmd.type != pip)
+		while (list && list->cmd.type != pip)
 		{
 			if (list->cmd.type == word)
 			{
@@ -92,7 +93,6 @@ t_o_cmd	*ft_only_cmd(t_list *cmds)
 				head = headinit_currnext(head, new_node, current);
 				current = new_node;
 				found_word = true;
-				break ;
 			}
 			list = list->next;
 		}
@@ -104,7 +104,8 @@ t_o_cmd	*ft_only_cmd(t_list *cmds)
 			head = headinit_currnext(head, new_node, current);
 			current = new_node;
 		}
-		list = list->next;
+		if (list)
+			list = list->next;
 	}
 	return (head);
 }

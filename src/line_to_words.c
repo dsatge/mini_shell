@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 17:52:23 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/19 16:33:02 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	*ft_join_quotes(char *buffer, int *i, char *tmp)
 	return (quote_word);
 }
 
-t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
+int	ft_split_word(char *buffer, t_minish *mini_struct)
 {
 	int		i;
 	int		first_word;
@@ -132,7 +132,7 @@ t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
 	mini_struct->pipex->nbr_cmds = 1;
 	mini_struct->element = malloc(sizeof(t_token));
 	if (!mini_struct->element)
-		return (NULL);
+		return (EXIT_FAILURE);
 	mini_struct->element->str = NULL;
 	mini_struct->element->quote_t = 0;
 	head = mini_struct->element;
@@ -141,10 +141,12 @@ t_token	*ft_split_word(char *buffer, t_minish *mini_struct)
 	while (buffer[i])
 	{
 		if (is_word(buffer, &i, &mini_struct, first_word) == -1)
-			return (head);
+			return (EXIT_FAILURE);
 		first_word++;
 		while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 			i++;
 	}
-	return (head);
+	if (head)
+		mini_struct->head_token = head;
+	return (EXIT_SUCCESS);
 }

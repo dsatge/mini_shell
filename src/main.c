@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 19:44:13 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/19 16:49:11 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,11 @@ static void	ft_prompt(t_minish *mini_struct)
 		{
 			if (error_special(buffer) == 1)
 				continue ;
-			mini_struct->head_token = ft_split_word(buffer, mini_struct);
+			if (ft_split_word(buffer, mini_struct) == EXIT_FAILURE)
+			{
+				free(mini_struct->element_head), free(buffer);
+				continue ;
+			}
 			if (!mini_struct->head_token)
 			{
 				free(buffer);

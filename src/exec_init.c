@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:51:54 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 14:25:52 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:03:27 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 	pipex->redir_in = 0;
 	pipex->redir_out = 0;
 	pipex->redir_pipe = 0;
-	if (env[0] == NULL)
-		pipex->abs_path = -1;
+	// if (env[0] == NULL)
+	// 	pipex->abs_path = -1;
 	pipex->env = env;
 }
 
