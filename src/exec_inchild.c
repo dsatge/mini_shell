@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 16:54:54 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:41:23 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 int	ft_redir_manager(t_minish *minish, t_pipe *pipex, t_env_head *env_head, int pip)
 {
 	t_list	*cmds;
+	// bool	should_WE_GO = false;
 	
+	(void)pip;
 	cmds = minish->cmds;
 	if (ft_redir(&cmds, &pipex, minish) == EXIT_FAILURE)
+	{
 		return (EXIT_FAILURE);
-	if (pip == 1)
+		// should_WE_GO = true;
+	}
+	if (minish->pipex->nbr_cmds > 1)
 		redir_fdout_pip(&pipex);
 	else
 		redir_fdout(&pipex, cmds);

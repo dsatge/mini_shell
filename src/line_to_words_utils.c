@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:02:28 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 17:13:47 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/18 18:52:14 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ bool	is_redir_pipe(char c, t_minish *minish)
 	if (c == '|')
 	{
 		minish->pipex->nbr_cmds++;
-		printf("c = | donc nbr_cmd = %d\n", minish->pipex->nbr_cmds);
 		return (true);
 	}
 	if (c == '<')

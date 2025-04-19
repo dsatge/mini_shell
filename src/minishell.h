@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/18 17:02:37 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:35:31 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #  define BUFFER_SIZE 10000
 # endif
 
-# define PROMPT "\001\e[0;102m\002=>\001\e[0m\e[0;95m\002Mini-merde>$ \001\e[0m\002"
+# define PROMPT "\001\e[0m\e[0;95m\002>Mini-merde>$ \001\e[0m\002"
 // # define PROMPT ">"
 
 # include "../lib/libft/libft.h"
@@ -213,16 +213,12 @@ void			free_tab_2(char **tab, int size);
 char			**buildtab(t_env_head *env_head);
 int				ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish);
 //EXEC_INIT
-int				ft_count_cmds(t_list *cmd_list);
 int				next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex);
-int				exec_one_cmd(t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head);
-int				exec_multiple_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head);
+int				exec_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head);
 //EXEC_ONLY_CMD
 t_o_cmd			*ft_only_cmd(t_list *cmds);
 //EXEC_UTILS
-void			firsts_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head);
-void			last_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head);
-int				no_cmd_exe(t_list *cmds, t_minish *minish, t_env_head *env_head);
+void			child_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd, t_env_head *env_head);
 int				ft_redir(t_list **cmds, t_pipe **pipex, t_minish *minish);
 int				ft_redir_in(t_list *list, t_pipe **pipex, t_minish *minish);
 int				ft_redir_out(t_list *list, t_pipe **pipex);

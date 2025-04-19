@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 14:51:54 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 17:10:48 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:25:52 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ int	ft_count_cmds(t_list *cmd_list)
 
 void	init_pipex(t_list *cmds, t_pipe *pipex, char **env)
 {
+	(void)cmds;
 	pipex->abs_path = 0;
 	pipex->prev_pip = -1;
 	// pipex->nbr_cmds = ft_count_cmds(cmds);
 	pipex->redir_in = 0;
 	pipex->redir_out = 0;
 	pipex->redir_pipe = 0;
-	(void)cmds;
 	if (env[0] == NULL)
 		pipex->abs_path = -1;
 	pipex->env = env;
@@ -49,13 +49,13 @@ int	next_cmdexe(t_list **cmds, t_o_cmd **o_cmd, t_pipe *pipex)
 	if (!cmds)
 		return (-1);
 	pipex->nbr_cmds--;
-	pipex->redir_pipe = 1;
-	while (cmds && (*cmds)->cmd.type != pip)
+	while (cmds && (*cmds)->cmd.type != pip && (*cmds)->next)
 	{
 		(*cmds) = (*cmds)->next;
 	}
 	if (cmds && (*cmds)->cmd.type == pip)
 		(*cmds) = (*cmds)->next;
-	(*o_cmd) = (*o_cmd)->next;
+	if ((*o_cmd)->next != NULL)
+		(*o_cmd) = (*o_cmd)->next;
 	return (0);
 }

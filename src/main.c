@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 17:19:54 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/18 19:44:13 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	
 	if (!buffer)
 	{
-		free_all(mini_struct, 1);
+		free_all(mini_struct, 0);
 		return (ft_putstr_fd("exit\n", 2), -1);
 	}
 	if (*buffer == '\0')
@@ -73,6 +73,9 @@ static void	ft_prompt(t_minish *mini_struct)
 		buf_value = ft_buffer(buffer, mini_struct->head_token, mini_struct);
 		if (buf_value == -1)
 			return ;
+		mini_struct->pipex = malloc(sizeof(t_pipe));
+		if (!mini_struct->pipex)
+			return (ft_putstr_fd("Error malloc pipex in main\n", 2), free_all(mini_struct, 0));
 		if (buf_value == 0)
 		{
 			if (error_special(buffer) == 1)
@@ -109,9 +112,6 @@ int	main(int ac, char **av, char **env)
 	mini_struct = ft_calloc(sizeof(t_minish), 1);
 	if (!mini_struct)
 		return (ft_putstr_fd("Error malloc minish in main\n", 2), -1);
-	mini_struct->pipex = ft_calloc(sizeof(t_pipe), 1);
-	if (!mini_struct->pipex)
-		return (ft_putstr_fd("Error malloc pipex in main\n", 2), -1);
 	ft_init_env(env, &mini_struct->env);
 	mini_struct->head_token = NULL;
 	ft_prompt(mini_struct);
