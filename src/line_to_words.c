@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 16:53:44 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/19 16:33:02 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,26 +127,26 @@ int    ft_split_word(char *buffer, t_minish *mini_struct)
     int        first_word;
     t_token    *head;
 
-    i = 0;
-    first_word = 0;
-    mini_struct->pipex->nbr_cmds = 1;
-    mini_struct->element = malloc(sizeof(t_token));
-    if (!mini_struct->element)
-        return (EXIT_FAILURE);
-    mini_struct->element->str = NULL;
-    mini_struct->element->quote_t = 0;
-    head = mini_struct->element;
-    while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
-        i++;
-    while (buffer[i])
-    {
-        if (is_word(buffer, &i, &mini_struct, first_word) == -1)
-            return (EXIT_FAILURE);
-        first_word++;
-        while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
-            i++;
-    }
-    if (head)
-        mini_struct->head_token = head;
-    return (EXIT_SUCCESS);
+	i = 0;
+	first_word = 0;
+	mini_struct->pipex->nbr_cmds = 1;
+	mini_struct->element = malloc(sizeof(t_token));
+	if (!mini_struct->element)
+		return (EXIT_FAILURE);
+	mini_struct->element->str = NULL;
+	mini_struct->element->quote_t = 0;
+	head = mini_struct->element;
+	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
+		i++;
+	while (buffer[i])
+	{
+		if (is_word(buffer, &i, &mini_struct, first_word) == -1)
+			return (EXIT_FAILURE);
+		first_word++;
+		while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
+			i++;
+	}
+	if (head)
+		mini_struct->head_token = head;
+	return (EXIT_SUCCESS);
 }

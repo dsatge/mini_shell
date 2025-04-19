@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir_types.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:58:49 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 16:51:45 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/19 17:33:44 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,18 @@ int	ft_redir_out(t_list *list, t_pipe **pipex)
 int	redir_heredoc(t_pipe **pipex, t_list *list)
 {
 	if ((*pipex)->redir_in == 1)
-	{
 		close((*pipex)->infile_fd);
-		(*pipex)->infile_fd = 0;
-	}
 	(*pipex)->fd = open(list->cmd.tab[1], O_RDONLY);
 	if ((*pipex)->fd == -1)
 	{
-		perror("bash:");
+		ft_printf(2, "bash: %s: No such file or directory \n", list->cmd.tab[1]);
 		unlink(list->cmd.tab[1]);
-		// exit (1); // faire fonction qui clean et exit 1
+		close((*pipex)->pipe_fd[0]);
+		close((*pipex)->pipe_fd[1]);///clean plus haut???
 		return (EXIT_FAILURE);
 	}
 	(*pipex)->infile_fd = (*pipex)->fd;
 	unlink(list->cmd.tab[1]);
-	(*pipex)->infile_fd = 2;
+	(*pipex)->redir_in = 1;
 	return (0);
 }

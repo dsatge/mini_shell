@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
+#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/16 12:59:49 by enschnei         ###   ########.fr        #
+#    Updated: 2025/04/19 18:40:47 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,8 @@ C_FILES = main.c\
 			exec_only_cmd.c\
 			expand_heredoc.c\
 			tokenise_utils.c\
+			exec_dup_redir.c\
 			ft_export_utils.c\
-			exec_redir_pipe.c\
 			signal_handling.c\
 			exec_redir_types.c\
 			builtins_handling.c\

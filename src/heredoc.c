@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/18 20:13:13 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/19 17:19:55 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,18 @@ static void	creat_heredoc(t_list *cmds, t_env_head *env_head, char *file_name)
 	exit(EXIT_SUCCESS);
 }
 
-static int	exit_close(t_pipe **pipex, char *file_name)
-{
-	(*pipex)->infile_fd = open(file_name, O_RDONLY);
-	if ((*pipex)->infile_fd == -1)
-		return (EXIT_FAILURE);
-	unlink(file_name);
-	dup2((*pipex)->infile_fd, STDIN_FILENO);
-	close((*pipex)->infile_fd);
-	signal(SIGINT, sigint_handle);
-	signal(SIGQUIT, SIG_IGN);
-	return (EXIT_SUCCESS);
-}
+// static int	exit_close(t_pipe **pipex, char *file_name)
+// {
+// 	(*pipex)->infile_fd = open(file_name, O_RDONLY);
+// 	if ((*pipex)->infile_fd == -1)
+// 		return (EXIT_FAILURE);
+// 	unlink(file_name);
+// 	dup2((*pipex)->infile_fd, STDIN_FILENO);
+// 	close((*pipex)->infile_fd);
+// 	signal(SIGINT, sigint_handle);
+// 	signal(SIGQUIT, SIG_IGN);
+// 	return (EXIT_SUCCESS);
+// }
 
 int	heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head, char *file_name)
 {
@@ -65,6 +65,7 @@ int	heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head, char *file_name)
 	int		status;
 	// t_list	*list;
 
+	(void) pipex;
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	// list = cmds;
@@ -77,7 +78,7 @@ int	heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head, char *file_name)
 	if (pid_heredoc == 0)
 		creat_heredoc(cmds, env_head, file_name);
 	waitpid(pid_heredoc, &status, 0);
-	exit_close(pipex, file_name);
+	// exit_close(pipex, file_name);
 	return (EXIT_SUCCESS);
 }
 
