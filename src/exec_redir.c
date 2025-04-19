@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 13:53:47 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/18 16:56:01 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	redir_in(t_pipe **pipex, t_list *list, t_minish *minish)
 	(void)minish;
 	
 	if ((*pipex)->redir_in == 1)
+		close((*pipex)->infile_fd);
+	if ((*pipex)->redir_in == 2)
 		close((*pipex)->infile_fd);
 	(*pipex)->fd = open(list->cmd.tab[1], O_RDONLY);
 	//if redirpipe = 1 on peut aller chercher dans pipe
@@ -66,7 +68,7 @@ int	redir_fdin(t_pipe **pipex, t_list *cmds, int prev_pip, t_env_head *env_head)
 {
 	(void)cmds;
 	(void)env_head;
-	if ((*pipex)->redir_in == 1)
+	if ((*pipex)->redir_in == 1 || (*pipex)->redir_in == 2)
 	{
 		dup2((*pipex)->infile_fd, STDIN_FILENO);
 		close((*pipex)->infile_fd);

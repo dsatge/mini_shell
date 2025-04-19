@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 14:35:28 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/18 16:27:40 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int check_file(t_pipe *pipex, t_o_cmd *o_cmd, t_minish *minish)
 	if (ft_strchr(o_cmd->tab[0], '/'))
 	{
 		if (access(o_cmd->tab[0], F_OK) != 0)
-			return (ft_printf(2, "bash: %s: No such file or directory EEEEEEEEEEEEEH\n",
+			return (ft_printf(2, "bash: %s: No such file or directory\n",
 				o_cmd->tab[0]), free_all(minish, 1), exit(127), EXIT_FAILURE);
 		else if (access(o_cmd->tab[0], X_OK) != 0)
 			return (ft_printf(2, "bash: %s: Permission denied\n",

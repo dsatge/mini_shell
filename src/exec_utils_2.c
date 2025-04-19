@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/19 14:49:19 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/18 20:01:11 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int	exec_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 	cmds_curr = &minish->cmds;
 	while (minish->pipex->nbr_cmds > 0)
 	{
-		if (pipe(minish->pipex->pipe_fd) == -1)
+		heredoc_check(minish, env_head);
+    if (pipe(minish->pipex->pipe_fd) == -1)
 			return (perror("pipe"), ft_freetab(minish->pipex->path), exit(EXIT_FAILURE),
 			0);
 		current->pid = fork();
