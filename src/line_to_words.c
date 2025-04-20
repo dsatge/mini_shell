@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 19:43:11 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/20 20:45:14 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,8 @@ int    ft_split_word(char *buffer, t_minish *mini_struct)
 	head = mini_struct->element;
 	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 		i++;
+	if (buffer[i] == '\0')
+		return (free(mini_struct->element), EXIT_FAILURE);
 	while (buffer[i])
 	{
 		if (is_word(buffer, &i, &mini_struct, ++first_word) == -1)

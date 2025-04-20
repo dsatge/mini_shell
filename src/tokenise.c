@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 19:51:10 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/20 20:39:27 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	ft_checktype_order(t_token *element)
 {
 	if (element->type == pip)
 	{
-		printf("je passe par ici2\n");
 		g_error_code = 2;
 		return (ft_printf(2, "bash: syntax error near unexpected  token `|'\n",
 				2), EXIT_FAILURE);
