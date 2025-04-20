@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_only_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:50:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 18:31:49 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/20 14:24:33 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static char	**fake_tab(void)
 	if (!tab)
 		return (NULL);
 	tab[0] = ft_strdup("");
-	////SECURISER VALEUR RENVOIT
+	if (!tab[0])
+		return (free(tab), NULL);
 	tab[1] = 0;
 	return (tab);
 }

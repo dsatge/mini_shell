@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 16:49:11 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/19 19:53:26 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,17 @@ static void	ft_prompt(t_minish *mini_struct)
 				continue ;
 			}
 			free(buffer);
-			if (ft_checktype_order(mini_struct->head_token) == 0)
-			{
-				mini_struct->cmds = malloc(sizeof(t_list));
-				if (!mini_struct->cmds)
-					return ;
-				cmds_list(mini_struct->head_token, mini_struct->cmds);
-				curr_cmd = mini_struct->cmds;
-				ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
-			}
+			if (ft_checktype_order(mini_struct->head_token) == 1)
+				continue ;
+			else
+				{
+					mini_struct->cmds = malloc(sizeof(t_list));
+					if (!mini_struct->cmds)
+						return ;
+					cmds_list(mini_struct->head_token, mini_struct->cmds);
+					curr_cmd = mini_struct->cmds;
+					ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
+				}
 			free_all(mini_struct, 0);
 		}
 	}

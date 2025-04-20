@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/17 17:07:26 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/19 19:55:49 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,24 @@ int	ft_checktype_order(t_token *element)
 	if (element->type == pip)
 	{
 		g_error_code = 2;
-		return (ft_putstr_fd("bash: syntax error near unexpected token `|'\n",
-				2), -1);
+		return (ft_printf(2, "bash: syntax error near unexpected  token `|'\n",
+				2), EXIT_FAILURE);
 	}
 	while (element->next != NULL)
 	{
 		if (element->type == redir && element->next->type != word)
 		{
 			g_error_code = 2;
-			return (ft_putstr_fd("Error: redir not followed by word\n", 2), -1);
+			return (ft_printf(2, "Error: redir not followed by word\n", 2), 1);
 		}
 		if (element->type == pip && element->next->type == pip)
-			return (ft_putstr_fd("Error: 2 pipes\n", 2), 1);
+			return (ft_printf(2, "Error: 2 pipes\n", 2), 1);
 		element = element->next;
 	}
 	if (element->type == pip || element->type == redir)
 	{
 		g_error_code = 2;
-		ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", 2);
-		return (-1);
+		return (ft_printf(2, "bash: syntax error near unexpected token `newline'\n", 2), 1);
 	}
 	return (0);
 }
