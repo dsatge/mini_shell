@@ -6,14 +6,13 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 19:53:26 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/20 18:47:56 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-int		g_error_code = 0;
+int			g_error_code = 0;
 
 void	free_env(t_env_head *env_head)
 {
@@ -37,7 +36,6 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 {
 	(void)token_list;
 	(void)mini_struct;
-	
 	if (!buffer)
 	{
 		free_all(mini_struct, 0);
@@ -52,10 +50,12 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	return (0);
 }
 
+#define PIPE_ERR "Error malloc pipex in main\n"
+
 static void	ft_prompt(t_minish *mini_struct)
 {
 	t_list	*curr_cmd;
-	char 	*buffer;
+	char	*buffer;
 	int		buf_value;
 
 	while (1)
@@ -66,39 +66,41 @@ static void	ft_prompt(t_minish *mini_struct)
 			rl_on_new_line();
 			buffer = readline("");
 		}
-		else	
+		else
 			buffer = readline(PROMPT);
 		if (!buffer)
 			break ;
 		buf_value = ft_buffer(buffer, mini_struct->head_token, mini_struct);
 		if (buf_value == -1)
 			return ;
-		mini_struct->pipex = malloc(sizeof(t_pipe));
+		mini_struct->pipex = ft_calloc(sizeof(t_pipe), 1);
 		if (!mini_struct->pipex)
-			return (ft_putstr_fd("Error malloc pipex in main\n", 2), free_all(mini_struct, 0));
+			return (ft_putstr_fd(PIPE_ERR, 2), free_all(mini_struct, 0));
 		if (buf_value == 0)
 		{
 			if (error_special(buffer) == 1)
 				continue ;
 			if (ft_split_word(buffer, mini_struct) == EXIT_FAILURE)
 			{
+				free_all(mini_struct, 0);
 				free(buffer);
-				free(mini_struct->element);
-				free(mini_struct->pipex);
 				continue ;
 			}
 			free(buffer);
 			if (ft_checktype_order(mini_struct->head_token) == 1)
+			{
+				free_all(mini_struct, 0);
 				continue ;
+			}
 			else
-				{
-					mini_struct->cmds = malloc(sizeof(t_list));
-					if (!mini_struct->cmds)
-						return ;
-					cmds_list(mini_struct->head_token, mini_struct->cmds);
-					curr_cmd = mini_struct->cmds;
-					ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
-				}
+			{
+				mini_struct->cmds = malloc(sizeof(t_list));
+				if (!mini_struct->cmds)
+					return ;
+				cmds_list(mini_struct->head_token, mini_struct->cmds);
+				curr_cmd = mini_struct->cmds;
+				ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
+			}
 			free_all(mini_struct, 0);
 		}
 	}

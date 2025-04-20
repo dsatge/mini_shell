@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:02:28 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 18:52:14 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/20 16:49:28 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,11 @@ char	*redir_pipe_to_word(char *buffer, int *i)
 	
 	word = NULL;
 	if (buffer[*i] == '|')
+	{
 		word = ft_strdup("|");
+		if (!word)
+			return (NULL);
+	}
 	else if (buffer[*i] == '<')
 	{
 		if (buffer[*i] == '<' && buffer[*i + 1] == '<')

@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:50:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 14:24:33 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/20 17:18:16 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static char	**fake_tab(void)
 {
 	char	**tab;
 
-	tab = malloc(sizeof(char *) * 1);
+	tab = ft_calloc(sizeof(char *), 2);
 	if (!tab)
 		return (NULL);
 	tab[0] = ft_strdup("");
