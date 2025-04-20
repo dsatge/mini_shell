@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec_only_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:50:25 by dsatge            #+#    #+#             */
 /*   Updated: 2025/04/20 14:20:18 by dsatge           ###   ########.fr       */
