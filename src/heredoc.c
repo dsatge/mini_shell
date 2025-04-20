@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/19 19:28:38 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/20 13:47:34 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	heredoc_name(char *name, t_list *cmds)
 	return (EXIT_SUCCESS);
 }
 
-int	heredoc_check(t_minish *minish, t_env_head *env_head)
+int			heredoc_check(t_minish *minish, t_env_head *env_head)
 {
 	t_list	*head;
 	char	*file;
