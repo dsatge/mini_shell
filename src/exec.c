@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 19:09:18 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/20 20:03:52 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,26 @@ static void	close_clean(t_pipe *pipex, int prev_pip, char **env)
 	return ;
 }
 
-
 int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
 {
 	char	**env;
+	int		builtins;
 
+	builtins = 0;
 	minish->o_cmd = ft_only_cmd(cmds);
 	env = buildtab(env_head);
 	if (!env)
 		return (-1);
 	init_pipex(cmds, minish->pipex, env);
 	init_path(env, minish->pipex);
-	if ((minish->pipex->nbr_cmds <= 1 ) && ft_builtin(env_head, minish) == 0)
-		return (0);
+	if (minish->pipex->nbr_cmds <= 1)
+	{
+		builtins = builtins_inparent(minish, cmds, builtins);
+		if (builtins == 0)
+			return (0);
+		if (builtins == -1)
+			return (EXIT_FAILURE);
+	}
 	if (exec_cmds(&minish->o_cmd, minish, env_head) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	close_clean(minish->pipex, minish->pipex->prev_pip, env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/19 16:30:01 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/20 20:06:41 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct s_o_cmd
 typedef struct s_pipe
 {
 	int		pipe_fd[2];
+	int		backup_stdin;
+	int		backup_stdout;
 	int		prev_pip;
 	int		redir_in;
 	int		redir_out;
@@ -242,9 +244,9 @@ char			*expand_exit_code(char *res, int *i);
 //EXEC_INCHILD
 int				ft_redir_manager(t_minish *minish, t_pipe *pipex, t_env_head *env_head, int pip);
 //EXPORT_UTILS
-
 void			print_declare(t_env **sorted);
-
+//BUILTINS_PARENTS
+int				builtins_inparent(t_minish *minish, t_list *cmds, int builtins);
 //tests
 void test_print_tab(char **tab);
 
