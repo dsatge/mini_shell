@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 20:03:52 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/20 20:27:34 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
 		return (-1);
 	init_pipex(cmds, minish->pipex, env);
 	init_path(env, minish->pipex);
+	if (heredoc_check(minish, env_head) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	if (minish->pipex->nbr_cmds <= 1)
 	{
 		builtins = builtins_inparent(minish, cmds, builtins);

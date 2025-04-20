@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/20 20:06:41 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/20 21:22:43 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ typedef struct s_env
 	char			*type;
 	struct s_env	*next;
 }					t_env;
+
+typedef struct s_file_name
+{
+	char			*f_name;
+	struct s_file_name	*next;
+}					t_f_name;
 
 typedef struct s_env_head
 {
@@ -129,6 +135,7 @@ typedef struct s_minish
 	t_pipe			*pipex;//env & path en char** A GERER
 	t_list			*cmds;// free_cmds
 	t_o_cmd			*o_cmd;
+	t_f_name		*f_name;
 }					t_minish;
 
 // int main(void)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 19:52:04 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/20 21:39:11 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,25 @@ void	free_tocmd(t_o_cmd *o_cmd)
 	return ;
 }
 
+void	free_file_names(t_f_name *files)
+{
+	t_f_name	*tmp;
+
+	if (!files)
+		return ;
+	while (files)
+	{
+		tmp = files->next;
+		if (files->f_name)
+		{
+			unlink(files->f_name);
+			free(files->f_name);		
+		}
+		files = tmp;
+	}
+	return ;
+}
+
 void	free_all(t_minish *minish, bool clean_env)
 {
 	if (!minish)
@@ -99,6 +118,8 @@ void	free_all(t_minish *minish, bool clean_env)
 	minish->element_head = NULL;
 	free_tpipe(minish->pipex);
 	minish->pipex = NULL;
+	free_file_names(minish->f_name);
+	minish->f_name = NULL;
 	free_cmds(minish->cmds);
 	minish->cmds = NULL;
 	free_tocmd(minish->o_cmd);
