@@ -17,7 +17,7 @@ static t_o_cmd	*fill_new_node(t_o_cmd *new_node, char **cmds)
 	int	i;
 
 	i = 0;
-	new_node = malloc(sizeof(t_o_cmd));
+	new_node = ft_calloc(sizeof(t_o_cmd), 1);
 	if (!new_node)
 		return (NULL);
 	if (cmds == NULL)

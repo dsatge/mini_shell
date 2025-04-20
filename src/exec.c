@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
 /*   Updated: 2025/04/20 14:23:15 by enschnei         ###   ########.fr       */
@@ -79,6 +79,7 @@ static void	close_clean(t_pipe *pipex, int prev_pip, char **env)
 		close(prev_pip);
 	return ;
 }
+
 
 int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
 {
