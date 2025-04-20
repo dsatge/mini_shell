@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+
+///////BONJOUR SALOPE
+
 static char	*ft_strjoin_char(char *s, char c)
 {
 	int		len;
@@ -39,6 +42,7 @@ static char	*append_normal_char(char *res, char c)
 {
 	char	*temp;
 
+	// temp = ft_strjoin(res, &c);
 	temp = ft_strjoin_char(res, c);
 	if (!temp)
 	{

@@ -90,6 +90,7 @@ int	exec_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 		if (current->pid == 0)
 		{
 			child_exe(minish->cmds, minish, current, env_head);
+			free_all(minish, 1);
 			exit(EXIT_SUCCESS);
 		}
 		close(minish->pipex->prev_pip);
