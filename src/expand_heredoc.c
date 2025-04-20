@@ -6,11 +6,14 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:46:23 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/15 15:41:11 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/20 13:46:09 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+///////BONJOUR SALOPE
 
 static char	*ft_strjoin_char(char *s, char c)
 {
@@ -39,6 +42,7 @@ static char	*append_normal_char(char *res, char c)
 {
 	char	*temp;
 
+	// temp = ft_strjoin(res, &c);
 	temp = ft_strjoin_char(res, c);
 	if (!temp)
 	{
@@ -102,5 +106,6 @@ char	*ft_expand_heredoc(char *buffer, t_env_head *env_head)
 		free(buffer);
 		return (expanded);
 	}
+	free(expanded);
 	return (buffer);
 }

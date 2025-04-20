@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 20:23:33 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/20 14:07:14 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	init_path(char **env, t_pipe *pipex)
 		i++;
 	if (!env[i])
 	{
-		ft_printf(2, "bash: (INSERER COMMANDE): No such file or directory\n");
+		pipex->abs_path = 1;
+		// ft_printf(2, "bash: (INSERER COMMANDE): No such file or directory\n");
 		return (1);
 	}
 	path = ft_strtrim(env[i], "PATH=");
@@ -72,6 +73,7 @@ int	init_path(char **env, t_pipe *pipex)
 static void	close_clean(t_pipe *pipex, int prev_pip, char **env)
 {
 	(void)env;
+	
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
 	if (prev_pip != -1)
@@ -92,8 +94,8 @@ int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
 	init_path(env, minish->pipex);
 	if (ft_builtin(env_head, minish) == 0)
 		return (0);
-	if (exec_cmds(&minish->o_cmd, minish, env_head))
-		return (1);
+	if (exec_cmds(&minish->o_cmd, minish, env_head) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	close_clean(minish->pipex, minish->pipex->prev_pip, env);
 	return (0);
 }

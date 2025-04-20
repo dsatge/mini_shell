@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/19 19:57:23 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/20 13:52:01 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	exec_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 		if (current->pid == 0)
 		{
 			child_exe(minish->cmds, minish, current, env_head);
+			free_all(minish, 1);
 			exit(EXIT_SUCCESS);
 		}
 		close(minish->pipex->prev_pip);

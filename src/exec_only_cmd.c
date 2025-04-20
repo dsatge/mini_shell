@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:50:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 20:37:09 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/20 14:20:18 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,12 @@ static char	**fake_tab(void)
 {
 	char	**tab;
 
-	tab = malloc(sizeof(char *) * 1);
+	tab = ft_calloc(sizeof(char *), 2);
 	if (!tab)
 		return (NULL);
 	tab[0] = ft_strdup("");
-	////SECURISER VALEUR RENVOIT
+	if (!tab[0])
+		return (free(tab), NULL);
 	tab[1] = 0;
 	return (tab);
 }
