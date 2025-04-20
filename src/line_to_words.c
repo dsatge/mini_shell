@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 18:51:42 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/20 19:43:11 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int    ft_split_word(char *buffer, t_minish *mini_struct)
 	i = 0;
 	first_word = -1;
 	mini_struct->pipex->nbr_cmds = 1;
-	mini_struct->element = malloc(sizeof(t_token));
+	mini_struct->element = ft_calloc(sizeof(t_token), 1);
 	if (!mini_struct->element)
 		return (EXIT_FAILURE);
 	mini_struct->element->str = NULL;

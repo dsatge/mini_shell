@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 18:18:52 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/20 19:51:10 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct,
 	{
 		while (mini_struct->element->next)
 			mini_struct->element = mini_struct->element->next;
-		new_node = malloc(sizeof(t_token));
+		new_node = ft_calloc(sizeof(t_token), 1);
 		if (!new_node)
 			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
 		new_node->next = NULL;
@@ -87,7 +87,7 @@ t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word,
 	{
 		while (mini_struct->element->next)
 			mini_struct->element = mini_struct->element->next;
-		new_node = malloc(sizeof(t_token));
+		new_node = ft_calloc(sizeof(t_token), 1);
 		if (!new_node)
 			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
 		new_node->next = NULL;
