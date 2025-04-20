@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 16:33:02 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/20 18:51:42 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
 	if (is_redir_pipe(buffer[*i], *mini_struct) == true)
 	{
 		word = redir_pipe_to_word(buffer, i);
+		if (!word)
+			return (-1);
 		return (ft_tokenise_pipe_redir(word, *mini_struct, first_word,
 				quote_typ), 0);
 	}
@@ -128,7 +130,7 @@ int    ft_split_word(char *buffer, t_minish *mini_struct)
     t_token    *head;
 
 	i = 0;
-	first_word = 0;
+	first_word = -1;
 	mini_struct->pipex->nbr_cmds = 1;
 	mini_struct->element = malloc(sizeof(t_token));
 	if (!mini_struct->element)
@@ -140,9 +142,8 @@ int    ft_split_word(char *buffer, t_minish *mini_struct)
 		i++;
 	while (buffer[i])
 	{
-		if (is_word(buffer, &i, &mini_struct, first_word) == -1)
-			return (EXIT_FAILURE);
-		first_word++;
+		if (is_word(buffer, &i, &mini_struct, ++first_word) == -1)
+            return (EXIT_FAILURE);
 		while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 			i++;
 	}
