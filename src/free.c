@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 17:37:31 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:46:07 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-static void	free_tpipe(t_pipe *pipex)
+void	free_tpipe(t_pipe *pipex)
 {
 	if (!pipex)
 		return ;
@@ -90,7 +90,7 @@ void	free_tocmd(t_o_cmd *o_cmd)
 	return ;
 }
 
-void	free_file_names(t_f_name *files)
+static void	free_file_names(t_f_name *files)
 {
 	t_f_name	*tmp;
 

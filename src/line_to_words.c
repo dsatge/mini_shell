@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 12:13:16 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:59:38 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static t_quote	identify_quote_type(char *buffer, int *i)
+{
+	if (buffer[*i] == '"')
+		return (DOUBLE_QUOTE);
+	if (buffer[*i] == '\'')
+		return (SINGLE_QUOTE);
+	return (DEFAULT);
+}
 
 char	*ft_quotes(char *buffer, int *i)
 {
@@ -21,10 +30,7 @@ char	*ft_quotes(char *buffer, int *i)
 
 	len = 0;
 	start = *i;
-	if (buffer[*i] == '"')
-		quote = DOUBLE_QUOTE;
-	if (buffer[*i] == '\'')
-		quote = SINGLE_QUOTE;
+	quote = identify_quote_type(buffer, i);
 	*i = *i + 1;
 	while (buffer[*i])
 	{
@@ -123,11 +129,11 @@ char	*ft_join_quotes(char *buffer, int *i, char *tmp)
 	return (quote_word);
 }
 
-int    ft_split_word(char *buffer, t_minish *mini_struct)
+int	ft_split_word(char *buffer, t_minish *mini_struct)
 {
-    int        i;
-    int        first_word;
-    t_token    *head;
+	int		i;
+	int		first_word;
+	t_token	*head;
 
 	i = 0;
 	first_word = -1;
@@ -135,8 +141,6 @@ int    ft_split_word(char *buffer, t_minish *mini_struct)
 	mini_struct->element = ft_calloc(sizeof(t_token), 1);
 	if (!mini_struct->element)
 		return (EXIT_FAILURE);
-	mini_struct->element->str = NULL;
-	mini_struct->element->quote_t = 0;
 	head = mini_struct->element;
 	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 		i++;
@@ -145,7 +149,7 @@ int    ft_split_word(char *buffer, t_minish *mini_struct)
 	while (buffer[i])
 	{
 		if (is_word(buffer, &i, &mini_struct, ++first_word) == -1)
-            return (EXIT_FAILURE);
+			return (EXIT_FAILURE);
 		while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 			i++;
 	}
