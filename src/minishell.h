@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 18:25:52 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:21:03 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,8 @@ void					free_tab(char **tab);
 void					free_file_names(t_f_name *files);
 void					free_tocmd(t_o_cmd *o_cmd);
 void					free_all(t_minish *minish, bool clean_env);
+void					free_tpipe(t_pipe *pipex);
+void					free_tocmd(t_o_cmd *o_cmd);
 // LIST
 int						cmds_list(t_token *list, t_list *cmds);
 int						init_cmds_list(t_list *cmds, t_token *list, int next);
@@ -264,5 +266,7 @@ void					print_declare(t_env **sorted);
 // BUILTINS_PARENTS
 int						builtins_inparent(t_minish *minish, t_list *cmds,
 							int builtins);
+//FREE_HEREDOCS
+void					free_all_heredoc(t_minish *minish, bool clean_env);
 
 #endif

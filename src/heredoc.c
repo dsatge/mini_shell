@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 17:17:39 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:50:49 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	heredoc(t_minish *minish, t_env_head *env_head, char *file_name)
 	if (pid_heredoc == 0)
 	{
 		creat_heredoc(minish->cmds, env_head, file_name);
-		free_all(minish, 1);
+		free_all_heredoc(minish, 1);
 		free(file_name);
 		exit(EXIT_SUCCESS);
 	}
@@ -99,7 +99,7 @@ char	*file_name(char *eol_file, t_minish *minish)
 	char	*itoa;
 
 	i = 0;
-	tmp = ft_strjoin("minish_heredoc_", eol_file);
+	tmp = ft_strjoin("/tmp/minish_heredoc_", eol_file);
 	if (!tmp)
 		return (NULL);
 	check_access = access(tmp, F_OK);

@@ -6,7 +6,7 @@
 #    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/21 18:42:23 by enschnei         ###   ########.fr        #
+#    Updated: 2025/04/21 19:19:13 by enschnei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ C_FILES = main.c\
 			list_utils.c\
 			free_utils.c\
 			exec_utils_2.c\
+			free_heredoc.c\
 			exec_inchild.c\
 			expand_utils.c\
 			line_to_words.c\

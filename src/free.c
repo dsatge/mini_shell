@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 17:39:33 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:21:40 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	free_tocmd(t_o_cmd *o_cmd)
 	return ;
 }
 
-void	free_file_names(t_f_name *files)
+static void	free_file_names(t_f_name *files)
 {
 	t_f_name	*tmp;
 
