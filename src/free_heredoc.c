@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   free_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:35:50 by dsatge            #+#    #+#             */
 /*   Updated: 2025/04/21 20:35:42 by enschnei         ###   ########.fr       */
@@ -14,7 +14,7 @@
 
 void	free_all_heredoc(t_minish *minish, bool clean_env)
 {
-	if (!minish)
+    if (!minish)
 		return ;
 	free_list(minish->element_head);
 	minish->element_head = NULL;
