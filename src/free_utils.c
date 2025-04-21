@@ -6,13 +6,32 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:35:22 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 17:37:43 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:23:31 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_tpipe(t_pipe *pipex)
+void	free_file_names(t_f_name *files)
+{
+	t_f_name	*tmp;
+
+	if (!files)
+		return ;
+	while (files)
+	{
+		tmp = files->next;
+		if (files->f_name)
+		{
+			free(files->f_name);
+			free(files);
+		}
+		files = tmp;
+	}
+	return ;
+}
+
+void	free_tpipe(t_pipe *pipex)
 {
 	if (!pipex)
 		return ;

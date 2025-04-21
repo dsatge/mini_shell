@@ -6,11 +6,11 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 20:02:54 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 15:08:40 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:40:18 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 static void	reset_std(t_minish *minish)
 {

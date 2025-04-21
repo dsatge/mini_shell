@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 12:26:14 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:03:33 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	ft_checktype_order(t_token *element)
 	if (element->type == pip || element->type == redir)
 	{
 		g_error_code = 2;
-		return (ft_printf(2, "bash: syntax error near unexpected token `newline'\n", 2), 1);
+		return (ft_printf(2,
+				"bash: syntax error near unexpected token `newline'\n", 2), 1);
 	}
 	return (0);
 }
@@ -69,11 +70,28 @@ t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct,
 	return (mini_struct->element);
 }
 
-t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word,
+static t_token	*add_token_to_list(t_minish *mini_struct, char *word,
 		int quote_typ)
 {
 	t_token	*new_node;
 
+	while (mini_struct->element->next)
+		mini_struct->element = mini_struct->element->next;
+	new_node = ft_calloc(sizeof(t_token), 1);
+	if (!new_node)
+		return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
+	new_node->str = word;
+	new_node->quote_t = quote_typ;
+	new_node->type = 2;
+	new_node->next = NULL;
+	mini_struct->element->next = new_node;
+	mini_struct->element = new_node;
+	return (new_node);
+}
+
+t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word,
+		int quote_typ)
+{
 	if (first_word == 0)
 	{
 		mini_struct->element_head = mini_struct->element;
@@ -83,20 +101,6 @@ t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word,
 		mini_struct->element->next = NULL;
 	}
 	else
-	{
-		while (mini_struct->element->next)
-			mini_struct->element = mini_struct->element->next;
-		new_node = ft_calloc(sizeof(t_token), 1);
-		if (!new_node)
-			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
-		new_node->next = NULL;
-		new_node->str = word;
-		new_node->quote_t = quote_typ;
-		if (!new_node->str)
-			return (NULL);
-		new_node->type = 2;
-		mini_struct->element->next = new_node;
-		mini_struct->element = mini_struct->element->next;
-	}
+		add_token_to_list(mini_struct, word, quote_typ);
 	return (mini_struct->element);
 }
