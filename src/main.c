@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 15:32:00 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 20:57:04 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,34 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	return (0);
 }
 
-#define PIPE_ERR "Error malloc pipex in main\n"
+static void	handle_parsing_and_execution(t_minish *mini_struct, char *buffer)
+{
+	t_list	*curr_cmd;
+
+	if (ft_split_word(buffer, mini_struct) == EXIT_FAILURE)
+	{
+		free_all(mini_struct, 0);
+		free(mini_struct->element);
+		free(buffer);
+		return ;
+	}
+	free(buffer);
+	if (ft_checktype_order(mini_struct->head_token) == 1)
+	{
+		free_all(mini_struct, 0);
+		return ;
+	}
+	mini_struct->cmds = ft_calloc(sizeof(t_list), 1);
+	if (!mini_struct->cmds)
+		return ;
+	cmds_list(mini_struct->head_token, mini_struct->cmds);
+	curr_cmd = mini_struct->cmds;
+	ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
+	free_all(mini_struct, 0);
+}
 
 static void	ft_prompt(t_minish *mini_struct)
 {
-	t_list	*curr_cmd;
 	char	*buffer;
 	int		buf_value;
 
@@ -77,31 +100,7 @@ static void	ft_prompt(t_minish *mini_struct)
 		if (!mini_struct->pipex)
 			return (ft_putstr_fd(PIPE_ERR, 2), free_all(mini_struct, 0));
 		if (buf_value == 0)
-		{
-			if (ft_split_word(buffer, mini_struct) == EXIT_FAILURE)
-			{
-				free_all(mini_struct, 0);
-				free(mini_struct->element);
-				free(buffer);
-				continue ;
-			}
-			free(buffer);
-			if (ft_checktype_order(mini_struct->head_token) == 1)
-			{
-				free_all(mini_struct, 0);
-				continue ;
-			}
-			else
-			{
-				mini_struct->cmds = ft_calloc(sizeof(t_list), 1);
-				if (!mini_struct->cmds)
-					return ;
-				cmds_list(mini_struct->head_token, mini_struct->cmds);
-				curr_cmd = mini_struct->cmds;
-				ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
-			}
-			free_all(mini_struct, 0);
-		}
+			handle_parsing_and_execution(mini_struct, buffer);
 	}
 }
 
