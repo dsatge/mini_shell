@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 14:19:09 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:27:18 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	close_fd(int sig)
 {
 	(void)sig;
+	
 	close(0);
 	exit(EXIT_FAILURE);
 }
