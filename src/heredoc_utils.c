@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:13:40 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 17:17:49 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:09:36 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ void	close_fd(int sig)
 	(void)sig;
 	close(0);
 	exit(EXIT_FAILURE);
+}
+
+void	fd_close(int sig)
+{
+	(void)sig;
+	close(0);
 }
 
 int	heredoc_name(char *name, t_list *cmds)

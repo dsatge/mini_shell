@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:35:50 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 18:45:55 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 19:18:39 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	free_file_names(t_f_name *files)
 
 void	free_all_heredoc(t_minish *minish, bool clean_env)
 {
-	if (!minish)
+    if (!minish)
 		return ;
 	free_list(minish->element_head);
 	minish->element_head = NULL;

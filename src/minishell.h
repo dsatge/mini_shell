@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 18:42:41 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 19:10:02 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,7 @@ int						heredoc_check(t_minish *minish, t_env_head *env_head);
 int						redir_heredoc(t_pipe **pipex, t_list *list);
 void					close_fd(int sig);
 int						heredoc_name(char *name, t_list *cmds);
+void					fd_close(int sig);
 // ERROR
 int						error_special(char *buffer);
 void					error_print_msg(char *str, t_env_head *env_head);

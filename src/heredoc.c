@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 18:50:49 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 19:16:47 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	creat_heredoc(t_list *cmds, t_env_head *env_head, char *file_name)
 	char	*buffer;
 	int		fd;
 
-	signal(SIGINT, close_fd);
+	signal(SIGINT, fd_close);
 	signal(SIGQUIT, SIG_IGN);
 	fd = open(file_name, O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (fd == -1)

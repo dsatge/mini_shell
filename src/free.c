@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 18:46:07 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 19:29:49 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ void	free_tpipe(t_pipe *pipex)
 		return ;
 	if (pipex->env)
 		free_tab(pipex->env);
+	pipex->env = NULL;
 	if (pipex->path)
 		free_tab(pipex->path);
+	pipex->path = NULL;
 	free(pipex);
 	return ;
 }
