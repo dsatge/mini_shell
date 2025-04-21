@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/20 21:29:42 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 10:48:16 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,9 @@ int			heredoc_check(t_minish *minish, t_env_head *env_head)
 				return (EXIT_FAILURE);
 			if (heredoc(&minish->pipex, minish->cmds, env_head, file) == EXIT_FAILURE)
 			{
-				printf("OUUUUUUUUUPS\n");
+				ft_printf(2, "OUUUUUUUUUPS\n");
 				g_error_code = 130;
-				return (unlink(file), free(file), ft_printf(2 , "\n"), EXIT_FAILURE);
+				return (free(file), ft_printf(2 , "\n"), EXIT_FAILURE);
 			}
 			if (heredoc_name(file, minish->cmds) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
