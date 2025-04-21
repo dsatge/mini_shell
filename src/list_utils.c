@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:43:23 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 21:48:35 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:58:48 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	cmds_list(t_token *list, t_list *cmds)
 	}
 	return (0);
 }
-
 int	pipe_cmds(t_token *list, t_list *cmds)
 {
 	int		tab_len;
@@ -79,4 +78,16 @@ int	pipe_cmds(t_token *list, t_list *cmds)
 	cmds->cmd.tab[1] = 0;
 	current = current->next;
 	return (tab_len);
+}
+
+int	count_word_tokens(t_token *list)
+{
+	int count = 0;
+
+	while (list && list->type == word)
+	{
+		count++;
+		list = list->next;
+	}
+	return count;
 }
