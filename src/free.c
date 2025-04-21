@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 16:44:59 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:53:29 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	free_all(t_minish *minish, bool clean_env)
 		return ;
 	free_list(minish->element_head);
 	minish->element_head = NULL;
+	minish->head_token = NULL;
 	free_tpipe(minish->pipex);
 	minish->pipex = NULL;
 	free_file_names(minish->f_name);
