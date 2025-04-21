@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 12:44:46 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 13:12:02 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	**add_path(char *add, int len, char **path_split)
 			perror("path creation");
 			ft_freetab(new);
 			return (NULL);
-			// clean_to_exit(2, *pipe);
 		}
 		line++;
 	}
@@ -57,7 +56,6 @@ int	init_path(char **env, t_pipe *pipex)
 	if (!env[i])
 	{
 		pipex->abs_path = 1;
-		// ft_printf(2, "bash: (INSERER COMMANDE): No such file or directory\n");
 		return (1);
 	}
 	path = ft_strtrim(env[i], "PATH=");
