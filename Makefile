@@ -6,7 +6,7 @@
 #    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/20 20:05:53 by dsatge           ###   ########.fr        #
+#    Updated: 2025/04/21 18:39:37 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ C_FILES = main.c\
 			exec_utils.c\
 			exec_redir.c\
 			exec_utils_2.c\
+			free_heredoc.c\
 			exec_inchild.c\
 			expand_utils.c\
 			line_to_words.c\

@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:58:49 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 11:21:20 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 18:11:51 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	redir_heredoc(t_pipe **pipex, t_list *list)
 {
 	if ((*pipex)->redir_in == 1)
 		close((*pipex)->infile_fd);
-	ft_printf(2, "check of file ? %s\n", list->cmd.tab[1]);
 	(*pipex)->fd = open(list->cmd.tab[1], O_RDONLY);
 	if ((*pipex)->fd == -1)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 15:51:21 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:42:41 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,8 @@ void				free_cmds(t_list *cmds);
 void				free_env(t_env_head *env_head);
 void				free_tab(char **tab);
 void				free_all(t_minish *minish, bool clean_env);
+void				free_tpipe(t_pipe *pipex);
+void				free_tocmd(t_o_cmd *o_cmd);
 // LIST
 int					cmds_list(t_token *list, t_list *cmds);
 int					init_cmds_list(t_list *cmds, t_token *list, int next);
@@ -254,6 +256,8 @@ int				ft_redir_manager(t_minish *minish, t_pipe *pipex, t_env_head *env_head, i
 void			print_declare(t_env **sorted);
 //BUILTINS_PARENTS
 int				builtins_inparent(t_minish *minish, t_list *cmds, int builtins);
+//FREE_HEREDOCS
+void			free_all_heredoc(t_minish *minish, bool clean_env);
 //tests
 void test_print_tab(char **tab);
 

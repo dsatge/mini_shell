@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 16:28:26 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:50:49 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	close_fd(int sig)
 {
 	(void)sig;
-	
 	close(0);
-	exit(EXIT_FAILURE);
 }
 
 static void	creat_heredoc(t_list *cmds, t_env_head *env_head, char *file_name)
@@ -50,11 +48,9 @@ int	heredoc(t_minish *minish, t_env_head *env_head, char *file_name)
 {
 	pid_t	pid_heredoc;
 	int		status;
-	// t_list	*list;
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	// list = cmds;
 	pid_heredoc = fork();
 	if (pid_heredoc == -1)
 	{
@@ -64,7 +60,7 @@ int	heredoc(t_minish *minish, t_env_head *env_head, char *file_name)
 	if (pid_heredoc == 0)
 	{
 		creat_heredoc(minish->cmds, env_head, file_name);
-		free_all(minish, 1);
+		free_all_heredoc(minish, 1);
 		free(file_name);
 		exit(EXIT_SUCCESS);
 	}
@@ -73,7 +69,6 @@ int	heredoc(t_minish *minish, t_env_head *env_head, char *file_name)
 		return (EXIT_FAILURE);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-	// exit_close(pipex, file_name);
 	return (EXIT_SUCCESS);
 }
 
@@ -110,8 +105,7 @@ char	*file_name(char *eol_file, t_minish *minish)
 	char *itoa;
 	
 	i = 0;
-	// tmp = ft_strjoin("/tmp/minish_heredoc_", eol_file);
-	tmp = ft_strjoin("minish_heredoc_", eol_file);
+	tmp = ft_strjoin("/tmp/minish_heredoc_", eol_file);
 	if (!tmp)
 		return (NULL);
 	check_access = access(tmp, F_OK);
@@ -153,7 +147,6 @@ int			heredoc_check(t_minish *minish, t_env_head *env_head)
 		if (minish->cmds->cmd.type == redir && ft_strcmp(minish->cmds->cmd.tab[0],
 			"<<") == 0)
 		{
-			ft_printf(2, "check cmd %s %s\n", minish->cmds->cmd.tab[0], minish->cmds->cmd.tab[1]);
 			file = file_name(minish->cmds->cmd.tab[1], minish);
 			if (!file)
 				return (EXIT_FAILURE);
