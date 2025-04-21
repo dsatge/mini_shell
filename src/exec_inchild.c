@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exec_inchild.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 11:39:14 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 17:41:41 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_redir_manager(t_minish *minish, t_pipe *pipex, t_env_head *env_head, int pip)
+int	ft_redir_manager(t_minish *minish, t_pipe *pipex, t_env_head *env_head,
+		int pip)
 {
 	t_list	*cmds;
-	
+
 	(void)pip;
 	cmds = minish->cmds;
 	if (ft_redir(&cmds, &pipex, minish) == EXIT_FAILURE)

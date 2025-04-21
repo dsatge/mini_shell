@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:50:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 17:01:07 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:40:28 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ static t_o_cmd	*fill_new_node(t_o_cmd *new_node, char **cmds)
 		new_node->tab = NULL;
 		return (new_node);
 	}
-	new_node->tab = ft_calloc(sizeof(char *),
-			ft_count_line_split(cmds) + 1);
+	new_node->tab = ft_calloc(sizeof(char *), ft_count_line_split(cmds) + 1);
 	if (!new_node->tab)
 		return (0);
 	while (cmds[i] != 0)
@@ -42,7 +41,7 @@ static t_o_cmd	*fill_new_node(t_o_cmd *new_node, char **cmds)
 }
 
 static t_o_cmd	*headinit_currnext(t_o_cmd *head, t_o_cmd *new_node,
-	t_o_cmd *current)
+		t_o_cmd *current)
 {
 	if (head == NULL)
 		head = new_node;
@@ -81,7 +80,6 @@ t_o_cmd	*ft_only_cmd(t_list *cmds)
 		return (NULL);
 	while (list)
 	{
-		
 		found_word = false;
 		if (list->cmd.type == pip)
 			list = list->next;

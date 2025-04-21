@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 13:12:02 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:41:18 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	init_path(char **env, t_pipe *pipex)
 static void	close_clean(t_pipe *pipex, int prev_pip, char **env)
 {
 	(void)env;
-	
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
 	if (prev_pip >= 0)

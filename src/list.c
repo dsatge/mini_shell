@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 19:49:21 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:57:10 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ int	init_cmds_list(t_list *cmds, t_token *list, int skip)
 	{
 		skip += ft_cmd(list, cmds, 1);
 		cmds->head = cmds;
-		if (cmds->head->cmd_nbr != 1)
-			printf("OUUUUPSSSIIIIII\n");
 	}
 	return (skip);
 }
@@ -93,11 +91,8 @@ int	tab_cmds(t_token *list, t_list *cmds)
 	if (current->type == pip)
 	{
 		list_element += pipe_cmds(current, curr_cmds);
-		// current = current->next;
 		if (cmds->head)
-		{
 			cmds->head->cmd_nbr += 1;
-		}
 	}
 	if (current->type == redir)
 	{

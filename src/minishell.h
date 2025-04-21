@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 19:10:02 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 19:45:49 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,13 @@ extern int				g_error_code;
 int						ft_buffer(char *buffer, t_token *token_list,
 							t_minish *mini_struct);
 // LINE_TO_WORDS_UTILS
-bool					is_White_Space(char c);
+bool					is_white_space(char c);
 bool					is_redir_pipe(char c, t_minish *minish);
 char					*redir_pipe_to_word(char *buffer, int *i);
+int						skip_initial_whitespace(char *buffer, int *i,
+							t_minish *mini_struct);
+int						process_words(char *buffer, int *i,
+							t_minish *mini_struct, int *first_word);
 // LINE_TO_WORDS
 char					*ft_quotes(char *buffer, int *i);
 int						is_word(char *buffer, int *i, t_minish **mini_struct,
@@ -154,6 +158,9 @@ char					*letters_to_word(char *word, char *buffer, int start,
 							int i);
 char					*ft_join_quotes(char *buffer, int *i, char *tmp);
 int						ft_split_word(char *buffer, t_minish *mini_struct);
+int						get_quote_type(char c);
+char					*handle_less(char *buffer, int *i);
+char					*handle_great(char *buffer, int *i);
 // TOKENISE
 int						ft_checktype_order(t_token *element);
 t_token					*ft_tokenise_pipe_redir(char *word,
@@ -175,6 +182,8 @@ void					free_list(t_token *list);
 void					free_cmds(t_list *cmds);
 void					free_env(t_env_head *env_head);
 void					free_tab(char **tab);
+void					free_file_names(t_f_name *files);
+void					free_tocmd(t_o_cmd *o_cmd);
 void					free_all(t_minish *minish, bool clean_env);
 void					free_tpipe(t_pipe *pipex);
 void					free_tocmd(t_o_cmd *o_cmd);
