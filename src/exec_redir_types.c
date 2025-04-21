@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:58:49 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 17:23:49 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:39:52 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	redir_heredoc(t_pipe **pipex, t_list *list)
 		return (EXIT_FAILURE);
 	}
 	(*pipex)->infile_fd = (*pipex)->fd;
-	// unlink(list->cmd.tab[1]);
 	(*pipex)->redir_in = 1;
 	return (0);
 }

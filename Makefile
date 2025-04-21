@@ -6,7 +6,7 @@
 #    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/21 17:15:33 by enschnei         ###   ########.fr        #
+#    Updated: 2025/04/21 18:42:23 by enschnei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,8 @@ C_FILES = main.c\
 			exec_init.c\
 			exec_utils.c\
 			exec_redir.c\
+			list_utils.c\
+			free_utils.c\
 			exec_utils_2.c\
 			exec_inchild.c\
 			expand_utils.c\
@@ -41,10 +43,13 @@ C_FILES = main.c\
 			exec_dup_redir.c\
 			ft_export_utils.c\
 			signal_handling.c\
+			split_word_utils.c\
 			builtins_parents.c\
 			exec_redir_types.c\
 			builtins_handling.c\
+			exec_only_cmd_utils.c\
 			line_to_words_utils.c\
+			redir_pipe_to_word_utils.c\
 
 BOLD = \033[1m
 RED = \033[31m

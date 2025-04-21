@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 17:37:31 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:39:33 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,6 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-static void	free_tpipe(t_pipe *pipex)
-{
-	if (!pipex)
-		return ;
-	if (pipex->env)
-		free_tab(pipex->env);
-	if (pipex->path)
-		free_tab(pipex->path);
-	free(pipex);
-	return ;
-}
-
 void	free_tocmd(t_o_cmd *o_cmd)
 {
 	t_o_cmd	*tmp;
@@ -108,26 +96,4 @@ void	free_file_names(t_f_name *files)
 		files = tmp;
 	}
 	return ;
-}
-
-void	free_all(t_minish *minish, bool clean_env)
-{
-	if (!minish)
-		return ;
-	free_list(minish->element_head);
-	minish->element_head = NULL;
-	minish->head_token = NULL;
-	free_tpipe(minish->pipex);
-	minish->pipex = NULL;
-	free_file_names(minish->f_name);
-	minish->f_name = NULL;
-	free_cmds(minish->cmds);
-	minish->cmds = NULL;
-	free_tocmd(minish->o_cmd);
-	minish->o_cmd = NULL;
-	if (clean_env == true)
-	{
-		free_env(&minish->env);
-		free(minish);
-	}
 }

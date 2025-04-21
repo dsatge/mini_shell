@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 12:13:16 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:33:21 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ char	*ft_quotes(char *buffer, int *i)
 
 	len = 0;
 	start = *i;
-	if (buffer[*i] == '"')
-		quote = DOUBLE_QUOTE;
-	if (buffer[*i] == '\'')
-		quote = SINGLE_QUOTE;
+	quote = get_quote_type(buffer[*i]);
 	*i = *i + 1;
 	while (buffer[*i])
 	{
@@ -76,7 +73,7 @@ int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
 				quote_typ), 0);
 	}
 	while (buffer[*i] && is_redir_pipe(buffer[*i], *mini_struct) == false
-		&& is_White_Space(buffer[*i]) == false)
+		&& is_white_space(buffer[*i]) == false)
 	{
 		if (buffer[*i] == '\'' || buffer[*i] == '"')
 		{
@@ -92,7 +89,8 @@ int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
 			word = ft_join_quotes(buffer, i, tmp);
 			if (!word)
 				return (free(tmp), -1);
-			if (buffer[*i + 1] && is_redir_pipe(buffer[*i + 1], *mini_struct) == false)
+			if (buffer[*i + 1] && is_redir_pipe(buffer[*i + 1],
+					*mini_struct) == false)
 				start = *i + 1;
 			else
 				start = -1;
@@ -117,17 +115,18 @@ char	*ft_join_quotes(char *buffer, int *i, char *tmp)
 	{
 		joined_words = ft_strjoin(tmp, quote_word);
 		if (!joined_words)
-			return (ft_putstr_fd("Error ft_strjoin: ft_join_quotes\n", 2), NULL);
+			return (ft_putstr_fd("Error ft_strjoin: ft_join_quotes\n", 2),
+				NULL);
 		return (free(quote_word), free(tmp), joined_words);
 	}
 	return (quote_word);
 }
 
-int    ft_split_word(char *buffer, t_minish *mini_struct)
+int	ft_split_word(char *buffer, t_minish *mini_struct)
 {
-    int        i;
-    int        first_word;
-    t_token    *head;
+	int		i;
+	int		first_word;
+	t_token	*head;
 
 	i = 0;
 	first_word = -1;
@@ -138,17 +137,10 @@ int    ft_split_word(char *buffer, t_minish *mini_struct)
 	mini_struct->element->str = NULL;
 	mini_struct->element->quote_t = 0;
 	head = mini_struct->element;
-	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
-		i++;
-	if (buffer[i] == '\0')
-		return (free(mini_struct->element), EXIT_FAILURE);
-	while (buffer[i])
-	{
-		if (is_word(buffer, &i, &mini_struct, ++first_word) == -1)
-            return (EXIT_FAILURE);
-		while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
-			i++;
-	}
+	if (skip_initial_whitespace(buffer, &i, mini_struct) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (process_words(buffer, &i, mini_struct, &first_word) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	if (head)
 		mini_struct->head_token = head;
 	return (EXIT_SUCCESS);
