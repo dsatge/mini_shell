@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:09:29 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 11:57:39 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:55:01 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	redir_fdout(t_pipe **pipex, t_list *cmds)
 		dup2((*pipex)->outfile_fd, STDOUT_FILENO);
 		close((*pipex)->outfile_fd);
 	}
-	else
+	else if ((*pipex)->prev_pip != -1)
 		close((*pipex)->prev_pip);
 	return (0);
 }

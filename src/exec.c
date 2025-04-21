@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 18:23:16 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:44:46 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	close_clean(t_pipe *pipex, int prev_pip, char **env)
 	
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
-	if (prev_pip != -1)
+	if (prev_pip >= 0)
 		close(prev_pip);
 	return ;
 }
@@ -91,7 +91,6 @@ int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
 		return (-1);
 	init_pipex(cmds, minish->pipex, env);
 	init_path(env, minish->pipex);
-	// heredoc ici
 	if (ft_builtin(env_head, minish) == 0)
 		return (0);
 	if (exec_cmds(&minish->o_cmd, minish, env_head) == EXIT_FAILURE)
