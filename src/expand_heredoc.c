@@ -6,14 +6,11 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 16:46:23 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 16:45:59 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:34:37 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-///////BONJOUR SALOPE
 
 static char	*ft_strjoin_char(char *s, char c)
 {
@@ -42,7 +39,6 @@ static char	*append_normal_char(char *res, char c)
 {
 	char	*temp;
 
-	// temp = ft_strjoin(res, &c);
 	temp = ft_strjoin_char(res, c);
 	if (!temp)
 	{

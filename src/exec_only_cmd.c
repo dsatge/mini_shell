@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:50:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 17:18:16 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:01:07 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_o_cmd	*fill_new_node(t_o_cmd *new_node, char **cmds)
 	i = 0;
 	new_node = ft_calloc(sizeof(t_o_cmd), 1);
 	if (!new_node)
-		return (NULL);
+		return (free_tab(cmds), NULL);
 	if (cmds == NULL)
 	{
 		new_node->tab = NULL;
@@ -72,6 +72,7 @@ t_o_cmd	*ft_only_cmd(t_list *cmds)
 	t_o_cmd	*current;
 	t_o_cmd	*new_node;
 	bool	found_word;
+	char	**tab_fake;
 
 	list = cmds;
 	head = NULL;
@@ -99,7 +100,9 @@ t_o_cmd	*ft_only_cmd(t_list *cmds)
 		}
 		if (found_word == false)
 		{
-			new_node = fill_new_node(new_node, fake_tab());
+			tab_fake = fake_tab();
+			new_node = fill_new_node(new_node, tab_fake);
+			free_tab(tab_fake);
 			if (!new_node)
 				return (NULL);
 			head = headinit_currnext(head, new_node, current);
