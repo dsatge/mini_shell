@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/20 13:47:34 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 10:48:16 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,31 @@ int	heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head, char *file_name)
 	return (EXIT_SUCCESS);
 }
 
-char	*file_name(char *eol_file)
+static void	file_list(char *name, t_minish *minish)
+{
+	t_f_name	*new_node;
+	t_f_name	*tmp;
+
+	new_node = malloc(sizeof(t_f_name));
+	if (!new_node)
+	{
+		perror("malloc failed");
+		exit(EXIT_FAILURE);
+	}
+	new_node->f_name = ft_strdup(name);
+	new_node->next = NULL;
+	if (!minish->f_name)
+		minish->f_name = new_node;
+	else
+	{
+		tmp = minish->f_name;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_node;
+	}
+}
+
+char	*file_name(char *eol_file, t_minish *minish)
 {
 	int i;
 	int check_access;
@@ -93,6 +117,7 @@ char	*file_name(char *eol_file)
 		check_access = access(tmp, F_OK);
 		i++;
 	}
+	file_list(tmp, minish);
 	return (tmp);
 }
 
@@ -118,13 +143,15 @@ int			heredoc_check(t_minish *minish, t_env_head *env_head)
 		if (minish->cmds->cmd.type == redir && ft_strcmp(minish->cmds->cmd.tab[0],
 			"<<") == 0)
 		{
-			file = file_name(minish->cmds->cmd.tab[1]);
+			ft_printf(2, "check cmd %s %s\n", minish->cmds->cmd.tab[0], minish->cmds->cmd.tab[1]);
+			file = file_name(minish->cmds->cmd.tab[1], minish);
 			if (!file)
 				return (EXIT_FAILURE);
 			if (heredoc(&minish->pipex, minish->cmds, env_head, file) == EXIT_FAILURE)
 			{
+				ft_printf(2, "OUUUUUUUUUPS\n");
 				g_error_code = 130;
-				return (unlink(file), free(file), ft_printf(2 , "\n"), EXIT_FAILURE);
+				return (free(file), ft_printf(2 , "\n"), EXIT_FAILURE);
 			}
 			if (heredoc_name(file, minish->cmds) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
@@ -134,3 +161,5 @@ int			heredoc_check(t_minish *minish, t_env_head *env_head)
 	minish->cmds = head;
 	return (EXIT_SUCCESS);
 }
+
+//enregistrer tableau liste chainee des file a unlink.
