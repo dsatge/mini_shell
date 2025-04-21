@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 16:27:28 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:44:59 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	free_list(t_token *list)
 		free(list);
 		list = tmp;
 	}
-	list = NULL;
 }
 
 void	free_cmds(t_list *cmds)

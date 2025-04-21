@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 16:28:26 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:37:55 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ char	*file_name(char *eol_file, t_minish *minish)
 	char *itoa;
 	
 	i = 0;
-	// tmp = ft_strjoin("/tmp/minish_heredoc_", eol_file);
 	tmp = ft_strjoin("minish_heredoc_", eol_file);
 	if (!tmp)
 		return (NULL);
@@ -119,6 +118,8 @@ char	*file_name(char *eol_file, t_minish *minish)
 	{
 		tmp2 = tmp;
 		itoa = ft_itoa(i);
+		if (!itoa)
+			return (NULL);
 		tmp = ft_strjoin(tmp, itoa);
 		free(itoa);
 		free(tmp2);
