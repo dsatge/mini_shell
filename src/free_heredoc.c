@@ -6,11 +6,11 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:35:50 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 19:24:10 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 20:35:42 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 void	free_all_heredoc(t_minish *minish, bool clean_env)
 {
