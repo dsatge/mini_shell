@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 17:57:10 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:13:03 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,67 @@
 
 int	cmds_list(t_token *list, t_list *cmds)
 {
-	t_list	*tmp;
-	int		skip;
-	int		i;
+	int	skip;
+	int	i;
 
-	i = 0;
 	skip = 0;
+	i = 0;
 	skip = init_cmds_list(cmds, list, skip);
 	if (skip == -1)
 		return (-1);
 	while (list)
 	{
-		if (i > 0)
+		if (i++ > 0)
 		{
-			tmp = cmds;
-			cmds->next = ft_calloc(sizeof(t_list), 1);
-			if (!cmds->next)
-				return (ft_putstr_fd("ERROR : malloc fail", 2), -1);
-			cmds = cmds->next;
-			cmds->head = tmp->head;
-			skip = ft_cmd(list, cmds, tmp->head->cmd_nbr);
-			cmds->next = NULL;
-			cmds->prev = tmp;
+			if (create_and_fill_next_cmd(&list, &cmds, &skip) == -1)
+				return (-1);
 		}
-		while (skip > 0)
+		else
 		{
-			list = list->next;
-			skip--;
+			while (skip > 0)
+			{
+				list = list->next;
+				skip--;
+			}
 		}
-		i++;
 	}
 	return (0);
 }
+
+// int	cmds_list(t_token *list, t_list *cmds)
+// {
+// 	t_list	*tmp;
+// 	int		skip;
+// 	int		i;
+
+// 	i = 0;
+// 	skip = 0;
+// 	skip = init_cmds_list(cmds, list, skip);
+// 	if (skip == -1)
+// 		return (-1);
+// 	while (list)
+// 	{
+// 		if (i > 0)
+// 		{
+// 			tmp = cmds;
+// 			cmds->next = ft_calloc(sizeof(t_list), 1);
+// 			if (!cmds->next)
+// 				return (ft_putstr_fd("ERROR : malloc fail", 2), -1);
+// 			cmds = cmds->next;
+// 			cmds->head = tmp->head;
+// 			skip = ft_cmd(list, cmds, tmp->head->cmd_nbr);
+// 			cmds->next = NULL;
+// 			cmds->prev = tmp;
+// 		}
+// 		while (skip > 0)
+// 		{
+// 			list = list->next;
+// 			skip--;
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 int	init_cmds_list(t_list *cmds, t_token *list, int skip)
 {

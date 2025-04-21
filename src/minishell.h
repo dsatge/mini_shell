@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 20:57:15 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:06:25 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ int						tab_cmds(t_token *list, t_list *cmds);
 int						redir_cmds(t_token *list, t_list *cmds);
 int						word_cmds(t_token *list, t_list *cmds);
 int						pipe_cmds(t_token *list, t_list *cmds);
+int						create_and_fill_next_cmd(t_token **list, t_list **cmds, int *skip);
 // PRINT_TEST_LIST
 
 // COMMANDS
