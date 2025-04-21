@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 19:18:35 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/15 19:22:18 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/22 00:59:22 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,20 @@ void	print_declare(t_env **sorted)
 		i++;
 	}
 	return ;
+}
+
+int	is_valid_export_identifier(const char *str)
+{
+	int	i;
+
+	if (!str || !ft_isalpha(str[0]))
+		return (0);
+	i = 1;
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }
