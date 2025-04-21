@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir_types.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:58:49 by dsatge            #+#    #+#             */
 /*   Updated: 2025/04/21 18:11:51 by dsatge           ###   ########.fr       */
@@ -49,9 +49,10 @@ int	redir_heredoc(t_pipe **pipex, t_list *list)
 	(*pipex)->fd = open(list->cmd.tab[1], O_RDONLY);
 	if ((*pipex)->fd == -1)
 	{
-		ft_printf(2, "bash heredoc: %s: No such file or directory \n", list->cmd.tab[1]);
+		ft_printf(2, "bash heredoc: %s: No such file or directory \n",
+			list->cmd.tab[1]);
 		close((*pipex)->pipe_fd[0]);
-		close((*pipex)->pipe_fd[1]);///clean plus haut???
+		close((*pipex)->pipe_fd[1]);
 		return (EXIT_FAILURE);
 	}
 	(*pipex)->infile_fd = (*pipex)->fd;

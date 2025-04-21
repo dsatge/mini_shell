@@ -12,12 +12,6 @@
 
 #include "minishell.h"
 
-void	close_fd(int sig)
-{
-	(void)sig;
-	close(0);
-}
-
 static void	creat_heredoc(t_list *cmds, t_env_head *env_head, char *file_name)
 {
 	char	*buffer;
@@ -81,7 +75,7 @@ static void	file_list(char *name, t_minish *minish)
 	if (!new_node)
 	{
 		perror("malloc failed");
-		exit(EXIT_FAILURE);
+		return ;
 	}
 	new_node->f_name = ft_strdup(name);
 	new_node->next = NULL;
@@ -98,12 +92,12 @@ static void	file_list(char *name, t_minish *minish)
 
 char	*file_name(char *eol_file, t_minish *minish)
 {
-	int i;
-	int check_access;
-	char *tmp;
-	char *tmp2;
-	char *itoa;
-	
+	int		i;
+	int		check_access;
+	char	*tmp;
+	char	*tmp2;
+	char	*itoa;
+
 	i = 0;
 	tmp = ft_strjoin("/tmp/minish_heredoc_", eol_file);
 	if (!tmp)
@@ -125,17 +119,7 @@ char	*file_name(char *eol_file, t_minish *minish)
 	return (tmp);
 }
 
-int	heredoc_name(char *name, t_list *cmds)
-{
-	free(cmds->cmd.tab[1]);
-	cmds->cmd.tab[1] = ft_strdup(name);
-	if (!cmds->cmd.tab[1])
-		return (free(name), EXIT_FAILURE);
-	free(name);
-	return (EXIT_SUCCESS);
-}
-
-int			heredoc_check(t_minish *minish, t_env_head *env_head)
+int	heredoc_check(t_minish *minish, t_env_head *env_head)
 {
 	t_list	*head;
 	char	*file;
@@ -144,8 +128,8 @@ int			heredoc_check(t_minish *minish, t_env_head *env_head)
 	head = minish->cmds;
 	while (minish->cmds)
 	{
-		if (minish->cmds->cmd.type == redir && ft_strcmp(minish->cmds->cmd.tab[0],
-			"<<") == 0)
+		if (minish->cmds->cmd.type == redir
+			&& ft_strcmp(minish->cmds->cmd.tab[0], "<<") == 0)
 		{
 			file = file_name(minish->cmds->cmd.tab[1], minish);
 			if (!file)
@@ -153,7 +137,7 @@ int			heredoc_check(t_minish *minish, t_env_head *env_head)
 			if (heredoc(minish, env_head, file) == EXIT_FAILURE)
 			{
 				g_error_code = 130;
-				return (free(file), ft_printf(2 , "\n"), EXIT_FAILURE);
+				return (free(file), ft_printf(2, "\n"), EXIT_FAILURE);
 			}
 			if (heredoc_name(file, minish->cmds) == EXIT_FAILURE)
 				return (EXIT_FAILURE);

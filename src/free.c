@@ -25,7 +25,6 @@ void	free_list(t_token *list)
 		free(list);
 		list = tmp;
 	}
-	list = NULL;
 }
 
 void	free_cmds(t_list *cmds)
@@ -117,6 +116,7 @@ void	free_all(t_minish *minish, bool clean_env)
 		return ;
 	free_list(minish->element_head);
 	minish->element_head = NULL;
+	minish->head_token = NULL;
 	free_tpipe(minish->pipex);
 	minish->pipex = NULL;
 	free_file_names(minish->f_name);
@@ -131,14 +131,3 @@ void	free_all(t_minish *minish, bool clean_env)
 		free(minish);
 	}
 }
-
-void test_print_tab(char **tab)
-{
-	if (!tab)
-		return;
-	int i = -1;
-	while (tab[++i])
-		printf(" %s | %p \n", tab[i], &tab[i]);
-}
-
-// void test_print_list()

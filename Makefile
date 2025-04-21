@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
+#    By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
 #    Updated: 2025/04/21 18:39:37 by dsatge           ###   ########.fr        #
@@ -35,6 +35,7 @@ C_FILES = main.c\
 			exec_inchild.c\
 			expand_utils.c\
 			line_to_words.c\
+			heredoc_utils.c\
 			exec_only_cmd.c\
 			expand_heredoc.c\
 			tokenise_utils.c\

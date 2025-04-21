@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:09:29 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 14:27:51 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:25:04 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	redir_fdout_pip(t_pipe **pipex)
 int	redir_fdout(t_pipe **pipex, t_list *cmds)
 {
 	(void)cmds;
-	
 	if ((*pipex)->redir_out == 1)
 	{
 		dup2((*pipex)->outfile_fd, STDOUT_FILENO);

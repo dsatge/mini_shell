@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 20:10:50 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 17:24:38 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,16 @@
 int	redir_in(t_pipe **pipex, t_list *list, t_minish *minish)
 {
 	(void)minish;
-	
 	if ((*pipex)->redir_in == 1)
 		close((*pipex)->infile_fd);
 	(*pipex)->fd = open(list->cmd.tab[1], O_RDONLY);
-	//if redirpipe = 1 on peut aller chercher dans pipe
 	if ((*pipex)->fd == -1)
 	{
 		ft_printf(2, "bash: %s: No such file or directory \n", list->cmd.tab[1]);
 		close((*pipex)->pipe_fd[0]);
 		close((*pipex)->pipe_fd[1]);
-		free_list(minish->head_token);
+		free_list(minish->element_head);
+		minish->element_head = NULL;
 		minish->head_token = NULL;
 		return (EXIT_FAILURE);
 	}
@@ -61,4 +60,3 @@ int	redir_d_out(t_pipe **pipex, t_list *list)
 	(*pipex)->redir_out = 1;
 	return (0);
 }
-

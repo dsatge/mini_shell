@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 15:26:31 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:31:53 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,13 @@ static void	wait_commands(t_o_cmd *cmd)
 	}
 }
 
+static void	exec(t_minish *minish, t_o_cmd *current, t_env_head *env_head)
+{
+	child_exe(minish->cmds, minish, current, env_head);
+	free_all(minish, 1);
+	exit(EXIT_SUCCESS);
+}
+
 int	exec_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 {
 	t_o_cmd	*current;
@@ -79,18 +86,13 @@ int	exec_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 	while (minish->pipex->nbr_cmds > 0)
 	{
 		if (pipe(minish->pipex->pipe_fd) == -1)
-			return (perror("pipe"), ft_freetab(minish->pipex->path), exit(EXIT_FAILURE),
-			0);
+			return (ft_freetab(minish->pipex->path), exit(EXIT_FAILURE), 0);
 		current->pid = fork();
 		if (current->pid == -1)
 			return (ft_putstr_fd("ERROR\n", 2), 1);
 		signal_child();
 		if (current->pid == 0)
-		{
-			child_exe(minish->cmds, minish, current, env_head);
-			free_all(minish, 1);
-			exit(EXIT_SUCCESS);
-		}
+			exec(minish, current, env_head);
 		if (minish->pipex->prev_pip != -1)
 			close(minish->pipex->prev_pip);
 		close(minish->pipex->pipe_fd[1]);
