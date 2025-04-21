@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_word_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:24:13 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 18:24:39 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 22:30:00 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ int	skip_initial_whitespace(char *buffer, int *i, t_minish *mini_struct)
 	return (EXIT_SUCCESS);
 }
 
-int	process_words(char *buffer, int *i, t_minish *mini_struct, int *first_word)
+int	process_words(char *buffer, int *i, t_minish *mini_struct)
 {
 	while (buffer[*i])
 	{
-		if (is_word(buffer, i, &mini_struct, ++(*first_word)) == -1)
+		if (is_word(buffer, i, &mini_struct) == -1)
 			return (EXIT_FAILURE);
+		mini_struct->count_word++;
 		while (is_white_space(buffer[*i]) == true && buffer[*i] != '\0')
 			(*i)++;
 	}
