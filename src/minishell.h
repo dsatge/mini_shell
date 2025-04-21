@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 19:45:49 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 20:19:51 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # endif
 
 # define PROMPT "\001\e[0m\e[0;95m\002>Mini-merde>$ \001\e[0m\002"
+# define PIPE_ERR "Error malloc pipex in main\n"
 
 # include "../lib/libft/libft.h"
 # include "../lib/printf/ft_printf.h"

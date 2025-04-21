@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 19:33:03 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 20:19:23 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	return (0);
 }
 
-#define PIPE_ERR "Error malloc pipex in main\n"
-
 static void	ft_prompt(t_minish *mini_struct)
 {
 	t_list	*curr_cmd;
@@ -81,7 +79,6 @@ static void	ft_prompt(t_minish *mini_struct)
 			if (ft_split_word(buffer, mini_struct) == EXIT_FAILURE)
 			{
 				free_all(mini_struct, 0);
-				free(mini_struct->element);
 				free(buffer);
 				continue ;
 			}

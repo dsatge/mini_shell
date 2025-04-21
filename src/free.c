@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 19:47:17 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 19:50:04 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,6 @@ void	free_tab(char **tab)
 		i++;
 	}
 	free(tab);
-}
-
-void	free_tpipe(t_pipe *pipex)
-{
-	if (!pipex)
-		return ;
-	if (pipex->env)
-		free_tab(pipex->env);
-	pipex->env = NULL;
-	if (pipex->path)
-		free_tab(pipex->path);
-	pipex->path = NULL;
-	free(pipex);
-	return ;
 }
 
 void	free_tocmd(t_o_cmd *o_cmd)
