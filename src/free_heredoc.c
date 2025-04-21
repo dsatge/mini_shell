@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:35:50 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 18:45:55 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 19:24:10 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
-
-static void	free_file_names(t_f_name *files)
-{
-	t_f_name	*tmp;
-
-	if (!files)
-		return ;
-	while (files)
-	{
-		tmp = files->next;
-		if (files->f_name)
-		{
-			free(files->f_name);
-			free(files);
-		}
-		files = tmp;
-	}
-	return ;
-}
 
 void	free_all_heredoc(t_minish *minish, bool clean_env)
 {
