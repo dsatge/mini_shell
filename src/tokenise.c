@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/19 19:55:49 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/20 18:18:52 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_checktype_order(t_token *element)
 {
 	if (element->type == pip)
 	{
+		printf("je passe par ici2\n");
 		g_error_code = 2;
 		return (ft_printf(2, "bash: syntax error near unexpected  token `|'\n",
 				2), EXIT_FAILURE);
@@ -46,6 +47,7 @@ t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct,
 
 	if (first_word == 0)
 	{
+		mini_struct->element_head = mini_struct->element;
 		mini_struct->element->str = word;
 		ft_token_type(mini_struct->element, quote_typ);
 		mini_struct->element->next = NULL;

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
 /*   Updated: 2025/04/20 20:26:51 by dsatge           ###   ########.fr       */
@@ -96,7 +96,7 @@ int	exec_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 		if (minish->pipex->nbr_cmds > 1)
 			minish->pipex->prev_pip = minish->pipex->pipe_fd[0];
 		next_cmdexe(cmds_curr, &current, minish->pipex);
-		wait_commands(current);
 	}
+	wait_commands(*o_cmd);
 	return (0);
 }
