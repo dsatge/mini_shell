@@ -78,8 +78,6 @@ int	exec_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 	cmds_curr = &minish->cmds;
 	while (minish->pipex->nbr_cmds > 0)
 	{
-		if (heredoc_check(minish, env_head) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
 		if (pipe(minish->pipex->pipe_fd) == -1)
 			return (perror("pipe"), ft_freetab(minish->pipex->path), exit(EXIT_FAILURE),
 			0);

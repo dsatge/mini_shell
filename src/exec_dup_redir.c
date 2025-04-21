@@ -14,6 +14,7 @@
 
 int	redir_fdout_pip(t_pipe **pipex)
 {
+	ft_printf(2, "from redir out pipe\n");
 	if ((*pipex)->redir_out == 1)
 	{
 		dup2((*pipex)->outfile_fd, STDOUT_FILENO);
@@ -23,12 +24,14 @@ int	redir_fdout_pip(t_pipe **pipex)
 	{
 		dup2((*pipex)->pipe_fd[1], STDOUT_FILENO);
 		close((*pipex)->pipe_fd[1]);
+		ft_printf(2, "fd out to pip = %d\n", (*pipex)->pipe_fd[1]);
 	}
 	return (0);
 }
 
 int	redir_fdout(t_pipe **pipex, t_list *cmds)
 {
+	ft_printf(2, "from redir out\n");
 	(void)cmds;
 	if ((*pipex)->redir_out == 1)
 	{

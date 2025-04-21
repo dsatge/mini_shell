@@ -82,15 +82,25 @@ static void	close_clean(t_pipe *pipex, int prev_pip, char **env)
 int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
 {
 	char	**env;
+	int		builtins;
 
+	builtins = 0;
 	minish->o_cmd = ft_only_cmd(cmds);
 	env = buildtab(env_head);
 	if (!env)
 		return (-1);
 	init_pipex(cmds, minish->pipex, env);
 	init_path(env, minish->pipex);
-	if (ft_builtin(env_head, minish) == 0)
-		return (0);
+	if (heredoc_check(minish, env_head) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (minish->pipex->nbr_cmds <= 1)
+	{
+		builtins = builtins_inparent(minish, cmds, builtins);
+		if (builtins == 0)
+			return (0);
+		if (builtins == -1)
+			return (EXIT_FAILURE);
+	}
 	if (exec_cmds(&minish->o_cmd, minish, env_head) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	close_clean(minish->pipex, minish->pipex->prev_pip, env);
