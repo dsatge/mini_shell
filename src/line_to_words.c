@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
 /*   Updated: 2025/04/21 22:22:32 by enschnei         ###   ########.fr       */
@@ -53,53 +53,72 @@ static int	ft_q_type(char c)
 	return (quote);
 }
 
-int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
+static int	handle_redir_pipe(char *buffer, int *i, t_minish **mini_struct)
 {
 	char	*word;
-	char	*tmp;
-	int		start;
-	int		quote_typ;
 
-	word = NULL;
-	start = *i;
-	tmp = NULL;
-	quote_typ = 0;
-	if (is_redir_pipe(buffer[*i], *mini_struct) == true)
+	if (is_redir_pipe(buffer[*i], *mini_struct))
 	{
 		word = redir_pipe_to_word(buffer, i);
 		if (!word)
 			return (-1);
-		return (ft_tokenise_pipe_redir(word, *mini_struct, first_word,
-				quote_typ), 0);
+		ft_tokenise_pipe_redir(word, *mini_struct);
+		return (0);
 	}
-	while (buffer[*i] && is_redir_pipe(buffer[*i], *mini_struct) == false
-		&& is_white_space(buffer[*i]) == false)
+	return (1);
+}
+
+static int	handle_quotes(char *buffer, int *i, int *start, char **word, t_minish **mini_struct)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	(*mini_struct)->quote_t = ft_q_type(buffer[*i]);
+	if (*start != *i)
+	{
+		tmp = letters_to_word(*word, buffer, *start, *i);
+		if (!tmp)
+			return (-1);
+	}
+	else if (*word && *start == *i)
+		tmp = *word;
+	*word = ft_join_quotes(buffer, i, tmp);
+	if (!*word)
+		return (free(tmp), -1);
+	if (buffer[*i + 1] && !is_redir_pipe(buffer[*i + 1], *mini_struct))
+		*start = *i + 1;
+	else
+		*start = -1;
+	return (0);
+}
+
+static void	skip_word_chars(int *i)
+{
+	(*i)++;
+}
+
+int	is_word(char *buffer, int *i, t_minish **mini_struct)
+{
+	char	*word = NULL;
+	int		start = *i;
+
+	if (handle_redir_pipe(buffer, i, mini_struct) != 1)
+		return (0);
+	while (buffer[*i] && !is_redir_pipe(buffer[*i], *mini_struct)
+		&& !is_white_space(buffer[*i]))
 	{
 		if (buffer[*i] == '\'' || buffer[*i] == '"')
 		{
-			quote_typ = ft_q_type(buffer[*i]);
-			if (start != *i)
-			{
-				tmp = letters_to_word(word, buffer, start, *i);
-				if (!tmp)
-					return (-1);
-			}
-			else if (word && start == *i)
-				tmp = word;
-			word = ft_join_quotes(buffer, i, tmp);
-			if (!word)
-				return (free(tmp), -1);
-			if (buffer[*i + 1] && is_redir_pipe(buffer[*i + 1],
-					*mini_struct) == false)
-				start = *i + 1;
-			else
-				start = -1;
+			if (handle_quotes(buffer, i, &start, &word, mini_struct) == -1)
+				return (-1);
 		}
-		*i = *i + 1;
+		else
+			skip_word_chars(i);
 	}
 	if (start != *i && start != -1)
 		word = letters_to_word(word, buffer, start, *i);
-	return (ft_tokenise_word(word, *mini_struct, first_word, quote_typ), 0);
+	ft_tokenise_word(word, *mini_struct);
+	return (0);
 }
 
 char	*ft_join_quotes(char *buffer, int *i, char *tmp)
@@ -125,11 +144,10 @@ char	*ft_join_quotes(char *buffer, int *i, char *tmp)
 int	ft_split_word(char *buffer, t_minish *mini_struct)
 {
 	int		i;
-	int		first_word;
 	t_token	*head;
 
 	i = 0;
-	first_word = -1;
+	mini_struct->count_word = 0;
 	mini_struct->pipex->nbr_cmds = 1;
 	mini_struct->element = ft_calloc(sizeof(t_token), 1);
 	if (!mini_struct->element)
@@ -137,7 +155,7 @@ int	ft_split_word(char *buffer, t_minish *mini_struct)
 	head = mini_struct->element;
 	if (skip_initial_whitespace(buffer, &i, mini_struct) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (process_words(buffer, &i, mini_struct, &first_word) == EXIT_FAILURE)
+	if (process_words(buffer, &i, mini_struct) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (head)
 		mini_struct->head_token = head;

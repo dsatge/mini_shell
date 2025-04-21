@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:13:40 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/22 00:51:06 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/22 01:21:17 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ void	close_fd(int sig)
 	(void)sig;
 	close(0);
 	exit(EXIT_FAILURE);
+}
+
+void	fd_close(int sig)
+{
+	(void)sig;
+	close(0);
 }
 
 int	heredoc_name(char *name, t_list *cmds)
