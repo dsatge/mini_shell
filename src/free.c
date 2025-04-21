@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 16:53:29 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:10:27 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void	free_file_names(t_f_name *files)
 
 	if (!files)
 		return ;
-	printf("free_file_names %p\n", files);
 	while (files)
 	{
 		tmp = files->next;
@@ -141,5 +140,3 @@ void test_print_tab(char **tab)
 	while (tab[++i])
 		printf(" %s | %p \n", tab[i], &tab[i]);
 }
-
-// void test_print_list()
