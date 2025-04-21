@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_handling.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/19 20:13:52 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 11:14:12 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	ft_builtin(t_env_head *env_head, t_minish *minish)
 {
-	// check infile
-	// check heredocs?
 	if (!minish->cmds && !minish->cmds->cmd.tab)
 		return (1);
 	ft_expand_args(minish->cmds, env_head);

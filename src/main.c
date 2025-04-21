@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 19:39:42 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:07:07 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static void	ft_prompt(t_minish *mini_struct)
 			if (ft_split_word(buffer, mini_struct) == EXIT_FAILURE)
 			{
 				free_all(mini_struct, 0);
+				free(mini_struct->element);
 				free(buffer);
 				continue ;
 			}

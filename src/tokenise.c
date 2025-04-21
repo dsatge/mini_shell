@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 20:39:27 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:26:14 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_checktype_order(t_token *element)
 			return (ft_printf(2, "Error: redir not followed by word\n", 2), 1);
 		}
 		if (element->type == pip && element->next->type == pip)
-			return (ft_printf(2, "Error: 2 pipes\n", 2), 1);
+			return (ft_printf(2, "Error: multi pipes\n", 2), 1);
 		element = element->next;
 	}
 	if (element->type == pip || element->type == redir)
