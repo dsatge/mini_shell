@@ -6,6 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
+/*   Updated: 2025/04/21 22:14:55 by enschnei         ###   ########.fr       */
 /*   Updated: 2025/04/21 22:35:21 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -17,7 +18,7 @@
 # endif
 
 # define PROMPT "\001\e[0m\e[0;95m\002>Mini-merde>$ \001\e[0m\002"
-# define PIPE_ERR "Error malloc pipex in main\n"
+# define PIPE_ERR "Error: pipex malloc\n"
 
 # include "../lib/libft/libft.h"
 # include "../lib/printf/ft_printf.h"
@@ -194,6 +195,9 @@ int						tab_cmds(t_token *list, t_list *cmds);
 int						redir_cmds(t_token *list, t_list *cmds);
 int						word_cmds(t_token *list, t_list *cmds);
 int						pipe_cmds(t_token *list, t_list *cmds);
+int						create_and_fill_next_cmd(t_token **list, t_list **cmds,
+							int *skip);
+int						count_word_tokens(t_token *list);
 // PRINT_TEST_LIST
 
 // COMMANDS
@@ -224,6 +228,10 @@ int						exec_cmds(t_o_cmd **o_cmd, t_minish *minish,
 							t_env_head *env_head);
 // EXEC_ONLY_CMD
 t_o_cmd					*ft_only_cmd(t_list *cmds);
+t_o_cmd					*fill_new_node(t_o_cmd *new_node, char **cmds);
+t_o_cmd					*headinit_currnext(t_o_cmd *head, t_o_cmd *new_node,
+							t_o_cmd *current);
+char					**fake_tab(void);
 // EXEC_UTILS
 void					child_exe(t_list *cmds, t_minish *minish,
 							t_o_cmd *o_cmd, t_env_head *env_head);
@@ -266,7 +274,7 @@ void					print_declare(t_env **sorted);
 // BUILTINS_PARENTS
 int						builtins_inparent(t_minish *minish, t_list *cmds,
 							int builtins);
-//FREE_HEREDOCS
+// FREE_HEREDOCS
 void					free_all_heredoc(t_minish *minish, bool clean_env);
 
 #endif

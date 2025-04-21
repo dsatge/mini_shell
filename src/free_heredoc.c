@@ -6,11 +6,11 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:35:50 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 19:47:52 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 20:35:42 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 void	free_all_heredoc(t_minish *minish, bool clean_env)
 {

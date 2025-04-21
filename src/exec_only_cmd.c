@@ -6,13 +6,13 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:50:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 18:40:28 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 22:17:18 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_o_cmd	*fill_new_node(t_o_cmd *new_node, char **cmds)
+t_o_cmd	*fill_new_node(t_o_cmd *new_node, char **cmds)
 {
 	int	i;
 
@@ -40,7 +40,7 @@ static t_o_cmd	*fill_new_node(t_o_cmd *new_node, char **cmds)
 	return (new_node);
 }
 
-static t_o_cmd	*headinit_currnext(t_o_cmd *head, t_o_cmd *new_node,
+t_o_cmd	*headinit_currnext(t_o_cmd *head, t_o_cmd *new_node,
 		t_o_cmd *current)
 {
 	if (head == NULL)
@@ -50,7 +50,7 @@ static t_o_cmd	*headinit_currnext(t_o_cmd *head, t_o_cmd *new_node,
 	return (head);
 }
 
-static char	**fake_tab(void)
+char	**fake_tab(void)
 {
 	char	**tab;
 
@@ -62,52 +62,4 @@ static char	**fake_tab(void)
 		return (free(tab), NULL);
 	tab[1] = 0;
 	return (tab);
-}
-
-t_o_cmd	*ft_only_cmd(t_list *cmds)
-{
-	t_list	*list;
-	t_o_cmd	*head;
-	t_o_cmd	*current;
-	t_o_cmd	*new_node;
-	bool	found_word;
-	char	**tab_fake;
-
-	list = cmds;
-	head = NULL;
-	current = NULL;
-	if (!list || !list->cmd.tab[0])
-		return (NULL);
-	while (list)
-	{
-		found_word = false;
-		if (list->cmd.type == pip)
-			list = list->next;
-		while (list && list->cmd.type != pip)
-		{
-			if (list->cmd.type == word)
-			{
-				new_node = fill_new_node(new_node, list->cmd.tab);
-				if (!new_node)
-					return (NULL);
-				head = headinit_currnext(head, new_node, current);
-				current = new_node;
-				found_word = true;
-			}
-			list = list->next;
-		}
-		if (found_word == false)
-		{
-			tab_fake = fake_tab();
-			new_node = fill_new_node(new_node, tab_fake);
-			free_tab(tab_fake);
-			if (!new_node)
-				return (NULL);
-			head = headinit_currnext(head, new_node, current);
-			current = new_node;
-		}
-		if (list)
-			list = list->next;
-	}
-	return (head);
 }

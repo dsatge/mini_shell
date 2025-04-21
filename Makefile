@@ -6,7 +6,7 @@
 #    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/21 19:57:39 by dsatge           ###   ########.fr        #
+#    Updated: 2025/04/21 22:12:49 by enschnei         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ C_FILES = main.c\
 			expand_heredoc.c\
 			tokenise_utils.c\
 			exec_dup_redir.c\
+			only_cmd_utils.c\
 			ft_export_utils.c\
 			signal_handling.c\
 			split_word_utils.c\
