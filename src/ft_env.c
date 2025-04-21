@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:48:16 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/14 19:42:23 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/20 19:42:16 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_init_env(char **env, t_env_head *env_head)
 	i = 0;
 	while (env[i])
 	{
-		new = malloc(sizeof(t_env));
+		new = ft_calloc(sizeof(t_env), 1);
 		if (!new)
 			return (ft_putstr_fd("Error malloc env in ft_init_env\n", 2), -1);
 		new->type = get_type_env(env[i]);

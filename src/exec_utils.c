@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 17:08:26 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/20 20:19:34 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ void	child_exe(t_list *cmds, t_minish *minish, t_o_cmd *o_cmd,
 		return (free_all(minish, 1), exit(EXIT_FAILURE));
 	if (ft_builtin(env_head, minish) == 0)
 		exit(EXIT_SUCCESS);
+	if (error_special(o_cmd->tab[0]) == 1)
+		return (free_all(minish, 1), exit(EXIT_FAILURE));
+	if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
+			o_cmd->tab, minish->pipex->env) == -1)
+		return (exit(127), perror("exe_cmd:"));
 	if ((access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
 		o_cmd->tab, minish->pipex->env) == -1) || minish->pipex->abs_path == 1)
 			return (ft_printf(2, "bash: %s: No such file or directory\n", o_cmd->tab[0]), free_all(minish, 1), exit(127));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 10:48:16 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:19:09 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static void	creat_heredoc(t_list *cmds, t_env_head *env_head, char *file_name)
 	while (1)
 	{
 		buffer = readline("heredoc> ");
-		buffer = ft_expand_heredoc(buffer, env_head);
 		if (!buffer || ft_strcmp(buffer, cmds->cmd.tab[1]) == 0)
 		{
 			free(buffer);
 			break ;
 		}
+		buffer = ft_expand_heredoc(buffer, env_head);
 		ft_putstr_fd(buffer, fd);
 		write(fd, "\n", 1);
 		free(buffer);

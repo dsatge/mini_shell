@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 18:51:42 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:13:16 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	is_word(char *buffer, int *i, t_minish **mini_struct, int first_word)
 				tmp = word;
 			word = ft_join_quotes(buffer, i, tmp);
 			if (!word)
-				return (-1);
+				return (free(tmp), -1);
 			if (buffer[*i + 1] && is_redir_pipe(buffer[*i + 1], *mini_struct) == false)
 				start = *i + 1;
 			else
@@ -112,7 +112,7 @@ char	*ft_join_quotes(char *buffer, int *i, char *tmp)
 	joined_words = NULL;
 	quote_word = ft_quotes(buffer, i);
 	if (!quote_word)
-		return (ft_putstr_fd("Error malloc: ft_join_quotes\n", 2), NULL);
+		return (NULL);
 	if (tmp)
 	{
 		joined_words = ft_strjoin(tmp, quote_word);
@@ -132,7 +132,7 @@ int    ft_split_word(char *buffer, t_minish *mini_struct)
 	i = 0;
 	first_word = -1;
 	mini_struct->pipex->nbr_cmds = 1;
-	mini_struct->element = malloc(sizeof(t_token));
+	mini_struct->element = ft_calloc(sizeof(t_token), 1);
 	if (!mini_struct->element)
 		return (EXIT_FAILURE);
 	mini_struct->element->str = NULL;
@@ -140,6 +140,8 @@ int    ft_split_word(char *buffer, t_minish *mini_struct)
 	head = mini_struct->element;
 	while ((is_White_Space(buffer[i]) == true) && buffer[i] != '\0')
 		i++;
+	if (buffer[i] == '\0')
+		return (free(mini_struct->element), EXIT_FAILURE);
 	while (buffer[i])
 	{
 		if (is_word(buffer, &i, &mini_struct, ++first_word) == -1)

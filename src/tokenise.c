@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:11:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 18:18:52 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:26:14 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	ft_checktype_order(t_token *element)
 {
 	if (element->type == pip)
 	{
-		printf("je passe par ici2\n");
 		g_error_code = 2;
 		return (ft_printf(2, "bash: syntax error near unexpected  token `|'\n",
 				2), EXIT_FAILURE);
@@ -29,7 +28,7 @@ int	ft_checktype_order(t_token *element)
 			return (ft_printf(2, "Error: redir not followed by word\n", 2), 1);
 		}
 		if (element->type == pip && element->next->type == pip)
-			return (ft_printf(2, "Error: 2 pipes\n", 2), 1);
+			return (ft_printf(2, "Error: multi pipes\n", 2), 1);
 		element = element->next;
 	}
 	if (element->type == pip || element->type == redir)
@@ -56,7 +55,7 @@ t_token	*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct,
 	{
 		while (mini_struct->element->next)
 			mini_struct->element = mini_struct->element->next;
-		new_node = malloc(sizeof(t_token));
+		new_node = ft_calloc(sizeof(t_token), 1);
 		if (!new_node)
 			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
 		new_node->next = NULL;
@@ -87,7 +86,7 @@ t_token	*ft_tokenise_word(char *word, t_minish *mini_struct, int first_word,
 	{
 		while (mini_struct->element->next)
 			mini_struct->element = mini_struct->element->next;
-		new_node = malloc(sizeof(t_token));
+		new_node = ft_calloc(sizeof(t_token), 1);
 		if (!new_node)
 			return (ft_putstr_fd("Error malloc add_node\n", 2), NULL);
 		new_node->next = NULL;

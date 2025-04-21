@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/20 18:47:56 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 12:07:07 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,10 @@ static void	ft_prompt(t_minish *mini_struct)
 			return (ft_putstr_fd(PIPE_ERR, 2), free_all(mini_struct, 0));
 		if (buf_value == 0)
 		{
-			if (error_special(buffer) == 1)
-				continue ;
 			if (ft_split_word(buffer, mini_struct) == EXIT_FAILURE)
 			{
 				free_all(mini_struct, 0);
+				free(mini_struct->element);
 				free(buffer);
 				continue ;
 			}
@@ -94,7 +93,7 @@ static void	ft_prompt(t_minish *mini_struct)
 			}
 			else
 			{
-				mini_struct->cmds = malloc(sizeof(t_list));
+				mini_struct->cmds = ft_calloc(sizeof(t_list), 1);
 				if (!mini_struct->cmds)
 					return ;
 				cmds_list(mini_struct->head_token, mini_struct->cmds);

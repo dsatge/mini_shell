@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:36:32 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/18 13:49:55 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/20 19:49:21 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	cmds_list(t_token *list, t_list *cmds)
 		if (i > 0)
 		{
 			tmp = cmds;
-			cmds->next = malloc(sizeof(t_list));
+			cmds->next = ft_calloc(sizeof(t_list), 1);
 			if (!cmds->next)
 				return (ft_putstr_fd("ERROR : malloc fail", 2), -1);
 			cmds = cmds->next;
@@ -68,9 +68,6 @@ int	ft_cmd(t_token *list, t_list *cmds, int nbr_cmd)
 	int	element;
 
 	element = 0;
-	// cmd->cmd = malloc(sizeof(t_cmd));
-	// if (!cmds->cmd)
-		// return (-1);
 	if (cmds && cmds->head == NULL)
 	{
 		cmds->head = cmds;
