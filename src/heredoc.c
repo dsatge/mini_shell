@@ -6,19 +6,11 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 17:08:32 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:17:39 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	close_fd(int sig)
-{
-	(void)sig;
-	
-	close(0);
-	exit(EXIT_FAILURE);
-}
 
 static void	creat_heredoc(t_list *cmds, t_env_head *env_head, char *file_name)
 {
@@ -100,14 +92,13 @@ static void	file_list(char *name, t_minish *minish)
 
 char	*file_name(char *eol_file, t_minish *minish)
 {
-	int i;
-	int check_access;
-	char *tmp;
-	char *tmp2;
-	char *itoa;
-	
+	int		i;
+	int		check_access;
+	char	*tmp;
+	char	*tmp2;
+	char	*itoa;
+
 	i = 0;
-	// tmp = ft_strjoin("/tmp/minish_heredoc_", eol_file);
 	tmp = ft_strjoin("minish_heredoc_", eol_file);
 	if (!tmp)
 		return (NULL);
@@ -128,17 +119,7 @@ char	*file_name(char *eol_file, t_minish *minish)
 	return (tmp);
 }
 
-int	heredoc_name(char *name, t_list *cmds)
-{
-	free(cmds->cmd.tab[1]);
-	cmds->cmd.tab[1] = ft_strdup(name);
-	if (!cmds->cmd.tab[1])
-		return (free(name), EXIT_FAILURE);
-	free(name);
-	return (EXIT_SUCCESS);
-}
-
-int			heredoc_check(t_minish *minish, t_env_head *env_head)
+int	heredoc_check(t_minish *minish, t_env_head *env_head)
 {
 	t_list	*head;
 	char	*file;
@@ -147,17 +128,16 @@ int			heredoc_check(t_minish *minish, t_env_head *env_head)
 	head = minish->cmds;
 	while (minish->cmds)
 	{
-		if (minish->cmds->cmd.type == redir && ft_strcmp(minish->cmds->cmd.tab[0],
-			"<<") == 0)
+		if (minish->cmds->cmd.type == redir
+			&& ft_strcmp(minish->cmds->cmd.tab[0], "<<") == 0)
 		{
-			ft_printf(2, "check cmd %s %s\n", minish->cmds->cmd.tab[0], minish->cmds->cmd.tab[1]);
 			file = file_name(minish->cmds->cmd.tab[1], minish);
 			if (!file)
 				return (EXIT_FAILURE);
 			if (heredoc(minish, env_head, file) == EXIT_FAILURE)
 			{
 				g_error_code = 130;
-				return (free(file), ft_printf(2 , "\n"), EXIT_FAILURE);
+				return (free(file), ft_printf(2, "\n"), EXIT_FAILURE);
 			}
 			if (heredoc_name(file, minish->cmds) == EXIT_FAILURE)
 				return (EXIT_FAILURE);

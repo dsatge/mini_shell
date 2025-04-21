@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 16:53:20 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:24:38 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 int	redir_in(t_pipe **pipex, t_list *list, t_minish *minish)
 {
 	(void)minish;
-	
 	if ((*pipex)->redir_in == 1)
 		close((*pipex)->infile_fd);
 	(*pipex)->fd = open(list->cmd.tab[1], O_RDONLY);
-	//if redirpipe = 1 on peut aller chercher dans pipe
 	if ((*pipex)->fd == -1)
 	{
 		ft_printf(2, "bash: %s: No such file or directory \n", list->cmd.tab[1]);
@@ -62,4 +60,3 @@ int	redir_d_out(t_pipe **pipex, t_list *list)
 	(*pipex)->redir_out = 1;
 	return (0);
 }
-
