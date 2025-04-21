@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:38:17 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 14:19:09 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:28:26 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	close_fd(int sig)
 {
 	(void)sig;
+	
 	close(0);
 	exit(EXIT_FAILURE);
 }
@@ -43,16 +44,14 @@ static void	creat_heredoc(t_list *cmds, t_env_head *env_head, char *file_name)
 		free(buffer);
 	}
 	close(fd);
-	exit(EXIT_SUCCESS);
 }
 
-int	heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head, char *file_name)
+int	heredoc(t_minish *minish, t_env_head *env_head, char *file_name)
 {
 	pid_t	pid_heredoc;
 	int		status;
 	// t_list	*list;
 
-	(void) pipex;
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	// list = cmds;
@@ -63,7 +62,12 @@ int	heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head, char *file_name)
 		return (EXIT_FAILURE);
 	}
 	if (pid_heredoc == 0)
-		creat_heredoc(cmds, env_head, file_name);
+	{
+		creat_heredoc(minish->cmds, env_head, file_name);
+		free_all(minish, 1);
+		free(file_name);
+		exit(EXIT_SUCCESS);
+	}
 	waitpid(pid_heredoc, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		return (EXIT_FAILURE);
@@ -78,7 +82,7 @@ static void	file_list(char *name, t_minish *minish)
 	t_f_name	*new_node;
 	t_f_name	*tmp;
 
-	new_node = malloc(sizeof(t_f_name));
+	new_node = ft_calloc(sizeof(t_f_name), 1);
 	if (!new_node)
 	{
 		perror("malloc failed");
@@ -102,6 +106,8 @@ char	*file_name(char *eol_file, t_minish *minish)
 	int i;
 	int check_access;
 	char *tmp;
+	char *tmp2;
+	char *itoa;
 	
 	i = 0;
 	// tmp = ft_strjoin("/tmp/minish_heredoc_", eol_file);
@@ -111,7 +117,11 @@ char	*file_name(char *eol_file, t_minish *minish)
 	check_access = access(tmp, F_OK);
 	while (check_access == 0)
 	{
-		tmp = ft_strjoin(tmp, ft_itoa(i));
+		tmp2 = tmp;
+		itoa = ft_itoa(i);
+		tmp = ft_strjoin(tmp, itoa);
+		free(itoa);
+		free(tmp2);
 		if (!tmp)
 			return (NULL);
 		check_access = access(tmp, F_OK);
@@ -147,9 +157,8 @@ int			heredoc_check(t_minish *minish, t_env_head *env_head)
 			file = file_name(minish->cmds->cmd.tab[1], minish);
 			if (!file)
 				return (EXIT_FAILURE);
-			if (heredoc(&minish->pipex, minish->cmds, env_head, file) == EXIT_FAILURE)
+			if (heredoc(minish, env_head, file) == EXIT_FAILURE)
 			{
-				ft_printf(2, "OUUUUUUUUUPS\n");
 				g_error_code = 130;
 				return (free(file), ft_printf(2 , "\n"), EXIT_FAILURE);
 			}
@@ -161,5 +170,3 @@ int			heredoc_check(t_minish *minish, t_env_head *env_head)
 	minish->cmds = head;
 	return (EXIT_SUCCESS);
 }
-
-//enregistrer tableau liste chainee des file a unlink.
