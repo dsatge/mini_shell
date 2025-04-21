@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 21:06:25 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:54:17 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,9 @@ int						tab_cmds(t_token *list, t_list *cmds);
 int						redir_cmds(t_token *list, t_list *cmds);
 int						word_cmds(t_token *list, t_list *cmds);
 int						pipe_cmds(t_token *list, t_list *cmds);
-int						create_and_fill_next_cmd(t_token **list, t_list **cmds, int *skip);
+int						create_and_fill_next_cmd(t_token **list, t_list **cmds,
+							int *skip);
+int						count_word_tokens(t_token *list);
 // PRINT_TEST_LIST
 
 // COMMANDS
@@ -268,7 +270,7 @@ void					print_declare(t_env **sorted);
 // BUILTINS_PARENTS
 int						builtins_inparent(t_minish *minish, t_list *cmds,
 							int builtins);
-//FREE_HEREDOCS
+// FREE_HEREDOCS
 void					free_all_heredoc(t_minish *minish, bool clean_env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:43:23 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 21:05:56 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:48:35 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	create_and_fill_next_cmd(t_token **list, t_list **cmds, int *skip)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	tmp = *cmds;
 	(*cmds)->next = ft_calloc(sizeof(t_list), 1);
@@ -31,4 +31,52 @@ int	create_and_fill_next_cmd(t_token **list, t_list **cmds, int *skip)
 		(*skip)--;
 	}
 	return (0);
+}
+
+int	cmds_list(t_token *list, t_list *cmds)
+{
+	int	skip;
+	int	i;
+
+	skip = 0;
+	i = 0;
+	skip = init_cmds_list(cmds, list, skip);
+	if (skip == -1)
+		return (-1);
+	while (list)
+	{
+		if (i++ > 0)
+		{
+			if (create_and_fill_next_cmd(&list, &cmds, &skip) == -1)
+				return (-1);
+		}
+		else
+		{
+			while (skip > 0)
+			{
+				list = list->next;
+				skip--;
+			}
+		}
+	}
+	return (0);
+}
+
+int	pipe_cmds(t_token *list, t_list *cmds)
+{
+	int		tab_len;
+	t_token	*current;
+
+	tab_len = 1;
+	current = list;
+	cmds->cmd.type = pip;
+	cmds->cmd.tab = ft_calloc(sizeof(char *), (tab_len + 1));
+	if (!cmds->cmd.tab)
+		return (-1);
+	cmds->cmd.tab[0] = ft_strdup("|");
+	if (!cmds->cmd.tab[0])
+		return (-1);
+	cmds->cmd.tab[1] = 0;
+	current = current->next;
+	return (tab_len);
 }
