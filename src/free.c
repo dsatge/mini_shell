@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 14:50:21 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:27:28 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,15 @@ void	free_file_names(t_f_name *files)
 
 	if (!files)
 		return ;
+	printf("free_file_names %p\n", files);
 	while (files)
 	{
 		tmp = files->next;
 		if (files->f_name)
 		{
 			unlink(files->f_name);
-			free(files->f_name);		
+			free(files->f_name);
+			free(files);
 		}
 		files = tmp;
 	}

@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 15:30:34 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:51:21 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ int				redir_fdout_pip(t_pipe **pipex);
 int				redir_fdout(t_pipe **pipex, t_list *cmds);
 
 // HEREDOC
-int				heredoc(t_pipe **pipex, t_list *cmds, t_env_head *env_head, char *file_name);
+int				heredoc(t_minish *minish, t_env_head *env_head, char *file_name);
 char			*ft_expand_heredoc(char *buffer, t_env_head *env_head);
 int				heredoc_check(t_minish *minish, t_env_head *env_head);
 int	redir_heredoc(t_pipe **pipex, t_list *list);
