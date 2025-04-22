@@ -6,7 +6,7 @@
 #    By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 17:54:19 by dsatge            #+#    #+#              #
-#    Updated: 2025/04/21 22:12:49 by enschnei         ###   ########.fr        #
+#    Updated: 2025/04/21 23:45:35 by dsatge           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ C_FILES = main.c\
 			builtins_handling.c\
 			exec_only_cmd_utils.c\
 			line_to_words_utils.c\
+			line_to_words_extra.c\
 			redir_pipe_to_word_utils.c\
 
 BOLD = \033[1m

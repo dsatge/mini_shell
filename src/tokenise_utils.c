@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 17:10:34 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/14 19:45:01 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/22 02:01:11 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,21 @@ int	ft_isredir(t_token element)
 	return (1);
 }
 
-char	*word_from_str(char *buffer, int start, int len)
+char	*word_from_str(char *buffer, int start, int end)
 {
 	char	*word;
 	int		i;
+	int		size;
 
-	i = 0;
-	word = malloc(sizeof(char) * (len) + 1);
+	if (end < start)
+		return (ft_putstr_fd("Error: invalid indices in word_from_str\n", 2),
+			NULL);
+	size = end - start;
+	word = malloc(sizeof(char) * (size + 1));
 	if (!word)
 		return (ft_putstr_fd("Error malloc: word_from_str\n", 2), NULL);
-	while ((i + start) < len)
+	i = 0;
+	while (i < size)
 	{
 		word[i] = buffer[start + i];
 		i++;

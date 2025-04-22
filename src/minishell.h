@@ -6,8 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 22:14:55 by enschnei         ###   ########.fr       */
-/*   Updated: 2025/04/21 22:35:21 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/22 02:02:34 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +138,7 @@ typedef struct s_minish
 	t_f_name			*f_name;
 	int					count_word;
 	int					quote_t;
+	int					i;
 }						t_minish;
 
 extern int				g_error_code;
@@ -149,24 +149,32 @@ int						ft_buffer(char *buffer, t_token *token_list,
 // LINE_TO_WORDS_UTILS
 bool					is_white_space(char c);
 bool					is_redir_pipe(char c, t_minish *minish);
-char					*redir_pipe_to_word(char *buffer, int *i);
-int						skip_initial_whitespace(char *buffer, int *i,
+char					*redir_pipe_to_word(char *buffer,
 							t_minish *mini_struct);
-int						process_words(char *buffer, int *i,
+int						skip_initial_whitespace(char *buffer,
 							t_minish *mini_struct);
+int						process_words(char *buffer, t_minish *mini_struct);
+char					*ft_quotes(char *buffer, t_minish *minish);
+int						ft_split_word(char *buffer, t_minish *mini_struct);
+char					*ft_join_quotes(char *buffer, t_minish *minish,
+							char *tmp);
+int						handle_quotes(char *buffer, int *start, char **word,
+							t_minish **mini_struct);
+char					*ft_quotes(char *buffer, t_minish *minish);
 // LINE_TO_WORDS
-char					*ft_quotes(char *buffer, int *i);
-int						is_word(char *buffer, int *i, t_minish **mini_struct);
+char					*ft_quotes(char *buffer, t_minish *minish);
+int						is_word(char *buffer, t_minish **mini_struct);
 char					*letters_to_word(char *word, char *buffer, int start,
 							int i);
-char					*ft_join_quotes(char *buffer, int *i, char *tmp);
-int						ft_split_word(char *buffer, t_minish *mini_struct);
+char					*ft_join_quotes(char *buffer, t_minish *minish,
+							char *tmp);
 int						get_quote_type(char c);
-char					*handle_less(char *buffer, int *i);
-char					*handle_great(char *buffer, int *i);
+char					*handle_less(char *buffer, t_minish *minish);
+char					*handle_great(char *buffer, t_minish *minish);
 // TOKENISE
 int						ft_checktype_order(t_token *element);
-t_token					*ft_tokenise_pipe_redir(char *word, t_minish *mini_struct);
+t_token					*ft_tokenise_pipe_redir(char *word,
+							t_minish *mini_struct);
 t_token					*ft_tokenise_word(char *word, t_minish *mini_struct);
 // TOKENISE_UTILS
 void					ft_token_type(t_token *element, int quote_typ);
