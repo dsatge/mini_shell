@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:24:13 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 23:34:25 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/22 17:53:07 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ int	skip_initial_whitespace(char *buffer, t_minish *mini_struct)
 {
 	while (is_white_space(buffer[mini_struct->i]) == true
 		&& buffer[mini_struct->i] != '\0')
+	{
 		mini_struct->i++;
+	}
 	if (buffer[mini_struct->i] == '\0')
 	{
 		free(mini_struct->element);
