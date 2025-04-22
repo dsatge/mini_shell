@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   redir_pipe_to_word_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:11:09 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 18:13:14 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 23:26:48 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*handle_less(char *buffer, int *i)
+char	*handle_less(char *buffer, t_minish *minish)
 {
 	char	*word;
 
-	if (buffer[*i] == '<' && buffer[*i + 1] == '<')
+	if (buffer[minish->i] == '<' && buffer[minish->i + 1] == '<')
 	{
-		*i = *i + 1;
+		minish->i = minish->i + 1;
 		word = ft_strdup("<<");
 	}
 	else
@@ -26,13 +26,13 @@ char	*handle_less(char *buffer, int *i)
 	return (word);
 }
 
-char	*handle_great(char *buffer, int *i)
+char	*handle_great(char *buffer, t_minish *minish)
 {
 	char	*word;
 
-	if (buffer[*i] == '>' && buffer[*i + 1] == '>')
+	if (buffer[minish->i] == '>' && buffer[minish->i + 1] == '>')
 	{
-		*i = *i + 1;
+		minish->i = minish->i + 1;
 		word = ft_strdup(">>");
 	}
 	else

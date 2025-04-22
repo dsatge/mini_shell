@@ -6,17 +6,18 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:24:13 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/21 22:30:00 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/21 23:34:25 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	skip_initial_whitespace(char *buffer, int *i, t_minish *mini_struct)
+int	skip_initial_whitespace(char *buffer, t_minish *mini_struct)
 {
-	while (is_white_space(buffer[*i]) == true && buffer[*i] != '\0')
-		(*i)++;
-	if (buffer[*i] == '\0')
+	while (is_white_space(buffer[mini_struct->i]) == true
+		&& buffer[mini_struct->i] != '\0')
+		mini_struct->i++;
+	if (buffer[mini_struct->i] == '\0')
 	{
 		free(mini_struct->element);
 		return (EXIT_FAILURE);
@@ -24,15 +25,16 @@ int	skip_initial_whitespace(char *buffer, int *i, t_minish *mini_struct)
 	return (EXIT_SUCCESS);
 }
 
-int	process_words(char *buffer, int *i, t_minish *mini_struct)
+int	process_words(char *buffer, t_minish *mini_struct)
 {
-	while (buffer[*i])
+	while (buffer[mini_struct->i])
 	{
-		if (is_word(buffer, i, &mini_struct) == -1)
+		if (is_word(buffer, &mini_struct) == -1)
 			return (EXIT_FAILURE);
 		mini_struct->count_word++;
-		while (is_white_space(buffer[*i]) == true && buffer[*i] != '\0')
-			(*i)++;
+		while (is_white_space(buffer[mini_struct->i]) == true
+			&& buffer[mini_struct->i] != '\0')
+			mini_struct->i++;
 	}
 	return (EXIT_SUCCESS);
 }

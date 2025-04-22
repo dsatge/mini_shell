@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:02:28 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 18:15:34 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/22 01:41:27 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,20 @@ bool	is_redir_pipe(char c, t_minish *minish)
 	return (false);
 }
 
-char	*redir_pipe_to_word(char *buffer, int *i)
+char	*redir_pipe_to_word(char *buffer, t_minish *mini_struct)
 {
 	char	*word;
 
 	word = NULL;
-	if (buffer[*i] == '|')
+	if (buffer[mini_struct->i] == '|')
 		word = ft_strdup("|");
-	else if (buffer[*i] == '<')
-		word = handle_less(buffer, i);
-	else if (buffer[*i] == '>')
-		word = handle_great(buffer, i);
+	else if (buffer[mini_struct->i] == '<')
+		word = handle_less(buffer, mini_struct);
+	else if (buffer[mini_struct->i] == '>')
+		word = handle_great(buffer, mini_struct);
 	if (!word)
 		return (NULL);
-	*i = *i + 1;
+	mini_struct->i = mini_struct->i + 1;
 	return (word);
 }
 
@@ -67,6 +67,8 @@ char	*letters_to_word(char *word, char *buffer, int start, int i)
 	char	*joined_letters;
 	char	*joined_word;
 
+	if (start == 1)
+		return (word);
 	joined_letters = word_from_str(buffer, start, i);
 	if (!joined_letters)
 		return (ft_putstr_fd("Error malloc: letters_to_word\n", 2), NULL);

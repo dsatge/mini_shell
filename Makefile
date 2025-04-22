@@ -51,6 +51,7 @@ C_FILES = main.c\
 			builtins_handling.c\
 			exec_only_cmd_utils.c\
 			line_to_words_utils.c\
+			line_to_words_extra.c\
 			redir_pipe_to_word_utils.c\
 
 BOLD = \033[1m
