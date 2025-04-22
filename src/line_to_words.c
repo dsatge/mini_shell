@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 02:13:03 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/22 17:01:16 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ static int	handle_redir_pipe(char *buffer, t_minish **mini_struct)
 	{
 		word = redir_pipe_to_word(buffer, *mini_struct);
 		if (!word)
-			return (-1);
+		// ft_printf(2, "adress de word = %p\n", word);
+		// ft_printf(2, "adress de word = \n");
+			return (free(buffer), -1);
 		ft_tokenise_pipe_redir(word, *mini_struct);
 		return (0);
 	}

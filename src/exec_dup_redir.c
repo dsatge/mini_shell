@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec_dup_redir.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:09:29 by enschnei          #+#    #+#             */
 /*   Updated: 2025/04/22 03:26:22 by enschnei         ###   ########.fr       */
