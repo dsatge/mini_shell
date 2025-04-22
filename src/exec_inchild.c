@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 03:26:13 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/22 17:21:18 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_redir_manager(t_minish *minish, t_pipe *pipex, t_env_head *env_head,
 	cmds = minish->cmds;
 	if (ft_redir(&cmds, &pipex, minish) == EXIT_FAILURE)
 	{
+		ft_printf(2, "still heree\n");
 		return (EXIT_FAILURE);
 	}
 	if (minish->pipex->nbr_cmds > 1)

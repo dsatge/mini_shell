@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:03:52 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 04:22:21 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/22 17:41:15 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ int	redir_in(t_pipe **pipex, t_list *list, t_minish *minish)
 	(*pipex)->fd = open(list->cmd.tab[1], O_RDONLY);
 	if ((*pipex)->fd == -1)
 	{
-		ft_printf(2, "bash: %s: No such file or directory \n", list->cmd.tab[1]);
+		// ft_printf(2, "ENCORE LA\n");
 		close((*pipex)->pipe_fd[0]);
 		close((*pipex)->pipe_fd[1]);
 		free_list(minish->element_head);
 		minish->element_head = NULL;
 		minish->head_token = NULL;
+		perror("Bash : ");
 		return (EXIT_FAILURE);
 	}
 	(*pipex)->infile_fd = (*pipex)->fd;

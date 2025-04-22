@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 19:02:28 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 17:05:15 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/22 18:07:37 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ char	*letters_to_word(char *word, char *buffer, int start, int i)
 	char	*joined_letters;
 	char	*joined_word;
 
-	if (start == 1)
-		return (word);
 	joined_letters = word_from_str(buffer, start, i);
 	if (!joined_letters)
 		return (ft_putstr_fd("Error malloc: letters_to_word\n", 2), NULL);
