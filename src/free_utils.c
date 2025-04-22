@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:35:22 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/22 00:47:20 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:57:37 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,35 @@ void	free_tpipe(t_pipe *pipex)
 		free_tab(pipex->path);
 	free(pipex);
 	return ;
+}
+
+void	ft_close_all(t_minish *minish)
+{
+	if (minish->pipex->redir_in != 1)
+	{
+		close(minish->pipex->infile_fd);
+		minish->pipex->redir_in = -1;
+	}
+	if (minish->pipex->redir_out != 1)
+	{
+		close(minish->pipex->outfile_fd);
+		minish->pipex->redir_out = -1;
+	}
+	if (minish->pipex->pipe_fd[0] != -1)
+	{
+		close (minish->pipex->pipe_fd[0]);
+		minish->pipex->pipe_fd[0] = -1;
+	}
+	if (minish->pipex->pipe_fd[1] != -1)
+	{
+		close (minish->pipex->pipe_fd[1]);
+		minish->pipex->pipe_fd[1] = -1;
+	}
+	if (minish->pipex->prev_pip != -1)
+	{
+		close(minish->pipex->prev_pip);
+		minish->pipex->prev_pip = -1;
+	}
 }
 
 void	free_all(t_minish *minish, bool clean_env)

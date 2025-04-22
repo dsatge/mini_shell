@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/22 03:44:14 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:54:12 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ void					signal_handle(void);
 void					sigint_handle(int signal);
 void					signal_child(void);
 // FREE
+void					ft_close_all(t_minish *minish);
 void					free_list(t_token *list);
 void					free_cmds(t_list *cmds);
 void					free_env(t_env_head *env_head);
