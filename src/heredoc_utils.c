@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:13:40 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/22 01:21:17 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/22 02:27:33 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	close_fd(int sig)
 void	fd_close(int sig)
 {
 	(void)sig;
+	ft_printf(2, "\n");
 	close(0);
 }
 

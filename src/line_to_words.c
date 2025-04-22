@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 02:03:13 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/22 02:13:03 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,47 +23,6 @@ static int	ft_q_type(char c)
 		quote = single_q;
 	return (quote);
 }
-
-char	*ft_join_quotes(char *buffer, int *i, char *tmp)
-{
-	char	*quote_word;
-	char	*joined_words;
-
-	joined_words = NULL;
-	quote_word = ft_quotes(buffer, i);
-	if (!quote_word)
-		return (NULL);
-	if (tmp)
-	{
-		joined_words = ft_strjoin(tmp, quote_word);
-		if (!joined_words)
-			return (ft_putstr_fd("Error ft_strjoin: ft_join_quotes\n", 2),
-				NULL);
-		return (free(quote_word), free(tmp), joined_words);
-	}
-	return (quote_word);
-}
-
-int	ft_split_word(char *buffer, t_minish *mini_struct)
-{
-	int		i;
-	int		first_word;
-	t_token	*head;
-
-	i = 0;
-	first_word = -1;
-	mini_struct->pipex->nbr_cmds = 1;
-	mini_struct->element = ft_calloc(sizeof(t_token), 1);
-	if (!mini_struct->element)
-		return (EXIT_FAILURE);
-	head = mini_struct->element;
-	if (skip_initial_whitespace(buffer, &i, mini_struct) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (process_words(buffer, &i, mini_struct, &first_word) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (head)
-		mini_struct->head_token = head;
-	return (EXIT_SUCCESS);
 
 static int	handle_redir_pipe(char *buffer, t_minish **mini_struct)
 {

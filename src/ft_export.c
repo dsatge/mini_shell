@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:48:19 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/22 00:59:02 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/22 02:16:09 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	ft_export(char **cmd, t_env_head *env_head)
 			free(type);
 			g_error_code = 1;
 			i++;
-			return(EXIT_FAILURE);
+			return (EXIT_FAILURE);
 		}
 		creation(env_head, cmd[i], type);
 		free(type);

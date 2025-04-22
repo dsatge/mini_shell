@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 23:37:04 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 02:00:50 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/22 02:24:56 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,5 @@ char	*ft_quotes(char *buffer, t_minish *minish)
 		minish->i++;
 		len++;
 	}
-	return (ft_putstr_fd("Error: unclosed quote\n", 2), NULL);
+	return (minish->element = NULL, ft_putstr_fd("Error: unclosed quote\n", 2), NULL);
 }
