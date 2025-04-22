@@ -6,7 +6,7 @@
 /*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/21 20:57:04 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/21 22:53:59 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static void	handle_parsing_and_execution(t_minish *mini_struct, char *buffer)
 	if (ft_split_word(buffer, mini_struct) == EXIT_FAILURE)
 	{
 		free_all(mini_struct, 0);
-		free(mini_struct->element);
 		free(buffer);
 		return ;
 	}

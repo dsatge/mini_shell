@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:48:19 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/15 19:19:19 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/22 00:59:02 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,14 @@ int	ft_export(char **cmd, t_env_head *env_head)
 	while (cmd[i])
 	{
 		type = get_type_env(cmd[i]);
-		if (!type)
-			return (EXIT_FAILURE);
+		if (!type || !is_valid_export_identifier(type))
+		{
+			ft_printf(2, "export: `%s': not a valid identifier\n", cmd[i]);
+			free(type);
+			g_error_code = 1;
+			i++;
+			return(EXIT_FAILURE);
+		}
 		creation(env_head, cmd[i], type);
 		free(type);
 		i++;
