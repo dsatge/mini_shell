@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_handling.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/21 15:32:54 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:44:27 by dsatge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	ft_builtin(t_env_head *env_head, t_minish *minish)
 {
+	printf("coucou\n");
 	if (!minish->cmds && !minish->cmds->cmd.tab)
 		return (1);
 	ft_expand_args(minish->cmds, env_head);
