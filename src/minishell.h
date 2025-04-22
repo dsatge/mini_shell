@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/22 19:54:12 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/23 00:03:35 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,7 @@ int						ft_cd(char **cmd);
 int						ft_pwd(char **cmd);
 void					ft_env(t_env_head *env_head);
 void					ft_unset(char **cmds, t_env_head *env_head);
-int						ft_exit(t_env_head *env_head, t_minish *minish);
+int						ft_exit(t_minish *minish);
 int						ft_export(char **cmd, t_env_head *env_head);
 // EXEC
 void					init_pipex(t_list *cmds, t_pipe *pipex, char **env);

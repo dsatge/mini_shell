@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 19:56:19 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/22 23:18:09 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 	if (*buffer == '\0')
 	{
 		free(buffer);
+		free_all(mini_struct, 0);
 		return (1);
 	}
 	add_history(buffer);
@@ -56,8 +57,8 @@ static void	handle_parsing_and_execution(t_minish *mini_struct, char *buffer)
 
 	if (ft_split_word(buffer, mini_struct) == EXIT_FAILURE)
 	{
-		free_all(mini_struct, 0);
 		free(buffer);
+		free_all(mini_struct, 0);
 		return ;
 	}
 	free(buffer);
@@ -68,7 +69,7 @@ static void	handle_parsing_and_execution(t_minish *mini_struct, char *buffer)
 	}
 	mini_struct->cmds = ft_calloc(sizeof(t_list), 1);
 	if (!mini_struct->cmds)
-		return ;
+		return  ;
 	cmds_list(mini_struct->head_token, mini_struct->cmds);
 	curr_cmd = mini_struct->cmds;
 	ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
@@ -80,6 +81,7 @@ static void	ft_prompt(t_minish *mini_struct)
 	char	*buffer;
 	int		buf_value;
 
+	printf("LEAAAAAAAAAAAAAAAAAAK\n");
 	while (1)
 	{
 		signal_handle();
@@ -100,6 +102,11 @@ static void	ft_prompt(t_minish *mini_struct)
 			return (ft_putstr_fd(PIPE_ERR, 2), free_all(mini_struct, 0));
 		if (buf_value == 0)
 			handle_parsing_and_execution(mini_struct, buffer);
+		else
+		{
+			free(mini_struct->pipex);
+			mini_struct->pipex = NULL;
+		}
 	}
 }
 

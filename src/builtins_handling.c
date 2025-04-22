@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_handling.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:23:54 by baiannon          #+#    #+#             */
-/*   Updated: 2025/04/22 18:07:48 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/23 00:03:47 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_builtin(t_env_head *env_head, t_minish *minish)
 		return (1);
 	ft_expand_args(minish->cmds, env_head);
 	if (ft_strcmp(minish->cmds->cmd.tab[0], "exit") == 0)
-		return (ft_exit(env_head, minish), 0);
+		return (ft_exit(minish), 0);
 	else if (ft_strcmp(minish->cmds->cmd.tab[0], "echo") == 0)
 		return (ft_echo(minish->cmds->cmd.tab), 0);
 	else if (ft_strcmp(minish->cmds->cmd.tab[0], "cd") == 0)
