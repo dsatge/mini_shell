@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_to_words_extra.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 23:37:04 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 17:52:16 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/23 01:21:20 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ char	*ft_join_quotes(char *buffer, t_minish *minish, char *tmp)
 	joined_words = NULL;
 	quote_word = ft_quotes(buffer, minish);
 	if (!quote_word)
+	{
+		g_error_code = 130;
 		return (NULL);
+	}
 	if (tmp)
 	{
 		joined_words = ft_strjoin(tmp, quote_word);
@@ -52,6 +55,19 @@ int	ft_split_word(char *buffer, t_minish *mini_struct)
 	return (EXIT_SUCCESS);
 }
 
+static void	free_element(t_minish *minish)
+{
+	if (minish->element)
+	{
+		if (minish->element != minish->element_head)
+			free_list(minish->element);
+		minish->element = NULL;
+	}
+	if (minish->head_token)
+		minish->head_token = NULL;
+	ft_putstr_fd("Error: unclosed quote\n", 2);
+}
+
 char	*ft_quotes(char *buffer, t_minish *minish)
 {
 	int		len;
@@ -78,5 +94,5 @@ char	*ft_quotes(char *buffer, t_minish *minish)
 		minish->i++;
 		len++;
 	}
-	return (minish->element = NULL, ft_putstr_fd("Error: unclosed quote\n", 2), NULL);
+	return (free_element(minish), NULL);
 }

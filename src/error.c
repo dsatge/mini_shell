@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 12:41:42 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/22 04:08:40 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/23 00:17:50 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	is_only_slash_dot(char *buffer)
 	}
 	if (flag)
 	{
-		ft_printf(2, "bash: %s: No such file or directory\n", buffer);
+		ft_printf(2, "bash: %s: is directory\n", buffer);
 		return (1);
 	}
 	return (0);
@@ -46,7 +46,7 @@ int	error_special(char *buffer)
 		return (0);
 	if (is_only_slash_dot(buffer) == 1)
 	{
-		g_error_code = 1;
+		g_error_code = 126;
 		return (1);
 	}
 	while (buffer[i])

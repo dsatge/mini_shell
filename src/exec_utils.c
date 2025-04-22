@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 17:18:15 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/23 00:22:30 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ static void	check_and_exec_first_attempt(t_minish *minish, t_env_head *env_head,
 	if (ft_builtin(env_head, minish) == 0)
 		return (free_all(minish, 1), exit(EXIT_SUCCESS));
 	if (error_special(o_cmd->tab[0]) == 1)
-		return (free_all(minish, 1), exit(EXIT_FAILURE));
-	// if (access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
-	// 		o_cmd->tab, minish->pipex->env) == -1)
-		// return (free_all(minish, 1), exit(127));
+		return (free_all(minish, 1), exit(g_error_code));
 	if ((access(o_cmd->tab[0], F_OK | X_OK) == 0 && execve(o_cmd->tab[0],
 				o_cmd->tab, minish->pipex->env) == -1)
 		|| minish->pipex->abs_path == 1)

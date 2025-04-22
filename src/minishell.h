@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/23 00:03:35 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/23 00:43:50 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@
 # include "../lib/printf/ft_printf.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <signal.h>
+# include <stdbool.h>
 # include <sys/ioctl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 typedef enum e_quote_status
 {

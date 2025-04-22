@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 23:18:09 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/23 00:23:29 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ static void	ft_prompt(t_minish *mini_struct)
 	char	*buffer;
 	int		buf_value;
 
-	printf("LEAAAAAAAAAAAAAAAAAAK\n");
 	while (1)
 	{
 		signal_handle();
@@ -125,5 +124,5 @@ int	main(int ac, char **av, char **env)
 	mini_struct->head_token = NULL;
 	ft_prompt(mini_struct);
 	free_all(mini_struct, 1);
-	return (0);
+	return (g_error_code);
 }
