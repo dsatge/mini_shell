@@ -6,31 +6,13 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:40:57 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/23 00:23:29 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/23 02:08:17 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int			g_error_code = 0;
-
-void	free_env(t_env_head *env_head)
-{
-	t_env	*tmp;
-	t_env	*next;
-
-	tmp = env_head->head;
-	while (tmp)
-	{
-		next = tmp->next;
-		free(tmp->type);
-		free(tmp->value);
-		free(tmp);
-		tmp = next;
-	}
-	env_head->head = NULL;
-	env_head->size = 0;
-}
 
 int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 {
@@ -69,11 +51,17 @@ static void	handle_parsing_and_execution(t_minish *mini_struct, char *buffer)
 	}
 	mini_struct->cmds = ft_calloc(sizeof(t_list), 1);
 	if (!mini_struct->cmds)
-		return  ;
+		return ;
 	cmds_list(mini_struct->head_token, mini_struct->cmds);
 	curr_cmd = mini_struct->cmds;
 	ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
 	free_all(mini_struct, 0);
+}
+
+static void	ft_isatty(char *buffer)
+{
+	rl_on_new_line();
+	buffer = readline("");
 }
 
 static void	ft_prompt(t_minish *mini_struct)
@@ -85,10 +73,7 @@ static void	ft_prompt(t_minish *mini_struct)
 	{
 		signal_handle();
 		if (isatty(STDIN_FILENO) == 0)
-		{
-			rl_on_new_line();
-			buffer = readline("");
-		}
+			ft_isatty(buffer);
 		else
 			buffer = readline(PROMPT);
 		if (!buffer)
@@ -102,10 +87,7 @@ static void	ft_prompt(t_minish *mini_struct)
 		if (buf_value == 0)
 			handle_parsing_and_execution(mini_struct, buffer);
 		else
-		{
-			free(mini_struct->pipex);
-			mini_struct->pipex = NULL;
-		}
+			free_for_lines(mini_struct);
 	}
 }
 

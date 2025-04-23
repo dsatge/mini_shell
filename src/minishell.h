@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 19:47:59 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/23 00:43:50 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/23 02:08:53 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ void					free_tocmd(t_o_cmd *o_cmd);
 void					free_all(t_minish *minish, bool clean_env);
 void					free_tpipe(t_pipe *pipex);
 void					free_tocmd(t_o_cmd *o_cmd);
+void					free_for_lines(t_minish *mini_struct);
 // LIST
 int						cmds_list(t_token *list, t_list *cmds);
 int						init_cmds_list(t_list *cmds, t_token *list, int next);

@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 18:29:27 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/23 00:35:53 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/23 01:52:11 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,7 @@ int	is_word(char *buffer, t_minish **mini_struct)
 			(*mini_struct)->i++;
 	}
 	if (start != (*mini_struct)->i && start != -1)
-	{
 		word = letters_to_word(word, buffer, start, (*mini_struct)->i);
-	}
 	ft_tokenise_word(word, *mini_struct);
 	return (0);
 }

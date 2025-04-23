@@ -6,7 +6,7 @@
 /*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 17:35:22 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/23 01:17:30 by enschnei         ###   ########.fr       */
+/*   Updated: 2025/04/23 02:14:42 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,24 @@ void	free_tpipe(t_pipe *pipex)
 		free_tab(pipex->path);
 	free(pipex);
 	return ;
+}
+
+void	free_env(t_env_head *env_head)
+{
+	t_env	*tmp;
+	t_env	*next;
+
+	tmp = env_head->head;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->type);
+		free(tmp->value);
+		free(tmp);
+		tmp = next;
+	}
+	env_head->head = NULL;
+	env_head->size = 0;
 }
 
 void	ft_close_all(t_minish *minish)

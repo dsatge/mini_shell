@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 08:53:45 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 17:05:37 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/23 02:14:28 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,11 @@ void	free_tocmd(t_o_cmd *o_cmd)
 		o_cmd = tmp;
 	}
 	return ;
+}
+
+void	free_for_lines(t_minish *mini_struct)
+{
+	if (mini_struct->pipex)
+		free_tpipe(mini_struct->pipex);
+	mini_struct->pipex = NULL;
 }

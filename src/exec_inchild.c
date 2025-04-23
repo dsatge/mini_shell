@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_inchild.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:35:36 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 17:21:18 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/23 02:11:46 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ int	ft_redir_manager(t_minish *minish, t_pipe *pipex, t_env_head *env_head,
 	(void)pip;
 	cmds = minish->cmds;
 	if (ft_redir(&cmds, &pipex, minish) == EXIT_FAILURE)
-	{
-		ft_printf(2, "still heree\n");
 		return (EXIT_FAILURE);
-	}
 	if (minish->pipex->nbr_cmds > 1)
 		redir_fdout_pip(&pipex);
 	else

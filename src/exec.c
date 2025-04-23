@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:15:25 by dsatge            #+#    #+#             */
-/*   Updated: 2025/04/22 19:23:43 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/23 01:51:59 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ int	ft_exec(t_list *cmds, t_env_head *env_head, t_minish *minish)
 		if (builtins == 0)
 			return (0);
 		if (builtins == -1)
-			return (close_clean(minish->pipex, minish->pipex->prev_pip, env), 0);
+			return (close_clean(minish->pipex, minish->pipex->prev_pip, env),
+				0);
 	}
 	if (exec_cmds(&minish->o_cmd, minish, env_head) == EXIT_FAILURE)
 		return (EXIT_FAILURE);

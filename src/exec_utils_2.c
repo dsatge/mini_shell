@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsatge <dsatge@student.42.fr>              +#+  +:+       +#+        */
+/*   By: enschnei <enschnei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:09:58 by enschnei          #+#    #+#             */
-/*   Updated: 2025/04/22 19:42:21 by dsatge           ###   ########.fr       */
+/*   Updated: 2025/04/23 01:52:22 by enschnei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int	exec_cmds(t_o_cmd **o_cmd, t_minish *minish, t_env_head *env_head)
 		if (minish->pipex->prev_pip != -1)
 			close(minish->pipex->prev_pip);
 		close(minish->pipex->pipe_fd[1]);
-		// if (minish->pipex->nbr_cmds > 0)
 		minish->pipex->prev_pip = minish->pipex->pipe_fd[0];
 		next_cmdexe(cmds_curr, &current, minish->pipex);
 	}
