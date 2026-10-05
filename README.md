@@ -47,6 +47,14 @@ Ce projet approfondit :
 - `Ctrl-\` : Ignoré dans le prompt interactif, géré proprement lors de l'exécution des processus enfants.
 
 ---
+## Compilation
+
+Générez l'exécutable à l'aide du `Makefile` :
+```bash
+make
+```
+
+vous pouvez ensuite executer le fichier `minishell` et l'utiliser comme avec un shell classique. Vous pouvez également vous aider de la partie : `Les commandes implémentées` pour plus de facilitées.
 
 ## Architecture du projet
 
