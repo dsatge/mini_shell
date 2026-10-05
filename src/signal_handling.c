@@ -23,7 +23,7 @@ void	sigint_handle(int signal)
 	g_error_code = signal + 128;
 	ft_printf(2, "\n");
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_redisplay();
 }
 

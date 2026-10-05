@@ -16,7 +16,7 @@
 #  define BUFFER_SIZE 10000
 # endif
 
-# define PROMPT "\001\e[0m\e[0;95m\002>Mini-merde>$ \001\e[0m\002"
+# define PROMPT "\001\e[0m\e[0;95m\002>Mini-shell>$ \001\e[0m\002"
 # define PIPE_ERR "Error: pipex malloc\n"
 
 # include "../lib/libft/libft.h"

@@ -35,8 +35,6 @@ int	ft_buffer(char *buffer, t_token *token_list, t_minish *mini_struct)
 
 static void	handle_parsing_and_execution(t_minish *mini_struct, char *buffer)
 {
-	t_list	*curr_cmd;
-
 	if (ft_split_word(buffer, mini_struct) == EXIT_FAILURE)
 	{
 		free(buffer);
@@ -53,7 +51,6 @@ static void	handle_parsing_and_execution(t_minish *mini_struct, char *buffer)
 	if (!mini_struct->cmds)
 		return ;
 	cmds_list(mini_struct->head_token, mini_struct->cmds);
-	curr_cmd = mini_struct->cmds;
 	ft_exec(mini_struct->cmds, &mini_struct->env, mini_struct);
 	free_all(mini_struct, 0);
 }
@@ -62,6 +59,7 @@ static void	ft_isatty(char *buffer)
 {
 	rl_on_new_line();
 	buffer = readline("");
+	(void)buffer;
 }
 
 static void	ft_prompt(t_minish *mini_struct)
